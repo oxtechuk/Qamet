@@ -62,7 +62,7 @@ class LeadController extends Controller
 
     public function show(Lead $lead)
     {
-        $lead->load(['contactSource', 'car.brand', 'employee']);
+        $lead->load(['contactSource', 'car.brand', 'employee', 'orders.car.brand']);
 
         return view('crm.leads.show', compact('lead'));
     }
@@ -97,15 +97,15 @@ class LeadController extends Controller
         $statuses = array_keys(Lead::STATUSES);
 
         $data = $request->validate([
-            'client_name'         => 'required|string|max:200',
-            'client_phone'        => 'nullable|string|max:40',
-            'client_email'        => 'nullable|email|max:200',
-            'contact_source_id'   => 'required|exists:contact_sources,id',
-            'status'              => ['required', Rule::in($statuses)],
-            'started_at'          => 'required|date',
-            'status_details'      => 'nullable|string|max:5000',
-            'car_id'              => 'nullable|exists:cars,id',
-            'assigned_to'         => 'nullable|exists:employees,id',
+            'client_name' => 'required|string|max:200',
+            'client_phone' => 'nullable|string|max:40',
+            'client_email' => 'nullable|email|max:200',
+            'contact_source_id' => 'required|exists:contact_sources,id',
+            'status' => ['required', Rule::in($statuses)],
+            'started_at' => 'required|date',
+            'status_details' => 'nullable|string|max:5000',
+            'car_id' => 'nullable|exists:cars,id',
+            'assigned_to' => 'nullable|exists:employees,id',
         ]);
 
         return $data;

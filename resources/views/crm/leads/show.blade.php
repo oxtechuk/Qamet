@@ -20,8 +20,6 @@
             @endcan
         </div>
 
-        
-
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm mb-4 rounded-4">
@@ -83,7 +81,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
                     <div class="card-header bg-transparent border-0 pt-4 px-4">
                         <h6 class="mb-0 fw-bold"><i class="bi bi-journal-text text-secondary me-2"></i> ملاحظات المتابعة</h6>
                     </div>
@@ -94,6 +92,54 @@
                             <div class="text-center py-4 opacity-50">
                                 <i class="bi bi-chat-dots fs-1 d-block mb-2"></i>
                                 <p class="mb-0 small text-muted">لا توجد ملاحظات مسجلة لهذا العميل</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4">
+                        <h6 class="mb-0 fw-bold"><i class="bi bi-cart-check text-success me-2"></i> الطلبات المرتبطة</h6>
+                    </div>
+                    <div class="card-body p-4 pt-2">
+                        @if ($lead->orders->count())
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead style="background:#F8F9FC;">
+                                        <tr>
+                                            <th class="px-3 py-2 text-muted fw-bold" style="font-size:12px;">رقم الطلب</th>
+                                            <th class="py-2 text-muted fw-bold" style="font-size:12px;">السيارة</th>
+                                            <th class="py-2 text-muted fw-bold" style="font-size:12px;">الحالة</th>
+                                            <th class="py-2 text-muted fw-bold" style="font-size:12px;">التاريخ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($lead->orders as $order)
+                                            <tr>
+                                                <td class="px-3 fw-bold" style="font-size:13px;">
+                                                    <a href="{{ route('crm.bookings.show', $order) }}" class="text-decoration-none text-primary">#{{ $order->id }}</a>
+                                                </td>
+                                                <td>
+                                                    <div style="font-size:13px;">{{ $order->car->name ?? '—' }}</div>
+                                                    <small class="text-muted">{{ $order->car->brand->name ?? '' }}</small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-{{ $order->status_color }}-subtle text-{{ $order->status_color }} px-3 py-1 rounded-pill small">
+                                                        {{ $order->status_label }}
+                                                    </span>
+                                                </td>
+                                                <td style="font-size:12px;" class="text-muted">
+                                                    {{ $order->created_at->format('d/m/Y') }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-center py-4 opacity-50">
+                                <i class="bi bi-cart-x fs-1 d-block mb-2"></i>
+                                <p class="mb-0 small text-muted">لا توجد طلبات مرتبطة بهذا العميل</p>
                             </div>
                         @endif
                     </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lead extends Model
 {
@@ -55,6 +56,11 @@ class Lead extends Model
     public function assignedTo(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'assigned_to');
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 
     public function getStatusLabelAttribute(): string
