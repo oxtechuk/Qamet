@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://knoz.oxtech.uk/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/cars</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/cars"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/cars"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/offers</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/offers"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/offers"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/about"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/about"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/blog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/blog"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/contact"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/compare</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/compare"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/compare"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/brands</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/brands"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/brands"/>
+  </url>
+  <url>
+    <loc>https://knoz.oxtech.uk/finance-calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://knoz.oxtech.uk/en/finance-calculator"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://knoz.oxtech.uk/ar/finance-calculator"/>
+  </url>
+</urlset>

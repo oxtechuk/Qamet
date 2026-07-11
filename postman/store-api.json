@@ -1,0 +1,2011 @@
+{
+  "info": {
+    "_postman_id": "4992d3b6-4aa5-439e-aa2b-0080b1a52c22",
+    "name": "Store API — XO",
+    "description": "Complete RESTful API for the XO public storefront. All endpoints are unauthenticated and publicly accessible under `/api/store/`.\n\n## Base URL\n```\n{{base_url}}/api/store\n```\n\n## Response Format\nAll endpoints return a consistent JSON envelope:\n\n| Field     | Type    | Description                          |\n|-----------|---------|--------------------------------------|\n| success   | bool    | `true` for 2xx, `false` for 4xx/5xx |\n| message   | string  | Human-readable status message        |\n| data      | mixed   | Response payload (null on errors)    |\n| errors    | ?object | Validation errors keyed by field     |\n| meta      | ?object | Pagination metadata                  |\n\n## Pagination Meta\nWhen applicable, `meta` contains:\n```json\n{\n    \"current_page\": 1,\n    \"per_page\": 12,\n    \"total\": 45,\n    \"last_page\": 4,\n    \"from\": 1,\n    \"to\": 12\n}\n```",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24142261"
+  },
+  "item": [
+    {
+      "name": "🏠 Home & Static",
+      "item": [
+        {
+          "name": "Homepage Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/home",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "home"
+              ]
+            },
+            "description": "Returns aggregated data for the store homepage including featured cars, active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
+          },
+          "response": [
+            {
+              "name": "Success — Full homepage payload",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/home",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "home"
+                  ]
+                },
+                "description": "Returns aggregated data for the store homepage including featured cars, active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Homepage data retrieved successfully\",\n    \"data\": {\n        \"featured_cars\": [\n            {\n                \"id\": 1,\n                \"name\": {\n                    \"en\": \"Mercedes-Benz G-Class\",\n                    \"ar\": \"مرسيدس بنز جي كلاس\"\n                },\n                \"cash_price\": 850000,\n                \"min_installment\": 15000,\n                \"year\": 2025,\n                \"is_featured\": true,\n                \"brand\": {\n                    \"id\": 1,\n                    \"name\": \"Mercedes-Benz\"\n                }\n            }\n        ],\n        \"active_offers\": [],\n        \"brands\": [],\n        \"latest_posts\": [],\n        \"stats\": {\n            \"cars\": 120,\n            \"brands\": 15\n        },\n        \"testimonials\": [],\n        \"partners\": [],\n        \"hero\": {\n            \"title\": \"قيادة الأحلام تبدأ من هنا\",\n            \"subtitle\": \"اكتشف مجموعتنا الحصرية من السيارات الفاخرة بأفضل الأسعار وخطط التقسيط.\",\n            \"image\": null\n        },\n        \"featured_design\": null,\n        \"social_designs\": [],\n        \"filter_brands\": [],\n        \"filter_categories\": [],\n        \"filter_years\": [],\n        \"bento_cars\": [],\n        \"featured_offers\": [],\n        \"highlighted_cars\": [],\n        \"hero_slides\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "About Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/about",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "about"
+              ]
+            },
+            "description": "Returns about page data: visible testimonials, ordered partners, featured car designs, and the main gallery from settings."
+          },
+          "response": [
+            {
+              "name": "Success — About page payload",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/about",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "about"
+                  ]
+                },
+                "description": "Returns about page data: visible testimonials, ordered partners, featured car designs, and the main gallery from settings."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"About page data retrieved successfully\",\n    \"data\": {\n        \"testimonials\": [\n            {\n                \"id\": 1,\n                \"name\": \"خالد العتيبي\",\n                \"content\": \"تجربة رائعة! سيارتي المثالية وجدتها هنا.\",\n                \"is_visible\": true\n            }\n        ],\n        \"partners\": [\n            {\n                \"id\": 1,\n                \"name\": \"BMW Saudi Arabia\",\n                \"sort_order\": 0\n            }\n        ],\n        \"featured_designs\": [],\n        \"main_gallery\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+          "description": "Homepage and static content endpoints."
+    },
+    {
+      "name": "🏠 Home & Static",
+      "item": [
+        {
+          "name": "Homepage Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/home",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "home"
+              ]
+            },
+            "description": "Returns aggregated data for the store homepage including featured cars (with brand, images), active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
+          },
+          "response": [
+            {
+              "name": "Success — Full homepage payload",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/home",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "home"
+                  ]
+                },
+                "description": "Returns aggregated data for the store homepage including featured cars (with brand, images), active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Homepage data retrieved successfully\",\n    \"data\": {\n        \"featured_cars\": [\n            {\n                \"id\": 1,\n                \"name\": {\n                    \"en\": \"Mercedes-Benz G-Class\",\n                    \"ar\": \"مرسيدس بنز جي كلاس\"\n                },\n                \"cash_price\": 850000,\n                \"min_installment\": 15000,\n                \"year\": 2025,\n                \"is_featured\": true,\n                \"brand\": {\n                    \"id\": 1,\n                    \"name\": \"Mercedes-Benz\"\n                },\n                \"images\": []\n            }\n        ],\n        \"active_offers\": [],\n        \"brands\": [],\n        \"latest_posts\": [],\n        \"stats\": {\n            \"cars\": 120,\n            \"brands\": 15\n        },\n        \"testimonials\": [],\n        \"partners\": [],\n        \"hero\": {\n            \"title\": \"قيادة الأحلام تبدأ من هنا\",\n            \"subtitle\": \"اكتشف مجموعتنا الحصرية من السيارات الفاخرة بأفضل الأسعار وخطط التقسيط.\",\n            \"image\": null\n        },\n        \"featured_design\": null,\n        \"social_designs\": [],\n        \"filter_brands\": [],\n        \"filter_categories\": [],\n        \"filter_years\": [],\n        \"bento_cars\": [],\n        \"featured_offers\": [],\n        \"highlighted_cars\": [],\n        \"hero_slides\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "About Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/about",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "about"
+              ]
+            },
+            "description": "Returns about page data: visible testimonials, ordered partners, featured car designs, and the main gallery from settings."
+          },
+          "response": [
+            {
+              "name": "Success — About page payload",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/about",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "about"
+                  ]
+                },
+                "description": "Returns about page data: visible testimonials, ordered partners, featured car designs, and the main gallery from settings."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"About page data retrieved successfully\",\n    \"data\": {\n        \"testimonials\": [\n            {\n                \"id\": 1,\n                \"name\": \"خالد العتيبي\",\n                \"content\": \"تجربة رائعة! سيارتي المثالية وجدتها هنا.\",\n                \"is_visible\": true\n            }\n        ],\n        \"partners\": [\n            {\n                \"id\": 1,\n                \"name\": \"BMW Saudi Arabia\",\n                \"sort_order\": 0\n            }\n        ],\n        \"featured_designs\": [],\n        \"main_gallery\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Testimonials",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/testimonials",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "testimonials"
+              ]
+            },
+            "description": "Returns all visible customer testimonials with name, title, content, rating, image, and review_image."
+          },
+          "response": [
+            {
+              "name": "Success — Testimonials list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/testimonials",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "testimonials"
+                  ]
+                },
+                "description": "Returns all visible customer testimonials with name, title, content, rating, image, and review_image."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Testimonials retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"خالد العتيبي\",\n            \"title\": \"عميل مميز\",\n            \"content\": \"تجربة رائعة! سيارتي المثالية وجدتها هنا.\",\n            \"rating\": 5,\n            \"image\": null,\n            \"review_image\": null,\n            \"is_visible\": true\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Partners",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/partners",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "partners"
+              ]
+            },
+            "description": "Returns all partners ordered by sort_order. Each partner includes name, logo URL, and link."
+          },
+          "response": [
+            {
+              "name": "Success — Partners list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/partners",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "partners"
+                  ]
+                },
+                "description": "Returns all partners ordered by sort_order. Each partner includes name, logo URL, and link."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Partners retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"BMW Saudi Arabia\",\n            \"logo\": null,\n            \"link\": \"https://www.bmw.com.sa\",\n            \"sort_order\": 0\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Homepage and static content endpoints."
+    },
+    {
+      "name": "🚗 Car Catalog",
+      "item": [
+        {
+          "name": "List Cars",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/cars?brands[]=1&type=new&year=2025&min_price=100000&max_price=500000&search=&q=&offer_id=1&sort=price_asc&per_page=12",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cars"
+              ],
+              "query": [
+                {
+                  "key": "brands[]",
+                  "value": "1",
+                  "description": "Filter by brand ID(s). Can be repeated for multiple brands."
+                },
+                {
+                  "key": "type",
+                  "value": "new",
+                  "description": "Car type filter (e.g. new, used)."
+                },
+                {
+                  "key": "year",
+                  "value": "2025",
+                  "description": "Filter by model year."
+                },
+                {
+                  "key": "min_price",
+                  "value": "100000",
+                  "description": "Minimum cash price (SAR)."
+                },
+                {
+                  "key": "max_price",
+                  "value": "500000",
+                  "description": "Maximum cash price (SAR)."
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "Free-text search in name, model, brand."
+                },
+                {
+                  "key": "q",
+                  "value": "",
+                  "description": "Alias for search."
+                },
+                {
+                  "key": "offer_id",
+                  "value": "1",
+                  "description": "Filter cars belonging to a specific offer."
+                },
+                {
+                  "key": "sort",
+                  "value": "price_asc",
+                  "description": "Sort order: `latest`, `price_asc`, `price_desc`, `year_desc`."
+                },
+                {
+                  "key": "per_page",
+                  "value": "12",
+                  "description": "Results per page (default: 12)."
+                }
+              ]
+            },
+            "description": "Paginated car listing with filtering and sorting. Supports brand, type, year, price range, offer, and free-text filters.\n\n**Sort options:**\n- `latest` (default) — newest first\n- `price_asc` — cheapest first\n- `price_desc` — most expensive first\n- `year_desc` — newest year first"
+          },
+          "response": [
+            {
+              "name": "Success — Paginated car list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars?brands[]=1&type=new&year=2025&min_price=100000&max_price=500000&search=&q=&offer_id=1&sort=price_asc&per_page=12",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars"
+                  ],
+                  "query": [
+                    {
+                      "key": "brands[]",
+                      "value": "1",
+                      "description": "Filter by brand ID(s). Can be repeated for multiple brands."
+                    },
+                    {
+                      "key": "type",
+                      "value": "new",
+                      "description": "Car type filter (e.g. new, used)."
+                    },
+                    {
+                      "key": "year",
+                      "value": "2025",
+                      "description": "Filter by model year."
+                    },
+                    {
+                      "key": "min_price",
+                      "value": "100000",
+                      "description": "Minimum cash price (SAR)."
+                    },
+                    {
+                      "key": "max_price",
+                      "value": "500000",
+                      "description": "Maximum cash price (SAR)."
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "description": "Free-text search in name, model, brand."
+                    },
+                    {
+                      "key": "q",
+                      "value": "",
+                      "description": "Alias for search."
+                    },
+                    {
+                      "key": "offer_id",
+                      "value": "1",
+                      "description": "Filter cars belonging to a specific offer."
+                    },
+                    {
+                      "key": "sort",
+                      "value": "price_asc",
+                      "description": "Sort order: `latest`, `price_asc`, `price_desc`, `year_desc`."
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "12",
+                      "description": "Results per page (default: 12)."
+                    }
+                  ]
+                },
+                "description": "Paginated car listing with filtering and sorting. Supports brand, type, year, price range, offer, and free-text filters.\n\n**Sort options:**\n- `latest` (default) — newest first\n- `price_asc` — cheapest first\n- `price_desc` — most expensive first\n- `year_desc` — newest year first"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Cars retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": {\n                \"en\": \"Mercedes-Benz G-Class\",\n                \"ar\": \"مرسيدس بنز جي كلاس\"\n            },\n            \"slug\": {\n                \"en\": \"mercedes-benz-g-class\",\n                \"ar\": \"مرسيدس-بنز-جي-كلاس\"\n            },\n            \"cash_price\": 850000,\n            \"min_installment\": 15000,\n            \"year\": 2025,\n            \"type\": \"new\",\n            \"is_featured\": true,\n            \"brand\": {\n                \"id\": 1,\n                \"name\": \"Mercedes-Benz\",\n                \"slug\": \"mercedes-benz\"\n            },\n            \"active_offers\": []\n        }\n    ],\n    \"errors\": null,\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 12,\n        \"total\": 45,\n        \"last_page\": 4,\n        \"from\": 1,\n        \"to\": 12\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Car Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/cars/:slug",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cars",
+                ":slug"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "mercedes-benz-g-class",
+                  "description": "Car slug (supports both English and Arabic slugs via JSON column lookup)."
+                }
+              ]
+            },
+            "description": "Full car detail with brand, images, specifications, features, active offers, and 4 related cars from the same brand.\n\nAutomatically increments the car's view counter.\n\nReturns `404` if the slug does not match any active car."
+          },
+          "response": [
+            {
+              "name": "Success — Car detail with related cars",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars/:slug",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars",
+                    ":slug"
+                  ],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "mercedes-benz-g-class",
+                      "description": "Car slug (supports both English and Arabic slugs via JSON column lookup)."
+                    }
+                  ]
+                },
+                "description": "Full car detail with brand, images, specifications, features, active offers, and 4 related cars from the same brand.\n\nAutomatically increments the car's view counter.\n\nReturns `404` if the slug does not match any active car."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Car retrieved successfully\",\n    \"data\": {\n        \"car\": {\n            \"id\": 1,\n            \"name\": {\n                \"en\": \"Mercedes-Benz G-Class\",\n                \"ar\": \"مرسيدس بنز جي كلاس\"\n            },\n            \"slug\": {\n                \"en\": \"mercedes-benz-g-class\",\n                \"ar\": \"مرسيدس-بنز-جي-كلاس\"\n            },\n            \"cash_price\": 850000,\n            \"min_installment\": 15000,\n            \"year\": 2025,\n            \"type\": \"new\",\n            \"is_featured\": true,\n            \"views\": 142,\n            \"brand\": {\n                \"id\": 1,\n                \"name\": \"Mercedes-Benz\"\n            },\n            \"images\": [],\n            \"specifications\": [],\n            \"features_list\": [],\n            \"offers\": []\n        },\n        \"related_cars\": [\n            {\n                \"id\": 2,\n                \"name\": {\n                    \"en\": \"Mercedes-Benz S-Class\",\n                    \"ar\": \"مرسيدس بنز إس كلاس\"\n                },\n                \"cash_price\": 650000,\n                \"min_installment\": 12000,\n                \"year\": 2025,\n                \"brand\": { \"id\": 1, \"name\": \"Mercedes-Benz\" }\n            }\n        ]\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Car not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars/:slug",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars",
+                    ":slug"
+                  ],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "mercedes-benz-g-class",
+                      "description": "Car slug (supports both English and Arabic slugs via JSON column lookup)."
+                    }
+                  ]
+                },
+                "description": "Full car detail with brand, images, specifications, features, active offers, and 4 related cars from the same brand.\n\nAutomatically increments the car's view counter.\n\nReturns `404` if the slug does not match any active car."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Car not found\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Search Cars",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/cars/search?q=Mercedes",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cars",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Mercedes",
+                  "description": "Search query — matches against name (Arabic & English), model, year, and brand name."
+                }
+              ]
+            },
+            "description": "Quick search endpoint returning up to 8 matching cars ordered by featured status. Searches across:\n- Name (Arabic & English)\n- Model\n- Year\n- Brand name\n\n**Note:** This is a lightweight search. For full filtered listing with pagination, use `GET /api/store/cars` instead."
+          },
+          "response": [
+            {
+              "name": "Success — Search results",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars/search?q=Mercedes",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "Mercedes",
+                      "description": "Search query — matches against name (Arabic & English), model, year, and brand name."
+                    }
+                  ]
+                },
+                "description": "Quick search endpoint returning up to 8 matching cars ordered by featured status. Searches across:\n- Name (Arabic & English)\n- Model\n- Year\n- Brand name\n\n**Note:** This is a lightweight search. For full filtered listing with pagination, use `GET /api/store/cars` instead."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Search results\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": {\n                \"en\": \"Mercedes-Benz G-Class\",\n                \"ar\": \"مرسيدس بنز جي كلاس\"\n            },\n            \"cash_price\": 850000,\n            \"min_installment\": 15000,\n            \"year\": 2025,\n            \"is_featured\": true,\n            \"brand\": {\n                \"id\": 1,\n                \"name\": \"Mercedes-Benz\"\n            }\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Compare Cars",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/cars/compare?cars[]=mercedes-benz-g-class&cars[]=bmw-x5",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cars",
+                "compare"
+              ],
+              "query": [
+                {
+                  "key": "cars[]",
+                  "value": "mercedes-benz-g-class",
+                  "description": "First car slug."
+                },
+                {
+                  "key": "cars[]",
+                  "value": "bmw-x5",
+                  "description": "Second car slug. Exactly 2 slugs are required."
+                }
+              ]
+            },
+            "description": "Side-by-side comparison of two cars. Returns structured sections:\n\n| Section        | Content                                                    |\n|----------------|------------------------------------------------------------|\n| **price**      | Cash price & estimated installment with winner highlight   |\n| **performance**| Horsepower, max speed, acceleration with unit comparison   |\n| **design**     | Type, seats, gearbox                                       |\n| **features**   | Feature checklist with ✓/✗                                 |\n| **specs**      | Technical specifications checklist with ✓/✗                |\n\nEach row includes a `winner` field (0=tie, 1=car1 wins, 2=car2 wins).\n\nReturns `422` if fewer than 2 slugs are provided."
+          },
+          "response": [
+            {
+              "name": "Success — Comparison result",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars/compare?cars[]=mercedes-benz-g-class&cars[]=bmw-x5",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars",
+                    "compare"
+                  ],
+                  "query": [
+                    {
+                      "key": "cars[]",
+                      "value": "mercedes-benz-g-class",
+                      "description": "First car slug."
+                    },
+                    {
+                      "key": "cars[]",
+                      "value": "bmw-x5",
+                      "description": "Second car slug. Exactly 2 slugs are required."
+                    }
+                  ]
+                },
+                "description": "Side-by-side comparison of two cars. Returns structured sections:\n\n| Section        | Content                                                    |\n|----------------|------------------------------------------------------------|\n| **price**      | Cash price & estimated installment with winner highlight   |\n| **performance**| Horsepower, max speed, acceleration with unit comparison   |\n| **design**     | Type, seats, gearbox                                       |\n| **features**   | Feature checklist with ✓/✗                                 |\n| **specs**      | Technical specifications checklist with ✓/✗                |\n\nEach row includes a `winner` field (0=tie, 1=car1 wins, 2=car2 wins).\n\nReturns `422` if fewer than 2 slugs are provided."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Comparison retrieved successfully\",\n    \"data\": [\n        {\n            \"title\": \"الأسعار\",\n            \"rows\": [\n                {\n                    \"label\": \"السعر\",\n                    \"val1\": \"850,000 ريال\",\n                    \"val2\": \"750,000 ريال\",\n                    \"type\": \"price\",\n                    \"winner\": 0\n                },\n                {\n                    \"label\": \"القسط التقريبي\",\n                    \"val1\": \"15,000 ريال\",\n                    \"val2\": \"13,500 ريال\",\n                    \"type\": \"price\",\n                    \"winner\": 0\n                }\n            ]\n        },\n        {\n            \"title\": \"الأداء\",\n            \"rows\": [\n                { \"label\": \"القوة\", \"val1\": \"422 حصان\", \"val2\": \"375 حصان\", \"type\": \"unit\", \"winner\": 1 },\n                { \"label\": \"السرعة القصوى\", \"val1\": \"210 كم/ساعة\", \"val2\": \"235 كم/ساعة\", \"type\": \"unit\", \"winner\": 2 },\n                { \"label\": \"التسارع\", \"val1\": \"5.6 ثانية\", \"val2\": \"5.5 ثانية\", \"type\": \"unit\", \"winner\": 2 }\n            ]\n        },\n        {\n            \"title\": \"التصميم\",\n            \"rows\": [\n                { \"label\": \"نوع\", \"val1\": \"SUV\", \"val2\": \"SUV\", \"type\": \"text\", \"winner\": 0 },\n                { \"label\": \"المقاعد\", \"val1\": \"5 مقعد\", \"val2\": \"5 مقعد\", \"type\": \"unit\", \"winner\": 0 },\n                { \"label\": \"ناقل الحركة\", \"val1\": \"Automatic\", \"val2\": \"Automatic\", \"type\": \"text\", \"winner\": 0 }\n            ]\n        },\n        {\n            \"title\": \"المميزات والأمان\",\n            \"rows\": [\n                { \"label\": \"نظام الفرامل المانعة للانغلاق ABS\", \"val1\": \"✓\", \"val2\": \"✓\", \"type\": \"check\", \"winner\": 0 },\n                { \"label\": \"كاميرا خلفية\", \"val1\": \"✓\", \"val2\": \"✗\", \"type\": \"check\", \"winner\": 1 },\n                { \"label\": \"فتحة سقف\", \"val1\": \"✗\", \"val2\": \"✓\", \"type\": \"check\", \"winner\": 2 }\n            ]\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Missing car slugs",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars/compare?cars[]=mercedes-benz-g-class&cars[]=bmw-x5",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars",
+                    "compare"
+                  ],
+                  "query": [
+                    {
+                      "key": "cars[]",
+                      "value": "mercedes-benz-g-class",
+                      "description": "First car slug."
+                    },
+                    {
+                      "key": "cars[]",
+                      "value": "bmw-x5",
+                      "description": "Second car slug. Exactly 2 slugs are required."
+                    }
+                  ]
+                },
+                "description": "Side-by-side comparison of two cars. Returns structured sections:\n\n| Section        | Content                                                    |\n|----------------|------------------------------------------------------------|\n| **price**      | Cash price & estimated installment with winner highlight   |\n| **performance**| Horsepower, max speed, acceleration with unit comparison   |\n| **design**     | Type, seats, gearbox                                       |\n| **features**   | Feature checklist with ✓/✗                                 |\n| **specs**      | Technical specifications checklist with ✓/✗                |\n\nEach row includes a `winner` field (0=tie, 1=car1 wins, 2=car2 wins).\n\nReturns `422` if fewer than 2 slugs are provided."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Please provide exactly 2 car slugs to compare\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Brands",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/brands",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "brands"
+              ]
+            },
+            "description": "Returns all active brands with their car count (`cars_count`). Useful for building filter dropdowns and brand listings."
+          },
+          "response": [
+            {
+              "name": "Success — Brand list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/brands",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "brands"
+                  ]
+                },
+                "description": "Returns all active brands with their car count (`cars_count`). Useful for building filter dropdowns and brand listings."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Brands retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Mercedes-Benz\",\n            \"slug\": \"mercedes-benz\",\n            \"logo\": null,\n            \"is_active\": true,\n            \"cars_count\": 12\n        },\n        {\n            \"id\": 2,\n            \"name\": \"BMW\",\n            \"slug\": \"bmw\",\n            \"logo\": null,\n            \"is_active\": true,\n            \"cars_count\": 8\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Car Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/car-categories",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "car-categories"
+              ]
+            },
+            "description": "Returns all active car categories ordered by sort_order, each with its car count (`cars_count`). Useful for building filter dropdowns and category navigation."
+          },
+          "response": [
+            {
+              "name": "Success — Category list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/car-categories",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "car-categories"
+                  ]
+                },
+                "description": "Returns all active car categories ordered by sort_order, each with its car count (`cars_count`). Useful for building filter dropdowns and category navigation."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Car categories retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"SUV\",\n            \"slug\": \"suv\",\n            \"sort_order\": 0,\n            \"is_active\": true,\n            \"cars_count\": 12\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Sedan\",\n            \"slug\": \"sedan\",\n            \"sort_order\": 1,\n            \"is_active\": true,\n            \"cars_count\": 8\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Car listing, detail, search, compare, brand, and category endpoints."
+    },
+    {
+      "name": "📋 Booking",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"car_id\": 1,\n    \"client_name\": \"أحمد محمد\",\n    \"client_phone\": \"+966501234567\",\n    \"client_email\": \"ahmed@example.com\",\n    \"down_payment\": 50000,\n    \"duration_years\": 5,\n    \"interest_rate\": 4.0,\n    \"notes\": \"أود معاينة السيارة يوم الجمعة\"\n}"
+            },
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/booking",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "booking"
+              ]
+            },
+            "description": "Creates a new booking with auto-calculated installment.\n\n**Automatic behaviors:**\n1. **Installment calculation** — Monthly payment = `P × (r(1+r)ⁿ) ÷ ((1+r)ⁿ - 1)` where `r` is monthly rate and `n` is total months.\n2. **Auto-assignment** — Booking is assigned to an available employee via `BookingAssignmentService`.\n3. **Admin notification** — All admin employees receive a `NewBookingNotification`.\n4. **WhatsApp confirmation** — A welcome message is sent to the client using the configured WhatsApp template.\n\n## Validation Rules\n| Field          | Rules                                    |\n|----------------|------------------------------------------|\n| car_id         | required, exists:cars,id                 |\n| client_name    | required, string, max:255                |\n| client_phone   | required, string, max:20                 |\n| client_email   | nullable, email, max:255                 |\n| down_payment   | required, integer, min:0                 |\n| duration_years | required, integer, min:1, max:10         |\n| interest_rate  | nullable, numeric, min:0, max:50, default 4.0 |\n| notes          | nullable, string, max:1000               |"
+          },
+          "response": [
+            {
+              "name": "Success — Booking created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"car_id\": 1,\n    \"client_name\": \"أحمد محمد\",\n    \"client_phone\": \"+966501234567\",\n    \"client_email\": \"ahmed@example.com\",\n    \"down_payment\": 50000,\n    \"duration_years\": 5,\n    \"interest_rate\": 4.0,\n    \"notes\": \"أود معاينة السيارة يوم الجمعة\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/booking",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "booking"
+                  ]
+                },
+                "description": "Creates a new booking with auto-calculated installment.\n\n**Automatic behaviors:**\n1. **Installment calculation** — Monthly payment = `P × (r(1+r)ⁿ) ÷ ((1+r)ⁿ - 1)` where `r` is monthly rate and `n` is total months.\n2. **Auto-assignment** — Booking is assigned to an available employee via `BookingAssignmentService`.\n3. **Admin notification** — All admin employees receive a `NewBookingNotification`.\n4. **WhatsApp confirmation** — A welcome message is sent to the client using the configured WhatsApp template.\n\n## Validation Rules\n| Field          | Rules                                    |\n|----------------|------------------------------------------|\n| car_id         | required, exists:cars,id                 |\n| client_name    | required, string, max:255                |\n| client_phone   | required, string, max:20                 |\n| client_email   | nullable, email, max:255                 |\n| down_payment   | required, integer, min:0                 |\n| duration_years | required, integer, min:1, max:10         |\n| interest_rate  | nullable, numeric, min:0, max:50, default 4.0 |\n| notes          | nullable, string, max:1000               |"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Booking created successfully\",\n    \"data\": {\n        \"id\": 1,\n        \"car_id\": 1,\n        \"client_name\": \"أحمد محمد\",\n        \"client_phone\": \"+966501234567\",\n        \"client_email\": \"ahmed@example.com\",\n        \"down_payment\": 50000,\n        \"duration_years\": 5,\n        \"interest_rate\": 4.0,\n        \"monthly_installment\": 15000,\n        \"total_price\": 950000,\n        \"status\": \"new\",\n        \"source\": \"api\",\n        \"created_at\": \"2026-06-09T14:30:00.000000Z\"\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Validation failure",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"car_id\": 1,\n    \"client_name\": \"أحمد محمد\",\n    \"client_phone\": \"+966501234567\",\n    \"client_email\": \"ahmed@example.com\",\n    \"down_payment\": 50000,\n    \"duration_years\": 5,\n    \"interest_rate\": 4.0,\n    \"notes\": \"أود معاينة السيارة يوم الجمعة\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/booking",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "booking"
+                  ]
+                },
+                "description": "Creates a new booking with auto-calculated installment.\n\n**Automatic behaviors:**\n1. **Installment calculation** — Monthly payment = `P × (r(1+r)ⁿ) ÷ ((1+r)ⁿ - 1)` where `r` is monthly rate and `n` is total months.\n2. **Auto-assignment** — Booking is assigned to an available employee via `BookingAssignmentService`.\n3. **Admin notification** — All admin employees receive a `NewBookingNotification`.\n4. **WhatsApp confirmation** — A welcome message is sent to the client using the configured WhatsApp template.\n\n## Validation Rules\n| Field          | Rules                                    |\n|----------------|------------------------------------------|\n| car_id         | required, exists:cars,id                 |\n| client_name    | required, string, max:255                |\n| client_phone   | required, string, max:20                 |\n| client_email   | nullable, email, max:255                 |\n| down_payment   | required, integer, min:0                 |\n| duration_years | required, integer, min:1, max:10         |\n| interest_rate  | nullable, numeric, min:0, max:50, default 4.0 |\n| notes          | nullable, string, max:1000               |"
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": {\n        \"car_id\": [\"The selected car id is invalid.\"],\n        \"client_name\": [\"The client name field is required.\"],\n        \"duration_years\": [\"The duration years must be between 1 and 10.\"]\n    },\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Booking creation with automatic assignment and WhatsApp notification."
+    },
+    {
+      "name": "🧮 Calculator",
+      "item": [
+        {
+          "name": "Save Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\",\n    \"car_id\": 1,\n    \"details\": {\n        \"page\": \"calculator_page\",\n        \"utm_source\": \"google\",\n        \"utm_campaign\": \"ramadan_2026\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/store/calculator/lead",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "calculator",
+                "lead"
+              ]
+            },
+            "description": "Saves a finance calculator lead without OTP verification. Use this endpoint when the user fills in the calculator form but does not proceed with OTP verification.\n\n## Validation Rules\n| Field   | Rules                          |\n|---------|--------------------------------|\n| name    | required, string, max:255      |\n| phone   | required, string, max:20       |\n| car_id  | nullable, exists:cars,id       |\n| details | nullable, array                |"
+          },
+          "response": [
+            {
+              "name": "Success — Lead created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\",\n    \"car_id\": 1,\n    \"details\": {\n        \"page\": \"calculator_page\",\n        \"utm_source\": \"google\",\n        \"utm_campaign\": \"ramadan_2026\"\n    }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/store/calculator/lead",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "lead"
+                  ]
+                },
+                "description": "Saves a finance calculator lead without OTP verification. Use this endpoint when the user fills in the calculator form but does not proceed with OTP verification.\n\n## Validation Rules\n| Field   | Rules                          |\n|---------|--------------------------------|\n| name    | required, string, max:255      |\n| phone   | required, string, max:20       |\n| car_id  | nullable, exists:cars,id       |\n| details | nullable, array                |"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Lead saved successfully\",\n    \"data\": {\n        \"lead_id\": 1\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/store/calculator/otp/send",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "calculator",
+                "otp",
+                "send"
+              ]
+            },
+            "description": "Sends a 6-digit OTP code via SMS (Twilio) to the provided phone number. The user must verify the OTP to complete the lead capture.\n\n**Flow:**\n1. `POST /calculator/otp/send` — send OTP\n2. `POST /calculator/otp/verify` — verify OTP & create lead\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| name  | required, string, max:255 |\n| phone | required, string, max:20  |"
+          },
+          "response": [
+            {
+              "name": "Success — OTP sent",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/store/calculator/otp/send",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "otp",
+                    "send"
+                  ]
+                },
+                "description": "Sends a 6-digit OTP code via SMS (Twilio) to the provided phone number. The user must verify the OTP to complete the lead capture.\n\n**Flow:**\n1. `POST /calculator/otp/send` — send OTP\n2. `POST /calculator/otp/verify` — verify OTP & create lead\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| name  | required, string, max:255 |\n| phone | required, string, max:20  |"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"OTP sent successfully\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — OTP send failed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/store/calculator/otp/send",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "otp",
+                    "send"
+                  ]
+                },
+                "description": "Sends a 6-digit OTP code via SMS (Twilio) to the provided phone number. The user must verify the OTP to complete the lead capture.\n\n**Flow:**\n1. `POST /calculator/otp/send` — send OTP\n2. `POST /calculator/otp/verify` — verify OTP & create lead\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| name  | required, string, max:255 |\n| phone | required, string, max:20  |"
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Failed to send OTP. Please try again.\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"phone\": \"+966501234567\",\n    \"code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/store/calculator/otp/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "calculator",
+                "otp",
+                "verify"
+              ]
+            },
+            "description": "Verifies the 6-digit OTP code sent to the user's phone. On success, a `CalculatorLead` is automatically created and the `lead_id` is returned.\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| phone | required, string, max:20  |\n| code  | required, string, size:6  |"
+          },
+          "response": [
+            {
+              "name": "Success — OTP verified, lead created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"+966501234567\",\n    \"code\": \"123456\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/store/calculator/otp/verify",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "otp",
+                    "verify"
+                  ]
+                },
+                "description": "Verifies the 6-digit OTP code sent to the user's phone. On success, a `CalculatorLead` is automatically created and the `lead_id` is returned.\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| phone | required, string, max:20  |\n| code  | required, string, size:6  |"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"OTP verified successfully\",\n    \"data\": {\n        \"lead_id\": 1\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Invalid or expired code",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"+966501234567\",\n    \"code\": \"123456\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/store/calculator/otp/verify",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "otp",
+                    "verify"
+                  ]
+                },
+                "description": "Verifies the 6-digit OTP code sent to the user's phone. On success, a `CalculatorLead` is automatically created and the `lead_id` is returned.\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| phone | required, string, max:20  |\n| code  | required, string, size:6  |"
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Invalid or expired code\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Finance calculator lead capture with SMS OTP verification flow."
+    },
+    {
+      "name": "📝 Blog",
+      "item": [
+        {
+          "name": "List Blog Posts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/blog?page=1&per_page=10",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "blog"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (default: 1)."
+                },
+                {
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Results per page (default: 10)."
+                }
+              ]
+            },
+            "description": "Paginated blog listing with featured posts. Data is cached via `BlogCacheService`.\n\nReturns:\n- `featured_posts` — array of featured/pinned posts\n- `posts` — paginated regular posts\n- `meta` — pagination metadata when posts are paginated"
+          },
+          "response": [
+            {
+              "name": "Success — Blog listing",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/blog?page=1&per_page=10",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "blog"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "description": "Page number (default: 1)."
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10",
+                      "description": "Results per page (default: 10)."
+                    }
+                  ]
+                },
+            "description": "Paginated blog listing with hero section and featured posts. Data is cached via `BlogCacheService`.\n\nReturns:\n- `hero` — hero section with title, subtitle, and background image from settings\n- `featured_posts` — array of featured/pinned posts\n- `posts` — paginated regular posts\n- `meta` — pagination metadata when posts are paginated"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Blog posts retrieved successfully\",\n    \"data\": {\n        \"featured_posts\": [\n            {\n                \"id\": 1,\n                \"title\": \"أفضل السيارات الفاخرة لعام 2026\",\n                \"slug\": \"best-luxury-cars-2026\",\n                \"excerpt\": \"نظرة على أبرز السيارات الفاخرة التي ستطلق هذا العام...\",\n                \"published_at\": \"2026-06-01T10:00:00.000000Z\"\n            }\n        ],\n        \"posts\": [\n            {\n                \"id\": 2,\n                \"title\": \"نصائح قبل شراء سيارة مستعملة\",\n                \"slug\": \"tips-buying-used-car\",\n                \"excerpt\": \"دليلك الشامل لفحص وشراء سيارة مستعملة بأفضل سعر...\",\n                \"published_at\": \"2026-05-28T10:00:00.000000Z\"\n            }\n        ],\n        \"meta\": {\n            \"current_page\": 1,\n            \"per_page\": 10,\n            \"total\": 15,\n            \"last_page\": 2\n        }\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Blog Post Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/blog/:slug",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "blog",
+                ":slug"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "best-luxury-cars-2026",
+                  "description": "Post slug."
+                }
+              ]
+            },
+            "description": "Returns a single published blog post by slug along with up to 3 related posts (excluding the current post, ordered by published date).\n\nReturns `404` if the slug does not match any published post."
+          },
+          "response": [
+            {
+              "name": "Success — Post with related posts",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/blog/:slug",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "blog",
+                    ":slug"
+                  ],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "best-luxury-cars-2026",
+                      "description": "Post slug."
+                    }
+                  ]
+                },
+                "description": "Returns a single published blog post by slug along with up to 3 related posts (excluding the current post, ordered by published date).\n\nReturns `404` if the slug does not match any published post."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Blog post retrieved successfully\",\n    \"data\": {\n        \"post\": {\n            \"id\": 1,\n            \"title\": \"أفضل السيارات الفاخرة لعام 2026\",\n            \"slug\": \"best-luxury-cars-2026\",\n            \"content\": \"<h2>مقدمة</h2><p>عام 2026 يحمل معه العديد من الإصدارات الجديدة في عالم السيارات الفاخرة...</p>\",\n            \"excerpt\": \"نظرة على أبرز السيارات الفاخرة التي ستطلق هذا العام.\",\n            \"featured_image\": \"https://cdn.example.com/posts/luxury-cars-2026.jpg\",\n            \"published_at\": \"2026-06-01T10:00:00.000000Z\"\n        },\n        \"related_posts\": [\n            {\n                \"id\": 3,\n                \"title\": \"مقارنة بين مرسيدس وبي إم دبليو\",\n                \"slug\": \"mercedes-vs-bmw-2026\",\n                \"excerpt\": \"مقارنة شاملة بين أحدث موديلات مرسيدس وبي إم دبليو...\",\n                \"published_at\": \"2026-05-20T10:00:00.000000Z\"\n            }\n        ]\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Post not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/blog/:slug",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "blog",
+                    ":slug"
+                  ],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "best-luxury-cars-2026",
+                      "description": "Post slug."
+                    }
+                  ]
+                },
+                "description": "Returns a single published blog post by slug along with up to 3 related posts (excluding the current post, ordered by published date).\n\nReturns `404` if the slug does not match any published post."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"No query results for model [App\\\\Models\\\\BlogPost].\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Blog post listing and detail endpoints."
+    },
+    {
+      "name": "🏷️ Offers",
+      "item": [
+        {
+          "name": "List Offers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/offers?per_page=12",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "offers"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "12",
+                  "description": "Results per page (default: 12)."
+                }
+              ]
+            },
+            "description": "Paginated listing of active offers sorted by latest first. Each offer includes its associated cars with brand data.\n\nAn \"active\" offer is one whose start date has passed and end date has not yet passed (scoped via `Offer::active()`)."
+          },
+          "response": [
+            {
+              "name": "Success — Paginated offers",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/offers?per_page=12",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "offers"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "12",
+                      "description": "Results per page (default: 12)."
+                    }
+                  ]
+                },
+                "description": "Paginated listing of active offers sorted by latest first. Each offer includes its associated cars with brand data.\n\nAn \"active\" offer is one whose start date has passed and end date has not yet passed (scoped via `Offer::active()`)."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Offers retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"title\": \"عروض رمضان 2026\",\n            \"description\": \"خصم يصل إلى 20% على جميع السيارات الفاخرة\",\n            \"discount_percentage\": 20,\n            \"start_date\": \"2026-03-01\",\n            \"end_date\": \"2026-04-15\",\n            \"is_active\": true,\n            \"cars\": [\n                {\n                    \"id\": 1,\n                    \"name\": {\n                        \"en\": \"Mercedes-Benz G-Class\",\n                        \"ar\": \"مرسيدس بنز جي كلاس\"\n                    },\n                    \"cash_price\": 850000,\n                    \"brand\": {\n                        \"id\": 1,\n                        \"name\": \"Mercedes-Benz\"\n                    }\n                }\n            ]\n        }\n    ],\n    \"errors\": null,\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 12,\n        \"total\": 3,\n        \"last_page\": 1,\n        \"from\": 1,\n        \"to\": 3\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Active offers listing."
+    },
+    {
+      "name": "📧 Newsletter",
+      "item": [
+        {
+          "name": "Subscribe to Newsletter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/newsletter",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "newsletter"
+              ]
+            },
+            "description": "Subscribes an email address to the newsletter. Handles three scenarios:\n\n| Scenario | Status | Behavior |\n|----------|--------|----------|\n| **New subscription** | `201` | New record created with `is_active = true` |\n| **Re-subscribe** (previously unsubscribed) | `200` | Existing record reactivated (`subscribed_at` updated) |\n| **Already subscribed** | `409` | Returns error — no duplicate action taken |\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| email | required, email, max:191  |"
+          },
+          "response": [
+            {
+              "name": "Success — New subscription",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"ahmed@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/newsletter",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "newsletter"
+                  ]
+                },
+                "description": "Subscribes an email address to the newsletter. Handles three scenarios:\n\n| Scenario | Status | Behavior |\n|----------|--------|----------|\n| **New subscription** | `201` | New record created with `is_active = true` |\n| **Re-subscribe** (previously unsubscribed) | `200` | Existing record reactivated (`subscribed_at` updated) |\n| **Already subscribed** | `409` | Returns error — no duplicate action taken |\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| email | required, email, max:191  |"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscribed successfully\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Success — Re-subscribed (reactivated)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"ahmed@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/newsletter",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "newsletter"
+                  ]
+                },
+                "description": "Subscribes an email address to the newsletter. Handles three scenarios:\n\n| Scenario | Status | Behavior |\n|----------|--------|----------|\n| **New subscription** | `201` | New record created with `is_active = true` |\n| **Re-subscribe** (previously unsubscribed) | `200` | Existing record reactivated (`subscribed_at` updated) |\n| **Already subscribed** | `409` | Returns error — no duplicate action taken |\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| email | required, email, max:191  |"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscription renewed successfully\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Already subscribed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"ahmed@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/newsletter",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "newsletter"
+                  ]
+                },
+                "description": "Subscribes an email address to the newsletter. Handles three scenarios:\n\n| Scenario | Status | Behavior |\n|----------|--------|----------|\n| **New subscription** | `201` | New record created with `is_active = true` |\n| **Re-subscribe** (previously unsubscribed) | `200` | Existing record reactivated (`subscribed_at` updated) |\n| **Already subscribed** | `409` | Returns error — no duplicate action taken |\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| email | required, email, max:191  |"
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Already subscribed\",\n    \"data\": null,\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Validation failure",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"ahmed@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/newsletter",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "newsletter"
+                  ]
+                },
+                "description": "Subscribes an email address to the newsletter. Handles three scenarios:\n\n| Scenario | Status | Behavior |\n|----------|--------|----------|\n| **New subscription** | `201` | New record created with `is_active = true` |\n| **Re-subscribe** (previously unsubscribed) | `200` | Existing record reactivated (`subscribed_at` updated) |\n| **Already subscribed** | `409` | Returns error — no duplicate action taken |\n\n## Validation Rules\n| Field | Rules                     |\n|-------|---------------------------|\n| email | required, email, max:191  |"
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": {\n        \"email\": [\"The email field must be a valid email address.\"]\n    },\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Newsletter subscription management."
+    },
+    {
+      "name": "settings",
+      "item": [
+        {
+          "name": "list settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/settings",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "settings"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    }
+  ]
+}

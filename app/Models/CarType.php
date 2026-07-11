@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Translatable\HasTranslations;
+
+class CarType extends Model
+{
+    use HasTranslations;
+
+    public $translatable = ['name'];
+
+    protected $fillable = ['name', 'slug', 'sort_order', 'is_active'];
+
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
+    }
+
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class, 'type', 'slug');
+    }
+
+    public function scopeActiveOrdered($query)
+    {
+        return $query->where('is_active', true)->orderBy('sort_order')->orderBy('id');
+    }
+}
