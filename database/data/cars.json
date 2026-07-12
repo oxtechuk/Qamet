@@ -1,0 +1,622 @@
+[
+  {
+    "name": {
+      "ar": "نيسان اكستريل 2026",
+      "en": "Nissan X-Trail 2026"
+    },
+    "brand": {
+      "ar": "نيسان",
+      "en": "Nissan",
+      "slug": "nissan"
+    },
+    "model": "X-Trail",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 118000,
+    "min_down_payment": 0,
+    "min_installment": 1500,
+    "description": {
+      "ar": "سيارة عائلية مريحة ومتعددة الاستخدامات مجهزة بأحدث تقنيات الأمان والراحة لمختلف الطرق.",
+      "en": "A comfortable family SUV equipped with the latest safety and comfort technologies for all road conditions."
+    },
+    "features_text": {
+      "ar": "دخول ذكي، شاشة لمس، حساسات خلفية، مثبت سرعة، كاميرا خلفية، جنوط ألمنيوم",
+      "en": "Smart Entry, Touchscreen, Rear Sensors, Cruise Control, Rear Camera, Alloy Wheels"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic CVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "7"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "هيونداي اكسنت 2026",
+      "en": "Hyundai Accent 2026"
+    },
+    "brand": {
+      "ar": "هيونداي",
+      "en": "Hyundai",
+      "slug": "hyundai"
+    },
+    "model": "Accent",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 79000,
+    "min_down_payment": 0,
+    "min_installment": 1150,
+    "description": {
+      "ar": "سيارة سيدان مدمجة وعملية للغاية، ممتازة لاستهلاك الوقود ومثالية للاستخدام اليومي المريح.",
+      "en": "A highly practical and compact sedan, excellent on fuel consumption and ideal for comfortable daily commuting."
+    },
+    "features_text": {
+      "ar": "حساسات خلفية، شاشة معلومات، مثبت سرعة، بلوتوث، كاميرا خلفية، أبل كاربلاي",
+      "en": "Rear Sensors, Infotainment Screen, Cruise Control, Bluetooth, Rear Camera, Apple CarPlay"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic IVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "هيونداي كونا 2026",
+      "en": "Hyundai Kona 2026"
+    },
+    "brand": {
+      "ar": "هيونداي",
+      "en": "Hyundai",
+      "slug": "hyundai"
+    },
+    "model": "Kona",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 98000,
+    "min_down_payment": 0,
+    "min_installment": 1300,
+    "description": {
+      "ar": "كروس أوفر عصرية بتصميم جريء ومميز، تجمع بين العملية والأناقة والتقنيات الذكية.",
+      "en": "A modern crossover with a bold and unique design, combining practicality, elegance, and smart technologies."
+    },
+    "features_text": {
+      "ar": "دخول ذكي، تشغيل بصمة، شاشة لمس، حساسات خلفية، مثبت سرعة، جنوط رياضية",
+      "en": "Smart Entry, Push Button Start, Touchscreen, Rear Sensors, Cruise Control, Sports Wheels"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.0L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic CVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "كيا سونيت 2026",
+      "en": "Kia Sonet 2026"
+    },
+    "brand": {
+      "ar": "كيا",
+      "en": "Kia",
+      "slug": "kia"
+    },
+    "model": "Sonet",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 89000,
+    "min_down_payment": 0,
+    "min_installment": 1250,
+    "description": {
+      "ar": "سيارة SUV مدمجة بتصميم شبابي ومواصفات أمان وراحة متطورة تناسب نمط الحياة العصري.",
+      "en": "A compact SUV with a youthful design and advanced safety and comfort features to fit a modern lifestyle."
+    },
+    "features_text": {
+      "ar": "شاشة معلومات، حساسات خلفية، كاميرا خلفية، تشغيل عن بعد، فتحات تكييف خلفية",
+      "en": "Infotainment Screen, Rear Sensors, Rear Camera, Remote Engine Start, Rear AC Vents"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic IVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "شيري اريزو 5 2026",
+      "en": "Chery Arrizo 5 2026"
+    },
+    "brand": {
+      "ar": "شيري",
+      "en": "Chery",
+      "slug": "chery"
+    },
+    "model": "Arrizo 5",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 59000,
+    "min_down_payment": 0,
+    "min_installment": 950,
+    "description": {
+      "ar": "سيارة سيدان مدمجة واقتصادية للغاية تقدم قيمة ممتازة مقابل السعر مع مظهر خارجي أنيق ومميز.",
+      "en": "An economical compact sedan offering excellent value for money with a sleek and stylish exterior."
+    },
+    "features_text": {
+      "ar": "مثبت سرعة، شاشة لمس، بلوتوث، حساسات خلفية، كاميرا خلفية، كشافات ضباب",
+      "en": "Cruise Control, Touchscreen, Bluetooth, Rear Sensors, Rear Camera, Fog Lights"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic CVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "ام جي 5 2026",
+      "en": "MG 5 2026"
+    },
+    "brand": {
+      "ar": "ام جي",
+      "en": "MG",
+      "slug": "mg"
+    },
+    "model": "5",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 58000,
+    "min_down_payment": 0,
+    "min_installment": 900,
+    "description": {
+      "ar": "سيدان عملية تتميز بتصميم ديناميكي ومساحة داخلية واسعة توفر تجربة قيادة سلسة ومريحة.",
+      "en": "A practical sedan characterized by dynamic design and spacious interior, offering a smooth and comfortable ride."
+    },
+    "features_text": {
+      "ar": "شاشة لمس، حساسات خلفية، بلوتوث، مثبت سرعة، مرايا كهربائية، أبل كاربلاي",
+      "en": "Touchscreen, Rear Sensors, Bluetooth, Cruise Control, Power Mirrors, Apple CarPlay"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic CVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "جيتور T2 2026",
+      "en": "Jetour T2 2026"
+    },
+    "brand": {
+      "ar": "جيتور",
+      "en": "Jetour",
+      "slug": "jetour"
+    },
+    "model": "T2",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 142000,
+    "min_down_payment": 0,
+    "min_installment": 1900,
+    "description": {
+      "ar": "سيارة دفع رباعي قوية وعصرية مخصصة للطرق الوعرة، بتصميم صندوقي جذاب ومقصورة فائقة الفخامة.",
+      "en": "A robust and modern 4x4 SUV designed for off-road adventures, featuring an attractive boxy styling and a highly luxurious interior."
+    },
+    "features_text": {
+      "ar": "دفع رباعي، فتحة سقف بانوراما، شاشة لمس عملاقة، كاميرا 360 درجة، تبريد وتدفئة مقاعد، رادار تفاعلي",
+      "en": "4WD, Panoramic Sunroof, Large Touchscreen, 360 Camera, Heated & Ventilated Seats, Adaptive Cruise Control"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.0L Turbo 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 7-Speed DCT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "هيونداي سوناتا 2026",
+      "en": "Hyundai Sonata 2026"
+    },
+    "brand": {
+      "ar": "هيونداي",
+      "en": "Hyundai",
+      "slug": "hyundai"
+    },
+    "model": "Sonata",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 125000,
+    "min_down_payment": 0,
+    "min_installment": 1600,
+    "description": {
+      "ar": "سيدان متوسطة الحجم تجمع بين الفخامة والرياضية بتصميم مستقبلي رائع ومقصورة ذكية متكاملة.",
+      "en": "A mid-size sedan combining luxury and sportiness with a gorgeous futuristic design and a smart integrated cabin."
+    },
+    "features_text": {
+      "ar": "بانوراما، تشغيل بصمة، كاميرا خلفية، شاشة عريضة، مثبت سرعة ذكي، أبل كاربلاي وأندرويد أوتو",
+      "en": "Panoramic Roof, Push Button Start, Rear Camera, Wide Screen Display, Smart Cruise Control, Apple CarPlay & Android Auto"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 8-Speed"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "جي اي سي امزوم 2026",
+      "en": "GAC Emzoom 2026"
+    },
+    "brand": {
+      "ar": "جي اي سي",
+      "en": "GAC",
+      "slug": "gac"
+    },
+    "model": "Emzoom",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 94000,
+    "min_down_payment": 0,
+    "min_installment": 1350,
+    "description": {
+      "ar": "كروس أوفر مدمجة ذات تصميم هندسي رياضي حاد وأداء نشيط يوفر قيادة ممتعة وشابة.",
+      "en": "A compact crossover with a sharp geometric sporty design and a lively performance that offers a fun and youthful ride."
+    },
+    "features_text": {
+      "ar": "فتحة سقف، مقابض أبواب مخفية، شاشة معلومات، حساسات خلفية، كاميرا خلفية، جنوط رياضية",
+      "en": "Sunroof, Hidden Door Handles, Infotainment Screen, Rear Sensors, Rear Camera, Sports Alloys"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L Turbo 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 7-Speed DCT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "سوزوكي ديزاير 2026",
+      "en": "Suzuki Dzire 2026"
+    },
+    "brand": {
+      "ar": "سوزوكي",
+      "en": "Suzuki",
+      "slug": "suzuki"
+    },
+    "model": "Dzire",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 54000,
+    "min_down_payment": 0,
+    "min_installment": 900,
+    "description": {
+      "ar": "سيدان صغيرة واقتصادية للغاية، ممتازة للتنقل داخل المدينة بأقل تكلفة تشغيل واستهلاك وقود.",
+      "en": "A tiny and highly economical sedan, excellent for inner-city commuting with minimum operating costs and fuel usage."
+    },
+    "features_text": {
+      "ar": "بلوتوث، حساسات خلفية، نوافذ كهربائية، تحكم بالمقود، مكيف هواء، فرامل ABS",
+      "en": "Bluetooth, Rear Sensors, Power Windows, Steering Wheel Controls, Air Conditioning, ABS"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.2L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic AGS"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "هيونداي توسان 2026",
+      "en": "Hyundai Tucson 2026"
+    },
+    "brand": {
+      "ar": "هيونداي",
+      "en": "Hyundai",
+      "slug": "hyundai"
+    },
+    "model": "Tucson",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 115000,
+    "min_down_payment": 0,
+    "min_installment": 1500,
+    "description": {
+      "ar": "سيارة SUV عائلية متوسطة تجمع بين التصميم الجريء والمساحة المريحة والتقنيات العصرية للسلامة والترفيه.",
+      "en": "A mid-size family SUV combining bold design, comfortable space, and modern safety and entertainment technologies."
+    },
+    "features_text": {
+      "ar": "بانوراما، تشغيل بصمة، شاشة عريضة، حساسات أمامية وخلفية، كاميرا خلفية، تكييف خلفي",
+      "en": "Panoramic Roof, Keyless Start, Wide Screen, Front & Rear Sensors, Rear Camera, Rear AC"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.0L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 6-Speed"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "كيا سبورتاج 2026",
+      "en": "Kia Sportage 2026"
+    },
+    "brand": {
+      "ar": "كيا",
+      "en": "Kia",
+      "slug": "kia"
+    },
+    "model": "Sportage",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 116000,
+    "min_down_payment": 0,
+    "min_installment": 1500,
+    "description": {
+      "ar": "سيارة SUV شهيرة تتميز بمظهر خارجي ديناميكي أنيق ومقصورة رحبة مجهزة بأحدث التقنيات الرقمية.",
+      "en": "A popular SUV featuring a sleek dynamic exterior and a spacious cabin equipped with the latest digital technologies."
+    },
+    "features_text": {
+      "ar": "فتحة سقف بانوراما، شاشة لمس مزدوجة، تشغيل بصمة، حساسات، كاميرا خلفية، جنوط ألمنيوم",
+      "en": "Panoramic Sunroof, Dual Touchscreens, Push Button Start, Sensors, Rear Camera, Alloy Wheels"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.0L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 6-Speed"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "جاكو G5 2026",
+      "en": "Jaecoo G5 2026"
+    },
+    "brand": {
+      "ar": "جاكو",
+      "en": "Jaecoo",
+      "slug": "jaecoo"
+    },
+    "model": "G5",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 92000,
+    "min_down_payment": 0,
+    "min_installment": 1200,
+    "description": {
+      "ar": "سيارة SUV فخمة بتصميم ذكي وقدرات متميزة تقدم تجربة تنقل استثنائية بلمسات كلاسيكية فاخرة.",
+      "en": "A premium SUV with smart design and exceptional capabilities, offering an extraordinary driving experience with luxurious classical touches."
+    },
+    "features_text": {
+      "ar": "دخول ذكي، تشغيل بصمة، شاشة لمس، حساسات أمامية وخلفية، كاميرا محيطية، مقاعد كهربائية",
+      "en": "Smart Entry, Keyless Start, Touchscreen, Front & Rear Sensors, Surround Camera, Power Seats"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.6L Turbo 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 7-Speed DCT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "شانجان ايدو 2026",
+      "en": "Changan Eado 2026"
+    },
+    "brand": {
+      "ar": "شانجان",
+      "en": "Changan",
+      "slug": "changan"
+    },
+    "model": "Eado Plus",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 76000,
+    "min_down_payment": 0,
+    "min_installment": 1100,
+    "description": {
+      "ar": "سيدان عائلية أنيقة تقدم مقصورة واسعة مجهزة بكافة سبل الراحة ومحرك توربو نشيط واقتصادي.",
+      "en": "An elegant family sedan offering a spacious cabin equipped with all comforts and a lively, economical turbo engine."
+    },
+    "features_text": {
+      "ar": "فتحة سقف، شاشة لمس، كاميرا خلفية، حساسات خلفية، مثبت سرعة، مكيف هواء أوتوماتيكي",
+      "en": "Sunroof, Touchscreen, Rear Camera, Rear Sensors, Cruise Control, Auto AC"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.4L Turbo 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 7-Speed DCT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "تويوتا يارس 2026",
+      "en": "Toyota Yaris 2026"
+    },
+    "brand": {
+      "ar": "تويوتا",
+      "en": "Toyota",
+      "slug": "toyota"
+    },
+    "model": "Yaris",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 77000,
+    "min_down_payment": 0,
+    "min_installment": 1100,
+    "description": {
+      "ar": "سيدان مدمجة موثوقة للغاية، مشهورة باعتماديتها العالية وتصميمها العصري وتوفيرها المتميز للوقود.",
+      "en": "A highly reliable compact sedan, famous for its high dependability, modern design, and outstanding fuel economy."
+    },
+    "features_text": {
+      "ar": "حساسات خلفية، شاشة معلومات، مثبت سرعة، بلوتوث، كاميرا خلفية، كشافات LED",
+      "en": "Rear Sensors, Infotainment Screen, Cruise Control, Bluetooth, Rear Camera, LED Headlights"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.3L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic CVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "تويوتا فلوز 2026",
+      "en": "Toyota Veloz 2026"
+    },
+    "brand": {
+      "ar": "تويوتا",
+      "en": "Toyota",
+      "slug": "toyota"
+    },
+    "model": "Veloz",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 89000,
+    "min_down_payment": 0,
+    "min_installment": 1300,
+    "description": {
+      "ar": "كروس أوفر عائلية بـ 7 مقاعد، عملية واقتصادية وممتازة للتنقل العائلي اليومي بمرونة تامة.",
+      "en": "A 7-seater family crossover, practical, economical, and excellent for daily family commutes with total flexibility."
+    },
+    "features_text": {
+      "ar": "شاشة لمس، دخول ذكي، حساسات خلفية، كاميرا خلفية، تكييف سقف خلفي، جنوط رياضية",
+      "en": "Touchscreen, Smart Entry, Rear Sensors, Rear Camera, Rear Roof AC, Sport Alloys"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic CVT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "7"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "شانجان السفن 2026",
+      "en": "Changan Alsvin 2026"
+    },
+    "brand": {
+      "ar": "شانجان",
+      "en": "Changan",
+      "slug": "changan"
+    },
+    "model": "Alsvin",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 49000,
+    "min_down_payment": 0,
+    "min_installment": 900,
+    "description": {
+      "ar": "سيدان مدمجة اقتصادية وعملية تقدم حلاً مثالياً للباحثين عن الكفاءة والقيادة اليومية بأسعار معقولة جداً.",
+      "en": "An economical and practical compact sedan offering an ideal solution for those seeking efficiency and daily commuting at very affordable prices."
+    },
+    "features_text": {
+      "ar": "مثبت سرعة، شاشة لمس، بلوتوث، حساسات خلفية، كاميرا خلفية، نوافذ كهربائية",
+      "en": "Cruise Control, Touchscreen, Bluetooth, Rear Sensors, Rear Camera, Power Windows"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 5-Speed DCT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "جاكو G7 2026",
+      "en": "Jaecoo G7 2026"
+    },
+    "brand": {
+      "ar": "جاكو",
+      "en": "Jaecoo",
+      "slug": "jaecoo"
+    },
+    "model": "G7",
+    "year": 2026,
+    "type": "suv",
+    "cash_price": 105000,
+    "min_down_payment": 0,
+    "min_installment": 1300,
+    "description": {
+      "ar": "سيارة دفع رباعي فاخرة بمواصفات حصرية، مجهزة بأنظمة مساعدة سائق ذكية وتصميم هجومي مميز وعصري.",
+      "en": "A premium luxury SUV with exclusive specs, equipped with intelligent driver assistance systems and a distinctive, modern aggressive design."
+    },
+    "features_text": {
+      "ar": "فتحة سقف بانورامية، شاشة لمس كبيرة، كاميرا 360 درجة، مقاعد جلد فاخرة، نظام رادار تفاعلي",
+      "en": "Panoramic Sunroof, Large Touchscreen, 360 Camera, Premium Leather Seats, Adaptive Cruise Control"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.6L Turbo 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 7-Speed DCT"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "شيفروليه كروز 2026",
+      "en": "Chevrolet Cruze 2026"
+    },
+    "brand": {
+      "ar": "شيفروليه",
+      "en": "Chevrolet",
+      "slug": "chevrolet"
+    },
+    "model": "Cruze",
+    "year": 2026,
+    "type": "sedan",
+    "cash_price": 72000,
+    "min_down_payment": 0,
+    "min_installment": 1050,
+    "description": {
+      "ar": "سيدان عريقة وموثوقة بتصميم عصري وأداء متزن يوفر راحة تامة واقتصاداً ممتازاً للوقود.",
+      "en": "A classic and reliable sedan with a modern design and balanced performance, offering total comfort and excellent fuel economy."
+    },
+    "features_text": {
+      "ar": "حساسات خلفية، شاشة لمس، مثبت سرعة، بلوتوث، كاميرا خلفية، أبل كاربلاي",
+      "en": "Rear Sensors, Touchscreen, Cruise Control, Bluetooth, Rear Camera, Apple CarPlay"
+    },
+    "specs": [
+      {"label": "Engine", "value": "1.5L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 6-Speed"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  },
+  {
+    "name": {
+      "ar": "هيونداي توسان 2025",
+      "en": "Hyundai Tucson 2025"
+    },
+    "brand": {
+      "ar": "هيونداي",
+      "en": "Hyundai",
+      "slug": "hyundai"
+    },
+    "model": "Tucson",
+    "year": 2025,
+    "type": "suv",
+    "cash_price": 110000,
+    "min_down_payment": 0,
+    "min_installment": 1500,
+    "description": {
+      "ar": "سيارة SUV عائلية لعام 2025 بتصميم جريء ومميز، تقدم توازناً رائعاً بين القيمة والراحة والمواصفات.",
+      "en": "A family SUV for 2025 with a bold and unique design, offering a great balance of value, comfort, and specs."
+    },
+    "features_text": {
+      "ar": "سقف بانوراما، تشغيل بصمة، شاشة معلومات، حساسات خلفية، كاميرا خلفية، تكييف خلفي",
+      "en": "Panoramic Roof, Push Button Start, Infotainment Screen, Rear Sensors, Rear Camera, Rear AC"
+    },
+    "specs": [
+      {"label": "Engine", "value": "2.0L 4-Cylinder"},
+      {"label": "Transmission", "value": "Automatic 6-Speed"},
+      {"label": "Fuel Type", "value": "Petrol"},
+      {"label": "Seats", "value": "5"}
+    ]
+  }
+]

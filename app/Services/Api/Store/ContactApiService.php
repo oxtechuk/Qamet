@@ -16,7 +16,7 @@ final class ContactApiService
             ['is_active' => true]
         );
 
-        return Lead::create([
+        $lead = Lead::create([
             'client_name' => $data['name'],
             'client_phone' => $data['phone'],
             'client_email' => $data['email'] ?? null,
@@ -27,5 +27,9 @@ final class ContactApiService
             'status' => 'new',
             'started_at' => now(),
         ]);
+
+        app(\App\Services\BookingAssignmentService::class)->autoAssignLead($lead);
+
+        return $lead;
     }
 }

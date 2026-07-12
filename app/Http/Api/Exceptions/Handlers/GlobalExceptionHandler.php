@@ -21,13 +21,13 @@ final class GlobalExceptionHandler
         private readonly ApiResponseBuilder $builder,
     ) {}
 
-    public function render(\Throwable $e, Request $request): ?array
+    public function render(\Throwable $e, Request $request): ?\Symfony\Component\HttpFoundation\Response
     {
         if (! $request->expectsJson() && ! $request->is('api/*') && ! $request->is('erp/*')) {
             return null;
         }
 
-        return match (true) {
+        $data = match (true) {
             $e instanceof ApiException => $this->handleApiException($e),
             $e instanceof LaravelValidationException => $this->handleValidationException($e),
             $e instanceof AuthenticationException => $this->error('Unauthenticated', 401),
@@ -36,6 +36,10 @@ final class GlobalExceptionHandler
             $e instanceof HttpException => $this->error($e->getMessage() ?: 'HTTP error', $e->getStatusCode()),
             default => $this->handleGenericException($e),
         };
+
+        $status = $data['status'] ?? 500;
+
+        return response()->json($data, $status);
     }
 
     private function handleApiException(ApiException $e): array

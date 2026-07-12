@@ -9,70 +9,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 // =============================================
-//  STORE (Public Frontend)
+//  React Single Page Application (SPA)
 // =============================================
-use App\Http\Controllers\Store\AboutController as StoreAboutController;
-use App\Http\Controllers\Store\BlogController as StoreBlogController;
-use App\Http\Controllers\Store\BookingController as StoreBookingController;
-use App\Http\Controllers\Store\CalculatorController as StoreCalculatorController;
-use App\Http\Controllers\Store\CarController as StoreCarController;
-// use App\Http\Controllers\Store\HomeController;
-use App\Http\Controllers\Store\OfferController as StoreOfferController;
-
-// Laravel fallback route for React Router
 Route::get('/', function () {
     return response()->file(public_path('index.html'));
 })->name('store.home');
 
-// الصفحة الرئيسية
-// Route::get('/', [HomeController::class, 'index'])->name('store.home');
-
-// السيارات
-Route::get('/cars', [StoreCarController::class, 'index'])->name('store.cars.index');
-Route::get('/cars/{slug}', [StoreCarController::class, 'show'])->name('store.cars.show');
-
-// الحجز
-Route::get('/booking', [StoreBookingController::class, 'create'])->name('store.booking.create');
-Route::post('/booking', [StoreBookingController::class, 'store'])->name('store.booking.store');
-Route::get('/booking/{booking}/success', [StoreBookingController::class, 'success'])->name('store.booking.success');
-
-// المدونة
-Route::get('/blog', [StoreBlogController::class, 'index'])->name('store.blog.index');
-Route::get('/blog/{slug}', [StoreBlogController::class, 'show'])->name('store.blog.show');
-
-// العروض
-Route::get('/offers', [StoreOfferController::class, 'index'])->name('store.offers.index');
-
-// حاسبة التقسيط
-Route::get('/calculator', [StoreCalculatorController::class, '__invoke'])->name('store.calculator');
-Route::post('/calculator/lead', [StoreCalculatorController::class, 'saveLead'])->name('store.calculator.lead');
-Route::post('/calculator/otp/send', [StoreCalculatorController::class, 'sendOtp'])->name('store.calculator.otp.send');
-Route::post('/calculator/otp/verify', [StoreCalculatorController::class, 'verifyOtp'])->name('store.calculator.otp.verify');
-
-// مقارنة السيارات
-use App\Http\Controllers\Store\CompareController as StoreCompareController;
-
-Route::get('/compare', [StoreCompareController::class, 'index'])->name('store.compare');
-Route::get('/compare/search', [StoreCompareController::class, 'search'])->name('store.compare.search');
-
-// النشرة الإخبارية
-use App\Http\Controllers\Store\NewsletterController as StoreNewsletterController;
-
-Route::post('/newsletter/subscribe', [StoreNewsletterController::class, 'store'])->name('store.newsletter.subscribe');
-
-// من نحن
-Route::get('/about', StoreAboutController::class)->name('store.about');
-
-// تسجيل الدخول
-Route::get('/login', function () {
-    return view('store.auth.login');
-})->name('store.auth.login');
-Route::post('/login', function () {
-    return back();
-})->name('store.auth.login.post');
-Route::get('/register', function () {
-    return view('store.auth.login');
-})->name('store.auth.register');
+Route::get('/{any}', function () {
+    return response()->file(public_path('index.html'));
+})->where('any', '^(?!crm|manager-login|api|store-api|storage).*$');
 
 // =============================================
 //  CRM (Admin Dashboard)
@@ -190,6 +135,7 @@ Route::prefix('crm')->name('crm.')->middleware(['auth:employee', 'guard.employee
     // === العملاء المحتملون + مصادر التواصل ===
     Route::middleware('permission:manage-leads')->group(function () {
         Route::resource('leads', LeadController::class);
+        Route::post('leads/whatsapp-campaign', [LeadController::class, 'whatsappCampaign'])->name('leads.whatsapp-campaign');
     });
     Route::middleware('permission:manage-contact-sources')->group(function () {
         Route::get('contact-sources', [ContactSourceController::class, 'index'])->name('contact-sources.index');

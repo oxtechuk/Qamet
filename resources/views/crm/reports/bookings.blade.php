@@ -526,7 +526,7 @@
                 { name: 'طلبات مرفوضة', data: sourceRejected }
             ],
             chart: { type: 'bar', height: 300, stacked: false, fontFamily: isRtl ? 'Cairo' : 'Inter', toolbar: { show: false }, animations: { enabled: false } },
-            colors: ['#2E90FA', '#12B76A', '#E30613'],
+            colors: ['#2E90FA', '#12B76A', '#299BE0'],
             plotOptions: { bar: { borderRadius: 3, columnWidth: '60%' } },
             xaxis: { categories: sourceNames },
             dataLabels: { enabled: false }

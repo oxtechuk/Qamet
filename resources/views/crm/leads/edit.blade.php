@@ -108,14 +108,5 @@
             </div>
         </div>
     </div>
-@endsection§Ù„Ø­Ø°ÙØŸ') }}')">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger">{{ __('Ø­Ø°Ù Ø§Ù„Ø³Ø¬Ù„') }}</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 

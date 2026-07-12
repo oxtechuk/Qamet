@@ -333,7 +333,7 @@
                                     @foreach($car->images->where('type','exterior') as $img)
                                     <div class="position-relative">
                                         <img src="{{ asset('storage/'.$img->image_path) }}" class="rounded" style="width:70px;height:52px;object-fit:cover;">
-                                        <a href="{{ route('crm.cars.delete-image', $img) }}" class="position-absolute top-0 end-0" style="background:#E30613;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;text-decoration:none;" onclick="return confirm('حذف؟')">×</a>
+                                        <a href="{{ route('crm.cars.delete-image', $img) }}" class="position-absolute top-0 end-0" style="background:#299BE0;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;text-decoration:none;" onclick="return confirm('حذف؟')">×</a>
                                     </div>
                                     @endforeach
                                 </div>
@@ -347,7 +347,7 @@
                                     @foreach($car->images->where('type','interior') as $img)
                                     <div class="position-relative">
                                         <img src="{{ asset('storage/'.$img->image_path) }}" class="rounded" style="width:70px;height:52px;object-fit:cover;">
-                                        <a href="{{ route('crm.cars.delete-image', $img) }}" class="position-absolute top-0 end-0" style="background:#E30613;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;text-decoration:none;" onclick="return confirm('حذف؟')">×</a>
+                                        <a href="{{ route('crm.cars.delete-image', $img) }}" class="position-absolute top-0 end-0" style="background:#299BE0;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;text-decoration:none;" onclick="return confirm('حذف؟')">×</a>
                                     </div>
                                     @endforeach
                                 </div>
@@ -409,7 +409,7 @@
     background: var(--crm-red-light);
     border-color: var(--crm-red);
     color: var(--crm-red);
-    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.08);
+    box-shadow: 0 4px 12px #EB5E281A
 }
 .check-icon {
     font-size: 16px;
@@ -456,7 +456,7 @@ document.getElementById('thumbnailInput').addEventListener('change', function() 
 // ===== Color Rows =====
 let colorCount = 0;
 
-function addColorRow(name = '', hex = '#E30613', existingImg = null, existingImgPath = '') {
+function addColorRow(name = '', hex = '#299BE0', existingImg = null, existingImgPath = '') {
     const idx = colorCount++;
     document.getElementById('no-colors-msg').style.display = 'none';
     const container = document.getElementById('colors-container');
@@ -515,7 +515,7 @@ const existingColors = @json($car->colors ?? []);
 existingColors.forEach(c => {
     const isNew = typeof c === 'string'; // old format = hex only
     const name = isNew ? '' : (c.name || '');
-    const hex  = isNew ? c  : (c.hex  || '#E30613');
+    const hex  = isNew ? c  : (c.hex  || '#299BE0');
     const img  = isNew ? null : (c.image ? '{{ asset("storage/") }}/' + c.image : null);
     const path = isNew ? '' : (c.image || '');
     addColorRow(name, hex, img, path);

@@ -72,7 +72,7 @@
         </form>
     </div>
 
-   
+
 
     {{-- Table --}}
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="border:1px solid var(--crm-border)!important;">
@@ -83,6 +83,9 @@
             <table class="table table-hover align-middle mb-0">
                 <thead style="background:#F8F9FC;">
                     <tr>
+                        <th class="px-4 py-3 text-muted fw-bold" style="font-size:12px;width:40px;">
+                            <input type="checkbox" id="selectAllLeads" class="form-check-input">
+                        </th>
                         <th class="px-4 py-3 text-muted fw-bold" style="font-size:12px;">{{ __('رقم العميل') }}</th>
                         <th class="py-3 text-muted fw-bold" style="font-size:12px;">{{ __('اسم العميل') }}</th>
                         <th class="py-3 text-muted fw-bold" style="font-size:12px;">{{ __('الهاتف') }}</th>
@@ -97,12 +100,17 @@
                 <tbody class="border-top-0">
                     @forelse($leads as $lead)
                     <tr>
+                        <td class="px-4">
+                            <input type="checkbox" name="lead_ids[]" value="{{ $lead->id }}"
+                                   class="form-check-input lead-checkbox"
+                                   {{ $lead->client_phone ? '' : 'disabled' }}>
+                        </td>
                         <td class="px-4 fw-bold" style="font-size:13px;">#{{ $lead->id }}</td>
                         <td>
                             <div class="fw-bold" style="font-size:13px;color:var(--crm-text);">{{ $lead->client_name }}</div>
                         </td>
                         <td style="font-size:13px;" dir="ltr">{{ $lead->client_phone ?? '—' }}</td>
-                        <td class="text-center fw-bold" style="font-size:13px;">1</td>
+                        <td class="text-center fw-bold" style="font-size:13px;">{{$lead->orders()->count()}}</td>
                         <td style="font-size:12px;color:var(--crm-text-muted);">
                             {{ $lead->car?->name ?? '—' }}
                             @if($lead->car)
@@ -153,7 +161,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="text-center text-muted py-5">
+                        <td colspan="10" class="text-center text-muted py-5">
                             <i class="bi bi-person-x fs-1 d-block mb-2 opacity-25"></i>
                             {{ __('لا يوجد عملاء حالياً') }}
                         </td>
@@ -169,5 +177,161 @@
         @endif
     </div>
 
+    {{-- WhatsApp Campaign Floating Button --}}
+    <button type="button" id="btnWhatsappCampaign"
+            class="btn btn-success rounded-pill shadow-lg d-none align-items-center gap-2"
+            style="position:fixed;bottom:30px;{{ app()->getLocale()=='ar'?'left':'right' }}:30px;z-index:1050;padding:12px 24px;font-size:14px;font-weight:600;">
+        <i class="bi bi-whatsapp" style="font-size:18px;"></i>
+        <span id="selectedCount">0</span> {{ __('إرسال واتساب') }}
+    </button>
+
+    {{-- WhatsApp Campaign Modal --}}
+    <div class="modal fade" id="whatsappCampaignModal" tabindex="-1" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title fw-bold">
+                        <i class="bi bi-whatsapp text-success"></i> {{ __('حملة واتساب') }}
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 p-3 rounded-3" style="background:#F0FFF4;">
+                        <small class="text-muted">
+                            {{ __('سيتم إرسال الرسالة إلى') }}
+                            <strong id="modalSelectedCount">0</strong>
+                            {{ __('عميل لديهم أرقام هواتف صالحة') }}
+                        </small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ __('الرسالة') }}</label>
+                        <textarea id="campaignMessage" class="form-control rounded-3" rows="5"
+                                  placeholder="{{ __('اكتب رسالتك هنا... يمكنك استخدام {name} لاسم العميل و {phone} لرقم هاتفه') }}"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            <strong>{{ __('المتغيرات المتاحة:') }}</strong>
+                            <code>{name}</code> → {{ __('اسم العميل') }},
+                            <code>{phone}</code> → {{ __('رقم الهاتف') }}
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light rounded-3" data-bs-dismiss="modal">{{ __('إلغاء') }}</button>
+                    <button type="button" id="btnSendCampaign" class="btn btn-success rounded-3 px-4">
+                        <i class="bi bi-send"></i> {{ __('إرسال') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const selectAll = document.getElementById('selectAllLeads');
+    const checkboxes = document.querySelectorAll('.lead-checkbox');
+    const btnCampaign = document.getElementById('btnWhatsappCampaign');
+    const countEl = document.getElementById('selectedCount');
+    const modalCountEl = document.getElementById('modalSelectedCount');
+    const modal = new bootstrap.Modal(document.getElementById('whatsappCampaignModal'));
+    const btnSend = document.getElementById('btnSendCampaign');
+    const messageInput = document.getElementById('campaignMessage');
+
+    function updateCount() {
+        const checked = document.querySelectorAll('.lead-checkbox:checked').length;
+        countEl.textContent = checked;
+        modalCountEl.textContent = checked;
+        if (checked > 0) {
+            btnCampaign.classList.remove('d-none');
+            btnCampaign.classList.add('d-flex');
+        } else {
+            btnCampaign.classList.add('d-none');
+            btnCampaign.classList.remove('d-flex');
+        }
+    }
+
+    selectAll.addEventListener('change', function () {
+        checkboxes.forEach(cb => {
+            if (!cb.disabled) {
+                cb.checked = selectAll.checked;
+            }
+        });
+        updateCount();
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', updateCount);
+    });
+
+    btnCampaign.addEventListener('click', function () {
+        const checked = document.querySelectorAll('.lead-checkbox:checked').length;
+        if (checked === 0) return;
+        modal.show();
+    });
+
+    btnSend.addEventListener('click', function () {
+        const message = messageInput.value.trim();
+        if (!message) {
+            messageInput.classList.add('is-invalid');
+            return;
+        }
+        messageInput.classList.remove('is-invalid');
+
+        const leadIds = Array.from(document.querySelectorAll('.lead-checkbox:checked'))
+            .map(cb => parseInt(cb.value));
+
+        if (leadIds.length === 0) return;
+
+        btnSend.disabled = true;
+        btnSend.innerHTML = '<span class="spinner-border spinner-border-sm"></span> {{ __("جاري الإرسال...") }}';
+
+        fetch('{{ route("crm.leads.whatsapp-campaign") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                lead_ids: leadIds,
+                message: message,
+            }),
+        })
+        .then(res => res.json().then(data => ({ status: res.status, data })))
+        .then(({ status, data }) => {
+            modal.hide();
+            messageInput.value = '';
+            selectAll.checked = false;
+            checkboxes.forEach(cb => cb.checked = false);
+            updateCount();
+
+            if (status >= 200 && status < 300 && data.success) {
+                showToast(data.message, 'success');
+            } else {
+                showToast(data.message || '{{ __("حدث خطأ") }}', 'danger');
+            }
+        })
+        .catch(() => {
+            showToast('{{ __("حدث خطأ في الاتصال") }}', 'danger');
+        })
+        .finally(() => {
+            btnSend.disabled = false;
+            btnSend.innerHTML = '<i class="bi bi-send"></i> {{ __("إرسال") }}';
+        });
+    });
+
+    function showToast(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        toast.style.cssText = 'top:80px;right:20px;z-index:9999;min-width:300px;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+        toast.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 5000);
+    }
+});
+</script>
 @endsection

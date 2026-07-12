@@ -267,9 +267,9 @@ onMounted(fetchSettings);
 
 <style scoped>
 .nav-tabs .nav-link { background: none; color: #666; }
-.nav-tabs .nav-link.active { border-bottom: 2px solid #EE1E26 !important; color: #EE1E26 !important; }
-.border-bottom-primary { border-bottom: 3px solid #EE1E26; }
+.nav-tabs .nav-link.active { border-bottom: 2px solid #EB5E281A !important; color: #EB5E281A !important; }
+.border-bottom-primary { border-bottom: 3px solid #EB5E281A; }
 .rounded-lg { border-radius: 12px; }
 .cursor-pointer { cursor: pointer; }
-.highlight { color: #EE1E26; }
+.highlight { color: rgba(235, 94, 40, 1); }
 </style>

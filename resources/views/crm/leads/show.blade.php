@@ -20,6 +20,8 @@
             @endcan
         </div>
 
+        
+
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm mb-4 rounded-4">
@@ -110,7 +112,8 @@
                                             <th class="px-3 py-2 text-muted fw-bold" style="font-size:12px;">رقم الطلب</th>
                                             <th class="py-2 text-muted fw-bold" style="font-size:12px;">السيارة</th>
                                             <th class="py-2 text-muted fw-bold" style="font-size:12px;">الحالة</th>
-                                            <th class="py-2 text-muted fw-bold" style="font-size:12px;">التاريخ</th>
+                                             <th class="py-2 text-muted fw-bold" style="font-size:12px;">المسؤول</th>
+                                             <th class="py-2 text-muted fw-bold" style="font-size:12px;">التاريخ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,9 +131,12 @@
                                                         {{ $order->status_label }}
                                                     </span>
                                                 </td>
-                                                <td style="font-size:12px;" class="text-muted">
-                                                    {{ $order->created_at->format('d/m/Y') }}
-                                                </td>
+                                                 <td style="font-size:13px;" class="fw-bold">
+                                                     {{ $order->employee->name ?? '—' }}
+                                                 </td>
+                                                 <td style="font-size:12px;" class="text-muted">
+                                                     {{ $order->created_at->format('d/m/Y') }}
+                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

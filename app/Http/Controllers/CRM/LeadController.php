@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendWhatsAppCampaignMessage;
 use App\Models\Car;
 use App\Models\ContactSource;
 use App\Models\Employee;
@@ -90,6 +91,40 @@ class LeadController extends Controller
         $lead->delete();
 
         return redirect()->route('crm.leads.index')->with('success', __('تم حذف السجل'));
+    }
+
+    public function whatsappCampaign(Request $request)
+    {
+        $request->validate([
+            'lead_ids' => 'required|array|min:1',
+            'lead_ids.*' => 'integer|exists:leads,id',
+            'message' => 'required|string|max:2000',
+        ]);
+
+        $leads = Lead::whereIn('id', $request->lead_ids)
+            ->whereNotNull('client_phone')
+            ->where('client_phone', '!=', '')
+            ->get();
+
+        if ($leads->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => __('لا يوجد عملاء بأرقام هواتف صالحة'),
+            ], 422);
+        }
+
+        $delay = 0;
+        foreach ($leads as $lead) {
+            SendWhatsAppCampaignMessage::dispatch($lead->id, $request->message)
+                ->delay(now()->addSeconds($delay));
+            $delay += 1;
+        }
+
+        return response()->json([
+            'success' => true,
+            'total' => $leads->count(),
+            'message' => __('تم جدولة إرسال :count رسالة واتساب', ['count' => $leads->count()]),
+        ]);
     }
 
     private function validated(Request $request): array

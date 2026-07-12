@@ -211,7 +211,7 @@
 }
 .subscriber-avatar {
     width: 34px; height: 34px;
-    background: linear-gradient(135deg, #EE1E26, #ff6b6b);
+    background: linear-gradient(135deg, #EB5E281A, #ff6b6b);
     color: #fff;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;

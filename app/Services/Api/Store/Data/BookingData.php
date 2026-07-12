@@ -19,6 +19,8 @@ final class BookingData
         public readonly string $source = 'api',
         public readonly ?string $booking_type = null,
         public readonly ?string $location = null,
+        public readonly ?string $client_email = null,
+        public readonly ?string $notes = null,
     ) {}
 
     public static function fromRequest(array $validated, float $cashPrice): self
@@ -44,6 +46,8 @@ final class BookingData
             total_price: (int) round($monthly * $totalMonths + (float) $validated['down_payment']),
             booking_type: $validated['booking_type'] ?? null,
             location: $validated['location'] ?? null,
+            client_email: $validated['client_email'] ?? null,
+            notes: $validated['notes'] ?? null,
         );
     }
 
@@ -62,6 +66,8 @@ final class BookingData
             'source' => $this->source,
             'booking_type' => $this->booking_type,
             'location' => $this->location,
+            'client_email' => $this->client_email,
+            'notes' => $this->notes,
         ];
     }
 }

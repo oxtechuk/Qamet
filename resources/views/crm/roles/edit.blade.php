@@ -69,8 +69,8 @@
 
 <style>
     .form-check-input:checked {
-        background-color: #EE1E26;
-        border-color: #EE1E26;
+        background-color: rgba(235, 94, 40, 1);
+        border-color: rgba(235, 94, 40, 1);
     }
     .form-check-label {
         padding-right: 2.5rem; /* For RTL */

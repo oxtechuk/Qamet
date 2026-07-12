@@ -1144,7 +1144,7 @@
                         <h5 class="fw-bold mb-2 text-white">{{ __('حفظ التغييرات') }}</h5>
                         <p class="small text-white opacity-50 mb-4">{{ __('تأكد من مراجعة جميع الأقسام قبل الحفظ.') }}</p>
                         @can('manage-settings')
-                        <button type="submit" class="btn w-100 py-3 fw-bold rounded-3" style="background:#EE1E26;color:#fff;">
+                        <button type="submit" class="btn w-100 py-3 fw-bold rounded-3" style="background:#EB5E281A;color:#fff;">
                             <i class="bi bi-check2-circle me-2"></i> {{ __('تحديث الإعدادات') }}
                         </button>
                         @endcan
@@ -1187,7 +1187,7 @@
         cursor: pointer;
     }
     .settings-nav-btn:hover  { background: #f1f5f9; color: #111; }
-    .settings-nav-btn.active { background: #fff0f0; color: #EE1E26; font-weight: 600; }
+    .settings-nav-btn.active { background: #fff0f0; color: rgba(235, 94, 40, 1); font-weight: 600; }
     .settings-nav-btn i { font-size: 15px; flex-shrink: 0; }
 
     .settings-pane { display: block; }

@@ -29,9 +29,9 @@
 
     <style>
         :root {
-            --crm-red: #E30613;
-            --crm-red-dark: #B1000D;
-            --crm-red-light: rgba(227, 6, 19, 0.08);
+            --crm-red: #299BE0;
+            --crm-red-dark: #1a7cb5;
+            --crm-red-light: rgba(41, 155, 224, 0.08);
             --crm-sidebar-width: 220px;
             --crm-topbar-height: 64px;
             --crm-bg: #F5F6FA;
@@ -142,9 +142,16 @@
             background: var(--crm-red-light);
             color: var(--crm-red);
         }
-        /* Border indicator only on direct <a> links, not group toggles */
-        a.crm-nav-link.active {
-            border-{{ App::getLocale() == 'ar' ? 'right' : 'left' }}: 3px solid var(--crm-red);
+        /* Indicator line using pseudo-element to prevent curved border-radius issue */
+        a.crm-nav-link.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            {{ App::getLocale() == 'ar' ? 'right: 0;' : 'left: 0;' }}
+            width: 4px;
+            background: var(--crm-red);
+            border-radius: {{ App::getLocale() == 'ar' ? '4px 0 0 4px' : '0 4px 4px 0' }};
         }
         .crm-nav-link .nav-badge {
             margin-{{ App::getLocale() == 'ar' ? 'right' : 'left' }}: auto;

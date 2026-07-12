@@ -133,7 +133,7 @@
                                 @csrf @method('PATCH')
                                 <div class="d-flex align-items-center gap-1 bg-light rounded-pill p-1 pe-2 border" style="width: fit-content; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--crm-red)'" onmouseout="this.style.borderColor='var(--crm-border)'">
                                     @if($b->employee)
-                                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width:24px;height:24px;font-size:10px;font-weight:bold;background:#E30613;">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width:24px;height:24px;font-size:10px;font-weight:bold;background:#299BE0;">
                                             {{ strtoupper(substr($b->employee->name, 0, 1)) }}
                                         </div>
                                     @else
@@ -241,7 +241,7 @@
                             @csrf @method('PATCH')
                             <div class="d-flex align-items-center gap-1 bg-light rounded-pill px-2 py-1 border" style="width: fit-content;">
                                 @if($b->employee)
-                                    <span class="rounded-circle d-inline-flex align-items-center justify-content-center text-white flex-shrink-0" style="width:20px;height:20px;font-size:9px;font-weight:bold;background:#E30613;">{{ strtoupper(substr($b->employee->name,0,1)) }}</span>
+                                    <span class="rounded-circle d-inline-flex align-items-center justify-content-center text-white flex-shrink-0" style="width:20px;height:20px;font-size:9px;font-weight:bold;background:#299BE0;">{{ strtoupper(substr($b->employee->name,0,1)) }}</span>
                                 @else
                                     <i class="bi bi-person-circle text-muted"></i>
                                 @endif
@@ -288,7 +288,7 @@
     {{-- Floating Action Button --}}
     @can('manage-bookings')
     <button class="btn btn-crm-primary position-fixed shadow-lg d-flex align-items-center justify-content-center hover-lift"
-            style="bottom: 30px; left: 30px; width: 60px; height: 60px; border-radius: 50%; z-index: 1050; border: none; background: #E30613;"
+            style="bottom: 30px; left: 30px; width: 60px; height: 60px; border-radius: 50%; z-index: 1050; border: none; background: #299BE0;"
             data-bs-toggle="modal" data-bs-target="#createBookingModal" title="{{ __('إضافة طلب جديد') }}">
         <i class="bi bi-plus" style="font-size: 2rem; color: #fff;"></i>
     </button>
@@ -380,7 +380,7 @@
                     </div>
                     <div class="modal-footer border-0 px-4 pb-4 pt-0 gap-2 flex-nowrap">
                         @can('manage-bookings')
-                        <button type="submit" class="btn flex-fill fw-bold py-3 text-white" style="background: #E30613; border-radius: 12px;">{{ __('حفظ بيانات العميل') }}</button>
+                        <button type="submit" class="btn flex-fill fw-bold py-3 text-white" style="background: #299BE0; border-radius: 12px;">{{ __('حفظ بيانات العميل') }}</button>
                         @endcan
                         <button type="button" class="btn btn-outline-secondary flex-fill fw-bold py-3" data-bs-dismiss="modal" style="border-radius: 12px; background: white;">{{ __('إلغاء') }}</button>
                     </div>

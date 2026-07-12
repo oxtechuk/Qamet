@@ -330,7 +330,7 @@ new ApexCharts(document.querySelector("#weeklyChart"), {
         { name: '{{ __("المكتملة") }}', data: counts.map(v => Math.max(0, v - Math.floor(Math.random()*3))) }
     ],
     chart: { type: 'area', height: 220, toolbar: { show: false }, fontFamily: 'inherit' },
-    colors: ['#E30613', '#12B76A'],
+    colors: ['#299BE0', '#12B76A'],
     fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.02 } },
     stroke: { curve: 'smooth', width: 2 },
     xaxis: { categories: dates, labels: { style: { fontSize: '11px', colors: '#8E92A4' } } },
@@ -344,7 +344,7 @@ new ApexCharts(document.querySelector("#weeklyChart"), {
 new ApexCharts(document.querySelector("#incomeSparkline"), {
     series: [{ data: [30,40,35,50,49,60,70,91,125] }],
     chart: { type: 'line', height: 50, sparkline: { enabled: true } },
-    colors: ['#E30613'],
+    colors: ['#299BE0'],
     stroke: { curve: 'smooth', width: 2 },
     tooltip: { enabled: false },
 }).render();

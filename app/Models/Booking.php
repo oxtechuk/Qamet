@@ -35,6 +35,43 @@ class Booking extends Model
         'sold' => ['label' => 'تم البيع ✓',     'color' => 'success'],
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (Booking $booking) {
+            $source = ContactSource::firstOrCreate(
+                ['name' => 'طلب حجز من المتجر'],
+                ['is_active' => true]
+            );
+
+            $existingLead = Lead::where('client_phone', $booking->client_phone)->first();
+
+            if (! $existingLead) {
+                Lead::create([
+                    'client_name' => $booking->client_name,
+                    'client_phone' => $booking->client_phone,
+                    'client_email' => $booking->client_email,
+                    'contact_source_id' => $source->id,
+                    'status' => 'new',
+                    'started_at' => now(),
+                    'car_id' => $booking->car_id,
+                    'assigned_to' => $booking->assigned_to,
+                    'status_details' => $booking->notes ?? 'طلب حجز تلقائي من المتجر',
+                ]);
+            } else {
+                $updateData = [];
+                if (empty($existingLead->car_id)) {
+                    $updateData['car_id'] = $booking->car_id;
+                }
+                if (empty($existingLead->assigned_to)) {
+                    $updateData['assigned_to'] = $booking->assigned_to;
+                }
+                if (! empty($updateData)) {
+                    $existingLead->update($updateData);
+                }
+            }
+        });
+    }
+
     public function car(): BelongsTo
     {
         return $this->belongsTo(Car::class);
