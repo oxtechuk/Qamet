@@ -12,6 +12,9 @@
         }
         return false;
     };
+
+    $opsLabelShown = false;
+    $manageLabelShown = false;
 @endphp
 
 <aside class="crm-sidebar">
@@ -53,6 +56,12 @@
             $canCatalog = $currentUser->hasAnyPermission(['manage-cars','manage-brands','manage-brand-types','manage-car-categories','manage-car-types','manage-specifications','manage-features','manage-safety-features','manage-offers']);
         @endphp
         @if($canCatalog)
+        @if(!$opsLabelShown)
+            <span class="crm-nav-label">{{ __('العمليات') }}</span>
+            @php
+                $opsLabelShown = true;
+            @endphp
+        @endif
         <div class="crm-nav-section">
             <button class="crm-nav-link crm-group-toggle {{ $catOpen ? 'active' : '' }}"
                     onclick="toggleGroup('g-catalog')">
@@ -143,6 +152,12 @@
             $canCustomers = $currentUser->hasAnyPermission(['manage-leads','manage-calculator-leads','manage-contact-sources','manage-newsletter']);
         @endphp
         @if($canCustomers)
+        @if(!$opsLabelShown)
+            <span class="crm-nav-label">{{ __('العمليات') }}</span>
+            @php
+                $opsLabelShown = true;
+            @endphp
+        @endif
         <div class="crm-nav-section">
             <button class="crm-nav-link crm-group-toggle {{ $custOpen ? 'active' : '' }}"
                     onclick="toggleGroup('g-clients')">
@@ -194,6 +209,12 @@
             $canSales = $currentUser->hasAnyPermission(['manage-bookings','manage-tracking','manage-calculator-settings']);
         @endphp
         @if($canSales)
+        @if(!$opsLabelShown)
+            <span class="crm-nav-label">{{ __('العمليات') }}</span>
+            @php
+                $opsLabelShown = true;
+            @endphp
+        @endif
         <div class="crm-nav-section">
             <button class="crm-nav-link crm-group-toggle {{ $salesOpen ? 'active' : '' }}"
                     onclick="toggleGroup('g-sales')">
@@ -236,6 +257,12 @@
             $canTeam = $currentUser->hasAnyPermission(['manage-tasks','manage-employees','manage-roles']);
         @endphp
         @if($canTeam)
+        @if(!$manageLabelShown)
+            <span class="crm-nav-label">{{ __('الإدارة') }}</span>
+            @php
+                $manageLabelShown = true;
+            @endphp
+        @endif
         <div class="crm-nav-section">
             <button class="crm-nav-link crm-group-toggle {{ $teamOpen ? 'active' : '' }}"
                     onclick="toggleGroup('g-team')">
@@ -274,6 +301,12 @@
 
         {{-- ● التقارير --}}
         @can('manage-reports')
+        @if(!$manageLabelShown)
+            <span class="crm-nav-label">{{ __('الإدارة') }}</span>
+            @php
+                $manageLabelShown = true;
+            @endphp
+        @endif
         <div class="crm-nav-section">
             <a href="{{ route('crm.reports.bookings') }}"
                class="crm-nav-link {{ str_starts_with($r,'crm.reports') ? 'active' : '' }}">
@@ -289,6 +322,12 @@
             $canContent = $currentUser->hasAnyPermission(['manage-blog','manage-designs','manage-partners','manage-testimonials','manage-faqs','manage-translations']);
         @endphp
         @if($canContent)
+        @if(!$manageLabelShown)
+            <span class="crm-nav-label">{{ __('الإدارة') }}</span>
+            @php
+                $manageLabelShown = true;
+            @endphp
+        @endif
         <div class="crm-nav-section">
             <button class="crm-nav-link crm-group-toggle {{ $contentOpen ? 'active' : '' }}"
                     onclick="toggleGroup('g-content')">

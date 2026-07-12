@@ -1178,5 +1178,9 @@
     "— اختر النوع —": "— Select Type —",
     "شراء": "Purchase",
     "استفسار": "Inquiry",
-    "مثال: الرياض، المملكة العربية السعودية": "e.g.: Riyadh, Saudi Arabia"
+    "مثال: الرياض، المملكة العربية السعودية": "e.g.: Riyadh, Saudi Arabia",
+    "العمليات": "Operations",
+    "نظرة عامة": "Overview",
+    "إليك ملخص أداء اليوم": "Here's today's performance summary",
+    "لا توجد طلبات بعد": "No orders yet"
 }
