@@ -279,7 +279,7 @@
         </div>
 
         @if($bookings->hasPages())
-        <div class="card-footer bg-white border-0 py-3" style="border-top:1px solid var(--crm-border)!important;">
+        <div class="card-footer bg-white border-0 py-3 d-flex justify-content-center" style="border-top:1px solid var(--crm-border)!important;">
             {{ $bookings->links() }}
         </div>
         @endif
