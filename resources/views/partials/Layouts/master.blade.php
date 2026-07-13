@@ -1,7 +1,7 @@
-<html lang="{{ App::getLocale() }}" dir="{{ App::getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+﻿<html lang="{{ App::getLocale() }}" dir="{{ App::getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <meta charset="utf-8" />
-<title>@yield('title', ' | Grand AutoCRM')</title>
+<title>@yield('title', ' | Grand GR Motors')</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta content="GR Motors CRM" name="description" />
 <meta content="GR Motors" name="author" />

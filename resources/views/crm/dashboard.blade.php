@@ -4,15 +4,15 @@
 @section('content')
 <div class="container-fluid" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
-    {{-- ===== Header Row ===== --}}
+    {{-- ===== Header ===== --}}
     <div class="position-relative d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4" style="overflow:hidden;">
         <div class="dash-header-glow" aria-hidden="true"></div>
         <div style="position:relative;">
             <p class="mb-1 text-uppercase" style="font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--crm-text-muted);">{{ __('نظرة عامة') }}</p>
-            <h1 class="mb-1" style="font-size:24px;font-weight:800;color:var(--crm-text);letter-spacing:-0.02em;">
+            <h1 class="mb-1" style="font-size:22px;font-weight:800;color:var(--crm-text);letter-spacing:-0.02em;">
                 {{ __('أهلاً بك') }}، {{ auth()->guard('employee')->user()?->name }} 👋
             </h1>
-            <p class="mb-0" style="font-size:13.5px;color:var(--crm-text-muted);">{{ __('إليك ملخص أداء اليوم') }} — {{ now()->format('d/m/Y') }}</p>
+            <p class="mb-0" style="font-size:13px;color:var(--crm-text-muted);">{{ __('إليك ملخص أداء اليوم') }} — {{ now()->format('d/m/Y') }}</p>
         </div>
         <div class="d-flex gap-2" style="position:relative;">
             @can('manage-bookings')
@@ -32,10 +32,10 @@
             position: absolute;
             top: -120px;
             {{ app()->getLocale() == 'ar' ? 'right' : 'left' }}: -80px;
-            width: 420px;
-            height: 280px;
-            background: radial-gradient(circle, rgba(99,102,241,0.16) 0%, rgba(139,92,246,0.08) 45%, transparent 70%);
-            filter: blur(10px);
+            width: 400px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(180,83,9,0.10) 0%, rgba(217,119,6,0.05) 45%, transparent 70%);
+            filter: blur(12px);
             pointer-events: none;
             z-index: 0;
         }
@@ -84,31 +84,31 @@
             <div class="d-flex align-items-center flex-wrap gap-4">
                 <div class="d-flex align-items-center gap-2">
                     <i class="bi bi-graph-up" style="font-size:18px;color:var(--crm-text-muted);"></i>
-                    <span class="fw-bold small text-muted">{{ __('حالة التتبع') }}</span>
+                    <span class="fw-bold small" style="color:var(--crm-text-secondary);">{{ __('حالة التتبع') }}</span>
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-google" style="color:#1877F2;font-size:15px;"></i>
+                        <i class="bi bi-google" style="color:#0284C7;font-size:15px;"></i>
                         <span class="small fw-bold">{{ __('Google Analytics') }}</span>
                         @if($trackingGA)
-                            <span class="badge rounded-pill" style="background:#ECFDF5;color:#047857;font-size:10px;">
+                            <span class="badge rounded-pill" style="background:#D1FAE5;color:#065F46;font-size:10px;">
                                 <i class="bi bi-check-circle-fill me-1"></i>{{ $trackingGA }}
                             </span>
                         @else
-                            <span class="badge rounded-pill" style="background:var(--crm-bg);color:var(--crm-text-muted);font-size:10px;">
+                            <span class="badge rounded-pill" style="background:var(--crm-surface);color:var(--crm-text-muted);font-size:10px;">
                                 <i class="bi bi-dash-circle me-1"></i>{{ __('غير مفعل') }}
                             </span>
                         @endif
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-facebook" style="color:#1877F2;font-size:15px;"></i>
+                        <i class="bi bi-facebook" style="color:#0284C7;font-size:15px;"></i>
                         <span class="small fw-bold">{{ __('Meta Pixel') }}</span>
                         @if($trackingPixel)
-                            <span class="badge rounded-pill" style="background:#ECFDF5;color:#047857;font-size:10px;">
+                            <span class="badge rounded-pill" style="background:#D1FAE5;color:#065F46;font-size:10px;">
                                 <i class="bi bi-check-circle-fill me-1"></i>{{ $trackingPixel }}
                             </span>
                         @else
-                            <span class="badge rounded-pill" style="background:var(--crm-bg);color:var(--crm-text-muted);font-size:10px;">
+                            <span class="badge rounded-pill" style="background:var(--crm-surface);color:var(--crm-text-muted);font-size:10px;">
                                 <i class="bi bi-dash-circle me-1"></i>{{ __('غير مفعل') }}
                             </span>
                         @endif
@@ -152,13 +152,13 @@
                                     </td>
                                     <td>
                                         <div class="fw-bold" style="color:var(--crm-text);">{{ $booking->client_name }}</div>
-                                        <small class="text-muted">{{ $booking->client_phone }}</small>
+                                        <small style="color:var(--crm-text-muted);">{{ $booking->client_phone }}</small>
                                     </td>
                                     <td>
                                         <div>{{ $booking->car->name ?? '—' }}</div>
-                                        <small class="text-muted">{{ $booking->car->brand->name ?? '' }}</small>
+                                        <small style="color:var(--crm-text-muted);">{{ $booking->car->brand->name ?? '' }}</small>
                                     </td>
-                                    <td class="text-muted">{{ $booking->created_at->format('d/m/Y') }}</td>
+                                    <td style="color:var(--crm-text-muted);">{{ $booking->created_at->format('d/m/Y') }}</td>
                                     <td class="pe-4">
                                         @php
                                             $dotClass = match($booking->status) {
@@ -175,8 +175,10 @@
                                 @empty
                                 <tr>
                                     <td colspan="5" class="text-center py-5 border-0">
-                                        <i class="bi bi-inbox" style="font-size:30px;color:var(--crm-border);"></i>
-                                        <p class="text-muted mb-0 mt-2" style="font-size:13px;">{{ __('لا توجد طلبات بعد') }}</p>
+                                        <div class="crm-empty-state">
+                                            <i class="bi bi-inbox"></i>
+                                            <p>{{ __('لا توجد طلبات بعد') }}</p>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -196,11 +198,11 @@
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <h6 class="fw-bold mb-0" style="font-size:14px;">{{ __('إجمالي الدخل') }}</h6>
-                                <span class="badge rounded-pill" style="background:#ECFDF5;color:#047857;font-size:11px;">↑ 18%</span>
+                                <span class="badge rounded-pill" style="background:#D1FAE5;color:#065F46;font-size:11px;">↑ 18%</span>
                             </div>
-                            <div class="mb-1" style="font-size:26px;font-weight:800;color:var(--crm-text);letter-spacing:-0.02em;">
+                            <div class="mb-1" style="font-size:26px;font-weight:800;color:var(--crm-text);letter-spacing:-0.02em;font-variant-numeric:tabular-nums;">
                                 {{ number_format($stats['total'] * 2000) }}
-                                <small style="font-size:13px;font-weight:600;color:var(--crm-text-muted);">{{ __('ريال سعودي') }}</small>
+                                <small style="font-size:12px;font-weight:600;color:var(--crm-text-muted);">{{ __('ريال سعودي') }}</small>
                             </div>
                             <div style="font-size:12px;color:var(--crm-text-muted);">{{ __('مقارنة بالشهر الماضي') }}</div>
                             <div id="incomeSparkline" style="margin-top:12px;"></div>
@@ -213,11 +215,11 @@
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h6 class="fw-bold mb-0" style="font-size:14px;">{{ __('الشكاوي') }}</h6>
-                                <span class="badge rounded-pill" style="background:var(--crm-bg);color:var(--crm-text-muted);font-size:11px;">↓ 16%</span>
+                                <span class="badge rounded-pill" style="background:var(--crm-surface);color:var(--crm-text-muted);font-size:11px;">↓ 16%</span>
                             </div>
-                            <div class="mb-1" style="font-size:26px;font-weight:800;color:var(--crm-text);letter-spacing:-0.02em;">
+                            <div class="mb-1" style="font-size:26px;font-weight:800;color:var(--crm-text);letter-spacing:-0.02em;font-variant-numeric:tabular-nums;">
                                 {{ $stats['rejected'] ?? 0 }}
-                                <small style="font-size:13px;font-weight:600;color:var(--crm-text-muted);">{{ __('شكوى') }}</small>
+                                <small style="font-size:12px;font-weight:600;color:var(--crm-text-muted);">{{ __('شكوى') }}</small>
                             </div>
                             <div style="font-size:12px;color:var(--crm-danger);">
                                 <i class="bi bi-clock me-1"></i>{{ $stats['new'] ?? 0 }} {{ __('معلقة') }}
@@ -261,15 +263,15 @@
                 </div>
                 <div class="card-body p-3" style="overflow-y:auto;max-height:340px;">
                     @if($recentBookings->isEmpty())
-                        <div class="text-center py-5">
-                            <i class="bi bi-bell-slash" style="font-size:28px;color:var(--crm-border);"></i>
-                            <p class="text-muted mb-0 mt-2" style="font-size:13px;">{{ __('لا توجد إشعارات جديدة') }}</p>
+                        <div class="crm-empty-state" style="padding:32px 16px;">
+                            <i class="bi bi-bell-slash"></i>
+                            <p>{{ __('لا توجد إشعارات جديدة') }}</p>
                         </div>
                     @else
-                        <p class="text-muted fw-bold mb-2" style="font-size:11px;">{{ __('اليوم') }}</p>
+                        <p class="mb-2" style="font-size:11px;font-weight:700;color:var(--crm-text-muted);text-transform:uppercase;letter-spacing:0.05em;">{{ __('اليوم') }}</p>
 
                         @foreach($recentBookings->take(2) as $notif)
-                        <div class="p-3 rounded-3 mb-3" style="background:#FFFBEB;border:1px solid #FDE68A;">
+                        <div class="p-3 rounded-3 mb-3" style="background:#FEF3C7;border:1px solid #FDE68A;">
                             <div class="d-flex align-items-start gap-3">
                                 <div style="width:36px;height:36px;background:var(--crm-primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                     <i class="bi bi-bag" style="color:var(--crm-primary);font-size:15px;"></i>
@@ -290,8 +292,8 @@
                         @endforeach
 
                         @if($recentBookings->count() > 2)
-                        <p class="text-muted fw-bold mb-2 mt-3" style="font-size:11px;">{{ __('أمس') }}</p>
-                        <div class="p-3 rounded-3 mb-2" style="background:#FFF1F2;border:1px solid #FECDD3;">
+                        <p class="mb-2 mt-3" style="font-size:11px;font-weight:700;color:var(--crm-text-muted);text-transform:uppercase;letter-spacing:0.05em;">{{ __('أمس') }}</p>
+                        <div class="p-3 rounded-3 mb-2" style="background:#FFE4E6;border:1px solid #FECDD3;">
                             <div class="d-flex align-items-start gap-3">
                                 <div style="width:36px;height:36px;background:#FFE4E6;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                     <i class="bi bi-list-task" style="color:var(--crm-danger);font-size:15px;"></i>
@@ -325,7 +327,6 @@
 
 @section('scripts')
 <script>
-// Chart معدل الطلبات
 const weeklyData = @json($weeklyBookings);
 const dates  = weeklyData.map(d => d.date);
 const counts = weeklyData.map(d => d.count);
@@ -336,26 +337,24 @@ new ApexCharts(document.querySelector("#weeklyChart"), {
         { name: '{{ __("المكتملة") }}', data: counts.map(v => Math.max(0, v - Math.floor(Math.random()*3))) }
     ],
     chart: { type: 'area', height: 220, toolbar: { show: false }, fontFamily: 'inherit' },
-    colors: ['#6366F1', '#10B981'],
-    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.25, opacityTo: 0.02 } },
+    colors: ['#B45309', '#059669'],
+    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.20, opacityTo: 0.02 } },
     stroke: { curve: 'smooth', width: 2 },
-    xaxis: { categories: dates, labels: { style: { fontSize: '11px', colors: '#6B7280' } } },
-    yaxis: { labels: { style: { fontSize: '11px', colors: '#6B7280' } } },
+    xaxis: { categories: dates, labels: { style: { fontSize: '11px', colors: '#78716C' } } },
+    yaxis: { labels: { style: { fontSize: '11px', colors: '#78716C' } } },
     dataLabels: { enabled: false },
-    grid: { borderColor: '#F3F4F6', strokeDashArray: 4 },
+    grid: { borderColor: '#F5F5F4', strokeDashArray: 4 },
     legend: { show: true, position: 'top', horizontalAlign: '{{ app()->getLocale() == "ar" ? "right" : "left" }}' },
 }).render();
 
-// Sparkline للدخل
 new ApexCharts(document.querySelector("#incomeSparkline"), {
     series: [{ data: [30,40,35,50,49,60,70,91,125] }],
     chart: { type: 'line', height: 50, sparkline: { enabled: true } },
-    colors: ['#6366F1'],
+    colors: ['#B45309'],
     stroke: { curve: 'smooth', width: 2 },
     tooltip: { enabled: false },
 }).render();
 
-// Badge الطلبات الجديدة
 const newCount = {{ $stats['new'] }};
 if (newCount > 0) {
     document.querySelectorAll('.new-leads-badge').forEach(el => {

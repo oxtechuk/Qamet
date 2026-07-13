@@ -90,6 +90,13 @@ class GeneralSettingController extends Controller
         return view('crm.settings.integrations', compact('settings'));
     }
 
+    public function maintenance()
+    {
+        $settings = Setting::all()->pluck('value', 'key');
+
+        return view('crm.settings.maintenance', compact('settings'));
+    }
+
     public function update(Request $request)
     {
         // Whitelist of settings to update
@@ -105,6 +112,7 @@ class GeneralSettingController extends Controller
             'homepage_sections',
             'about_sections',
             'store_booking_sections',
+            'maintenance_enabled', 'maintenance_title', 'maintenance_message', 'maintenance_allowed_ips',
         ];
 
         // Update text/array settings
@@ -117,9 +125,24 @@ class GeneralSettingController extends Controller
             }
         }
 
-        // Checkbox unchecked case for page_loader_enabled and auto_assign_bookings
+        // Checkbox unchecked case
         if (! $request->has('page_loader_enabled')) {
             Setting::updateOrCreate(['key' => 'page_loader_enabled'], ['value' => '0']);
+        }
+        if (! $request->has('maintenance_enabled')) {
+            Setting::updateOrCreate(['key' => 'maintenance_enabled'], ['value' => '0']);
+        }
+
+        // Handle maintenance_image removal
+        if ($request->has('remove_maintenance_image') && $request->remove_maintenance_image) {
+            $existing = Setting::where('key', 'maintenance_image')->first();
+            if ($existing && ! empty($existing->value)) {
+                $path = $existing->value;
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->delete($path);
+                }
+                Setting::where('key', 'maintenance_image')->delete();
+            }
         }
 
         // Handle Social Media Array
@@ -203,7 +226,7 @@ class GeneralSettingController extends Controller
         Setting::updateOrCreate(['key' => 'about_branches'], ['value' => $aboutBranches]);
 
         // Handle File Uploads (Only if new files are uploaded)
-        $files = ['site_logo', 'site_favicon', 'breadcrumb_bg', 'hero_video', 'hero_ad_1_image', 'hero_ad_2_image', 'page_loader_image'];
+        $files = ['site_logo', 'site_favicon', 'breadcrumb_bg', 'hero_video', 'hero_ad_1_image', 'hero_ad_2_image', 'page_loader_image', 'maintenance_image'];
         foreach ($files as $fileKey) {
             if ($request->hasFile($fileKey)) {
                 $path = $request->file($fileKey)->store('settings', 'public');

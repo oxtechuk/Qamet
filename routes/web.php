@@ -13,11 +13,11 @@ Route::get('/lang/{lang}', [LanguageController::class, 'switchLang'])->name('lan
 // =============================================
 Route::get('/', function () {
     return response()->file(public_path('index.html'));
-})->name('store.home');
+})->name('store.home')->middleware('maintenance');
 
 Route::get('/{any}', function () {
     return response()->file(public_path('index.html'));
-})->where('any', '^(?!crm|manager-login|api|store-api|storage).*$');
+})->where('any', '^(?!crm|manager-login|api|store-api|storage).*$')->middleware('maintenance');
 
 // =============================================
 //  CRM (Admin Dashboard)
@@ -233,6 +233,7 @@ Route::prefix('crm')->name('crm.')->middleware(['auth:employee', 'guard.employee
         Route::middleware('permission:manage-settings')->group(function () {
             Route::get('general', [GeneralSettingController::class, 'index'])->name('general');
             Route::get('seo', [GeneralSettingController::class, 'seo'])->name('seo');
+            Route::get('maintenance', [GeneralSettingController::class, 'maintenance'])->name('maintenance');
             Route::post('update', [GeneralSettingController::class, 'update'])->name('update');
         });
         Route::middleware('permission:manage-settings-integrations')->group(function () {

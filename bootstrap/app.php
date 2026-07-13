@@ -35,6 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'guard.employee' => \App\Http\Middleware\SetEmployeeGuard::class,
+            'maintenance' => \App\Http\Middleware\MaintenanceModeMiddleware::class,
         ]);
 
         $middleware->redirectTo(

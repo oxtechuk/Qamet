@@ -107,17 +107,17 @@
         .crm-search-no-results { padding: 30px 20px; text-align: center; color: var(--crm-text-muted); font-size: 13px; }
 
         /* Notification Dropdown Styles */
-        .crm-notif-dropdown { width: 340px; border-radius: var(--crm-radius) !important; box-shadow: var(--crm-shadow-lg) !important; overflow: hidden; margin-top: 10px !important; }
+        .crm-notif-dropdown { width: 340px; border-radius: var(--crm-radius) !important; box-shadow: var(--crm-shadow-lg) !important; overflow: hidden; margin-top: 10px !important; border: 1px solid var(--crm-border) !important; }
         .notif-scroll-area { max-height: 380px; overflow-y: auto; }
-        .notif-item { display: flex; gap: 12px; padding: 12px 16px; text-decoration: none !important; color: inherit !important; border-bottom: 1px solid #F3F4F6; transition: background 0.15s ease; position: relative; }
-        .notif-item:hover { background: var(--crm-bg); }
-        .notif-item.unread { background: rgba(79, 70, 229, 0.04); }
+        .notif-item { display: flex; gap: 12px; padding: 12px 16px; text-decoration: none !important; color: inherit !important; border-bottom: 1px solid var(--crm-border-light); transition: background 0.15s ease; position: relative; }
+        .notif-item:hover { background: var(--crm-surface); }
+        .notif-item.unread { background: rgba(180, 83, 9, 0.03); }
         .notif-item.unread::after { content: ''; position: absolute; top: 16px; left: 12px; width: 6px; height: 6px; background: var(--crm-primary); border-radius: 50%; }
         .notif-icon { width: 36px; height: 36px; border-radius: 10px; background: #fff; border: 1px solid var(--crm-border); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--crm-primary); flex-shrink: 0; }
         .notif-content { flex: 1; }
         .notif-title { font-size: 13px; font-weight: 700; display: block; margin-bottom: 2px; color: var(--crm-text); }
         .notif-msg { font-size: 11.5px; color: var(--crm-text-muted); line-height: 1.4; display: block; }
-        .notif-time { font-size: 10px; color: #9CA3AF; margin-top: 4px; display: block; }
+        .notif-time { font-size: 10px; color: #A8A29E; margin-top: 4px; display: block; }
     </style>
 
     <script>
@@ -279,7 +279,7 @@
             @if($logo)
                 <img src="{{ asset('storage/' . $logo) }}" alt="Logo">
             @else
-                <span style="font-size:18px;font-weight:900;color:var(--crm-red);">GR</span>
+                <span style="font-size:18px;font-weight:900;color:var(--crm-primary);">GR</span>
             @endif
         </div>
     </div>

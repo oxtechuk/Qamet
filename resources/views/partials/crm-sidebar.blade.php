@@ -30,7 +30,7 @@
             <img src="{{ asset('storage/' . $logo) }}" alt="{{ $siteNameText }}">
         @else
             <div style="display:flex;align-items:center;justify-content:center;gap:5px;">
-                <span style="font-size:20px;font-weight:900;color:var(--crm-red);">GR</span>
+                <span style="font-size:20px;font-weight:900;color:var(--crm-primary);">GR</span>
                 <span style="font-size:12px;font-weight:800;color:var(--crm-text);">Motors</span>
             </div>
         @endif
@@ -414,7 +414,7 @@
         @endcan
         <form action="{{ route('crm.logout') }}" method="POST">
             @csrf
-            <button type="submit" class="crm-nav-link w-100" style="background:none;border:none;cursor:pointer;color:#299BE0;">
+            <button type="submit" class="crm-nav-link w-100" style="background:none;border:none;cursor:pointer;color:var(--crm-danger);">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>{{ __('تسجيل الخروج') }}</span>
             </button>
