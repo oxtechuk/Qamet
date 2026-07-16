@@ -21,10 +21,10 @@ class CalculatorSettingsController extends Controller
     public function storeBank(Request $request)
     {
         $data = $request->validate([
-            'name'         => 'required|string|max:120',
-            'annual_rate'  => 'required|numeric|min:0|max:100',
-            'sort_order'   => 'nullable|integer|min:0|max:65535',
-            'is_active'    => 'boolean',
+            'name' => 'required|string|max:120',
+            'annual_rate' => 'required|numeric|min:0|max:100',
+            'sort_order' => 'nullable|integer|min:0|max:65535',
+            'is_active' => 'boolean',
         ]);
         $data['is_active'] = $request->boolean('is_active', true);
         $data['sort_order'] = $data['sort_order'] ?? 0;
@@ -36,10 +36,10 @@ class CalculatorSettingsController extends Controller
     public function updateBank(Request $request, CalculatorBank $calculatorBank)
     {
         $data = $request->validate([
-            'name'         => 'required|string|max:120',
-            'annual_rate'  => 'required|numeric|min:0|max:100',
-            'sort_order'   => 'nullable|integer|min:0|max:65535',
-            'is_active'    => 'boolean',
+            'name' => 'required|string|max:120',
+            'annual_rate' => 'required|numeric|min:0|max:100',
+            'sort_order' => 'nullable|integer|min:0|max:65535',
+            'is_active' => 'boolean',
         ]);
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;
@@ -94,21 +94,21 @@ class CalculatorSettingsController extends Controller
         }
 
         $rules = [
-            'type'             => ['required', Rule::in($types)],
-            'code'             => [
+            'type' => ['required', Rule::in($types)],
+            'code' => [
                 'required',
                 'string',
                 'max:64',
                 'regex:/^[a-z0-9_]+$/',
                 $codeRule,
             ],
-            'label_ar'         => 'required|string|max:200',
-            'label_en'         => 'nullable|string|max:200',
-            'min_age'          => 'nullable|integer|min:0|max:120',
-            'max_age'          => 'nullable|integer|min:0|max:120',
-            'rate_adjustment'  => 'required|numeric|between:-20,20',
-            'sort_order'       => 'nullable|integer|min:0|max:65535',
-            'is_active'        => 'boolean',
+            'label_ar' => 'required|string|max:200',
+            'label_en' => 'nullable|string|max:200',
+            'min_age' => 'nullable|integer|min:0|max:120',
+            'max_age' => 'nullable|integer|min:0|max:120',
+            'rate_adjustment' => 'required|numeric|between:-20,20',
+            'sort_order' => 'nullable|integer|min:0|max:65535',
+            'is_active' => 'boolean',
         ];
 
         $data = $request->validate($rules);

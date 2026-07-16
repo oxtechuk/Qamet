@@ -1,14 +1,14 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-use App\Models\Employee;
 use App\Models\Booking;
-use App\Models\Setting;
 use App\Models\Car;
+use App\Models\Employee;
+use App\Models\Setting;
 use App\Services\BookingAssignmentService;
 
 echo "--- Verification of Booking Assignment with Sales / Sales-Rep Roles ---\n";
@@ -23,7 +23,7 @@ echo "Initial sales/sales-rep active employees count: {$initialSalesRepsCount}\n
 
 // Let's create a test 'sales-rep' employee if none exist
 $testRep = Employee::where('email', 'test_rep@example.com')->first();
-if (!$testRep) {
+if (! $testRep) {
     $testRep = Employee::create([
         'name' => 'Test Sales Rep',
         'email' => 'test_rep@example.com',
@@ -46,7 +46,7 @@ foreach ($allReps as $rep) {
 
 // Get first car ID to satisfy DB constraints
 $car = Car::first();
-if (!$car) {
+if (! $car) {
     echo "ERROR: No cars found in database. Please run seeders first.\n";
     exit(1);
 }
@@ -70,7 +70,7 @@ for ($i = 1; $i <= 5; $i++) {
 }
 
 echo "\n--- Performing Auto Assignment ---\n";
-$service = new BookingAssignmentService();
+$service = new BookingAssignmentService;
 
 foreach ($bookings as $idx => $booking) {
     $service->autoAssign($booking);

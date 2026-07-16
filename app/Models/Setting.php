@@ -14,9 +14,12 @@ class Setting extends Model
      */
     public function getValueAttribute($value)
     {
-        if ($value === null) return null;
-        
+        if ($value === null) {
+            return null;
+        }
+
         $decoded = json_decode($value, true);
+
         return (json_last_error() === JSON_ERROR_NONE) ? $decoded : $value;
     }
 

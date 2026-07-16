@@ -11,15 +11,15 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         $user = Auth::guard('employee')->user();
-        
+
         if ($request->has('only_count')) {
             return response()->json([
-                'unread_count' => $user->unreadNotifications()->count()
+                'unread_count' => $user->unreadNotifications()->count(),
             ]);
         }
 
         $notifications = $user->unreadNotifications()->latest()->limit(10)->get();
-        
+
         $data = $notifications->map(function ($notification) {
             return [
                 'id' => $notification->id,
@@ -33,7 +33,7 @@ class NotificationController extends Controller
 
         return response()->json([
             'notifications' => $data,
-            'unread_count' => $user->unreadNotifications()->count()
+            'unread_count' => $user->unreadNotifications()->count(),
         ]);
     }
 
@@ -48,6 +48,7 @@ class NotificationController extends Controller
     public function markAllAsRead()
     {
         Auth::guard('employee')->user()->unreadNotifications->markAsRead();
+
         return response()->json(['success' => true]);
     }
 }

@@ -17,7 +17,7 @@ class CalculatorBank extends Model
     {
         return [
             'annual_rate' => 'float',
-            'is_active'   => 'boolean',
+            'is_active' => 'boolean',
         ];
     }
 

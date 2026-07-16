@@ -16,8 +16,9 @@ class CarImportSeeder extends Seeder
     {
         $jsonPath = database_path('data/cars.json');
 
-        if (!File::exists($jsonPath)) {
+        if (! File::exists($jsonPath)) {
             $this->command->error("JSON file not found at: {$jsonPath}");
+
             return;
         }
 
@@ -25,7 +26,8 @@ class CarImportSeeder extends Seeder
         $carsData = json_decode($jsonContent, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->command->error("Invalid JSON format: " . json_last_error_msg());
+            $this->command->error('Invalid JSON format: '.json_last_error_msg());
+
             return;
         }
 
@@ -54,9 +56,9 @@ class CarImportSeeder extends Seeder
                 [
                     'name' => [
                         'ar' => $brandInfo['ar'],
-                        'en' => $brandInfo['en']
+                        'en' => $brandInfo['en'],
                     ],
-                    'is_active' => true
+                    'is_active' => true,
                 ]
             );
 
@@ -68,10 +70,10 @@ class CarImportSeeder extends Seeder
                 [
                     'name' => [
                         'ar' => $categoryNames['ar'],
-                        'en' => $categoryNames['en']
+                        'en' => $categoryNames['en'],
                     ],
                     'is_active' => true,
-                    'sort_order' => 1
+                    'sort_order' => 1,
                 ]
             );
 
@@ -89,16 +91,16 @@ class CarImportSeeder extends Seeder
                     [
                         'name' => [
                             'ar' => $specNames['ar'],
-                            'en' => $specNames['en']
+                            'en' => $specNames['en'],
                         ],
-                        'icon' => $this->getSpecIcon($label)
+                        'icon' => $this->getSpecIcon($label),
                     ]
                 );
                 $specificationIds[] = $specification->id;
 
                 $specsList[] = [
                     'label' => $label,
-                    'value' => $value
+                    'value' => $value,
                 ];
             }
 
@@ -113,16 +115,18 @@ class CarImportSeeder extends Seeder
                 $featAr = $featuresAr[$i] ?? ($featuresAr[0] ?? '');
                 $featEn = $featuresEn[$i] ?? ($featuresEn[0] ?? '');
 
-                if (empty($featAr) && empty($featEn)) continue;
+                if (empty($featAr) && empty($featEn)) {
+                    continue;
+                }
 
                 $feature = Feature::updateOrCreate(
                     ['name->en' => $featEn],
                     [
                         'name' => [
                             'ar' => $featAr,
-                            'en' => $featEn
+                            'en' => $featEn,
                         ],
-                        'icon' => 'bi bi-patch-check'
+                        'icon' => 'bi bi-patch-check',
                     ]
                 );
                 $featureIds[] = $feature->id;
@@ -136,18 +140,18 @@ class CarImportSeeder extends Seeder
             $car = Car::updateOrCreate(
                 [
                     'name->ar' => $carData['name']['ar'],
-                    'year' => $carData['year']
+                    'year' => $carData['year'],
                 ],
                 [
                     'brand_id' => $brand->id,
                     'category_id' => $category->id,
                     'name' => [
                         'ar' => $carData['name']['ar'],
-                        'en' => $carData['name']['en']
+                        'en' => $carData['name']['en'],
                     ],
                     'slug' => [
                         'ar' => $slugAr,
-                        'en' => $slugEn
+                        'en' => $slugEn,
                     ],
                     'model' => $carData['model'],
                     'type' => $type,
@@ -156,22 +160,22 @@ class CarImportSeeder extends Seeder
                     'min_installment' => $carData['min_installment'],
                     'description' => [
                         'ar' => $carData['description']['ar'],
-                        'en' => $carData['description']['en']
+                        'en' => $carData['description']['en'],
                     ],
                     'features' => [
                         'ar' => $carData['features_text']['ar'],
-                        'en' => $carData['features_text']['en']
+                        'en' => $carData['features_text']['en'],
                     ],
                     'specs' => $specsList,
                     'colors' => [
                         ['name' => 'أبيض / White', 'hex' => '#FFFFFF'],
                         ['name' => 'أسود / Black', 'hex' => '#000000'],
-                        ['name' => 'فضي / Silver', 'hex' => '#C0C0C0']
+                        ['name' => 'فضي / Silver', 'hex' => '#C0C0C0'],
                     ],
                     'is_featured' => true,
                     'is_active' => true,
                     'is_highlighted' => 'none',
-                    'availability_status' => 'available'
+                    'availability_status' => 'available',
                 ]
             );
 
@@ -180,7 +184,7 @@ class CarImportSeeder extends Seeder
             $car->features_list()->sync($featureIds);
         }
 
-        $this->command->info("Successfully imported " . count($carsData) . " cars!");
+        $this->command->info('Successfully imported '.count($carsData).' cars!');
     }
 
     private function getSpecIcon(string $label): string

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Casts\AsImageUrl;
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 class Offer extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
     public $translatable = ['title', 'description'];
 

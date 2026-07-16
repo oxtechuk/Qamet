@@ -17,7 +17,7 @@ class CompareController extends Controller
             $car = Car::with(['brand', 'specifications', 'features_list'])
                 ->where(function ($q) use ($slug) {
                     $q->where('slug->en', $slug)
-                      ->orWhere('slug->ar', $slug);
+                        ->orWhere('slug->ar', $slug);
                 })
                 ->where('is_active', true)
                 ->first();
@@ -43,21 +43,21 @@ class CompareController extends Controller
             ->where('is_active', true)
             ->where(function ($q) use ($term) {
                 $q->where('name->ar', 'LIKE', "%{$term}%")
-                  ->orWhere('name->en', 'LIKE', "%{$term}%")
-                  ->orWhereHas('brand', fn($bq) => $bq->where('name', 'LIKE', "%{$term}%"))
-                  ->orWhere('model', 'LIKE', "%{$term}%")
-                  ->orWhere('year', 'LIKE', "%{$term}%");
+                    ->orWhere('name->en', 'LIKE', "%{$term}%")
+                    ->orWhereHas('brand', fn ($bq) => $bq->where('name', 'LIKE', "%{$term}%"))
+                    ->orWhere('model', 'LIKE', "%{$term}%")
+                    ->orWhere('year', 'LIKE', "%{$term}%");
             })
             ->orderByDesc('is_featured')
             ->limit(8)
             ->get(['id', 'name', 'slug', 'thumbnail', 'cash_price', 'year', 'brand_id'])
-            ->map(fn($c) => [
-                'slug'      => $c->slug,
-                'name'      => $c->name,
-                'year'      => $c->year,
-                'price'     => number_format($c->cash_price),
-                'brand'     => $c->brand?->name,
-                'thumbnail' => $c->thumbnail ? asset('storage/' . $c->thumbnail) : asset('assets/images/placeholder-car.jpg'),
+            ->map(fn ($c) => [
+                'slug' => $c->slug,
+                'name' => $c->name,
+                'year' => $c->year,
+                'price' => number_format($c->cash_price),
+                'brand' => $c->brand?->name,
+                'thumbnail' => $c->thumbnail ? asset('storage/'.$c->thumbnail) : asset('assets/images/placeholder-car.jpg'),
             ]);
 
         return response()->json($cars);
@@ -65,7 +65,7 @@ class CompareController extends Controller
 
     private function buildComparisonSections(?Car $car1, ?Car $car2): array
     {
-        if (!$car1 || !$car2) {
+        if (! $car1 || ! $car2) {
             return [];
         }
 
@@ -77,8 +77,8 @@ class CompareController extends Controller
         // ===== الأسعار =====
         $sections[] = [
             'title' => 'الأسعار',
-            'icon'  => 'bi-tag-fill',
-            'rows'  => [
+            'icon' => 'bi-tag-fill',
+            'rows' => [
                 $this->row('السعر', $car1->cash_price, $car2->cash_price, 'price', 'lower'),
                 $this->row('القسط التقريبي', $car1->min_installment, $car2->min_installment, 'price', 'lower'),
             ],
@@ -87,8 +87,8 @@ class CompareController extends Controller
         // ===== الأداء =====
         $sections[] = [
             'title' => 'الأداء',
-            'icon'  => 'bi-speedometer2',
-            'rows'  => [
+            'icon' => 'bi-speedometer2',
+            'rows' => [
                 $this->row('القوة', $specs1['hp'] ?? null, $specs2['hp'] ?? null, 'unit', 'higher', 'حصان'),
                 $this->row('السرعة القصوى', $specs1['max_speed'] ?? null, $specs2['max_speed'] ?? null, 'unit', 'higher', 'كم/ساعة'),
                 $this->row('التسارع', $specs1['acceleration'] ?? null, $specs2['acceleration'] ?? null, 'unit', 'lower', 'ثانية'),
@@ -98,8 +98,8 @@ class CompareController extends Controller
         // ===== التصميم =====
         $sections[] = [
             'title' => 'التصميم',
-            'icon'  => 'bi-palette-fill',
-            'rows'  => [
+            'icon' => 'bi-palette-fill',
+            'rows' => [
                 $this->row('نوع', $car1->type, $car2->type, 'text'),
                 $this->row('المقاعد', $specs1['seats'] ?? null, $specs2['seats'] ?? null, 'unit', 'neutral', 'مقعد'),
                 $this->row('ناقل الحركة', $specs1['gearbox'] ?? null, $specs2['gearbox'] ?? null, 'text'),
@@ -115,48 +115,48 @@ class CompareController extends Controller
         foreach ($allFeatures as $feat) {
             $featureRows[] = [
                 'label' => $feat,
-                'val1'  => in_array($feat, $features1Names) ? '✓' : '✗',
-                'val2'  => in_array($feat, $features2Names) ? '✓' : '✗',
-                'type'  => 'check',
-                'winner' => match(true) {
-                    in_array($feat, $features1Names) && !in_array($feat, $features2Names) => 1,
-                    !in_array($feat, $features1Names) && in_array($feat, $features2Names) => 2,
+                'val1' => in_array($feat, $features1Names) ? '✓' : '✗',
+                'val2' => in_array($feat, $features2Names) ? '✓' : '✗',
+                'type' => 'check',
+                'winner' => match (true) {
+                    in_array($feat, $features1Names) && ! in_array($feat, $features2Names) => 1,
+                    ! in_array($feat, $features1Names) && in_array($feat, $features2Names) => 2,
                     default => 0,
                 },
             ];
         }
-        if (!empty($featureRows)) {
+        if (! empty($featureRows)) {
             $sections[] = [
                 'title' => 'المميزات والأمان',
-                'icon'  => 'bi-shield-check',
-                'rows'  => $featureRows,
+                'icon' => 'bi-shield-check',
+                'rows' => $featureRows,
             ];
         }
 
         // ===== المواصفات التقنية =====
         $specs1List = $car1->specifications->pluck('name')->toArray();
         $specs2List = $car2->specifications->pluck('name')->toArray();
-        $allSpecs   = array_unique(array_merge($specs1List, $specs2List));
+        $allSpecs = array_unique(array_merge($specs1List, $specs2List));
 
         $specRows = [];
         foreach ($allSpecs as $spec) {
             $specRows[] = [
-                'label'  => $spec,
-                'val1'   => in_array($spec, $specs1List) ? '✓' : '✗',
-                'val2'   => in_array($spec, $specs2List) ? '✓' : '✗',
-                'type'   => 'check',
-                'winner' => match(true) {
-                    in_array($spec, $specs1List) && !in_array($spec, $specs2List) => 1,
-                    !in_array($spec, $specs1List) && in_array($spec, $specs2List) => 2,
+                'label' => $spec,
+                'val1' => in_array($spec, $specs1List) ? '✓' : '✗',
+                'val2' => in_array($spec, $specs2List) ? '✓' : '✗',
+                'type' => 'check',
+                'winner' => match (true) {
+                    in_array($spec, $specs1List) && ! in_array($spec, $specs2List) => 1,
+                    ! in_array($spec, $specs1List) && in_array($spec, $specs2List) => 2,
                     default => 0,
                 },
             ];
         }
-        if (!empty($specRows)) {
+        if (! empty($specRows)) {
             $sections[] = [
                 'title' => 'المواصفات التقنية',
-                'icon'  => 'bi-gear-wide-connected',
-                'rows'  => $specRows,
+                'icon' => 'bi-gear-wide-connected',
+                'rows' => $specRows,
             ];
         }
 
@@ -172,25 +172,25 @@ class CompareController extends Controller
             $n2 = (float) preg_replace('/[^0-9.]/', '', $val2);
 
             if ($n1 !== $n2) {
-                $winner = match($compare) {
+                $winner = match ($compare) {
                     'higher' => $n1 > $n2 ? 1 : 2,
-                    'lower'  => $n1 < $n2 ? 1 : 2,
-                    default  => 0,
+                    'lower' => $n1 < $n2 ? 1 : 2,
+                    default => 0,
                 };
             }
         }
 
-        $format = fn($v) => match($type) {
-            'price' => $v ? number_format((float)$v) . ' ' . __('ريال') : '—',
-            'unit'  => $v ? $v . ' ' . __($unit) : '—',
+        $format = fn ($v) => match ($type) {
+            'price' => $v ? number_format((float) $v).' '.__('ريال') : '—',
+            'unit' => $v ? $v.' '.__($unit) : '—',
             default => $v ?: '—',
         };
 
         return [
-            'label'  => $label,
-            'val1'   => $format($val1),
-            'val2'   => $format($val2),
-            'type'   => $type,
+            'label' => $label,
+            'val1' => $format($val1),
+            'val2' => $format($val2),
+            'type' => $type,
             'winner' => $winner,
         ];
     }

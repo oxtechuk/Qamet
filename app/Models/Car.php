@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\AsImageUrl;
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +12,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Car extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
     public const HIGHLIGHT_OPTIONS = [
         'new_arrival' => ['ar' => 'أحدث السيارات', 'en' => 'New Arrivals'],

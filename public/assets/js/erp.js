@@ -40611,7 +40611,7 @@ router.beforeEach(function (to, from, next) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "assets/js/erp/" + chunkId + ".js?id=" + {"resources_js_erp_views_Auth_Login_vue":"7c54663d1e04767d","resources_js_erp_views_Dashboard_vue":"44c429ee52814987","resources_js_erp_views_System_ModulesManager_vue":"f276dbfde2818f10","resources_js_erp_views_Purchasing_Suppliers_vue":"670bef80ef7ecbf1","resources_js_erp_views_Inventory_Products_vue":"b5ff01b1095a5a44","resources_js_erp_views_Sales_Clients_vue":"849ecf9a2e1a0468","resources_js_erp_views_CRM_CarsManager_vue":"c345d6622606f1be","resources_js_erp_views_CRM_BrandsManager_vue":"2b189c20513d76ae","resources_js_erp_views_Cms_CmsSettings_vue":"5be627ae635fc1ef"}[chunkId] + "";
+/******/ 			return "assets/js/erp/" + chunkId + ".js?id=" + {"resources_js_erp_views_Auth_Login_vue":"7c54663d1e04767d","resources_js_erp_views_Dashboard_vue":"44c429ee52814987","resources_js_erp_views_System_ModulesManager_vue":"f276dbfde2818f10","resources_js_erp_views_Purchasing_Suppliers_vue":"670bef80ef7ecbf1","resources_js_erp_views_Inventory_Products_vue":"b5ff01b1095a5a44","resources_js_erp_views_Sales_Clients_vue":"849ecf9a2e1a0468","resources_js_erp_views_CRM_CarsManager_vue":"c345d6622606f1be","resources_js_erp_views_CRM_BrandsManager_vue":"2b189c20513d76ae","resources_js_erp_views_Cms_CmsSettings_vue":"18a0666f698f6ae1"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

@@ -9,7 +9,7 @@ class CalculatorLead extends Model
     protected $fillable = ['name', 'phone', 'car_id', 'details'];
 
     protected $casts = [
-        'details' => 'array'
+        'details' => 'array',
     ];
 
     public function car()

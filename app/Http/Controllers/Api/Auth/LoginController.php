@@ -19,12 +19,14 @@ class LoginController extends Controller
         // Attempt as Web Guard (Super Admin/Users)
         if (Auth::guard('web')->attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             $request->session()->regenerate();
+
             return response()->json(['message' => 'Logged in successfully', 'guard' => 'web']);
         }
-        
+
         // Attempt as Employee Guard (CRM old legacy)
         if (Auth::guard('employee')->attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             $request->session()->regenerate();
+
             return response()->json(['message' => 'Logged in successfully', 'guard' => 'employee']);
         }
 
@@ -37,7 +39,7 @@ class LoginController extends Controller
     {
         Auth::guard('web')->logout();
         Auth::guard('employee')->logout();
-        
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

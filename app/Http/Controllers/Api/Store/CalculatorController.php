@@ -32,9 +32,9 @@ final class CalculatorController extends ApiBaseController
     {
         $result = $this->calculatorService->calculate(
             carId: (int) $request->input('car_id'),
-            downPaymentPct: (float) $request->input('down_payment_percentage',10),
-            periodMonths: (int) $request->input('period_months',12),
-            bankId: (int) $request->input('bank_id',CalculatorBank::query()->first()->id),
+            downPaymentPct: (float) $request->input('down_payment_percentage', 10),
+            periodMonths: (int) $request->input('period_months', 12),
+            bankId: (int) $request->input('bank_id', CalculatorBank::query()->first()->id),
         );
 
         return $this->respondSuccess($result);

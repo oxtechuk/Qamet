@@ -14,7 +14,7 @@ class NewsletterSubscriberController extends Controller
 
         // بحث بالإيميل
         if ($request->filled('search')) {
-            $query->where('email', 'like', '%' . $request->search . '%');
+            $query->where('email', 'like', '%'.$request->search.'%');
         }
 
         // فلترة بالحالة
@@ -26,10 +26,10 @@ class NewsletterSubscriberController extends Controller
 
         // إحصائيات
         $stats = [
-            'total'      => NewsletterSubscriber::count(),
-            'active'     => NewsletterSubscriber::active()->count(),
+            'total' => NewsletterSubscriber::count(),
+            'active' => NewsletterSubscriber::active()->count(),
             'this_month' => NewsletterSubscriber::thisMonth()->count(),
-            'inactive'   => NewsletterSubscriber::where('is_active', false)->count(),
+            'inactive' => NewsletterSubscriber::where('is_active', false)->count(),
         ];
 
         return view('crm.newsletter.index', compact('subscribers', 'stats'));
@@ -38,7 +38,7 @@ class NewsletterSubscriberController extends Controller
     public function toggle(NewsletterSubscriber $subscriber)
     {
         $subscriber->update([
-            'is_active'       => ! $subscriber->is_active,
+            'is_active' => ! $subscriber->is_active,
             'unsubscribed_at' => $subscriber->is_active ? now() : null,
         ]);
 
@@ -50,6 +50,7 @@ class NewsletterSubscriberController extends Controller
     public function destroy(NewsletterSubscriber $subscriber)
     {
         $subscriber->delete();
+
         return back()->with('success', 'تم حذف المشترك بنجاح');
     }
 
@@ -59,7 +60,7 @@ class NewsletterSubscriberController extends Controller
             ->orderBy('subscribed_at', 'desc')
             ->get(['email', 'subscribed_at', 'ip_address']);
 
-        $csv  = "\xEF\xBB\xBF"; // BOM for Excel Arabic support
+        $csv = "\xEF\xBB\xBF"; // BOM for Excel Arabic support
         $csv .= "البريد الإلكتروني,تاريخ الاشتراك,عنوان IP\n";
 
         foreach ($subscribers as $sub) {
@@ -67,8 +68,8 @@ class NewsletterSubscriberController extends Controller
         }
 
         return response($csv, 200, [
-            'Content-Type'        => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="newsletter_subscribers_' . now()->format('Ymd') . '.csv"',
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="newsletter_subscribers_'.now()->format('Ymd').'.csv"',
         ]);
     }
 }

@@ -28,6 +28,7 @@ class CalculatorLeadController extends Controller
     public function destroy(CalculatorLead $calculatorLead)
     {
         $calculatorLead->delete();
+
         return back()->with('success', __('تم حذف السجل بنجاح'));
     }
 }

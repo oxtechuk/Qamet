@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\AsImageUrl;
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,7 @@ use Spatie\Translatable\HasTranslations;
 
 class BlogPost extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
     public $translatable = ['title', 'excerpt', 'content'];
 

@@ -1,7 +1,6 @@
 @import url(https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap);
 @charset "UTF-8";
-
 /****************************************************
 GR-MOTOR BY OX TECH.UK
 ****************************************************/
@@ -23,8 +22,7 @@ GR-MOTOR BY OX TECH.UK
   --pe-app-sidebar-menu-item-color: #dbd9d8 !important;
 }
 
-[data-bs-theme=dark] .btn-light,
-.list-group,
+[data-bs-theme=dark] .btn-light, .list-group,
 [data-bs-theme=dark] .btn-outline-light {
   --pe-list-group-disabled-bg: #2f3234;
   --pe-btn-color: #8d8e90;
@@ -50,8 +48,7 @@ GR-MOTOR BY OX TECH.UK
   --pe-app-header-border-color: #383838 !important;
 }
 
-[data-bs-theme=dark] .btn-light,
-.list-group,
+[data-bs-theme=dark] .btn-light, .list-group,
 [data-bs-theme=dark] .btn-outline-light {
   --pe-list-group-disabled-bg: #2f3234;
   --pe-btn-color: #8d8e90;
@@ -404,18 +401,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-primary {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-primary-rgb), 0.3);
-  --pe-btn-bg: var(--pe-primary);
-  --pe-btn-border-color: var(--pe-primary);
+  --pe-btn-bg:var(--pe-primary);
+  --pe-btn-border-color:var(--pe-primary);
   --pe-btn-hover-bg: var(--pe-primary-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-primary-text-emphasis);
   --pe-btn-active-bg: var(--pe-primary-text-emphasis);
   --pe-btn-active-border-color: var(--pe-primary-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-primary);
-  --pe-btn-disabled-border-color: var(--pe-primary);
+  --pe-btn-disabled-bg:var(--pe-primary);
+  --pe-btn-disabled-border-color:var(--pe-primary);
 }
-
-.btn-primary:first-child:active,
-.btn-primary:active {
+.btn-primary:first-child:active, .btn-primary:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(243, 115, 52, 0.5);
 }
 
@@ -467,18 +462,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-secondary {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-secondary-rgb), 0.3);
-  --pe-btn-bg: var(--pe-secondary);
-  --pe-btn-border-color: var(--pe-secondary);
+  --pe-btn-bg:var(--pe-secondary);
+  --pe-btn-border-color:var(--pe-secondary);
   --pe-btn-hover-bg: var(--pe-secondary-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-secondary-text-emphasis);
   --pe-btn-active-bg: var(--pe-secondary-text-emphasis);
   --pe-btn-active-border-color: var(--pe-secondary-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-secondary);
-  --pe-btn-disabled-border-color: var(--pe-secondary);
+  --pe-btn-disabled-bg:var(--pe-secondary);
+  --pe-btn-disabled-border-color:var(--pe-secondary);
 }
-
-.btn-secondary:first-child:active,
-.btn-secondary:active {
+.btn-secondary:first-child:active, .btn-secondary:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(0, 123, 255, 0.5);
 }
 
@@ -530,18 +523,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-success {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-success-rgb), 0.3);
-  --pe-btn-bg: var(--pe-success);
-  --pe-btn-border-color: var(--pe-success);
+  --pe-btn-bg:var(--pe-success);
+  --pe-btn-border-color:var(--pe-success);
   --pe-btn-hover-bg: var(--pe-success-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-success-text-emphasis);
   --pe-btn-active-bg: var(--pe-success-text-emphasis);
   --pe-btn-active-border-color: var(--pe-success-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-success);
-  --pe-btn-disabled-border-color: var(--pe-success);
+  --pe-btn-disabled-bg:var(--pe-success);
+  --pe-btn-disabled-border-color:var(--pe-success);
 }
-
-.btn-success:first-child:active,
-.btn-success:active {
+.btn-success:first-child:active, .btn-success:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(24, 165, 56, 0.5);
 }
 
@@ -593,18 +584,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-info {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-info-rgb), 0.3);
-  --pe-btn-bg: var(--pe-info);
-  --pe-btn-border-color: var(--pe-info);
+  --pe-btn-bg:var(--pe-info);
+  --pe-btn-border-color:var(--pe-info);
   --pe-btn-hover-bg: var(--pe-info-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-info-text-emphasis);
   --pe-btn-active-bg: var(--pe-info-text-emphasis);
   --pe-btn-active-border-color: var(--pe-info-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-info);
-  --pe-btn-disabled-border-color: var(--pe-info);
+  --pe-btn-disabled-bg:var(--pe-info);
+  --pe-btn-disabled-border-color:var(--pe-info);
 }
-
-.btn-info:first-child:active,
-.btn-info:active {
+.btn-info:first-child:active, .btn-info:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(23, 162, 184, 0.5);
 }
 
@@ -656,18 +645,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-warning {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-warning-rgb), 0.3);
-  --pe-btn-bg: var(--pe-warning);
-  --pe-btn-border-color: var(--pe-warning);
+  --pe-btn-bg:var(--pe-warning);
+  --pe-btn-border-color:var(--pe-warning);
   --pe-btn-hover-bg: var(--pe-warning-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-warning-text-emphasis);
   --pe-btn-active-bg: var(--pe-warning-text-emphasis);
   --pe-btn-active-border-color: var(--pe-warning-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-warning);
-  --pe-btn-disabled-border-color: var(--pe-warning);
+  --pe-btn-disabled-bg:var(--pe-warning);
+  --pe-btn-disabled-border-color:var(--pe-warning);
 }
-
-.btn-warning:first-child:active,
-.btn-warning:active {
+.btn-warning:first-child:active, .btn-warning:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(255, 193, 7, 0.5);
 }
 
@@ -719,18 +706,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-danger {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-danger-rgb), 0.3);
-  --pe-btn-bg: var(--pe-danger);
-  --pe-btn-border-color: var(--pe-danger);
+  --pe-btn-bg:var(--pe-danger);
+  --pe-btn-border-color:var(--pe-danger);
   --pe-btn-hover-bg: var(--pe-danger-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-danger-text-emphasis);
   --pe-btn-active-bg: var(--pe-danger-text-emphasis);
   --pe-btn-active-border-color: var(--pe-danger-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-danger);
-  --pe-btn-disabled-border-color: var(--pe-danger);
+  --pe-btn-disabled-bg:var(--pe-danger);
+  --pe-btn-disabled-border-color:var(--pe-danger);
 }
-
-.btn-danger:first-child:active,
-.btn-danger:active {
+.btn-danger:first-child:active, .btn-danger:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(220, 53, 69, 0.5);
 }
 
@@ -782,18 +767,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-light {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-light-rgb), 0.3);
-  --pe-btn-bg: var(--pe-light);
-  --pe-btn-border-color: var(--pe-light);
+  --pe-btn-bg:var(--pe-light);
+  --pe-btn-border-color:var(--pe-light);
   --pe-btn-hover-bg: var(--pe-light-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-light-text-emphasis);
   --pe-btn-active-bg: var(--pe-light-text-emphasis);
   --pe-btn-active-border-color: var(--pe-light-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-light);
-  --pe-btn-disabled-border-color: var(--pe-light);
+  --pe-btn-disabled-bg:var(--pe-light);
+  --pe-btn-disabled-border-color:var(--pe-light);
 }
-
-.btn-light:first-child:active,
-.btn-light:active {
+.btn-light:first-child:active, .btn-light:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(233, 236, 239, 0.5);
 }
 
@@ -845,18 +828,16 @@ GR-MOTOR BY OX TECH.UK
 
 .btn-dark {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(var(--pe-dark-rgb), 0.3);
-  --pe-btn-bg: var(--pe-dark);
-  --pe-btn-border-color: var(--pe-dark);
+  --pe-btn-bg:var(--pe-dark);
+  --pe-btn-border-color:var(--pe-dark);
   --pe-btn-hover-bg: var(--pe-dark-text-emphasis);
   --pe-btn-hover-border-color: var(--pe-dark-text-emphasis);
   --pe-btn-active-bg: var(--pe-dark-text-emphasis);
   --pe-btn-active-border-color: var(--pe-dark-text-emphasis);
-  --pe-btn-disabled-bg: var(--pe-dark);
-  --pe-btn-disabled-border-color: var(--pe-dark);
+  --pe-btn-disabled-bg:var(--pe-dark);
+  --pe-btn-disabled-border-color:var(--pe-dark);
 }
-
-.btn-dark:first-child:active,
-.btn-dark:active {
+.btn-dark:first-child:active, .btn-dark:active {
   box-shadow: 0 0.125rem 0.375rem 0 rgba(52, 58, 64, 0.5);
 }
 
@@ -906,258 +887,204 @@ GR-MOTOR BY OX TECH.UK
   --pe-btn-disabled-border-color: transparent;
 }
 
-.btn.btn-facebook,
-.ql-snow .ql-tooltip .btn-facebook.ql-action,
+.btn.btn-facebook, .ql-snow .ql-tooltip .btn-facebook.ql-action,
 .btn.btn-facebook:active {
   color: var(--pe-white);
   border-color: #3b5998;
   background-color: #3b5998;
 }
-
-.btn.btn-facebook:hover,
-.ql-snow .ql-tooltip .btn-facebook.ql-action:hover,
+.btn.btn-facebook:hover, .ql-snow .ql-tooltip .btn-facebook.ql-action:hover,
 .btn.btn-facebook:active:hover {
   background-color: rgba(59, 89, 152, 0.8);
 }
 
-.btn.btn-light-facebook,
-.ql-snow .ql-tooltip .btn-light-facebook.ql-action,
+.btn.btn-light-facebook, .ql-snow .ql-tooltip .btn-light-facebook.ql-action,
 .btn.btn-light-facebook:active {
   color: #3b5998;
   background-color: rgba(59, 89, 152, 0.2);
 }
-
-.btn.btn-light-facebook:hover,
-.ql-snow .ql-tooltip .btn-light-facebook.ql-action:hover,
+.btn.btn-light-facebook:hover, .ql-snow .ql-tooltip .btn-light-facebook.ql-action:hover,
 .btn.btn-light-facebook:active:hover {
   color: var(--pe-white);
   background-color: #3b5998;
 }
 
-.btn.btn-outline-facebook,
-.ql-snow .ql-tooltip .btn-outline-facebook.ql-action,
+.btn.btn-outline-facebook, .ql-snow .ql-tooltip .btn-outline-facebook.ql-action,
 .btn.btn-outline-facebook:active {
   color: #3b5998;
   border: 1px solid #3b5998;
 }
-
-.btn.btn-outline-facebook:hover,
-.ql-snow .ql-tooltip .btn-outline-facebook.ql-action:hover,
+.btn.btn-outline-facebook:hover, .ql-snow .ql-tooltip .btn-outline-facebook.ql-action:hover,
 .btn.btn-outline-facebook:active:hover {
   border: 1px solid #3b5998;
   color: var(--pe-white);
   background-color: #3b5998;
 }
 
-.btn.btn-google,
-.ql-snow .ql-tooltip .btn-google.ql-action,
+.btn.btn-google, .ql-snow .ql-tooltip .btn-google.ql-action,
 .btn.btn-google:active {
   color: var(--pe-white);
   border-color: #db4437;
   background-color: #db4437;
 }
-
-.btn.btn-google:hover,
-.ql-snow .ql-tooltip .btn-google.ql-action:hover,
+.btn.btn-google:hover, .ql-snow .ql-tooltip .btn-google.ql-action:hover,
 .btn.btn-google:active:hover {
   background-color: rgba(219, 68, 55, 0.8);
 }
 
-.btn.btn-light-google,
-.ql-snow .ql-tooltip .btn-light-google.ql-action,
+.btn.btn-light-google, .ql-snow .ql-tooltip .btn-light-google.ql-action,
 .btn.btn-light-google:active {
   color: #db4437;
   background-color: rgba(219, 68, 55, 0.2);
 }
-
-.btn.btn-light-google:hover,
-.ql-snow .ql-tooltip .btn-light-google.ql-action:hover,
+.btn.btn-light-google:hover, .ql-snow .ql-tooltip .btn-light-google.ql-action:hover,
 .btn.btn-light-google:active:hover {
   color: var(--pe-white);
   background-color: #db4437;
 }
 
-.btn.btn-outline-google,
-.ql-snow .ql-tooltip .btn-outline-google.ql-action,
+.btn.btn-outline-google, .ql-snow .ql-tooltip .btn-outline-google.ql-action,
 .btn.btn-outline-google:active {
   color: #db4437;
   border: 1px solid #db4437;
 }
-
-.btn.btn-outline-google:hover,
-.ql-snow .ql-tooltip .btn-outline-google.ql-action:hover,
+.btn.btn-outline-google:hover, .ql-snow .ql-tooltip .btn-outline-google.ql-action:hover,
 .btn.btn-outline-google:active:hover {
   border: 1px solid #db4437;
   color: var(--pe-white);
   background-color: #db4437;
 }
 
-.btn.btn-twitter,
-.ql-snow .ql-tooltip .btn-twitter.ql-action,
+.btn.btn-twitter, .ql-snow .ql-tooltip .btn-twitter.ql-action,
 .btn.btn-twitter:active {
   color: var(--pe-white);
   border-color: #1da1f2;
   background-color: #1da1f2;
 }
-
-.btn.btn-twitter:hover,
-.ql-snow .ql-tooltip .btn-twitter.ql-action:hover,
+.btn.btn-twitter:hover, .ql-snow .ql-tooltip .btn-twitter.ql-action:hover,
 .btn.btn-twitter:active:hover {
   background-color: rgba(29, 161, 242, 0.8);
 }
 
-.btn.btn-light-twitter,
-.ql-snow .ql-tooltip .btn-light-twitter.ql-action,
+.btn.btn-light-twitter, .ql-snow .ql-tooltip .btn-light-twitter.ql-action,
 .btn.btn-light-twitter:active {
   color: #1da1f2;
   background-color: rgba(29, 161, 242, 0.2);
 }
-
-.btn.btn-light-twitter:hover,
-.ql-snow .ql-tooltip .btn-light-twitter.ql-action:hover,
+.btn.btn-light-twitter:hover, .ql-snow .ql-tooltip .btn-light-twitter.ql-action:hover,
 .btn.btn-light-twitter:active:hover {
   color: var(--pe-white);
   background-color: #1da1f2;
 }
 
-.btn.btn-outline-twitter,
-.ql-snow .ql-tooltip .btn-outline-twitter.ql-action,
+.btn.btn-outline-twitter, .ql-snow .ql-tooltip .btn-outline-twitter.ql-action,
 .btn.btn-outline-twitter:active {
   color: #1da1f2;
   border: 1px solid #1da1f2;
 }
-
-.btn.btn-outline-twitter:hover,
-.ql-snow .ql-tooltip .btn-outline-twitter.ql-action:hover,
+.btn.btn-outline-twitter:hover, .ql-snow .ql-tooltip .btn-outline-twitter.ql-action:hover,
 .btn.btn-outline-twitter:active:hover {
   border: 1px solid #1da1f2;
   color: var(--pe-white);
   background-color: #1da1f2;
 }
 
-.btn.btn-instagram,
-.ql-snow .ql-tooltip .btn-instagram.ql-action,
+.btn.btn-instagram, .ql-snow .ql-tooltip .btn-instagram.ql-action,
 .btn.btn-instagram:active {
   color: var(--pe-white);
   border-color: #e1306c;
   background-color: #e1306c;
 }
-
-.btn.btn-instagram:hover,
-.ql-snow .ql-tooltip .btn-instagram.ql-action:hover,
+.btn.btn-instagram:hover, .ql-snow .ql-tooltip .btn-instagram.ql-action:hover,
 .btn.btn-instagram:active:hover {
   background-color: rgba(225, 48, 108, 0.8);
 }
 
-.btn.btn-light-instagram,
-.ql-snow .ql-tooltip .btn-light-instagram.ql-action,
+.btn.btn-light-instagram, .ql-snow .ql-tooltip .btn-light-instagram.ql-action,
 .btn.btn-light-instagram:active {
   color: #e1306c;
   background-color: rgba(225, 48, 108, 0.2);
 }
-
-.btn.btn-light-instagram:hover,
-.ql-snow .ql-tooltip .btn-light-instagram.ql-action:hover,
+.btn.btn-light-instagram:hover, .ql-snow .ql-tooltip .btn-light-instagram.ql-action:hover,
 .btn.btn-light-instagram:active:hover {
   color: var(--pe-white);
   background-color: #e1306c;
 }
 
-.btn.btn-outline-instagram,
-.ql-snow .ql-tooltip .btn-outline-instagram.ql-action,
+.btn.btn-outline-instagram, .ql-snow .ql-tooltip .btn-outline-instagram.ql-action,
 .btn.btn-outline-instagram:active {
   color: #e1306c;
   border: 1px solid #e1306c;
 }
-
-.btn.btn-outline-instagram:hover,
-.ql-snow .ql-tooltip .btn-outline-instagram.ql-action:hover,
+.btn.btn-outline-instagram:hover, .ql-snow .ql-tooltip .btn-outline-instagram.ql-action:hover,
 .btn.btn-outline-instagram:active:hover {
   border: 1px solid #e1306c;
   color: var(--pe-white);
   background-color: #e1306c;
 }
 
-.btn.btn-youtube,
-.ql-snow .ql-tooltip .btn-youtube.ql-action,
+.btn.btn-youtube, .ql-snow .ql-tooltip .btn-youtube.ql-action,
 .btn.btn-youtube:active {
   color: var(--pe-white);
   border-color: #ff0000;
   background-color: #ff0000;
 }
-
-.btn.btn-youtube:hover,
-.ql-snow .ql-tooltip .btn-youtube.ql-action:hover,
+.btn.btn-youtube:hover, .ql-snow .ql-tooltip .btn-youtube.ql-action:hover,
 .btn.btn-youtube:active:hover {
   background-color: rgba(255, 0, 0, 0.8);
 }
 
-.btn.btn-light-youtube,
-.ql-snow .ql-tooltip .btn-light-youtube.ql-action,
+.btn.btn-light-youtube, .ql-snow .ql-tooltip .btn-light-youtube.ql-action,
 .btn.btn-light-youtube:active {
   color: #ff0000;
   background-color: rgba(255, 0, 0, 0.2);
 }
-
-.btn.btn-light-youtube:hover,
-.ql-snow .ql-tooltip .btn-light-youtube.ql-action:hover,
+.btn.btn-light-youtube:hover, .ql-snow .ql-tooltip .btn-light-youtube.ql-action:hover,
 .btn.btn-light-youtube:active:hover {
   color: var(--pe-white);
   background-color: #ff0000;
 }
 
-.btn.btn-outline-youtube,
-.ql-snow .ql-tooltip .btn-outline-youtube.ql-action,
+.btn.btn-outline-youtube, .ql-snow .ql-tooltip .btn-outline-youtube.ql-action,
 .btn.btn-outline-youtube:active {
   color: #ff0000;
   border: 1px solid #ff0000;
 }
-
-.btn.btn-outline-youtube:hover,
-.ql-snow .ql-tooltip .btn-outline-youtube.ql-action:hover,
+.btn.btn-outline-youtube:hover, .ql-snow .ql-tooltip .btn-outline-youtube.ql-action:hover,
 .btn.btn-outline-youtube:active:hover {
   border: 1px solid #ff0000;
   color: var(--pe-white);
   background-color: #ff0000;
 }
 
-.btn.btn-linkedin,
-.ql-snow .ql-tooltip .btn-linkedin.ql-action,
+.btn.btn-linkedin, .ql-snow .ql-tooltip .btn-linkedin.ql-action,
 .btn.btn-linkedin:active {
   color: var(--pe-white);
   border-color: #0077b5;
   background-color: #0077b5;
 }
-
-.btn.btn-linkedin:hover,
-.ql-snow .ql-tooltip .btn-linkedin.ql-action:hover,
+.btn.btn-linkedin:hover, .ql-snow .ql-tooltip .btn-linkedin.ql-action:hover,
 .btn.btn-linkedin:active:hover {
   background-color: rgba(0, 119, 181, 0.8);
 }
 
-.btn.btn-light-linkedin,
-.ql-snow .ql-tooltip .btn-light-linkedin.ql-action,
+.btn.btn-light-linkedin, .ql-snow .ql-tooltip .btn-light-linkedin.ql-action,
 .btn.btn-light-linkedin:active {
   color: #0077b5;
   background-color: rgba(0, 119, 181, 0.2);
 }
-
-.btn.btn-light-linkedin:hover,
-.ql-snow .ql-tooltip .btn-light-linkedin.ql-action:hover,
+.btn.btn-light-linkedin:hover, .ql-snow .ql-tooltip .btn-light-linkedin.ql-action:hover,
 .btn.btn-light-linkedin:active:hover {
   color: var(--pe-white);
   background-color: #0077b5;
 }
 
-.btn.btn-outline-linkedin,
-.ql-snow .ql-tooltip .btn-outline-linkedin.ql-action,
+.btn.btn-outline-linkedin, .ql-snow .ql-tooltip .btn-outline-linkedin.ql-action,
 .btn.btn-outline-linkedin:active {
   color: #0077b5;
   border: 1px solid #0077b5;
 }
-
-.btn.btn-outline-linkedin:hover,
-.ql-snow .ql-tooltip .btn-outline-linkedin.ql-action:hover,
+.btn.btn-outline-linkedin:hover, .ql-snow .ql-tooltip .btn-outline-linkedin.ql-action:hover,
 .btn.btn-outline-linkedin:active:hover {
   border: 1px solid #0077b5;
   color: var(--pe-white);
@@ -1278,7 +1205,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-primary);
   background-color: var(--pe-primary);
 }
-
 .form-radio-primary .form-check-input:checked:after {
   background-color: var(--pe-primary);
 }
@@ -1287,7 +1213,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-primary);
   border-color: var(--pe-primary);
 }
-
 .form-switch-primary .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-primary-rgb), 0.5);
 }
@@ -1301,7 +1226,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-secondary);
   background-color: var(--pe-secondary);
 }
-
 .form-radio-secondary .form-check-input:checked:after {
   background-color: var(--pe-secondary);
 }
@@ -1310,7 +1234,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-secondary);
   border-color: var(--pe-secondary);
 }
-
 .form-switch-secondary .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-secondary-rgb), 0.5);
 }
@@ -1324,7 +1247,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-success);
   background-color: var(--pe-success);
 }
-
 .form-radio-success .form-check-input:checked:after {
   background-color: var(--pe-success);
 }
@@ -1333,7 +1255,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-success);
   border-color: var(--pe-success);
 }
-
 .form-switch-success .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-success-rgb), 0.5);
 }
@@ -1347,7 +1268,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-info);
   background-color: var(--pe-info);
 }
-
 .form-radio-info .form-check-input:checked:after {
   background-color: var(--pe-info);
 }
@@ -1356,7 +1276,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-info);
   border-color: var(--pe-info);
 }
-
 .form-switch-info .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-info-rgb), 0.5);
 }
@@ -1370,7 +1289,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-warning);
   background-color: var(--pe-warning);
 }
-
 .form-radio-warning .form-check-input:checked:after {
   background-color: var(--pe-warning);
 }
@@ -1379,7 +1297,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-warning);
   border-color: var(--pe-warning);
 }
-
 .form-switch-warning .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-warning-rgb), 0.5);
 }
@@ -1393,7 +1310,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-danger);
   background-color: var(--pe-danger);
 }
-
 .form-radio-danger .form-check-input:checked:after {
   background-color: var(--pe-danger);
 }
@@ -1402,7 +1318,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-danger);
   border-color: var(--pe-danger);
 }
-
 .form-switch-danger .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-danger-rgb), 0.5);
 }
@@ -1416,7 +1331,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-light);
   background-color: var(--pe-light);
 }
-
 .form-radio-light .form-check-input:checked:after {
   background-color: var(--pe-light);
 }
@@ -1425,7 +1339,6 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-light);
   border-color: var(--pe-light);
 }
-
 .form-switch-light .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-light-rgb), 0.5);
 }
@@ -1439,7 +1352,6 @@ GR-MOTOR BY OX TECH.UK
   border-color: var(--pe-dark);
   background-color: var(--pe-dark);
 }
-
 .form-radio-dark .form-check-input:checked:after {
   background-color: var(--pe-dark);
 }
@@ -1448,111 +1360,94 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-dark);
   border-color: var(--pe-dark);
 }
-
 .form-switch-dark .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--pe-dark-rgb), 0.5);
 }
 
-.form-range-primary::-webkit-slider-thumb,
-.form-range-primary::-webkit-slider-thumb:active {
+.form-range-primary::-webkit-slider-thumb, .form-range-primary::-webkit-slider-thumb:active {
   background-color: var(--pe-primary);
 }
 
 .noUi-target-primary .noUi-connect {
   background: var(--pe-primary) !important;
 }
-
 .noUi-target-primary .noUi-handle {
   background: var(--pe-primary) !important;
 }
 
-.form-range-secondary::-webkit-slider-thumb,
-.form-range-secondary::-webkit-slider-thumb:active {
+.form-range-secondary::-webkit-slider-thumb, .form-range-secondary::-webkit-slider-thumb:active {
   background-color: var(--pe-secondary);
 }
 
 .noUi-target-secondary .noUi-connect {
   background: var(--pe-secondary) !important;
 }
-
 .noUi-target-secondary .noUi-handle {
   background: var(--pe-secondary) !important;
 }
 
-.form-range-success::-webkit-slider-thumb,
-.form-range-success::-webkit-slider-thumb:active {
+.form-range-success::-webkit-slider-thumb, .form-range-success::-webkit-slider-thumb:active {
   background-color: var(--pe-success);
 }
 
 .noUi-target-success .noUi-connect {
   background: var(--pe-success) !important;
 }
-
 .noUi-target-success .noUi-handle {
   background: var(--pe-success) !important;
 }
 
-.form-range-info::-webkit-slider-thumb,
-.form-range-info::-webkit-slider-thumb:active {
+.form-range-info::-webkit-slider-thumb, .form-range-info::-webkit-slider-thumb:active {
   background-color: var(--pe-info);
 }
 
 .noUi-target-info .noUi-connect {
   background: var(--pe-info) !important;
 }
-
 .noUi-target-info .noUi-handle {
   background: var(--pe-info) !important;
 }
 
-.form-range-warning::-webkit-slider-thumb,
-.form-range-warning::-webkit-slider-thumb:active {
+.form-range-warning::-webkit-slider-thumb, .form-range-warning::-webkit-slider-thumb:active {
   background-color: var(--pe-warning);
 }
 
 .noUi-target-warning .noUi-connect {
   background: var(--pe-warning) !important;
 }
-
 .noUi-target-warning .noUi-handle {
   background: var(--pe-warning) !important;
 }
 
-.form-range-danger::-webkit-slider-thumb,
-.form-range-danger::-webkit-slider-thumb:active {
+.form-range-danger::-webkit-slider-thumb, .form-range-danger::-webkit-slider-thumb:active {
   background-color: var(--pe-danger);
 }
 
 .noUi-target-danger .noUi-connect {
   background: var(--pe-danger) !important;
 }
-
 .noUi-target-danger .noUi-handle {
   background: var(--pe-danger) !important;
 }
 
-.form-range-light::-webkit-slider-thumb,
-.form-range-light::-webkit-slider-thumb:active {
+.form-range-light::-webkit-slider-thumb, .form-range-light::-webkit-slider-thumb:active {
   background-color: var(--pe-light);
 }
 
 .noUi-target-light .noUi-connect {
   background: var(--pe-light) !important;
 }
-
 .noUi-target-light .noUi-handle {
   background: var(--pe-light) !important;
 }
 
-.form-range-dark::-webkit-slider-thumb,
-.form-range-dark::-webkit-slider-thumb:active {
+.form-range-dark::-webkit-slider-thumb, .form-range-dark::-webkit-slider-thumb:active {
   background-color: var(--pe-dark);
 }
 
 .noUi-target-dark .noUi-connect {
   background: var(--pe-dark) !important;
 }
-
 .noUi-target-dark .noUi-handle {
   background: var(--pe-dark) !important;
 }
@@ -1562,15 +1457,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-primary);
   --pe-border-color: var(--pe-primary-bg-subtle);
 }
-
 .form-control-primary::-moz-placeholder {
   color: var(--pe-primary);
 }
-
 .form-control-primary::placeholder {
   color: var(--pe-primary);
 }
-
 .form-control-primary:focus {
   border-color: var(--pe-primary);
 }
@@ -1580,15 +1472,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-secondary);
   --pe-border-color: var(--pe-secondary-bg-subtle);
 }
-
 .form-control-secondary::-moz-placeholder {
   color: var(--pe-secondary);
 }
-
 .form-control-secondary::placeholder {
   color: var(--pe-secondary);
 }
-
 .form-control-secondary:focus {
   border-color: var(--pe-secondary);
 }
@@ -1598,15 +1487,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-success);
   --pe-border-color: var(--pe-success-bg-subtle);
 }
-
 .form-control-success::-moz-placeholder {
   color: var(--pe-success);
 }
-
 .form-control-success::placeholder {
   color: var(--pe-success);
 }
-
 .form-control-success:focus {
   border-color: var(--pe-success);
 }
@@ -1616,15 +1502,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-info);
   --pe-border-color: var(--pe-info-bg-subtle);
 }
-
 .form-control-info::-moz-placeholder {
   color: var(--pe-info);
 }
-
 .form-control-info::placeholder {
   color: var(--pe-info);
 }
-
 .form-control-info:focus {
   border-color: var(--pe-info);
 }
@@ -1634,15 +1517,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-warning);
   --pe-border-color: var(--pe-warning-bg-subtle);
 }
-
 .form-control-warning::-moz-placeholder {
   color: var(--pe-warning);
 }
-
 .form-control-warning::placeholder {
   color: var(--pe-warning);
 }
-
 .form-control-warning:focus {
   border-color: var(--pe-warning);
 }
@@ -1652,15 +1532,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-danger);
   --pe-border-color: var(--pe-danger-bg-subtle);
 }
-
 .form-control-danger::-moz-placeholder {
   color: var(--pe-danger);
 }
-
 .form-control-danger::placeholder {
   color: var(--pe-danger);
 }
-
 .form-control-danger:focus {
   border-color: var(--pe-danger);
 }
@@ -1670,15 +1547,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-light);
   --pe-border-color: var(--pe-light-bg-subtle);
 }
-
 .form-control-light::-moz-placeholder {
   color: var(--pe-light);
 }
-
 .form-control-light::placeholder {
   color: var(--pe-light);
 }
-
 .form-control-light:focus {
   border-color: var(--pe-light);
 }
@@ -1688,15 +1562,12 @@ GR-MOTOR BY OX TECH.UK
   --pe-input-color: var(--pe-dark);
   --pe-border-color: var(--pe-dark-bg-subtle);
 }
-
 .form-control-dark::-moz-placeholder {
   color: var(--pe-dark);
 }
-
 .form-control-dark::placeholder {
   color: var(--pe-dark);
 }
-
 .form-control-dark:focus {
   border-color: var(--pe-dark);
 }
@@ -1973,7 +1844,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-primary .circular-inner .fg-circular-progress {
   stroke: var(--pe-primary);
 }
-
 .circular-progress.circular-progress-primary:hover .circular-text {
   color: var(--pe-primary);
 }
@@ -1981,7 +1851,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-secondary .circular-inner .fg-circular-progress {
   stroke: var(--pe-secondary);
 }
-
 .circular-progress.circular-progress-secondary:hover .circular-text {
   color: var(--pe-secondary);
 }
@@ -1989,7 +1858,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-success .circular-inner .fg-circular-progress {
   stroke: var(--pe-success);
 }
-
 .circular-progress.circular-progress-success:hover .circular-text {
   color: var(--pe-success);
 }
@@ -1997,7 +1865,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-info .circular-inner .fg-circular-progress {
   stroke: var(--pe-info);
 }
-
 .circular-progress.circular-progress-info:hover .circular-text {
   color: var(--pe-info);
 }
@@ -2005,7 +1872,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-warning .circular-inner .fg-circular-progress {
   stroke: var(--pe-warning);
 }
-
 .circular-progress.circular-progress-warning:hover .circular-text {
   color: var(--pe-warning);
 }
@@ -2013,7 +1879,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-danger .circular-inner .fg-circular-progress {
   stroke: var(--pe-danger);
 }
-
 .circular-progress.circular-progress-danger:hover .circular-text {
   color: var(--pe-danger);
 }
@@ -2021,7 +1886,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-light .circular-inner .fg-circular-progress {
   stroke: var(--pe-light);
 }
-
 .circular-progress.circular-progress-light:hover .circular-text {
   color: var(--pe-light);
 }
@@ -2029,7 +1893,6 @@ GR-MOTOR BY OX TECH.UK
 .circular-progress.circular-progress-dark .circular-inner .fg-circular-progress {
   stroke: var(--pe-dark);
 }
-
 .circular-progress.circular-progress-dark:hover .circular-text {
   color: var(--pe-dark);
 }
@@ -2083,43 +1946,35 @@ GR-MOTOR BY OX TECH.UK
   --pe-ribbon-sub-bg: rgba(255, 255, 255, 0.4);
 }
 
-.center-hr.hr-primary::before,
-.center-hr.hr-primary::after {
+.center-hr.hr-primary::before, .center-hr.hr-primary::after {
   border-color: var(--pe-primary);
 }
 
-.center-hr.hr-secondary::before,
-.center-hr.hr-secondary::after {
+.center-hr.hr-secondary::before, .center-hr.hr-secondary::after {
   border-color: var(--pe-secondary);
 }
 
-.center-hr.hr-success::before,
-.center-hr.hr-success::after {
+.center-hr.hr-success::before, .center-hr.hr-success::after {
   border-color: var(--pe-success);
 }
 
-.center-hr.hr-info::before,
-.center-hr.hr-info::after {
+.center-hr.hr-info::before, .center-hr.hr-info::after {
   border-color: var(--pe-info);
 }
 
-.center-hr.hr-warning::before,
-.center-hr.hr-warning::after {
+.center-hr.hr-warning::before, .center-hr.hr-warning::after {
   border-color: var(--pe-warning);
 }
 
-.center-hr.hr-danger::before,
-.center-hr.hr-danger::after {
+.center-hr.hr-danger::before, .center-hr.hr-danger::after {
   border-color: var(--pe-danger);
 }
 
-.center-hr.hr-light::before,
-.center-hr.hr-light::after {
+.center-hr.hr-light::before, .center-hr.hr-light::after {
   border-color: var(--pe-light);
 }
 
-.center-hr.hr-dark::before,
-.center-hr.hr-dark::after {
+.center-hr.hr-dark::before, .center-hr.hr-dark::after {
   border-color: var(--pe-dark);
 }
 
@@ -2255,7 +2110,6 @@ GR-MOTOR BY OX TECH.UK
   --pe-boxed-width: 7.5rem;
   --pe-boxed-width-sm: 1.5rem;
 }
-
 :root[data-theme-colors=default],
 [data-bs-theme=light][data-theme-colors=default] {
   --pe-primary: #f27333;
@@ -2268,7 +2122,6 @@ GR-MOTOR BY OX TECH.UK
   --pe-link-color-rgb: 242, 115, 51;
   --pe-link-hover-color-rgb: 232, 88, 15;
 }
-
 :root[data-theme-colors=blue],
 [data-bs-theme=light][data-theme-colors=blue] {
   --pe-primary: #8d58fd;
@@ -2281,7 +2134,6 @@ GR-MOTOR BY OX TECH.UK
   --pe-link-color-rgb: 141, 88, 253;
   --pe-link-hover-color-rgb: 110, 43, 252;
 }
-
 :root[data-theme-colors=red],
 [data-bs-theme=light][data-theme-colors=red] {
   --pe-primary: #ec1c25;
@@ -2294,7 +2146,6 @@ GR-MOTOR BY OX TECH.UK
   --pe-link-color-rgb: 236, 28, 37;
   --pe-link-hover-color-rgb: 201, 17, 25;
 }
-
 :root[data-theme-colors=green],
 [data-bs-theme=light][data-theme-colors=green] {
   --pe-primary: #6ba589;
@@ -2307,7 +2158,6 @@ GR-MOTOR BY OX TECH.UK
   --pe-link-color-rgb: 107, 165, 137;
   --pe-link-hover-color-rgb: 86, 141, 114;
 }
-
 :root[data-theme-colors=cyan],
 [data-bs-theme=light][data-theme-colors=cyan] {
   --pe-primary: #239cb8;
@@ -2324,19 +2174,15 @@ GR-MOTOR BY OX TECH.UK
 [data-bs-theme=dark][data-theme-colors=default] {
   --pe-primary-bg-subtle: rgb(48.4, 23, 10.2);
 }
-
 [data-bs-theme=dark][data-theme-colors=blue] {
   --pe-primary-bg-subtle: rgb(28.2, 17.6, 50.6);
 }
-
 [data-bs-theme=dark][data-theme-colors=red] {
   --pe-primary-bg-subtle: rgb(47.2, 5.6, 7.4);
 }
-
 [data-bs-theme=dark][data-theme-colors=green] {
   --pe-primary-bg-subtle: rgb(21.4, 33, 27.4);
 }
-
 [data-bs-theme=dark][data-theme-colors=cyan] {
   --pe-primary-bg-subtle: rgb(7, 31.2, 36.8);
 }
@@ -2356,18 +2202,14 @@ GR-MOTOR BY OX TECH.UK
   padding: 0 0.75rem;
   transition: all 0.2s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .app-header {
     transition: none;
   }
 }
-
-.app-header .dark-mode-btn .header-btn.active:hover,
-.app-header .header-profile-btn .header-btn.active:hover {
+.app-header .dark-mode-btn .header-btn.active:hover, .app-header .header-profile-btn .header-btn.active:hover {
   border: 1px solid var(--pe-primary);
 }
-
 .app-header .header-btn {
   width: 44px;
   height: 44px;
@@ -2381,21 +2223,17 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   justify-content: center;
 }
-
 .app-header .header-btn:is(:hover, :focus, :active, :focus-within) {
   color: var(--pe-primary);
   background-color: var(--pe-secondary-bg);
   border: 1px solid var(--pe-primary);
 }
-
 @media (max-width: 1199.98px) {
   .app-header .header-dropdown {
     display: none !important;
   }
 }
-
-.app-header .dark-mode-btn,
-.app-header .header-profile-btn {
+.app-header .dark-mode-btn, .app-header .header-profile-btn {
   height: 44px;
   background-color: var(--pe-body-bg);
   border-color: var(--pe-body-bg);
@@ -2405,20 +2243,15 @@ GR-MOTOR BY OX TECH.UK
   display: flex;
   align-items: center;
 }
-
-.app-header .dark-mode-btn .header-btn,
-.app-header .header-profile-btn .header-btn {
+.app-header .dark-mode-btn .header-btn, .app-header .header-profile-btn .header-btn {
   height: 40px;
   width: 40px;
   background-color: transparent;
   border-color: transparent;
 }
-
-.app-header .dark-mode-btn .header-btn.active,
-.app-header .header-profile-btn .header-btn.active {
+.app-header .dark-mode-btn .header-btn.active, .app-header .header-profile-btn .header-btn.active {
   background-color: var(--pe-secondary-bg);
 }
-
 .app-header .header-profile-btn .badge {
   padding: 0;
   height: 10px;
@@ -2426,82 +2259,64 @@ GR-MOTOR BY OX TECH.UK
   left: -5px;
   top: 6px;
 }
-
 .app-header .header-profile-btn:is(:hover, :focus, :active, .active, .show, :focus-within) {
   background-color: var(--pe-body-bg);
   border-color: var(--pe-body-bg);
 }
-
 .app-header.sticky-scroll {
   background-color: var(--pe-secondary-bg);
 }
-
-.app-header.sticky-scroll .dark-mode-btn,
-.app-header.sticky-scroll .header-profile-btn {
+.app-header.sticky-scroll .dark-mode-btn, .app-header.sticky-scroll .header-profile-btn {
   background-color: var(--pe-tertiary-bg);
   border-color: var(--pe-tertiary-bg);
 }
-
-.app-header.sticky-scroll .dark-mode-btn .header-btn,
-.app-header.sticky-scroll .header-profile-btn .header-btn {
+.app-header.sticky-scroll .dark-mode-btn .header-btn, .app-header.sticky-scroll .header-profile-btn .header-btn {
   background-color: transparent;
   border-color: transparent;
 }
-
-.app-header.sticky-scroll .dark-mode-btn .header-btn.active,
-.app-header.sticky-scroll .header-profile-btn .header-btn.active {
+.app-header.sticky-scroll .dark-mode-btn .header-btn.active, .app-header.sticky-scroll .header-profile-btn .header-btn.active {
   background-color: var(--pe-secondary-bg);
 }
-
 .app-header .pe-dropdown-mega .pe-dropdown-button {
   height: var(--pe-app-header-height);
 }
-
 .app-header .pe-dropdown-mega :is(.dropdown-menu.dropdown-mega-xl,
-  .dropdown-menu.dropdown-mega-lg,
-  .dropdown-menu.dropdown-mega-md,
-  .dropdown-menu,
-  .dropdown-mega-sm) {
+.dropdown-menu.dropdown-mega-lg,
+.dropdown-menu.dropdown-mega-md,
+.dropdown-menu,
+.dropdown-mega-sm) {
   --pe-dropdown-item-padding-x: 1rem;
   --pe-dropdown-item-padding-y: 0.45rem;
   max-height: calc(100vh - 90px);
   overflow-y: auto;
 }
-
 .app-header .pe-dropdown-mega :is(.dropdown-menu.dropdown-mega-xl,
-  .dropdown-menu.dropdown-mega-lg,
-  .dropdown-menu.dropdown-mega-md,
-  .dropdown-menu,
-  .dropdown-mega-sm) .dropdown-item {
+.dropdown-menu.dropdown-mega-lg,
+.dropdown-menu.dropdown-mega-md,
+.dropdown-menu,
+.dropdown-mega-sm) .dropdown-item {
   border-radius: 0.3125rem;
 }
-
 .app-header .pe-dropdown-mega .header-dropdown-menu {
   top: 24px !important;
 }
-
 .app-header .pe-dropdown-mega .dropdown-menu.dropdown-mega-xl {
   width: 52rem;
 }
-
 .app-header .pe-dropdown-mega .dropdown-menu.dropdown-mega-lg {
   width: 38rem;
 }
-
 .app-header .pe-dropdown-mega .dropdown-menu.dropdown-mega-md {
   width: 28rem;
 }
-
 .app-header .pe-dropdown-mega .dropdown-menu.dropdown-mega-sm {
   width: 18rem;
 }
-
 @media (min-width: 992px) {
   .app-header .pe-dropdown-mega.pe-dropdown-hover:hover .dropdown-menu {
     display: block;
   }
 }
-
 .app-header .pe-noti-dropdown-menu .noti-item {
   position: relative;
   display: flex;
@@ -2509,29 +2324,23 @@ GR-MOTOR BY OX TECH.UK
   border-bottom: 1px solid var(--pe-border-color);
   padding: 12px 0;
 }
-
 .app-header .pe-noti-dropdown-menu .noti-item:first-child {
   padding-top: 0;
 }
-
 .app-header .pe-noti-dropdown-menu .noti-item:last-child {
   padding-bottom: 0;
   border-bottom: none;
 }
-
 .app-header .pe-noti-dropdown-menu .noti-item .link {
   opacity: 0;
   transition: all 0.5s ease;
 }
-
 .app-header .pe-noti-dropdown-menu .noti-item:hover .link {
   opacity: 1;
 }
-
 .app-header .offcanvas .card-radio {
   padding: 0;
 }
-
 .app-header .offcanvas .card-radio .form-check-input {
   display: none;
 }
@@ -2540,12 +2349,10 @@ GR-MOTOR BY OX TECH.UK
   [data-bs-theme=dark] .header-sidebar-logo-small-light {
     display: block !important;
   }
-
   [data-bs-theme=light] .header-sidebar-logo-small {
     display: block !important;
   }
 }
-
 .pe-app-sidebar {
   background-color: var(--pe-app-sidebar-bg);
   position: fixed;
@@ -2556,38 +2363,31 @@ GR-MOTOR BY OX TECH.UK
   width: var(--pe-app-sidebar-width);
   border-left: 1px solid var(--pe-app-sidebar-border-color);
 }
-
 @media (max-width: 991.98px) {
   .pe-app-sidebar.show {
     display: block;
   }
 }
-
 @media (max-width: 991.98px) {
   .pe-app-sidebar {
     display: none;
   }
 }
-
 .pe-app-sidebar .pe-app-sidebar-logo {
   height: var(--pe-app-header-height);
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu {
   height: calc(100% - var(--pe-app-header-height));
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-main-menu {
   margin-bottom: 0;
   padding: 0;
   width: 100%;
   min-height: 100%;
 }
-
-.pe-app-sidebar .pe-app-sidebar-menu .pe-main-menu>* {
+.pe-app-sidebar .pe-app-sidebar-menu .pe-main-menu > * {
   list-style-type: none;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-menu-title {
   line-height: 1.55;
   font-size: 0.6875rem;
@@ -2598,11 +2398,9 @@ GR-MOTOR BY OX TECH.UK
   white-space: nowrap;
   position: relative;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .slides {
   display: none;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link {
   padding: 12px 20px;
   position: relative;
@@ -2614,19 +2412,16 @@ GR-MOTOR BY OX TECH.UK
   color: var(--pe-app-sidebar-menu-item-color);
   transition: all 0.2s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link {
     transition: none;
   }
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link .pe-nav-icon {
   font-size: 1.0625rem;
   width: 20px;
   height: 20px;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link .pe-nav-content {
   position: relative;
   font-size: 0.875rem;
@@ -2636,48 +2431,39 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   white-space: nowrap;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link .pe-nav-arrow {
   margin-right: auto;
   font-size: 1rem;
   transition: all 0.2s ease-in-out;
   opacity: 0.8;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link .pe-nav-arrow {
     transition: none;
   }
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link[aria-expanded=true] .pe-nav-arrow {
   transform: rotate(-180deg);
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:hover {
   color: var(--pe-app-sidebar-menu-item-color-hover);
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:hover::before {
   background-color: var(--pe-app-sidebar-menu-item-color-hover) !important;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link.active {
   font-weight: 500;
   color: var(--pe-app-sidebar-menu-item-color-active);
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link.active::before {
   background-color: var(--pe-app-sidebar-menu-item-color-active) !important;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu,
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-sub-menu {
   padding: 0rem;
   position: relative;
   list-style: none;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu::after,
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-sub-menu::after {
   content: "";
@@ -2689,12 +2475,10 @@ GR-MOTOR BY OX TECH.UK
   z-index: 0;
   border-right: 1px solid var(--pe-app-sidebar-border-color);
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu .pe-nav-link,
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-sub-menu .pe-nav-link {
   padding: 12px 59px 12px 26px;
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu .pe-nav-link::before,
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-sub-menu .pe-nav-link::before {
   content: "";
@@ -2707,7 +2491,6 @@ GR-MOTOR BY OX TECH.UK
   border-radius: 50%;
   background-color: var(--pe-app-sidebar-border-color);
 }
-
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu .pe-nav-content1,
 .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-sub-menu .pe-nav-content1 {
   display: none;
@@ -2717,17 +2500,14 @@ GR-MOTOR BY OX TECH.UK
   .app-header {
     right: 0;
   }
-
   [data-layout=default] .footer {
     margin-inline-start: auto;
   }
-
-  .pe-app-sidebar.show~.sidebar-backdrop {
+  .pe-app-sidebar.show ~ .sidebar-backdrop {
     opacity: 1;
     visibility: visible;
   }
 }
-
 @media (max-width: 1199.98px) {
   .sidebar-backdrop {
     position: fixed;
@@ -2742,7 +2522,6 @@ GR-MOTOR BY OX TECH.UK
     transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 }
-
 [data-bs-theme=dark] .pe-app-sidebar-logo-light {
   display: block !important;
 }
@@ -2754,7 +2533,6 @@ GR-MOTOR BY OX TECH.UK
 [data-bs-theme=dark][data-sidebar=icon] .pe-app-sidebar-logo-light {
   display: none !important;
 }
-
 [data-bs-theme=dark][data-sidebar=icon] .pe-app-sidebar-logo-minimize-light {
   display: block !important;
 }
@@ -2762,7 +2540,6 @@ GR-MOTOR BY OX TECH.UK
 [data-bs-theme=light][data-sidebar=icon] .pe-app-sidebar-logo-default {
   display: none !important;
 }
-
 [data-bs-theme=light][data-sidebar=icon] .pe-app-sidebar-logo-minimize {
   display: block !important;
 }
@@ -2770,7 +2547,6 @@ GR-MOTOR BY OX TECH.UK
 [data-sidebar-color=dark] .pe-app-sidebar-logo-light {
   display: block !important;
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar-logo-default {
   display: none !important;
 }
@@ -2778,11 +2554,9 @@ GR-MOTOR BY OX TECH.UK
 [data-sidebar-color=dark][data-sidebar=icon] .pe-app-sidebar-logo-light {
   display: none !important;
 }
-
 [data-sidebar-color=dark][data-sidebar=icon] .pe-app-sidebar-logo-minimize {
   display: none !important;
 }
-
 [data-sidebar-color=dark][data-sidebar=icon] .pe-app-sidebar-logo-minimize-light {
   display: block !important;
 }
@@ -2800,83 +2574,66 @@ GR-MOTOR BY OX TECH.UK
   width: auto;
   display: none;
 }
-
 @media (min-width: 1200px) {
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar {
     display: block;
   }
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar.show {
   display: block;
 }
-
-[data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar.show~.sidebar-backdrop {
+[data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar.show ~ .sidebar-backdrop {
   opacity: 1;
   visibility: visible;
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-menu-title {
   display: none !important;
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-logo {
   display: none !important;
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu {
   height: 20rem;
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu.nav {
   display: block;
 }
-
 @media (max-width: 1199.98px) {
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu {
     overflow-y: scroll;
   }
 }
-
 @media (min-width: 1200px) {
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu {
     width: 97%;
     height: 3rem;
   }
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-main-menu {
   display: none;
 }
-
 [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu {
   display: block !important;
 }
-
 @media (min-width: 1200px) {
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu {
     display: flex !important;
     align-items: center;
     margin-bottom: 0;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide {
     position: relative;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide:hover .pe-slide-menu {
     display: block;
     height: auto;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-nav-link {
     padding: 12px 34px 12px 10px;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-nav-link::before {
     right: 16px;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu {
     position: absolute;
     top: 44px;
@@ -2887,11 +2644,9 @@ GR-MOTOR BY OX TECH.UK
     box-shadow: var(--pe-box-shadow-sm);
     list-style: none;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu::after {
     right: 18px;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-slide .pe-slide-menu {
     position: absolute;
     right: 11.7rem;
@@ -2899,7 +2654,6 @@ GR-MOTOR BY OX TECH.UK
     opacity: 0;
     visibility: hidden;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu {
     position: absolute;
     right: 11.7rem;
@@ -2907,7 +2661,6 @@ GR-MOTOR BY OX TECH.UK
     opacity: 0;
     visibility: hidden;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu {
     position: absolute;
     right: 11.7rem;
@@ -2915,62 +2668,50 @@ GR-MOTOR BY OX TECH.UK
     opacity: 0;
     visibility: hidden;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide:hover .pe-slide-menu {
     opacity: 1;
     visibility: visible;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide:hover .pe-slide-menu {
     opacity: 1;
     visibility: visible;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-slide:hover .pe-slide-menu {
     opacity: 1;
     visibility: visible;
   }
-
   [data-layout=horizontal] .pe-app-sidebar.horizontal-sidebar .pe-app-sidebar-menu .pe-horizontal-menu .pe-slide-menu .pe-menu-title {
     display: none;
   }
 }
-
 [data-layout=horizontal] .app-header {
   right: 0;
   z-index: 1006;
 }
-
 [data-layout=horizontal] .app-header .vertical-toggle {
   display: none;
 }
-
 @media (max-width: 1199.98px) {
   [data-layout=horizontal] .app-header .horizontal-toggle {
     display: block !important;
   }
 }
-
 [data-layout=horizontal] .app-wrapper {
   margin-inline-start: auto;
   margin-block-start: calc(var(--pe-app-header-height) * 1);
 }
-
 @media (min-width: 1200px) {
   [data-layout=horizontal] .app-wrapper {
     margin-block-start: calc(var(--pe-app-header-height) * 1.65);
   }
 }
-
 [data-layout=horizontal] .footer {
   margin-inline-start: auto;
 }
-
 @media (min-width: 992px) {
   [data-layout=horizontal][data-bs-theme=dark] .header-sidebar-logo-light {
     display: block !important;
   }
-
   [data-layout=horizontal][data-bs-theme=light] .header-sidebar-logo-default {
     display: block !important;
   }
@@ -2981,7 +2722,6 @@ GR-MOTOR BY OX TECH.UK
   border-left: 0;
   border-radius: var(--pe-border-radius);
 }
-
 [data-layout=semibox] .app-header {
   border-bottom: 0;
   border-radius: var(--pe-border-radius);
@@ -2989,13 +2729,11 @@ GR-MOTOR BY OX TECH.UK
   left: var(--pe-semibox-width);
   right: var(--pe-semibox-width);
 }
-
 @media (min-width: 992px) {
   [data-layout=semibox] .app-header {
     right: calc(var(--pe-app-sidebar-width) + var(--pe-semibox-width) + var(--pe-semibox-width));
   }
 }
-
 [data-layout=semibox] .app-header::after {
   content: "";
   height: var(--pe-semibox-width);
@@ -3005,62 +2743,52 @@ GR-MOTOR BY OX TECH.UK
   width: 100%;
   top: 0;
   -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
   background: rgba(var(--pe-body-bg-rgb), 0.5);
   z-index: -1;
 }
-
 @media (min-width: 992px) {
   [data-layout=semibox] .app-header::after {
     right: calc(var(--pe-app-sidebar-width) + var(--pe-semibox-width) + var(--pe-semibox-width));
   }
 }
-
 @media (min-width: 992px) {
   [data-layout=semibox] .app-wrapper {
     padding-top: 1rem;
     padding-right: calc(var(--pe-semibox-width) * 1.7);
   }
 }
-
 @media (max-width: 991.98px) {
   [data-layout=semibox] .app-wrapper {
     margin-block-start: calc(var(--pe-app-header-height) * 1.2);
   }
 }
-
 [data-layout=semibox] .footer {
   margin-inline-start: var(--pe-semibox-width);
   margin-inline-end: var(--pe-semibox-width);
   border-radius: var(--pe-border-radius) var(--pe-border-radius) 0 0;
 }
-
 @media (min-width: 992px) {
   [data-layout=semibox] .footer {
     margin-inline-start: calc(var(--pe-app-sidebar-width) + var(--pe-semibox-width) + var(--pe-semibox-width));
     margin-inline-end: var(--pe-semibox-width);
   }
 }
-
 @media (min-width: 992px) {
   [data-layout=semibox][data-sidebar=icon] .app-header {
     right: calc(var(--pe-app-sidebar-sm-width) + var(--pe-semibox-width) + var(--pe-semibox-width));
   }
-
   [data-layout=semibox][data-sidebar=icon] .app-header::after {
     right: calc(var(--pe-app-sidebar-sm-width) + var(--pe-semibox-width) + var(--pe-semibox-width));
   }
-
   [data-layout=semibox][data-sidebar=icon] .pe-app-sidebar {
     margin: var(--pe-semibox-width);
     border-radius: 0;
   }
-
   [data-layout=semibox][data-sidebar=icon] .pe-app-sidebar .pe-app-sidebar-logo {
     top: var(--pe-semibox-width);
     border-left: 0;
   }
-
   [data-layout=semibox][data-sidebar=icon] .footer {
     margin-inline-start: calc(var(--pe-app-sidebar-sm-width) + var(--pe-semibox-width) + var(--pe-semibox-width));
   }
@@ -3069,69 +2797,56 @@ GR-MOTOR BY OX TECH.UK
 [data-content-width=box] .app-wrapper {
   background-color: var(--pe-body-bg);
 }
-
 [data-content-width=box] body {
   background-color: var(--pe-body-bg);
 }
-
 @media (max-width: 1199.98px) {
   [data-content-width=box] .header-dropdown {
     display: none !important;
   }
 }
-
 @media (min-width: 1200px) {
   [data-content-width=box] #layout-wrapper {
     margin: 0 var(--pe-boxed-width-sm);
   }
-
   [data-content-width=box] .app-header {
     margin: 0 var(--pe-boxed-width-sm);
   }
-
   [data-content-width=box] .pe-app-sidebar {
     right: var(--pe-boxed-width-sm);
   }
 }
-
 @media (min-width: 1441px) {
   [data-content-width=box] #layout-wrapper {
     margin: 0 var(--pe-boxed-width);
   }
-
   [data-content-width=box] .pe-app-sidebar {
     right: var(--pe-boxed-width);
   }
-
   [data-content-width=box] .app-header {
     margin: 0 var(--pe-boxed-width);
   }
 }
-
 @media (min-width: 1200px) {
   [data-content-width=box][data-layout=horizontal] .pe-app-sidebar {
     left: var(--pe-boxed-width-sm);
   }
 }
-
 @media (min-width: 1441px) {
   [data-content-width=box][data-layout=horizontal] .pe-app-sidebar {
     left: var(--pe-boxed-width);
   }
 }
-
 @media (min-width: 1200px) {
   [data-content-width=box][data-layout=icon] .pe-app-sidebar {
     left: var(--pe-boxed-width-sm);
   }
 }
-
 @media (min-width: 1441px) {
   [data-content-width=box][data-layout=icon] .pe-app-sidebar {
     left: var(--pe-boxed-width);
   }
 }
-
 @media (min-width: 1200px) {
   [data-content-width=box] [data-layout=semibox] .pe-app-sidebar {
     margin: var(--pe-semibox-width);
@@ -3142,12 +2857,10 @@ GR-MOTOR BY OX TECH.UK
   min-height: 1700px;
   position: relative;
 }
-
 [data-sidebar=icon] .pe-app-sidebar {
   width: var(--pe-app-sidebar-sm-width);
   position: absolute;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-app-sidebar-logo {
   position: fixed !important;
   top: 0;
@@ -3156,28 +2869,22 @@ GR-MOTOR BY OX TECH.UK
   border-left: 1px solid var(--pe-border-color);
   z-index: 1;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-menu-title {
   display: none;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide {
   position: relative;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide:hover .pe-slide-menu {
   display: block;
   height: auto;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-nav-link .pe-nav-icon {
   margin: 0 auto;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-nav-link :is(.pe-nav-content, .pe-nav-arrow) {
   display: none;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu {
   position: absolute;
   top: 0.9375rem;
@@ -3188,62 +2895,51 @@ GR-MOTOR BY OX TECH.UK
   box-shadow: var(--pe-box-shadow-sm);
   list-style: none;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-slide .pe-slide-menu {
   right: 11.7rem;
   top: 12px;
   opacity: 0;
   visibility: hidden;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu {
   right: 11.7rem;
   top: 12px;
   opacity: 0;
   visibility: hidden;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu {
   right: 11.7rem;
   top: 12px;
   opacity: 0;
   visibility: hidden;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide:hover .pe-slide-menu {
   opacity: 1;
   visibility: visible;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-slide .pe-slide-menu .pe-slide:hover .pe-slide-menu {
   opacity: 1;
   visibility: visible;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-slide:hover .pe-slide-menu {
   opacity: 1;
   visibility: visible;
 }
-
 [data-sidebar=icon] .pe-app-sidebar .pe-main-menu .pe-slide.pe-has-sub .pe-slide-menu .pe-menu-title {
   display: none;
 }
-
 [data-sidebar=icon] .app-wrapper {
   min-height: 1830px;
 }
-
 @media (max-width: 991.98px) {
   [data-sidebar=icon] .header-sidebar-logo-default {
     display: block;
   }
 }
-
 @media (min-width: 992px) {
   [data-sidebar=icon] .app-header {
     right: var(--pe-app-sidebar-sm-width);
   }
-
   [data-sidebar=icon] .app-wrapper,
   [data-sidebar=icon] .footer {
     margin-inline-start: var(--pe-app-sidebar-sm-width);
@@ -3254,95 +2950,80 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-primary);
   border-color: var(--pe-primary);
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-logo {
   background-color: var(--pe-primary);
   border-color: var(--pe-primary);
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-menu-title {
   color: #fff;
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link {
   color: var(--pe-app-sidebar-menu-item-color);
 }
-
-[data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:hover,
-[data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link.active {
+[data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:hover, [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link.active {
   color: var(--pe-app-sidebar-caption-color);
 }
-
-[data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:hover:before,
-[data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link.active:before {
+[data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:hover:before, [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link.active:before {
   background-color: var(--pe-app-sidebar-caption-color) !important;
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-nav-link:before {
   background-color: var(--pe-app-sidebar-menu-item-color);
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu {
   background: var(--pe-primary) !important;
 }
-
 [data-sidebar-color=dark] .pe-app-sidebar .pe-app-sidebar-menu .pe-slide-menu:after {
   border-right: 1px solid var(--pe-app-sidebar-caption-color);
   z-index: 1;
 }
 
-.form-check.sidebar-setting.card-radio input[value=default]+label {
+.form-check.sidebar-setting.card-radio input[value=default] + label {
   background-color: #f27333;
 }
 
-.form-check.sidebar-setting.card-radio input[value=cyan]+label {
+.form-check.sidebar-setting.card-radio input[value=cyan] + label {
   background-color: #239cb8;
 }
 
-.form-check.sidebar-setting.card-radio input[value=green]+label {
+.form-check.sidebar-setting.card-radio input[value=green] + label {
   background-color: #8bb7a2;
 }
 
-.form-check.sidebar-setting.card-radio input[value=blue]+label {
+.form-check.sidebar-setting.card-radio input[value=blue] + label {
   background-color: #8d58fd;
 }
 
-.form-check.sidebar-setting.card-radio input[value=red]+label {
+.form-check.sidebar-setting.card-radio input[value=red] + label {
   background-color: #ec1c25;
 }
 
 .layout-customizer input[type=radio] {
   display: none;
 }
-
 .layout-customizer .form-check-label {
   display: block;
   transition: all 0.3s ease;
 }
-
-.layout-customizer input[type=radio]:checked+label {
+.layout-customizer input[type=radio]:checked + label {
   border: 1px solid var(--pe-primary);
 }
 
 #sidebar-color .form-check {
   padding-right: 0;
 }
-
 #sidebar-color .card-radio .form-check-label {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
-
-#sidebar-color .card-radio .form-check-input:checked+.form-check-label::after {
+#sidebar-color .card-radio .form-check-input:checked + .form-check-label::after {
   content: "✔";
   font-size: 18px;
   color: white;
   position: absolute;
   transform: scale(1);
 }
-
 #sidebar-color .card-radio .form-check-label::after {
   transform: scale(0);
 }
@@ -3353,7 +3034,6 @@ GR-MOTOR BY OX TECH.UK
   color: #6c757d;
   padding: 20px calc(1.5rem * 0.5);
 }
-
 @media (min-width: 1200px) {
   .footer {
     margin-inline-start: var(--pe-app-sidebar-width);
@@ -3370,7 +3050,6 @@ GR-MOTOR BY OX TECH.UK
   padding: 0 10px;
   min-height: calc(100vh - (var(--pe-app-header-height) + var(--pe-app-footer-height)));
 }
-
 @media (max-width: 991.98px) {
   .app-wrapper {
     margin-inline-start: auto;
@@ -3382,39 +3061,29 @@ GR-MOTOR BY OX TECH.UK
 }
 
 @keyframes beat_heart {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.1);
   }
 }
-
 @keyframes ani-fadeIn {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
 }
-
 @keyframes bounce {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-12px);
   }
 }
-
 .animation-bounce {
   animation: bounce 6s ease-in-out infinite;
 }
@@ -3422,11 +3091,9 @@ GR-MOTOR BY OX TECH.UK
 .accordion .accordion-button {
   font-weight: 500;
 }
-
 .accordion .accordion-button {
   cursor: pointer;
 }
-
 .accordion .accordion-button::after {
   background-image: none !important;
   font-family: "remixicon", sans-serif;
@@ -3436,7 +3103,6 @@ GR-MOTOR BY OX TECH.UK
   line-height: 0.8;
   transition: none;
 }
-
 .accordion .accordion-button:not(.collapsed)::after {
   background-image: none !important;
   transform: rotate(-180deg);
@@ -3446,7 +3112,6 @@ GR-MOTOR BY OX TECH.UK
 .accordion-icon-none .accordion-button::after {
   content: "";
 }
-
 .accordion-icon-none .accordion-button:not(.collapsed)::after {
   content: "";
 }
@@ -3455,13 +3120,11 @@ GR-MOTOR BY OX TECH.UK
   content: "\ea6b";
   transition: transform 0.2s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .accordion-icon .accordion-button::after {
     transition: none;
   }
 }
-
 .accordion-icon .accordion-button:not(.collapsed)::after {
   transform: rotate(-90deg);
   margin-inline-end: 0;
@@ -3470,7 +3133,6 @@ GR-MOTOR BY OX TECH.UK
 .accordion-with-plus .accordion-button::after {
   content: "\ea13";
 }
-
 .accordion-with-plus .accordion-button:not(.collapsed)::after {
   content: "\f1af";
 }
@@ -3478,12 +3140,10 @@ GR-MOTOR BY OX TECH.UK
 .accordion-with-left-icon .accordion-button {
   padding-inline-start: 2.75rem;
 }
-
 .accordion-with-left-icon .accordion-button::after {
   position: absolute;
   inset-inline-start: 1rem;
 }
-
 .accordion-with-left-icon .accordion-button:not(.collapsed)::after {
   margin-inline-start: 5px;
 }
@@ -3496,15 +3156,12 @@ GR-MOTOR BY OX TECH.UK
   border-top: var(--pe-border-width) solid var(--pe-border-color);
   border-radius: var(--pe-border-radius-sm);
 }
-
 .accordion-border-box .accordion-item:not(:first-of-type) {
   margin-top: 8px;
 }
-
 .accordion-border-box .accordion-item .accordion-button {
   border-radius: var(--pe-border-radius-sm);
 }
-
 .accordion-border-box .accordion-item .accordion-button:not(.collapsed) {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -3519,7 +3176,6 @@ GR-MOTOR BY OX TECH.UK
   background: none;
   color: var(--pe-alert-link-color);
 }
-
 .alert-dismissible .btn-close::after {
   position: absolute;
   inset: 0;
@@ -3529,7 +3185,6 @@ GR-MOTOR BY OX TECH.UK
   font-family: bootstrap-icons;
   transition: all 0.2s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .alert-dismissible .btn-close::after {
     transition: none;
@@ -3547,12 +3202,11 @@ GR-MOTOR BY OX TECH.UK
   position: relative;
   border-radius: 50%;
 }
-
 .avatar-item img {
   border-radius: 50%;
   overflow: hidden;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 
 .avatar-badge {
@@ -3588,12 +3242,10 @@ GR-MOTOR BY OX TECH.UK
   display: flex;
   flex-wrap: wrap;
 }
-
 .avatar-group .avatar-item {
   margin-right: -12px;
   transition: all 0.2s;
 }
-
 .avatar-group .avatar-item:hover {
   position: relative;
   transform: translateY(-2px);
@@ -3605,12 +3257,11 @@ GR-MOTOR BY OX TECH.UK
   width: 100%;
   overflow: hidden;
 }
-
 .image-wrapper img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   position: absolute;
   top: 0;
   right: 0;
@@ -3669,11 +3320,9 @@ GR-MOTOR BY OX TECH.UK
 .btn-loader .indicator-progress {
   display: none;
 }
-
 .btn-loader.loading .indicator-progress {
   display: flex;
 }
-
 .btn-loader i {
   animation: loader 1500ms infinite linear;
   display: inline-block;
@@ -3685,28 +3334,23 @@ GR-MOTOR BY OX TECH.UK
     transform: rotate(-360deg);
   }
 }
-
 .custom-toggle .icon-on {
   display: none;
 }
-
 .custom-toggle .icon-off {
   display: inline-flex;
 }
-
 .custom-toggle.active .icon-on {
   display: inline-flex;
 }
-
 .custom-toggle.active .icon-off {
   display: none;
 }
 
-.breadcrumb-item>a {
+.breadcrumb-item > a {
   color: var(--pe-emphasis-color);
 }
-
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   font-family: "remixicon", sans-serif;
   content: "\ea6e";
 }
@@ -3717,33 +3361,29 @@ GR-MOTOR BY OX TECH.UK
   padding: 12px 16px;
   border-radius: 4px;
 }
-
-.colored-breadcrumb .breadcrumb-item>a {
+.colored-breadcrumb .breadcrumb-item > a {
   color: var(--pe-white);
 }
-
 .colored-breadcrumb .breadcrumb-item.active {
   opacity: 0.8;
 }
-
 .colored-breadcrumb.bg-light {
   --pe-breadcrumb-divider-color: var(--pe-black);
   --pe-breadcrumb-item-active-color: var(--pe-black);
 }
-
-.colored-breadcrumb.bg-light .breadcrumb-item>a {
+.colored-breadcrumb.bg-light .breadcrumb-item > a {
   color: var(--pe-black);
 }
 
-.breadcrumb-line .breadcrumb-item+.breadcrumb-item:before {
+.breadcrumb-line .breadcrumb-item + .breadcrumb-item:before {
   content: "\f1ae";
 }
 
-.breadcrumb-arrow .breadcrumb-item+.breadcrumb-item:before {
+.breadcrumb-arrow .breadcrumb-item + .breadcrumb-item:before {
   content: "\ea6c";
 }
 
-.breadcrumb-double-arrow .breadcrumb-item+.breadcrumb-item:before {
+.breadcrumb-double-arrow .breadcrumb-item + .breadcrumb-item:before {
   content: "\f2e5";
 }
 
@@ -3763,11 +3403,9 @@ GR-MOTOR BY OX TECH.UK
 .card-light .card-header {
   border-bottom: 1px solid var(--pe-border-color);
 }
-
 .card-light .card-title {
   color: var(--pe-body-color);
 }
-
 .card-light .card-text {
   color: var(--pe-body-color);
 }
@@ -3775,17 +3413,14 @@ GR-MOTOR BY OX TECH.UK
 .card {
   position: relative;
 }
-
 .card .card-header .card-actions a {
   font-size: 1rem;
   color: inherit;
   font-weight: 500;
 }
-
 .card .card-header .card-actions a .ri-drag-move-2-fill {
   cursor: move;
 }
-
 .card .card-header .card-actions a .ri-close-line {
   font-size: 1.125rem;
 }
@@ -3860,7 +3495,6 @@ GR-MOTOR BY OX TECH.UK
   margin: 0 4px;
   border: none;
 }
-
 .carousel .carousel-indicators-dots button:after {
   content: " ";
   border-radius: 100%;
@@ -3868,17 +3502,14 @@ GR-MOTOR BY OX TECH.UK
   height: 10px;
   width: 10px;
 }
-
 .carousel .carousel-indicators-dots button.active {
   background-color: transparent;
   outline: 1px solid var(--pe-primary);
   outline-offset: 2px;
 }
-
 .carousel .carousel-indicators-dots button.active:after {
   background-color: var(--pe-primary);
 }
-
 .carousel .carousel-indicators-bullet button {
   background-color: transparent !important;
   transition: all 0.2s ease-in-out;
@@ -3890,13 +3521,11 @@ GR-MOTOR BY OX TECH.UK
   justify-content: center;
   text-align: center;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .carousel .carousel-indicators-bullet button {
     transition: none;
   }
 }
-
 .carousel .carousel-indicators-bullet button:after {
   display: inline-block;
   content: " ";
@@ -3906,33 +3535,28 @@ GR-MOTOR BY OX TECH.UK
   height: 10px;
   width: 10px;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .carousel .carousel-indicators-bullet button:after {
     transition: none;
   }
 }
-
 .carousel .carousel-indicators-bullet button.active {
   transition: all 0.2s ease-in-out;
   background-color: transparent;
   height: 10px;
   width: 20px;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .carousel .carousel-indicators-bullet button.active {
     transition: none;
   }
 }
-
 .carousel .carousel-indicators-bullet button.active:after {
   transition: all 0.2s ease-in-out;
   height: 10px;
   width: 20px;
   background-color: var(--pe-primary);
 }
-
 @media (prefers-reduced-motion: reduce) {
   .carousel .carousel-indicators-bullet button.active:after {
     transition: none;
@@ -3942,7 +3566,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-primary button.active {
   outline-color: var(--pe-primary) !important;
 }
-
 .carousel-indicators-primary button.active:after {
   background-color: var(--pe-primary) !important;
 }
@@ -3950,7 +3573,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-secondary button.active {
   outline-color: var(--pe-secondary) !important;
 }
-
 .carousel-indicators-secondary button.active:after {
   background-color: var(--pe-secondary) !important;
 }
@@ -3958,7 +3580,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-success button.active {
   outline-color: var(--pe-success) !important;
 }
-
 .carousel-indicators-success button.active:after {
   background-color: var(--pe-success) !important;
 }
@@ -3966,7 +3587,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-info button.active {
   outline-color: var(--pe-info) !important;
 }
-
 .carousel-indicators-info button.active:after {
   background-color: var(--pe-info) !important;
 }
@@ -3974,7 +3594,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-warning button.active {
   outline-color: var(--pe-warning) !important;
 }
-
 .carousel-indicators-warning button.active:after {
   background-color: var(--pe-warning) !important;
 }
@@ -3982,7 +3601,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-danger button.active {
   outline-color: var(--pe-danger) !important;
 }
-
 .carousel-indicators-danger button.active:after {
   background-color: var(--pe-danger) !important;
 }
@@ -3990,7 +3608,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-light button.active {
   outline-color: var(--pe-light) !important;
 }
-
 .carousel-indicators-light button.active:after {
   background-color: var(--pe-light) !important;
 }
@@ -3998,7 +3615,6 @@ GR-MOTOR BY OX TECH.UK
 .carousel-indicators-dark button.active {
   outline-color: var(--pe-dark) !important;
 }
-
 .carousel-indicators-dark button.active:after {
   background-color: var(--pe-dark) !important;
 }
@@ -4007,7 +3623,6 @@ GR-MOTOR BY OX TECH.UK
 .dropdown {
   line-height: 1;
 }
-
 .btn-group.dropdown-hover:hover .dropdown-menu,
 .dropdown.dropdown-hover:hover .dropdown-menu {
   display: block;
@@ -4024,13 +3639,11 @@ GR-MOTOR BY OX TECH.UK
   line-height: 0;
   margin-inline-end: -4px;
 }
-
 .dropup .dropdown-toggle.arrow-none::after,
 .dropend .dropdown-toggle.arrow-none::after,
 .dropdown-toggle.arrow-none::after {
   display: none;
 }
-
 .dropup .dropdown-toggle.show::after,
 .dropend .dropdown-toggle.show::after,
 .dropdown-toggle.show::after {
@@ -4040,7 +3653,6 @@ GR-MOTOR BY OX TECH.UK
 .dropup .dropdown-toggle::after {
   transform: rotate(-180deg);
 }
-
 .dropup .dropdown-toggle.show::after {
   transform: rotate(-360deg);
 }
@@ -4056,11 +3668,9 @@ GR-MOTOR BY OX TECH.UK
   position: relative;
   top: -2px;
 }
-
 .dropstart .dropdown-toggle.arrow-none::before {
   display: none;
 }
-
 .dropstart .dropdown-toggle.show::before {
   transform: rotate(-180deg);
 }
@@ -4069,42 +3679,35 @@ GR-MOTOR BY OX TECH.UK
   box-shadow: 0 4px 24px 0 rgba(62, 57, 107, 0.18);
   background-color: var(--pe-dropdown-bg);
 }
-
 .dropdown-menu .dropdown-header {
   font-size: 0.875rem;
   font-weight: 600;
 }
-
 .dropdown-menu .dropdown-item {
   display: flex;
   align-items: center;
   border-radius: var(--pe-dropdown-border-radius);
   line-height: 1.5;
 }
-
 .dropdown-menu .dropdown-item i {
   font-size: 1rem;
   margin-left: 10px;
 }
-
 .dropdown-menu .dropdown-item svg {
   width: 18px;
   height: 18px;
   margin-left: 10px;
   fill: #f2f2f2;
 }
-
 .dropdown-menu .dropdown-item .float-right svg {
   width: 14px;
   height: 14px;
 }
-
 .dropdown-menu .dropdown-divider {
   margin: 8px -8px;
 }
 
-.dropdown-menu-dark .dropdown-item.active,
-.dropdown-menu-dark .dropdown-item:active {
+.dropdown-menu-dark .dropdown-item.active, .dropdown-menu-dark .dropdown-item:active {
   color: var(--bs-dropdown-link-hover-color);
   background-color: var(--bs-dropdown-link-hover-bg);
 }
@@ -4122,12 +3725,10 @@ GR-MOTOR BY OX TECH.UK
 * {
   scrollbar-width: thin;
 }
-
 *::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-
 * ::-webkit-scrollbar-track {
   background-color: transparent;
 }
@@ -4162,13 +3763,11 @@ GR-MOTOR BY OX TECH.UK
 .form-control:disabled {
   cursor: not-allowed;
 }
-
 .form-control:focus {
   border-color: var(--pe-primary);
 }
 
-.was-validated .form-control:invalid::-moz-placeholder,
-.form-control.is-invalid::-moz-placeholder {
+.was-validated .form-control:invalid::-moz-placeholder, .form-control.is-invalid::-moz-placeholder {
   color: var(--pe-form-invalid-color);
 }
 
@@ -4180,7 +3779,6 @@ GR-MOTOR BY OX TECH.UK
 .form-icon {
   position: relative;
 }
-
 .form-icon i {
   position: absolute;
   top: 0;
@@ -4190,16 +3788,13 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   width: 2.7rem;
 }
-
 .form-icon .form-control-icon {
   padding-right: calc(0.9rem * 3);
 }
-
 .form-icon.right .form-control-icon {
   padding-left: calc(0.9rem * 3);
   padding-right: 0.9rem;
 }
-
 .form-icon.right i {
   right: auto;
   left: 0;
@@ -4208,7 +3803,6 @@ GR-MOTOR BY OX TECH.UK
 .form-img {
   position: relative;
 }
-
 .form-img img {
   position: absolute;
   top: 8px;
@@ -4218,16 +3812,13 @@ GR-MOTOR BY OX TECH.UK
   justify-content: center;
   align-items: center;
 }
-
 .form-img .form-control-img {
   padding-right: calc(0.9rem * 3);
 }
-
 .form-img.right .form-control-img {
   padding-left: calc(0.9rem * 3);
   padding-right: 0.9rem;
 }
-
 .form-img.right img {
   right: auto;
   left: 0;
@@ -4236,16 +3827,13 @@ GR-MOTOR BY OX TECH.UK
 .floating-input {
   position: relative;
 }
-
 .floating-input input::-moz-placeholder {
   color: transparent;
 }
-
 .floating-input input::placeholder {
   color: transparent;
 }
-
-.floating-input input:not(:-moz-placeholder)+label {
+.floating-input input:not(:-moz-placeholder) + label {
   right: 0.9rem;
   line-height: 1rem;
   font-size: 0.765625rem;
@@ -4255,9 +3843,7 @@ GR-MOTOR BY OX TECH.UK
   color: var(--pe-primary);
   background-color: var(--pe-secondary-bg);
 }
-
-.floating-input input:focus+label,
-.floating-input input:not(:placeholder-shown)+label {
+.floating-input input:focus + label, .floating-input input:not(:placeholder-shown) + label {
   right: 0.9rem;
   line-height: 1rem;
   font-size: 0.765625rem;
@@ -4267,28 +3853,21 @@ GR-MOTOR BY OX TECH.UK
   color: var(--pe-primary);
   background-color: var(--pe-secondary-bg);
 }
-
-.floating-input input.form-control+label {
+.floating-input input.form-control + label {
   top: 0.5rem;
 }
-
-.floating-input input.form-control:not(:-moz-placeholder)+label {
+.floating-input input.form-control:not(:-moz-placeholder) + label {
   top: -0.5rem;
 }
-
-.floating-input input.form-control:focus+label,
-.floating-input input.form-control:not(:placeholder-shown)+label {
+.floating-input input.form-control:focus + label, .floating-input input.form-control:not(:placeholder-shown) + label {
   top: -0.5rem;
 }
-
-.floating-input input.form-control-sm+label {
+.floating-input input.form-control-sm + label {
   top: 0.2rem;
 }
-
-.floating-input input.form-control-lg+label {
+.floating-input input.form-control-lg + label {
   top: 0.9rem;
 }
-
 .floating-input label {
   position: absolute;
   top: 1rem;
@@ -4301,45 +3880,36 @@ GR-MOTOR BY OX TECH.UK
 .form-check {
   position: relative;
 }
-
 .form-check .form-check-input {
   cursor: pointer;
 }
-
 .form-check.form-check-sm:not(.form-switch) {
   padding-right: 1.7em;
 }
-
 .form-check.form-check-sm:not(.form-switch) .form-check-input {
   margin-right: -1.7em;
   height: 1.1rem;
   width: 1.1rem;
 }
-
 .form-check.form-check-lg:not(.form-switch) {
   padding-right: 2.4em;
 }
-
 .form-check.form-check-lg:not(.form-switch) .form-check-input {
   margin-right: -2.4em;
   height: 1.5rem;
   width: 1.5rem;
 }
-
 .form-check.form-check-sm.form-switch {
   padding-right: 2.6em;
 }
-
 .form-check.form-check-sm.form-switch .form-check-input {
   margin-right: -2.6em;
   width: 2.3em;
   height: 1.3em;
 }
-
 .form-check.form-check-lg.form-switch {
   padding-right: 3.4em;
 }
-
 .form-check.form-check-lg.form-switch .form-check-input {
   margin-right: -3.4em;
   width: 3em;
@@ -4352,7 +3922,6 @@ GR-MOTOR BY OX TECH.UK
   justify-content: center;
   align-items: center;
 }
-
 .main-img-checkbox .img-checkbox .main-img-cover {
   position: absolute;
   top: 15px;
@@ -4360,20 +3929,17 @@ GR-MOTOR BY OX TECH.UK
   width: 24px;
   height: 24px;
 }
-
 .main-img-checkbox .img-checkbox .form-check-label {
   width: 100%;
 }
-
 .main-img-checkbox .img-checkbox img {
   width: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   border-radius: 0.625rem;
   border: 2px solid transparent;
 }
-
-.main-img-checkbox input:checked+.form-check-label img {
+.main-img-checkbox input:checked + .form-check-label img {
   border-color: var(--pe-primary);
 }
 
@@ -4383,7 +3949,6 @@ GR-MOTOR BY OX TECH.UK
   box-shadow: none;
   border-radius: 1rem;
 }
-
 .noUi-target .noUi-handle {
   background: var(--pe-primary);
   box-shadow: none;
@@ -4393,9 +3958,7 @@ GR-MOTOR BY OX TECH.UK
   outline: 2px solid var(--pe-secondary-bg);
   cursor: pointer;
 }
-
-.noUi-target .noUi-handle::after,
-.noUi-target .noUi-handle::before {
+.noUi-target .noUi-handle::after, .noUi-target .noUi-handle::before {
   content: "";
   display: block;
   position: absolute;
@@ -4406,51 +3969,39 @@ GR-MOTOR BY OX TECH.UK
   top: 50%;
   transform: translateY(-50%);
 }
-
 .noUi-target .noUi-handle::after {
   right: 34%;
 }
-
 .noUi-target.noUi-horizontal {
   height: 0.5rem;
 }
-
 .noUi-target.noUi-horizontal .noUi-handle {
   top: -0.25rem;
   left: -0.5rem;
 }
-
 .noUi-target.noUi-vertical {
   height: 150px;
   width: 0.5rem;
 }
-
 .noUi-target.noUi-vertical .noUi-handle {
   left: -0.25rem;
   bottom: -0.5rem;
 }
-
 .noUi-target .noUi-connects {
   border-radius: 1rem;
 }
-
 .noUi-target .noUi-connect {
   background: var(--pe-primary);
 }
-
 .noUi-target.slider-fit {
   padding: 0 0.5rem;
 }
-
-.noUi-target.no-handle-slider .noUi-handle::before,
-.noUi-target.no-handle-slider .noUi-handle::after {
+.noUi-target.no-handle-slider .noUi-handle::before, .noUi-target.no-handle-slider .noUi-handle::after {
   display: none;
 }
-
 .noUi-target.no-handle-rounded .noUi-handle {
   border-radius: 50%;
 }
-
 .noUi-target.no-handle-square .noUi-handle {
   border-radius: 0%;
 }
@@ -4458,7 +4009,6 @@ GR-MOTOR BY OX TECH.UK
 .large-slider.noUi-horizontal {
   height: 10px;
 }
-
 .large-slider.noUi-horizontal .noUi-handle {
   width: 18px;
   height: 18px;
@@ -4467,7 +4017,6 @@ GR-MOTOR BY OX TECH.UK
 .small-slider.noUi-horizontal {
   height: 6px;
 }
-
 .small-slider.noUi-horizontal .noUi-handle {
   width: 14px;
   height: 14px;
@@ -4481,11 +4030,9 @@ GR-MOTOR BY OX TECH.UK
 .noUi-pips {
   color: #6c757d;
 }
-
 .noUi-pips .noUi-marker {
   background: var(--pe-tertiary-bg);
 }
-
 .noUi-pips .noUi-marker.noUi-value-sub {
   color: #6c757d;
 }
@@ -4503,7 +4050,6 @@ GR-MOTOR BY OX TECH.UK
   position: relative;
   display: inline-block;
 }
-
 .file-upload .file-upload-item {
   position: absolute;
   top: 0;
@@ -4516,7 +4062,6 @@ GR-MOTOR BY OX TECH.UK
   cursor: pointer;
   color: transparent;
 }
-
 .file-upload input[type=file]::file-selector-button {
   border: none;
   padding: 0;
@@ -4536,7 +4081,6 @@ GR-MOTOR BY OX TECH.UK
   justify-content: center;
   align-items: center;
 }
-
 .dropzone .dz-message {
   font-size: 1rem;
   color: var(--pe-dark);
@@ -4544,11 +4088,9 @@ GR-MOTOR BY OX TECH.UK
   width: 100%;
   margin: 1em 0;
 }
-
 .dropzone .dz-preview {
   margin-inline-end: 0;
 }
-
 .dropzone .dz-preview.dz-image-preview {
   background-color: transparent;
 }
@@ -4558,7 +4100,6 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   gap: 3px;
 }
-
 .qty-input input {
   border: 1px solid var(--pe-border-color);
   background: var(--pe-secondary-bg);
@@ -4569,11 +4110,9 @@ GR-MOTOR BY OX TECH.UK
   padding: 3px;
   text-align: center;
 }
-
 .qty-input input:focus-visible {
   outline: 0;
 }
-
 .qty-input button {
   width: 34px;
   height: 34px;
@@ -4585,25 +4124,20 @@ GR-MOTOR BY OX TECH.UK
   border: none;
   border-radius: var(--pe-border-radius);
 }
-
 .qty-input button:hover {
   opacity: 0.9;
 }
-
 .qty-input-outline button {
   background-color: transparent;
   border: 1px solid var(--pe-border-color);
 }
-
 .qty-input-rounded input {
   border-radius: 0;
 }
-
 .qty-input-rounded button.qty-input-plus {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-
 .qty-input-rounded button.qty-input-minus {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -4613,17 +4147,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-primary);
   color: #fff;
 }
-
 .qty-input-primary input {
   border: 1px solid var(--pe-primary);
 }
-
 .qty-input-primary.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-primary);
   border: 1px solid var(--pe-primary);
 }
-
 .qty-input-primary.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-primary);
@@ -4633,17 +4164,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-secondary);
   color: #fff;
 }
-
 .qty-input-secondary input {
   border: 1px solid var(--pe-secondary);
 }
-
 .qty-input-secondary.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-secondary);
   border: 1px solid var(--pe-secondary);
 }
-
 .qty-input-secondary.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-secondary);
@@ -4653,17 +4181,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-success);
   color: #fff;
 }
-
 .qty-input-success input {
   border: 1px solid var(--pe-success);
 }
-
 .qty-input-success.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-success);
   border: 1px solid var(--pe-success);
 }
-
 .qty-input-success.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-success);
@@ -4673,17 +4198,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-info);
   color: #fff;
 }
-
 .qty-input-info input {
   border: 1px solid var(--pe-info);
 }
-
 .qty-input-info.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-info);
   border: 1px solid var(--pe-info);
 }
-
 .qty-input-info.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-info);
@@ -4693,17 +4215,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-warning);
   color: #fff;
 }
-
 .qty-input-warning input {
   border: 1px solid var(--pe-warning);
 }
-
 .qty-input-warning.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-warning);
   border: 1px solid var(--pe-warning);
 }
-
 .qty-input-warning.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-warning);
@@ -4713,17 +4232,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-danger);
   color: #fff;
 }
-
 .qty-input-danger input {
   border: 1px solid var(--pe-danger);
 }
-
 .qty-input-danger.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-danger);
   border: 1px solid var(--pe-danger);
 }
-
 .qty-input-danger.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-danger);
@@ -4733,17 +4249,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-light);
   color: #000;
 }
-
 .qty-input-light input {
   border: 1px solid var(--pe-light);
 }
-
 .qty-input-light.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-light);
   border: 1px solid var(--pe-light);
 }
-
 .qty-input-light.qty-input-outline button:hover {
   color: #000;
   background-color: var(--pe-light);
@@ -4753,17 +4266,14 @@ GR-MOTOR BY OX TECH.UK
   background-color: var(--pe-dark);
   color: #fff;
 }
-
 .qty-input-dark input {
   border: 1px solid var(--pe-dark);
 }
-
 .qty-input-dark.qty-input-outline button {
   background-color: transparent;
   color: var(--pe-dark);
   border: 1px solid var(--pe-dark);
 }
-
 .qty-input-dark.qty-input-outline button:hover {
   color: #fff;
   background-color: var(--pe-dark);
@@ -4794,11 +4304,9 @@ GR-MOTOR BY OX TECH.UK
 .arrow-pills {
   margin-bottom: 16px;
 }
-
 .arrow-pills .nav-link {
   position: relative;
 }
-
 .arrow-pills .nav-link.active::before {
   content: "";
   position: absolute;
@@ -4816,7 +4324,6 @@ GR-MOTOR BY OX TECH.UK
   border: 1px dashed var(--pe-border-color);
   border-radius: 0.625rem;
 }
-
 .custom-verti-nav-pills .nav-link::after {
   content: "";
   position: absolute;
@@ -4824,13 +4331,11 @@ GR-MOTOR BY OX TECH.UK
   bottom: 0;
   right: 0;
 }
-
 .custom-verti-nav-pills .nav-link.active {
   border-style: solid;
   border-color: var(--pe-nav-link-hover-color);
   color: var(--pe-nav-link-hover-color);
 }
-
 .custom-verti-nav-pills .nav-link.active::after {
   border-bottom: 4px solid var(--pe-nav-link-hover-color);
 }
@@ -4838,12 +4343,10 @@ GR-MOTOR BY OX TECH.UK
 .nav-tabs-bordered {
   border-bottom: 2px solid var(--pe-border-color);
 }
-
 .nav-tabs-bordered .nav-link {
   position: relative;
   color: var(--pe-body-color);
 }
-
 .nav-tabs-bordered .nav-link::after {
   content: "";
   position: absolute;
@@ -4854,11 +4357,9 @@ GR-MOTOR BY OX TECH.UK
   transition: all 350ms ease 0s;
   transform: scale(0);
 }
-
 .nav-tabs-bordered .nav-link.active {
   color: var(--pe-nav-link-hover-color);
 }
-
 .nav-tabs-bordered .nav-link.active::after {
   transform: scale(1);
   background-color: var(--pe-nav-link-hover-color);
@@ -4869,7 +4370,6 @@ GR-MOTOR BY OX TECH.UK
   text-align: center;
   margin-bottom: 8px;
 }
-
 .vertical-nav .nav .nav-link .nav-icon {
   font-size: 24px;
 }
@@ -4879,209 +4379,168 @@ GR-MOTOR BY OX TECH.UK
     transform: scale(0);
     opacity: 0;
   }
-
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
-
 @keyframes slideInRight {
   0% {
     transform: translateX(-100%);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
   }
 }
-
 @keyframes slideInBottom {
   0% {
     transform: translateY(100%);
     opacity: 0;
   }
-
   100% {
     transform: translateY(0);
     opacity: 1;
   }
 }
-
 @keyframes flipHorizontal {
   0% {
     transform: perspective(400px) rotateY(-90deg);
     opacity: 0;
   }
-
   100% {
     transform: perspective(400px) rotateY(0);
     opacity: 1;
   }
 }
-
 @keyframes flipVertical {
   0% {
     transform: perspective(400px) rotateX(90deg);
     opacity: 0;
   }
-
   100% {
     transform: perspective(400px) rotateX(0);
     opacity: 1;
   }
 }
-
 @keyframes zoomIn {
   0% {
     transform: scale(0.8);
     opacity: 0;
   }
-
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
-
 @keyframes slideInLeft {
   0% {
     transform: translateX(100%);
     opacity: 0;
   }
-
   100% {
     transform: translateX(0);
     opacity: 1;
   }
 }
-
 @keyframes slideInTop {
   0% {
     transform: translateY(-100%);
     opacity: 0;
   }
-
   100% {
     transform: translateY(0);
     opacity: 1;
   }
 }
-
 @keyframes rotateIn {
   0% {
     transform: rotate(-90deg);
     opacity: 0;
   }
-
   100% {
     transform: rotate(0);
     opacity: 1;
   }
 }
-
 @keyframes shake {
   0% {
     transform: translate(0);
   }
-
   25% {
     transform: translate(5px);
   }
-
   50% {
     transform: translate(-5px);
   }
-
   75% {
     transform: translate(5px);
   }
-
   100% {
     transform: translate(0);
   }
 }
-
 @keyframes swing {
   0% {
     transform: rotate(0deg);
   }
-
   20% {
     transform: rotate(-2deg);
   }
-
   40% {
     transform: rotate(2deg);
   }
-
   60% {
     transform: rotate(-1deg);
   }
-
   100% {
     transform: rotate(0deg);
   }
 }
-
 @keyframes zoomOut {
   0% {
     transform: scale(0.8);
     opacity: 0;
   }
-
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
-
 .modal.scale-in {
   animation: scaleIn 0.5s forwards;
 }
-
 .modal.slide-in-right {
   animation: slideInRight 0.5s forwards;
 }
-
 .modal.slide-in-bottom {
   animation: slideInBottom 0.5s forwards;
 }
-
 .modal.flip-horizontal {
   animation: flipHorizontal 0.5s forwards;
 }
-
 .modal.flip-vertical {
   animation: flipVertical 0.5s forwards;
 }
-
 .modal.zoom-in {
   animation: zoomIn 0.4s forwards;
 }
-
 .modal.slide-in-left {
   animation: slideInLeft 0.4s forwards;
 }
-
 .modal.slide-in-top {
   animation: slideInTop 0.4s forwards;
 }
-
 .modal.rotate-in {
   animation: rotateIn 0.4s forwards;
 }
-
 .modal.shake {
   animation: shake 0.5s forwards;
 }
-
 .modal.swing {
   animation: swing 0.5s forwards;
 }
-
 .modal.zoom-out {
   animation: zoomOut 0.4s forwards;
 }
@@ -5094,7 +4553,6 @@ GR-MOTOR BY OX TECH.UK
   flex-wrap: wrap;
   gap: 8px;
 }
-
 .pagination .page-link {
   padding: 0;
   text-align: center;
@@ -5107,7 +4565,6 @@ GR-MOTOR BY OX TECH.UK
 .progress {
   cursor: pointer;
 }
-
 .progress:hover {
   --pe-progress-bg: var(--pe-body-bg);
 }
@@ -5125,15 +4582,12 @@ GR-MOTOR BY OX TECH.UK
   width: var(--progress-size);
   height: var(--progress-size);
 }
-
 .circular-progress:hover {
   cursor: pointer;
 }
-
 .circular-progress:hover .bg-circular-progress {
   stroke: var(--pe-body-bg);
 }
-
 .circular-progress:hover .circular-text {
   color: var(--pe-primary);
 }
@@ -5152,7 +4606,6 @@ GR-MOTOR BY OX TECH.UK
   height: var(--progress-size);
   display: inline-block;
 }
-
 .circular-inner circle {
   cx: var(--half-size);
   cy: var(--half-size);
@@ -5161,12 +4614,10 @@ GR-MOTOR BY OX TECH.UK
   fill: none;
   stroke-linecap: round;
 }
-
 .circular-inner .bg-circular-progress {
   stroke: var(--progress-bg-color);
   transition: all 0.2s ease-in-out;
 }
-
 .circular-inner .fg-circular-progress {
   stroke: var(--pe-primary);
   transform: rotate(90deg);
@@ -5179,7 +4630,6 @@ GR-MOTOR BY OX TECH.UK
   --stroke-width: 4px;
   --progress-size: 56px;
 }
-
 .circular-progress.circular-sm .circular-text {
   font-size: 12px;
 }
@@ -5204,29 +4654,24 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   gap: 14px;
 }
-
 .placeholder-body .placeholder-start {
   background-image: linear-gradient(-90deg, var(--pe-gray-100) 0%, var(--pe-gray-100) 40%, var(--pe-gray-200) 50%, var(--pe-gray-200) 55%, var(--pe-gray-100) 65%, var(--pe-gray-100) 100%);
   background-size: 400%;
   animation: skeleton 2000ms infinite;
 }
-
 .placeholder-body .placeholder-start.square {
   width: 60px;
   height: 60px;
 }
-
 .placeholder-body .placeholder-start.circle {
   width: 60px;
   height: 60px;
   border-radius: 50rem;
   overflow: hidden;
 }
-
 .placeholder-body .placeholder-end {
   flex: 1;
 }
-
 .placeholder-body .placeholder-end .placeholder-line {
   background-image: linear-gradient(-90deg, var(--pe-gray-100) 0%, var(--pe-gray-100) 40%, var(--pe-gray-200) 50%, var(--pe-gray-200) 55%, var(--pe-gray-100) 65%, var(--pe-gray-100) 100%);
   background-size: 400%;
@@ -5241,12 +4686,10 @@ GR-MOTOR BY OX TECH.UK
   from {
     background-position: 0% 100%;
   }
-
   to {
     background-position: 100% 0;
   }
 }
-
 .center-hr {
   position: relative;
   display: flex;
@@ -5254,19 +4697,15 @@ GR-MOTOR BY OX TECH.UK
   border: 0;
   text-align: center;
 }
-
-.center-hr::before,
-.center-hr::after {
+.center-hr::before, .center-hr::after {
   content: " ";
   width: 50%;
   border-top: 1px solid;
   border-color: var(--pe-border-color);
 }
-
 .center-hr::before {
   margin-left: 1.25rem;
 }
-
 .center-hr::after {
   margin-right: 1.25rem;
 }
@@ -5274,7 +4713,6 @@ GR-MOTOR BY OX TECH.UK
 .tooltip .tooltip-inner {
   box-shadow: -3px 3px 100px 0px rgba(82, 63, 105, 0.5);
 }
-
 .tooltip.tooltop-auto-width .tooltip-inner {
   white-space: nowrap;
   max-width: none;
@@ -5293,24 +4731,21 @@ GR-MOTOR BY OX TECH.UK
 .popover {
   box-shadow: rgba(222, 226, 230, 0.4) 0 0 15px 4px;
 }
-
 .popover.popover-no-arrow .popover-arrow {
   display: none;
 }
 
-.table> :not(:first-child) {
+.table > :not(:first-child) {
   border-top: 0;
 }
 
 .table-box {
   overflow-x: auto;
 }
-
 .table-box th:first-child,
 .table-box td:first-child {
   padding-right: 1.5rem !important;
 }
-
 .table-box th:last-child,
 .table-box td:last-child {
   padding-left: 1.5rem !important;
@@ -5319,8 +4754,7 @@ GR-MOTOR BY OX TECH.UK
 .table {
   margin-bottom: 0;
 }
-
-.table thead> :not(:last-child) {
+.table thead > :not(:last-child) {
   border-style: none;
 }
 
@@ -5349,18 +4783,15 @@ GR-MOTOR BY OX TECH.UK
   padding: 0;
   list-style: none;
 }
-
 .tree ul {
   margin: 0;
   padding: 0;
   list-style: none;
   position: relative;
 }
-
 .tree ul ul {
   margin-inline-start: 0.5em;
 }
-
 .tree ul:before {
   content: "";
   display: block;
@@ -5371,7 +4802,6 @@ GR-MOTOR BY OX TECH.UK
   right: 0;
   border-inline-start: 1px solid #6c757d;
 }
-
 .tree ul li:before {
   content: "";
   display: block;
@@ -5383,7 +4813,6 @@ GR-MOTOR BY OX TECH.UK
   top: 1em;
   right: 0;
 }
-
 .tree li {
   margin: 0;
   padding-inline-start: 16px;
@@ -5392,7 +4821,6 @@ GR-MOTOR BY OX TECH.UK
   font-weight: 500;
   position: relative;
 }
-
 .tree li a {
   display: flex;
   align-items: center;
@@ -5400,19 +4828,15 @@ GR-MOTOR BY OX TECH.UK
   color: inherit;
   padding: 0 4px;
 }
-
 .tree li a:hover {
   background-color: rgba(233, 236, 239, 0.2);
 }
-
 .tree li .expand {
   display: block;
 }
-
 .tree li .collapse {
   display: none;
 }
-
 .tree .active,
 .tree .selected {
   color: #f37334 !important;
@@ -5421,7 +4845,6 @@ GR-MOTOR BY OX TECH.UK
 .ribbon {
   position: relative;
 }
-
 .ribbon .ribbon1 {
   position: absolute;
   top: 15px;
@@ -5432,13 +4855,10 @@ GR-MOTOR BY OX TECH.UK
   right: 0;
   border-radius: 0.3125rem 0 0 0.3125rem;
 }
-
-.ribbon .ribbon1::before,
-.ribbon .ribbon1::after {
+.ribbon .ribbon1::before, .ribbon .ribbon1::after {
   content: "";
   position: absolute;
 }
-
 .ribbon .ribbon1:before {
   width: 7px;
   height: 120%;
@@ -5448,7 +4868,6 @@ GR-MOTOR BY OX TECH.UK
   background: inherit;
   border-radius: 0 0.3125rem 0.3125rem 0;
 }
-
 .ribbon .ribbon1:after {
   width: 5px;
   height: 5px;
@@ -5457,13 +4876,11 @@ GR-MOTOR BY OX TECH.UK
   background: var(--pe-ribbon-sub-bg);
   border-radius: 0 0.3125rem 0.3125rem 0;
 }
-
 .ribbon .ribbon2 {
   position: absolute;
   top: -3px;
   right: -3px;
 }
-
 .ribbon .ribbon2 span {
   position: absolute;
   display: block;
@@ -5477,7 +4894,6 @@ GR-MOTOR BY OX TECH.UK
   top: 16px;
   transform: rotate(45deg);
 }
-
 .ribbon .ribbon3 {
   position: absolute;
   right: 16px;
@@ -5492,60 +4908,50 @@ GR-MOTOR BY OX TECH.UK
   border-radius: 50rem;
   font-size: 13px;
 }
-
 .ribbon.right .ribbon1 {
   left: 0;
   right: auto;
   border-radius: 0 0.3125rem 0.3125rem 0;
 }
-
 .ribbon.right .ribbon1:before {
   right: auto;
   left: -6.5px;
   border-radius: 0.3125rem 0 0 0.3125rem;
 }
-
 .ribbon.right .ribbon1:after {
   right: auto;
   left: -4.5px;
   border-radius: 0.3125rem 0 0 0.3125rem;
 }
-
 .ribbon.right .ribbon2 {
   left: -3px;
   right: auto;
 }
-
 .ribbon.right .ribbon2 span {
   right: -114px;
   top: 16px;
   transform: rotate(-45deg);
 }
-
 .ribbon.right .ribbon3 {
   left: 16px;
   right: auto;
 }
 
 @media print {
-
-  .pe-app-sidebar,
-  .app-header {
+  .pe-app-sidebar, .app-header {
     display: none;
   }
-
   .app-wrapper {
     margin-right: 0;
     padding: 0;
   }
 }
-
 .progress-wrap {
   left: 25px;
   bottom: 25px;
   border-radius: 50rem;
   -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
   background: rgba(var(--pe-body-bg-rgb), 0.5);
   z-index: 999;
   opacity: 0;
@@ -5553,17 +4959,14 @@ GR-MOTOR BY OX TECH.UK
   transform: translateY(15px);
   transition: all 200ms linear;
 }
-
 .progress-wrap.active-progress {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
-
 .progress-wrap svg {
   transform: rotate(90deg);
 }
-
 .progress-wrap svg .progress {
   fill: none;
   stroke: var(--pe-primary);
@@ -5579,19 +4982,16 @@ GR-MOTOR BY OX TECH.UK
   color: var(--pe-secondary-color);
   transition: all 0.2s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .faqs-menu-list a {
     transition: none;
   }
 }
-
 .faqs-menu-list a:is(:hover, .active) {
   color: var(--pe-primary);
   border-right-color: var(--pe-primary);
   background-color: var(--pe-primary-bg-subtle);
 }
-
 .faqs-menu-list li:not(:last-child) a {
   margin-bottom: 8px;
 }
@@ -5604,17 +5004,14 @@ GR-MOTOR BY OX TECH.UK
   border-radius: 0.3125rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .support-widgets-link a {
     transition: none;
   }
 }
-
 .support-widgets-link a:not(:last-child) {
   margin-bottom: 8px;
 }
-
 .support-widgets-link a:is(:hover, .active) {
   color: var(--pe-white);
   background-color: var(--pe-primary);
@@ -5624,7 +5021,6 @@ GR-MOTOR BY OX TECH.UK
   scale: 1.1;
   transition: all 0.2s ease-in-out;
 }
-
 .blogCard:hover h4 {
   transition: all 0.2s ease-in-out;
   color: var(--pe-primary);
@@ -5644,18 +5040,15 @@ GR-MOTOR BY OX TECH.UK
   border-radius: 0.3125rem;
   position: relative;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul {
   padding-right: 35px;
   position: relative;
   padding-top: 10px;
   margin-bottom: 0;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul li {
   position: relative;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul li:not(:last-child)::before {
   content: "";
   position: absolute;
@@ -5664,17 +5057,14 @@ GR-MOTOR BY OX TECH.UK
   bottom: -25px;
   border: 1px solid var(--pe-border-color);
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title {
   padding: 16px 18px;
   display: inline-block;
   position: relative;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title i {
   color: var(--pe-primary);
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title::before {
   content: "";
   position: absolute;
@@ -5684,7 +5074,6 @@ GR-MOTOR BY OX TECH.UK
   width: 20px;
   border: 1px solid var(--pe-border-color);
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title::after {
   content: "\f234";
   font-family: bootstrap-icons !important;
@@ -5694,7 +5083,6 @@ GR-MOTOR BY OX TECH.UK
   transform: translateY(-50%);
   color: var(--pe-border-color);
 }
-
 .sitemap-wrapper.sitemap-long-content-wrapper li:not(:last-child)::before {
   top: -10px;
   bottom: -36px;
@@ -5711,7 +5099,6 @@ GR-MOTOR BY OX TECH.UK
   padding-top: 20px;
   margin: 0 auto;
 }
-
 .horizontal.timeline3:before {
   content: "";
   display: block;
@@ -5720,7 +5107,6 @@ GR-MOTOR BY OX TECH.UK
   height: 0.2em;
   background-color: var(--pe-border-color);
 }
-
 .horizontal.timeline3 .line {
   display: block;
   position: absolute;
@@ -5728,7 +5114,6 @@ GR-MOTOR BY OX TECH.UK
   height: 0.2em;
   background-color: var(--pe-primary);
 }
-
 .horizontal.timeline3 .steps {
   display: flex;
   position: relative;
@@ -5737,7 +5122,6 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   width: 100%;
 }
-
 .horizontal.timeline3 .steps .step {
   display: block;
   position: relative;
@@ -5750,15 +5134,12 @@ GR-MOTOR BY OX TECH.UK
   border-radius: 50%;
   z-index: 500;
 }
-
 .horizontal.timeline3 .steps .step:first-child {
   margin-right: 0;
 }
-
 .horizontal.timeline3 .steps .step:last-child {
   margin-left: 0;
 }
-
 .horizontal.timeline3 .steps .step span {
   position: absolute;
   top: calc(100% + 1em);
@@ -5767,7 +5148,6 @@ GR-MOTOR BY OX TECH.UK
   white-space: nowrap;
   color: var(--pe-body-color);
 }
-
 .horizontal.timeline3 .steps .step.current:before {
   content: "";
   display: block;
@@ -5785,7 +5165,6 @@ GR-MOTOR BY OX TECH.UK
   animation-iteration-count: infinite;
   animation-timing-function: ease-out;
 }
-
 .horizontal.timeline3 .steps .step.current span {
   opacity: 0.8;
 }
@@ -5795,25 +5174,21 @@ GR-MOTOR BY OX TECH.UK
     transform: translate(50%, -50%) scale(0);
     opacity: 1;
   }
-
   to {
     transform: translate(50%, -50%) scale(1);
     opacity: 0;
   }
 }
-
 .logistics-service {
   border-radius: 0.4375rem;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .logistics-service {
     transition: none;
   }
 }
-
 .logistics-service:hover {
   background-color: var(--pe-light-bg-subtle);
 }
@@ -5846,7 +5221,6 @@ GR-MOTOR BY OX TECH.UK
   align-items: center;
   border-radius: 100%;
 }
-
 .day-item.active {
   color: #fff;
   background-color: var(--pe-primary);
@@ -5903,7 +5277,6 @@ GR-MOTOR BY OX TECH.UK
 .crmactivity-height {
   height: 389px;
 }
-
 @media (min-width: 1441px) {
   .crmactivity-height {
     height: 350px;
@@ -5921,17 +5294,14 @@ GR-MOTOR BY OX TECH.UK
 .swal2-container {
   overflow-y: hidden !important;
 }
-
 .swal2-container.swal2-shown {
   background-color: rgba(0, 0, 0, 0.2);
 }
-
 .swal2-container .swal2-popup {
   background-color: var(--pe-secondary-bg);
   padding: 1rem 2rem;
   border-radius: var(--pe-border-radius);
 }
-
 .swal2-container .swal2-popup .swal2-html-container,
 .swal2-container .swal2-popup .swal2-content {
   font-weight: normal;
@@ -5941,25 +5311,18 @@ GR-MOTOR BY OX TECH.UK
   max-height: 200px;
   overflow: auto;
 }
-
-.swal2-container .swal2-popup .btn,
-.swal2-container .swal2-popup .ql-snow .ql-tooltip .ql-action,
-.ql-snow .ql-tooltip .swal2-container .swal2-popup .ql-action {
+.swal2-container .swal2-popup .btn, .swal2-container .swal2-popup .ql-snow .ql-tooltip .ql-action, .ql-snow .ql-tooltip .swal2-container .swal2-popup .ql-action {
   margin: 15px 5px 0;
 }
-
 .swal2-container .swal2-popup .swal2-actions {
   margin: 1.5rem auto 1rem auto;
 }
-
 .swal2-container .swal2-popup .swal2-actions button {
   min-width: 80px;
 }
-
 .swal2-container .swal2-popup .swal2-loader {
   border-color: #f37334 transparent #f37334 transparent;
 }
-
 .swal2-container .swal2-popup .swal2-validation-message {
   background-color: transparent;
 }
@@ -6003,11 +5366,9 @@ GR-MOTOR BY OX TECH.UK
   font-weight: 300;
   font-size: 1.75rem;
 }
-
 .swal2-close:focus {
   box-shadow: none;
 }
-
 .swal2-close:hover {
   color: #f37334;
 }
@@ -6015,39 +5376,31 @@ GR-MOTOR BY OX TECH.UK
 .swal2-icon {
   margin: 10px auto 0 auto;
 }
-
 .swal2-icon.swal2-warning {
   border-color: var(--pe-warning);
   color: var(--pe-warning);
 }
-
 .swal2-icon.swal2-error {
   border-color: var(--pe-danger);
   color: var(--pe-danger);
 }
-
 .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
   background-color: rgba(var(--pe-danger-rgb), 0.75);
 }
-
 .swal2-icon.swal2-success {
   border-color: var(--pe-success);
   color: var(--pe-success);
 }
-
 .swal2-icon.swal2-success [class^=swal2-success-line] {
   background-color: var(--pe-success);
 }
-
 .swal2-icon.swal2-success .swal2-success-ring {
   border-color: rgba(var(--pe-success-rgb), 0.3);
 }
-
 .swal2-icon.swal2-info {
   border-color: var(--pe-info);
   color: var(--pe-info);
 }
-
 .swal2-icon.swal2-question {
   border-color: var(--pe-primary);
   color: var(--pe-primary);
@@ -6056,16 +5409,12 @@ GR-MOTOR BY OX TECH.UK
 .swal2-progress-steps .swal2-progress-step {
   background: #f37334;
 }
-
 .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
   background: #f37334;
 }
-
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step,
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line {
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step, .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step-line {
   background: rgba(243, 115, 52, 0.3);
 }
-
 .swal2-progress-steps .swal2-progress-step-line {
   background: #f37334;
 }
@@ -6073,7 +5422,6 @@ GR-MOTOR BY OX TECH.UK
 .choices {
   margin-bottom: 1rem;
 }
-
 .choices .choices__inner {
   background-color: var(--pe-secondary-bg);
   padding: 0.5rem 0.9rem;
@@ -6082,31 +5430,26 @@ GR-MOTOR BY OX TECH.UK
   font-size: 0.875rem;
   min-height: auto;
 }
-
 .choices .choices__inner .choices__list--single {
   padding: 0;
 }
-
 .choices .choices__inner .choices__input {
   background-color: var(--pe-secondary-bg);
   margin-bottom: 0;
   padding: 0;
 }
-
 .choices .choices__inner .choices__list.choices__list--multiple .choices__item {
   background-color: var(--pe-primary-bg-subtle);
   color: var(--pe-primary);
   border-color: var(--pe-primary-border-subtle);
   font-size: 10px;
 }
-
 .choices .choices__inner .choices__list.choices__list--multiple .choices__item .choices__button {
   position: relative;
   opacity: 1;
   background-image: none;
   border: none;
 }
-
 .choices .choices__inner .choices__list.choices__list--multiple .choices__item .choices__button::before {
   content: "";
   position: absolute;
@@ -6120,7 +5463,6 @@ GR-MOTOR BY OX TECH.UK
   border-right: 1px solid var(--pe-primary);
   pointer-events: none;
 }
-
 .choices .choices__inner .choices__list.choices__list--multiple .choices__item .choices__button::after {
   content: "";
   position: absolute;
@@ -6134,41 +5476,34 @@ GR-MOTOR BY OX TECH.UK
   -webkit-mask-position: center;
   background-color: var(--pe-primary);
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z'%3E%3C/path%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z'%3E%3C/path%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z'%3E%3C/path%3E%3C/svg%3E");
   z-index: 0;
 }
-
 .choices .choices__list.choices__list--dropdown {
   border-color: var(--pe-border-color);
   box-shadow: 0 4px 24px 0 rgba(62, 57, 107, 0.18);
   border-radius: 0.3125rem;
 }
-
 .choices .choices__list[aria-expanded] {
   border-color: var(--pe-border-color);
   background-color: var(--pe-secondary-bg);
 }
-
 .choices .choices__list[aria-expanded] .choices__list {
   padding: 0.5rem 0.5rem;
 }
-
 .choices .choices__list[aria-expanded] .choices__list .choices__item {
   border-radius: var(--pe-border-radius);
   padding: 0.5rem 1rem;
 }
-
 .choices .choices__list[aria-expanded] .choices__list .choices__item.is-highlighted {
   background-color: var(--pe-body-bg);
 }
-
 .choices[data-type*=select-one] .choices__input {
   border-color: var(--pe-border-color);
   background-color: var(--pe-secondary-bg);
   padding: 0.5rem 0.9rem;
   font-size: 0.765625rem;
 }
-
 .choices[data-type*=select-one]::after {
   font-family: "remixicon", sans-serif;
   content: "\ea4e";
@@ -6180,7 +5515,6 @@ GR-MOTOR BY OX TECH.UK
   left: 30px;
   transform: translateY(-50%);
 }
-
 .choices.is-open[data-type*=select-one]::after {
   margin-top: 0;
   border: none;
@@ -6192,23 +5526,19 @@ GR-MOTOR BY OX TECH.UK
   left: auto;
   right: 32px;
 }
-
 [dir=rtl] .choices[data-type*=select-one]::after {
   left: auto;
   right: 30px;
 }
-
 [dir=rtl] .choices.is-open[data-type*=select-one]::after {
   left: auto;
   right: 11.5px;
 }
-
 [dir=rtl] .choices__inner .choices__list.choices__list--multiple .choices__item .choices__button {
   padding-right: 0;
   padding-left: 20px;
   margin: 0 -6px 0 8px;
 }
-
 [dir=rtl] .choices__inner .choices__list.choices__list--multiple .choices__item .choices__button::before {
   content: "";
   right: auto;
@@ -6225,12 +5555,9 @@ GR-MOTOR BY OX TECH.UK
   color: var(--pe-body-color);
   z-index: 9999;
 }
-
-.air-datepicker:before,
-.air-datepicker:after {
+.air-datepicker:before, .air-datepicker:after {
   display: none;
 }
-
 .air-datepicker.hasWeeks {
   width: 325px !important;
 }
@@ -6239,8 +5566,7 @@ GR-MOTOR BY OX TECH.UK
   color: var(--pe-body-color);
 }
 
-.air-datepicker-nav--action:hover,
-.air-datepicker-nav--action:focus,
+.air-datepicker-nav--action:hover, .air-datepicker-nav--action:focus,
 .air-datepicker-nav--title:hover,
 .air-datepicker-nav--title:focus {
   background-color: var(--pe-body-bg) !important;
@@ -6295,7 +5621,6 @@ body .apexcharts-tooltip.apexcharts-theme-light {
   background: var(--pe-body-bg);
   border-color: var(--pe-border-color);
 }
-
 body .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
   background: transparent;
   border-bottom: 1px solid var(--pe-border-color);
@@ -6335,7 +5660,6 @@ body .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
   background: var(--pe-body-bg) !important;
   border: 1px solid var(--pe-border-color) !important;
 }
-
 .apexcharts-menu .apexcharts-menu-item:hover {
   background-color: var(--pe-secondary-bg);
 }
@@ -6365,7 +5689,6 @@ body .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
   justify-content: flex-end;
   gap: 8px;
 }
-
 .listjs-pagination li .page {
   display: block;
   padding: 0.35rem 0.75rem;
@@ -6374,7 +5697,6 @@ body .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
   border: var(--pe-border-width) solid var(--pe-border-color);
   border-radius: 0.3125rem;
 }
-
 .listjs-pagination li.active .page {
   color: #fff;
   background-color: #f37334;
@@ -6390,18 +5712,15 @@ body .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
   border: var(--pe-border-width) solid var(--pe-border-color);
   border-radius: 0.3125rem;
 }
-
 .pagination-next:hover,
 .pagination-prev:hover {
   color: rgb(248.6930232558, 181.4186046512, 148.3069767442);
 }
-
 .pagination-next.disabled,
 .pagination-prev.disabled {
   color: var(--pe-secondary-color);
   cursor: default;
 }
-
 .pagination-next.disabled:hover,
 .pagination-prev.disabled:hover {
   color: var(--pe-secondary-color);
@@ -6410,21 +5729,17 @@ body .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
 table.dataTable {
   margin: 0 !important;
 }
-
-table.dataTable>thead .sorting::before,
-table.dataTable>thead .sorting::after {
+table.dataTable > thead .sorting::before, table.dataTable > thead .sorting::after {
   top: 60%;
   transform: translateY(-50%);
   bottom: auto;
 }
-
-table.dataTable>thead .sorting::before {
+table.dataTable > thead .sorting::before {
   left: 0.5em;
   font-family: "remixicon", sans-serif;
   content: "\ea4e";
 }
-
-table.dataTable>thead .sorting::after {
+table.dataTable > thead .sorting::after {
   font-family: "remixicon", sans-serif;
   content: "\ea78";
   margin-top: -8px;
@@ -6434,27 +5749,22 @@ div.dataTables_wrapper .dt-buttons {
   float: right;
   margin-bottom: 1rem;
 }
-
 div.dataTables_wrapper .dataTables_filter {
   float: left;
   margin-bottom: 1rem;
 }
-
 div.dataTables_wrapper div.dataTables_info {
   color: #6c757d;
   line-height: 42px;
   float: right;
 }
-
 div.dataTables_wrapper .dataTables_length {
   margin-top: 1rem;
 }
-
 div.dataTables_wrapper div.dataTables_paginate {
   margin-top: 1rem !important;
   float: left;
 }
-
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   margin: 0;
 }
@@ -6462,26 +5772,21 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .ql-toolbar {
   font-family: var(--pe-font-sans-serif) !important;
 }
-
 .ql-toolbar span {
   outline: none !important;
   color: var(--pe-body-color);
 }
-
 .ql-toolbar span:hover {
   color: var(--pe-primary) !important;
 }
-
 .ql-toolbar.ql-snow {
   border: 1px solid var(--pe-border-color);
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
 }
-
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
   border-color: transparent;
 }
-
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
   background-color: var(--pe-secondary-bg);
   border: 1px solid var(--pe-border-color);
@@ -6491,15 +5796,12 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   border-radius: var(--pe-border-radius);
   margin-top: 8px;
 }
-
 .ql-toolbar.ql-snow button .ql-stroke {
   stroke: var(--pe-body-color);
 }
-
 .ql-toolbar.ql-snow button:hover {
   color: var(--pe-primary);
 }
-
 .ql-toolbar.ql-snow button:hover .ql-stroke {
   stroke: var(--pe-primary);
 }
@@ -6508,11 +5810,9 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   font-family: var(--pe-font-sans-serif);
   height: 12.5rem;
 }
-
 .ql-container .ql-editor::before {
   color: var(--pe-body-color);
 }
-
 .ql-container.ql-snow {
   background-color: var(--pe-input-bg-custom);
   border: 1px solid var(--pe-border-color);
@@ -6520,22 +5820,17 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-
-.ql-container.ql-snow .ql-picker .ql-picker-label.ql-active,
-.ql-container.ql-snow .ql-picker .ql-picker-label:hover {
+.ql-container.ql-snow .ql-picker .ql-picker-label.ql-active, .ql-container.ql-snow .ql-picker .ql-picker-label:hover {
   color: var(--pe-primary);
 }
-
 .ql-container.ql-snow .ql-stroke,
 .ql-container.ql-snow .ql-script,
 .ql-container.ql-snow .ql-strike svg {
   stroke: var(--pe-body-color);
 }
-
 .ql-container.ql-snow .ql-fill {
   fill: var(--pe-body-color);
 }
-
 .ql-container.ql-bubble {
   border: var(--pe-border-width) solid var(--pe-border-color);
   border-radius: var(--pe-border-radius);
@@ -6544,9 +5839,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   left: 0;
 }
-
-[direction=rtl] .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg,
-[dir=rtl] .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+[direction=rtl] .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg, [dir=rtl] .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   right: 0;
   left: auto;
 }
@@ -6559,13 +5852,11 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   padding: 0.5rem 0.9rem;
   border-radius: var(--pe-border-radius);
 }
-
 .ql-snow .ql-tooltip input[type=text] {
   padding: 0.5rem 0.9rem;
   font-size: 0.875rem;
   outline: none;
 }
-
 .ql-snow .ql-picker-options {
   border: 0;
   padding: 0.5rem 0.5rem;
@@ -6612,17 +5903,14 @@ body {
   --fc-today-bg-color: rgba(var(--pe-primary-rgb), 0.1);
   --fc-now-indicator-color: var(--pe-danger);
 }
-
 .fc table {
   font-size: 0.875rem;
 }
-
 @media (max-width: 767.98px) {
   .fc table {
     font-size: 0.765625rem;
   }
 }
-
 .fc .fc-button {
   padding: 0.25rem 0.5rem;
   box-shadow: none !important;
@@ -6631,52 +5919,42 @@ body {
   font-weight: 500;
   text-transform: capitalize;
 }
-
 .fc .fc-button-primary:not(:disabled):not(.fc-button-active):active {
   color: var(--pe-white);
   border-color: var(--pe-primary);
 }
-
 .fc .fc-button-primary:not(:disabled):not(.fc-button-active):active .fc-icon {
   color: var(--pe-gray-900);
 }
-
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   color: var(--pe-white);
   border-color: var(--pe-primary);
 }
-
 .fc .fc-header-toolbar .fc-button-group .fc-button {
   color: #f37334;
   background-color: rgba(243, 115, 52, 0.15);
   border: none;
   box-shadow: none;
 }
-
-.fc .fc-header-toolbar .fc-button-group .fc-button:hover,
-.fc .fc-header-toolbar .fc-button-group .fc-button.active {
+.fc .fc-header-toolbar .fc-button-group .fc-button:hover, .fc .fc-header-toolbar .fc-button-group .fc-button.active {
   color: #fff;
   background-color: #f37334;
 }
-
 .fc .fc-header-toolbar .fc-today-button {
   background-color: var(--pe-primary) !important;
   color: var(--pe-white) !important;
   line-height: 21px;
   border: none;
 }
-
 @media (max-width: 767.98px) {
   .fc .fc-header-toolbar {
     flex-direction: column;
     gap: 6px;
   }
-
   .fc .fc-header-toolbar .fc-today-button {
     display: none;
   }
 }
-
 .fc .fc-toolbar-title {
   font-size: 1rem;
   font-weight: 700;
@@ -6684,70 +5962,55 @@ body {
   line-height: 29px;
   text-transform: uppercase;
 }
-
 .fc .fc-col-header-cell {
   padding: 0.4rem 0.4rem;
   background-color: rgba(var(--pe-light-rgb), 0.3);
 }
-
 .fc .fc-col-header-cell .fc-col-header-cell-cushion {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--pe-body-color);
 }
-
 @media (max-width: 767.98px) {
   .fc .fc-col-header-cell .fc-col-header-cell-cushion {
     font-size: 0.765625rem;
   }
 }
-
 .fc .fc-scrollgrid {
   border-radius: 0.3125rem;
 }
-
-.fc .fc-scrollgrid thead>tr td:first-child {
+.fc .fc-scrollgrid thead > tr td:first-child {
   border-top-right-radius: 0.3125rem;
 }
-
-.fc .fc-scrollgrid thead>tr td:last-child {
+.fc .fc-scrollgrid thead > tr td:last-child {
   border-top-left-radius: 0.3125rem;
 }
-
-.fc .fc-scrollgrid tbody>tr:last-child td:first-child {
+.fc .fc-scrollgrid tbody > tr:last-child td:first-child {
   border-bottom-right-radius: 0.3125rem;
 }
-
-.fc .fc-scrollgrid tbody>tr:last-child td:last-child {
+.fc .fc-scrollgrid tbody > tr:last-child td:last-child {
   border-bottom-left-radius: 0.3125rem;
 }
-
 .fc .fc-daygrid-event {
   margin-top: 3px;
 }
-
 .fc .fc-icon {
   font-size: 1rem !important;
   margin-top: -3px;
 }
-
 .fc .fc-daygrid-body-balanced .fc-daygrid-day-events {
   min-height: 2em;
   position: relative;
 }
-
 .fc .fc-day .fc-daygrid-day-top a {
   color: var(--pe-body-color);
 }
-
-.f c .fc-day:hover {
+.fc .fc-day:hover {
   cursor: pointer;
 }
-
 .fc .fc-day:hover .fc-daygrid-day-top a {
   color: var(--pe-primary);
 }
-
 .fc .fc-more-link {
   display: inline-block;
   padding: 0.325rem 0.5rem;
@@ -6757,33 +6020,25 @@ body {
   border: 1px solid var(--pe-primary);
   border-radius: var(--pe-border-radius);
 }
-
 @media (max-width: 767.98px) {
   .fc .fc-more-link {
     font-size: 10px;
     padding: 0.26rem 0.25rem;
   }
 }
-
 .fc .fc-more-link:hover {
   color: #fff;
   background-color: var(--pe-primary);
 }
 
-.card-body.p-4.position-relative {
-  background: black;
-}
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-primary-subtle {
   border: 1px solid #f37334;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-primary-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-primary-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-primary-subtle .fc-event-main {
   color: #f37334 !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-primary-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #f37334;
 }
@@ -6791,7 +6046,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-primary-subtle {
   border: 1px solid #f37334;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-primary-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-primary-subtle .fc-event-title {
   color: #f37334 !important;
@@ -6801,11 +6055,9 @@ body {
   color: #f37334 !important;
   border: 1px solid #f37334;
 }
-
-.fc-list-table .fc-list-event.bg-primary-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-primary-subtle .fc-list-event-title > a {
   color: #f37334 !important;
 }
-
 .fc-list-table .fc-list-event.bg-primary-subtle .fc-list-event-dot {
   border-color: #f37334;
 }
@@ -6813,13 +6065,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-secondary-subtle {
   border: 1px solid #007bff;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-secondary-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-secondary-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-secondary-subtle .fc-event-main {
   color: #007bff !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-secondary-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #007bff;
 }
@@ -6827,7 +6077,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-secondary-subtle {
   border: 1px solid #007bff;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-secondary-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-secondary-subtle .fc-event-title {
   color: #007bff !important;
@@ -6837,11 +6086,9 @@ body {
   color: #007bff !important;
   border: 1px solid #007bff;
 }
-
-.fc-list-table .fc-list-event.bg-secondary-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-secondary-subtle .fc-list-event-title > a {
   color: #007bff !important;
 }
-
 .fc-list-table .fc-list-event.bg-secondary-subtle .fc-list-event-dot {
   border-color: #007bff;
 }
@@ -6849,13 +6096,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-success-subtle {
   border: 1px solid #18a538;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-success-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-success-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-success-subtle .fc-event-main {
   color: #18a538 !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-success-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #18a538;
 }
@@ -6863,7 +6108,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-success-subtle {
   border: 1px solid #18a538;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-success-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-success-subtle .fc-event-title {
   color: #18a538 !important;
@@ -6873,11 +6117,9 @@ body {
   color: #18a538 !important;
   border: 1px solid #18a538;
 }
-
-.fc-list-table .fc-list-event.bg-success-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-success-subtle .fc-list-event-title > a {
   color: #18a538 !important;
 }
-
 .fc-list-table .fc-list-event.bg-success-subtle .fc-list-event-dot {
   border-color: #18a538;
 }
@@ -6885,13 +6127,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-info-subtle {
   border: 1px solid #17a2b8;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-info-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-info-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-info-subtle .fc-event-main {
   color: #17a2b8 !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-info-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #17a2b8;
 }
@@ -6899,7 +6139,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-info-subtle {
   border: 1px solid #17a2b8;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-info-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-info-subtle .fc-event-title {
   color: #17a2b8 !important;
@@ -6909,11 +6148,9 @@ body {
   color: #17a2b8 !important;
   border: 1px solid #17a2b8;
 }
-
-.fc-list-table .fc-list-event.bg-info-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-info-subtle .fc-list-event-title > a {
   color: #17a2b8 !important;
 }
-
 .fc-list-table .fc-list-event.bg-info-subtle .fc-list-event-dot {
   border-color: #17a2b8;
 }
@@ -6921,13 +6158,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-warning-subtle {
   border: 1px solid #ffc107;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-warning-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-warning-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-warning-subtle .fc-event-main {
   color: #ffc107 !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-warning-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #ffc107;
 }
@@ -6935,7 +6170,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-warning-subtle {
   border: 1px solid #ffc107;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-warning-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-warning-subtle .fc-event-title {
   color: #ffc107 !important;
@@ -6945,11 +6179,9 @@ body {
   color: #ffc107 !important;
   border: 1px solid #ffc107;
 }
-
-.fc-list-table .fc-list-event.bg-warning-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-warning-subtle .fc-list-event-title > a {
   color: #ffc107 !important;
 }
-
 .fc-list-table .fc-list-event.bg-warning-subtle .fc-list-event-dot {
   border-color: #ffc107;
 }
@@ -6957,13 +6189,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-danger-subtle {
   border: 1px solid #dc3545;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-danger-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-danger-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-danger-subtle .fc-event-main {
   color: #dc3545 !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-danger-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #dc3545;
 }
@@ -6971,7 +6201,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-danger-subtle {
   border: 1px solid #dc3545;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-danger-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-danger-subtle .fc-event-title {
   color: #dc3545 !important;
@@ -6981,11 +6210,9 @@ body {
   color: #dc3545 !important;
   border: 1px solid #dc3545;
 }
-
-.fc-list-table .fc-list-event.bg-danger-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-danger-subtle .fc-list-event-title > a {
   color: #dc3545 !important;
 }
-
 .fc-list-table .fc-list-event.bg-danger-subtle .fc-list-event-dot {
   border-color: #dc3545;
 }
@@ -6993,13 +6220,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-light-subtle {
   border: 1px solid #e9ecef;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-light-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-light-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-light-subtle .fc-event-main {
   color: #e9ecef !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-light-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #e9ecef;
 }
@@ -7007,7 +6232,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-light-subtle {
   border: 1px solid #e9ecef;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-light-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-light-subtle .fc-event-title {
   color: #e9ecef !important;
@@ -7017,11 +6241,9 @@ body {
   color: #e9ecef !important;
   border: 1px solid #e9ecef;
 }
-
-.fc-list-table .fc-list-event.bg-light-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-light-subtle .fc-list-event-title > a {
   color: #e9ecef !important;
 }
-
 .fc-list-table .fc-list-event.bg-light-subtle .fc-list-event-dot {
   border-color: #e9ecef;
 }
@@ -7029,13 +6251,11 @@ body {
 .fc-daygrid-event-harness .fc-daygrid-event.bg-dark-subtle {
   border: 1px solid #343a40;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-dark-subtle .fc-event-title,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-dark-subtle .fc-event-time,
 .fc-daygrid-event-harness .fc-daygrid-event.bg-dark-subtle .fc-event-main {
   color: #343a40 !important;
 }
-
 .fc-daygrid-event-harness .fc-daygrid-event.bg-dark-subtle .fc-daygrid-event-dot {
   border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #343a40;
 }
@@ -7043,7 +6263,6 @@ body {
 .fc-timegrid-event-harness .fc-timegrid-event.bg-dark-subtle {
   border: 1px solid #343a40;
 }
-
 .fc-timegrid-event-harness .fc-timegrid-event.bg-dark-subtle .fc-event-time,
 .fc-timegrid-event-harness .fc-timegrid-event.bg-dark-subtle .fc-event-title {
   color: #343a40 !important;
@@ -7053,11 +6272,9 @@ body {
   color: #343a40 !important;
   border: 1px solid #343a40;
 }
-
-.fc-list-table .fc-list-event.bg-dark-subtle .fc-list-event-title>a {
+.fc-list-table .fc-list-event.bg-dark-subtle .fc-list-event-title > a {
   color: #343a40 !important;
 }
-
 .fc-list-table .fc-list-event.bg-dark-subtle .fc-list-event-dot {
   border-color: #343a40;
 }
@@ -7087,21 +6304,18 @@ body {
   box-shadow: 0 0.25rem 1.125rem 0 rgba(47, 43, 61, 0.1);
   border-radius: var(--pe-border-radius);
 }
-
 .fc-theme-standard .fc-popover .fc-popover-header {
   border-top-right-radius: var(--pe-border-radius);
   border-top-left-radius: var(--pe-border-radius);
   padding: 0.65rem 0.75rem;
   background-color: #e9ecef;
 }
-
 .fc-theme-standard .fc-popover .fc-popover-header .fc-popover-title {
   color: var(--pe-gray-800);
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
 }
-
 .fc-theme-standard .fc-popover .fc-popover-header .fc-popover-close {
   color: var(--pe-gray-600);
   padding: 6px;
@@ -7113,13 +6327,11 @@ body {
   justify-content: center;
   border-radius: 0.4375rem;
 }
-
 .fc-theme-standard .fc-popover .fc-popover-header .fc-popover-close:hover {
   color: var(--pe-primary);
   background-color: var(--pe-primary-bg-subtle);
   border: 1px solid var(--pe-primary);
 }
-
 .fc-theme-standard .fc-popover .fc-popover-body {
   padding: 0.5rem 0.75rem 0.75rem 0.75rem;
 }
@@ -7143,17 +6355,14 @@ body {
   padding: 0;
   display: block;
 }
-
 .gridjs-container .gridjs-head {
   padding-top: 0;
 }
-
 .gridjs-container .gridjs-wrapper {
   box-shadow: none;
   border: 1px solid var(--pe-border-color);
   border-radius: 0px;
 }
-
 .gridjs-container .gridjs-footer {
   border: none;
   padding: 12px 0 0;
@@ -7181,11 +6390,9 @@ th.gridjs-th {
 .gridjs-pagination {
   color: var(--pe-secondary-color);
 }
-
 .gridjs-pagination .gridjs-summary {
   margin-top: 8px !important;
 }
-
 .gridjs-pagination .gridjs-pages button {
   margin-right: 0.3rem;
   border-radius: 0.3125rem !important;
@@ -7194,35 +6401,26 @@ th.gridjs-th {
   color: var(--pe-secondary-color);
   box-shadow: none;
 }
-
 .gridjs-pagination .gridjs-pages button:last-child {
   border-left: 1px solid var(--pe-border-color);
 }
-
-.gridjs-pagination .gridjs-pages button:disabled,
-.gridjs-pagination .gridjs-pages button:hover:disabled,
-.gridjs-pagination .gridjs-pages button[disabled] {
+.gridjs-pagination .gridjs-pages button:disabled, .gridjs-pagination .gridjs-pages button:hover:disabled, .gridjs-pagination .gridjs-pages button[disabled] {
   color: var(--pe-gray-400);
   background-color: transparent;
   cursor: not-allowed;
 }
-
 .gridjs-pagination .gridjs-pages button:hover {
   background-color: var(--pe-tertiary-bg);
   color: var(--pe-secondary-color);
 }
-
 .gridjs-pagination .gridjs-pages button:focus {
   box-shadow: none;
   margin-left: inherit;
   border: 1px solid var(--pe-border-color);
 }
-
-.gridjs-pagination .gridjs-pages button:last-child:hover,
-.gridjs-pagination .gridjs-pages button:first-child:hover {
+.gridjs-pagination .gridjs-pages button:last-child:hover, .gridjs-pagination .gridjs-pages button:first-child:hover {
   background-color: transparent;
 }
-
 .gridjs-pagination .gridjs-pages button.gridjs-currentPage {
   background-color: #f37334;
   color: #fff;
@@ -7233,7 +6431,6 @@ th.gridjs-th {
 .gridjs-search {
   position: relative;
 }
-
 .gridjs-search::before {
   content: "\f0d1";
   font-family: "remixicon";
@@ -7254,17 +6451,14 @@ input.gridjs-input {
   border-radius: var(--pe-border-radius);
   font-size: 0.875rem;
 }
-
 input.gridjs-input:focus {
   box-shadow: none;
   border-color: rgb(249, 185, 153.5);
   background-color: var(--pe-secondary-bg);
 }
-
 input.gridjs-input::-moz-placeholder {
   color: var(--pe-gray-500);
 }
-
 input.gridjs-input::placeholder {
   color: var(--pe-gray-500);
 }
@@ -7283,15 +6477,13 @@ button.gridjs-sort {
   height: 20px;
 }
 
-button.gridjs-sort-asc,
-button.gridjs-sort-desc {
+button.gridjs-sort-asc, button.gridjs-sort-desc {
   background-size: 7px;
 }
 
 .gridjs-tr-selected td {
   background-color: rgba(var(--pe-body-color-rgb), 0.04);
 }
-
 .gridjs-tr-selected .gridjs-td .gridjs-checkbox[type=checkbox] {
   background-color: var(--pe-primary);
   border-color: var(--pe-primary);
@@ -7308,19 +6500,17 @@ button.gridjs-sort-desc {
   background-size: contain;
   border: var(--pe-border-width) solid var(--pe-border-color);
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+          color-adjust: exact;
   transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .gridjs-td .gridjs-checkbox {
     transition: none;
   }
 }
-
 .gridjs-td .gridjs-checkbox[type=checkbox] {
   border-radius: 0.35em;
 }
@@ -7345,7 +6535,6 @@ th.gridjs-th-sort:hover {
   gap: 10px;
   justify-content: center;
 }
-
 .icon-list .icon-box {
   text-align: center;
   padding: 1rem 0.65rem;
@@ -7355,31 +6544,26 @@ th.gridjs-th-sort:hover {
   transition: all 0.2s ease-in-out;
   border-radius: 8px;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .icon-list .icon-box {
     transition: none;
   }
 }
-
 .icon-list .icon-box:hover {
   cursor: pointer;
   background-color: rgba(var(--pe-light-rgb), 0.5);
 }
-
 .icon-list .icon-box i {
   display: block;
   font-size: calc(1.3125rem + 0.75vw);
   margin-bottom: 1.5rem;
   opacity: 0.9;
 }
-
 @media (min-width: 1200px) {
   .icon-list .icon-box i {
     font-size: 1.875rem;
   }
 }
-
 .icon-list .icon-box strong {
   font-weight: 500;
   max-width: 80%;
@@ -7387,7 +6571,6 @@ th.gridjs-th-sort:hover {
   white-space: nowrap;
   overflow: hidden;
 }
-
 .icon-list .icon-box code {
   display: inline-block;
   max-width: 80%;
@@ -7410,32 +6593,25 @@ th.gridjs-th-sort:hover {
 .plyr .plyr__control {
   background-color: transparent;
 }
-
 .plyr .plyr__control:hover {
   background-color: var(--pe-primary);
   background-color: var(--pe-primary);
 }
-
 .plyr .plyr__control[aria-expanded=true] {
   background-color: var(--pe-primary);
 }
-
 .plyr .plyr__control[role=menuitemradio][aria-checked=true]:before {
   background-color: var(--pe-primary);
 }
-
 .plyr .plyr__controls .plyr__play {
   color: var(--pe-primary);
 }
-
 .plyr .plyr__controls .plyr__controls__item {
   background-color: transparent;
 }
-
 .plyr .plyr__controls .plyr__controls__item:hover:where(button) {
   background-color: var(--pe-primary);
 }
-
 .plyr .plyr__controls .plyr__controls__item input {
   color: var(--pe-primary);
 }
@@ -7448,11 +6624,10 @@ th.gridjs-th-sort:hover {
   cursor: pointer;
   background-color: rgba(233, 236, 239, 0.3);
   -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
   border-radius: 100px;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
 .swiper-button-next::after,
 .swiper-button-prev::after {
   font-family: remixicon !important;
@@ -7464,7 +6639,6 @@ th.gridjs-th-sort:hover {
 .swiper-button-prev {
   transform: translateX(100px);
 }
-
 .swiper-button-prev::after {
   content: "\ea64" !important;
 }
@@ -7472,7 +6646,6 @@ th.gridjs-th-sort:hover {
 .swiper-button-next {
   transform: translateX(-100px);
 }
-
 .swiper-button-next::after {
   content: "\ea6e" !important;
 }
@@ -7482,7 +6655,6 @@ th.gridjs-th-sort:hover {
   opacity: 1;
   transform: translateY(-5px);
 }
-
 .swiper:hover .swiper-button-next.swiper-button-disabled,
 .swiper:hover .swiper-button-prev.swiper-button-disabled {
   opacity: 0.35;
@@ -7501,7 +6673,6 @@ th.gridjs-th-sort:hover {
   background-color: #fff;
   opacity: 0.6;
 }
-
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
   outline: 2px solid #fff;
   outline-offset: 2px;
@@ -7521,7 +6692,6 @@ th.gridjs-th-sort:hover {
 .swiper-thumbs .swiper-slide {
   opacity: 0.6;
 }
-
 .swiper-thumbs .swiper-slide-thumb-active {
   opacity: 1;
 }
@@ -7548,7 +6718,7 @@ th.gridjs-th-sort:hover {
 }
 
 /* just for fun */
-.tagify__dropdown--rtl-example .tagify__dropdown__item>em {
+.tagify__dropdown--rtl-example .tagify__dropdown__item > em {
   font-weight: 700;
 }
 
@@ -7587,7 +6757,7 @@ th.gridjs-th-sort:hover {
   vertical-align: top;
 }
 
-.tagify__dropdown.users-list header.tagify__dropdown__item>div,
+.tagify__dropdown.users-list header.tagify__dropdown__item > div,
 .tagify__dropdown.users-list .tagify__dropdown__item strong {
   grid-area: name;
   width: 100%;
@@ -7613,8 +6783,8 @@ th.gridjs-th-sort:hover {
   padding: 0.2em 0.3em;
   border-radius: 3px;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .tagify__dropdown.users-list .remove-all-tags:hover {
@@ -7697,7 +6867,6 @@ th.gridjs-th-sort:hover {
   align-items: center;
   gap: 0.25rem;
 }
-
 .tagify .tagify__tag {
   background-color: var(--tag-bg);
   margin: 0;
@@ -7705,23 +6874,19 @@ th.gridjs-th-sort:hover {
   border: 1px solid var(--pe-primary);
   border-radius: 50rem;
 }
-
 .tagify .tagify__tag div {
   border-radius: inherit;
   padding: 0;
   align-items: center;
 }
-
 .tagify .tagify__tag .tagify__tag-text {
   overflow: visible;
   color: var(--pe-primary);
 }
-
 .tagify .tagify__tag .tagify__tag__removeBtn {
   color: var(--pe-body-color);
   margin: 0 8px -2px -4px;
 }
-
 .tagify .tagify__tag .tagify__tag__removeBtn:after {
   font-family: "remixicon", sans-serif;
   content: "\eb99";
@@ -7735,69 +6900,54 @@ th.gridjs-th-sort:hover {
   justify-content: center;
   align-items: center;
 }
-
 .tagify .tagify__tag.tagify--notAllowed div .tagify__tag-text {
   color: var(--pe-danger);
   opacity: 1;
 }
-
 .tagify .tagify__tag.tagify--notAllowed .tagify__tag__removeBtn {
   opacity: 0.5;
 }
-
 .tagify .tagify__tag.tagify--notAllowed .tagify__tag__removeBtn:hover {
   background: transparent;
   opacity: 0.75;
 }
-
-.tagify .tagify__tag__removeBtn:hover+div>span {
+.tagify .tagify__tag__removeBtn:hover + div > span {
   opacity: 1;
 }
-
 .tagify .tagify__input {
   margin: 0;
 }
-
 .tagify .tagify__input:before {
   font-size: inherit;
   line-height: inherit;
   font-weight: inherit;
 }
-
 .tagify.form-control {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
-
 .tagify.form-control-sm .tagify__tag {
   padding: 0.25rem 0.5rem;
 }
-
 .tagify.form-control-sm .tagify__tag .tagify__tag-text {
   font-size: 0.765625rem;
 }
-
 .tagify.form-control-sm .tagify__tag .tagify__tag__removeBtn {
   margin: 0px 0px -2px -4px;
 }
-
 .tagify:not(.form-control-sm):not(.form-control-lg) .tagify__tag {
   padding: 0.5rem 0.9rem;
 }
-
 .tagify:not(.form-control-sm):not(.form-control-lg) .tagify__tag .tagify__tag-text {
   font-size: 0.875rem;
 }
-
 .tagify.form-control-lg .tagify__tag {
   padding: 0.7rem 1.2rem;
 }
-
 .tagify.form-control-lg .tagify__tag .tagify__tag-text {
   font-size: 1.09375rem;
 }
-
 .tagify.form-control-lg .tagify__tag .tagify__tag__removeBtn {
   margin: 0px 8px -2px -4px;
 }
@@ -7811,23 +6961,19 @@ th.gridjs-th-sort:hover {
   background-color: var(--pe-body-bg);
   border-radius: 0.3125rem;
 }
-
 .tagify__dropdown ._wrapper {
   max-height: none;
   border-radius: 0.3125rem;
 }
-
 .modal-open .tagify__dropdown {
   z-index: 1056;
 }
-
 .tagify__dropdown .tagify__dropdown__wrapper {
   background-color: var(--pe-body-bg);
   border: 0 !important;
   outline: none !important;
   box-shadow: none;
 }
-
 .tagify__dropdown .tagify__dropdown__item {
   color: var(--pe-gray-700);
   border-radius: 0;
@@ -7836,17 +6982,13 @@ th.gridjs-th-sort:hover {
   box-shadow: none;
   font-weight: 600;
 }
-
-.tagify__dropdown .tagify__dropdown__item:hover,
-.tagify__dropdown .tagify__dropdown__item.tagify__dropdown__item--active {
+.tagify__dropdown .tagify__dropdown__item:hover, .tagify__dropdown .tagify__dropdown__item.tagify__dropdown__item--active {
   background-color: var(--pe-component-hover-bg);
   color: var(--pe-component-hover-color);
 }
-
 .tagify__dropdown.tagify__inline__suggestions {
   padding: 0.5rem 0.9rem;
 }
-
 .tagify__dropdown.tagify__inline__suggestions .tagify__dropdown__item {
   display: inline-block;
   font-size: 0.765625rem;
@@ -7856,9 +6998,7 @@ th.gridjs-th-sort:hover {
   color: var(--pe-gray-700);
   border-radius: 0.3125rem;
 }
-
-.tagify__dropdown.tagify__inline__suggestions .tagify__dropdown__item:hover,
-.tagify__dropdown.tagify__inline__suggestions .tagify__dropdown__item.tagify__dropdown__item--active {
+.tagify__dropdown.tagify__inline__suggestions .tagify__dropdown__item:hover, .tagify__dropdown.tagify__inline__suggestions .tagify__dropdown__item.tagify__dropdown__item--active {
   background-color: var(--pe-component-hover-bg);
   color: var(--pe-component-hover-color);
 }
@@ -7868,7 +7008,6 @@ th.gridjs-th-sort:hover {
   --gl-star-full: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,184,41,1)'%3E%3Cpath d='M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z'%3E%3C/path%3E%3C/svg%3E");
   --gl-star-size: 30px;
 }
-
 :root .heart-rating-main {
   --gl-star-empty: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(204,204,204,1)'%3E%3Cpath d='M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z'%3E%3C/path%3E%3C/svg%3E") !important;
   --gl-star-full: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,184,41,1)'%3E%3Cpath d='M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z'%3E%3C/path%3E%3C/svg%3E") !important;
@@ -7878,63 +7017,50 @@ th.gridjs-th-sort:hover {
   pointer-events: none;
   transition: transform 0.3s ease, fill 0.3s ease;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars svg circle {
   fill: #ECEAF3;
   transition: fill 0.5s ease;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-active,
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-selected {
   transition: fill 0.5s ease;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-active:nth-child(1) svg circle,
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-selected:nth-child(1) svg circle {
   fill: #FFA98D;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-active:nth-child(2) svg circle,
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-selected:nth-child(2) svg circle {
   fill: #FFC385;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-active:nth-child(3) svg circle,
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-selected:nth-child(3) svg circle {
   fill: #FFD885;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-active:nth-child(4) svg circle,
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-selected:nth-child(4) svg circle {
   fill: #FFD69A;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-active:nth-child(5) svg circle,
 .gl-star-rating-prebuilt .gl-star-rating--stars span.gl-selected:nth-child(5) svg circle {
   fill: #FFD02E;
 }
-
 .gl-star-rating-prebuilt .gl-star-rating--stars .gl-selected svg {
   animation: shake 0.8s linear forwards;
 }
-
 @keyframes shake {
   0% {
     transform: translateY(0);
   }
-
   25% {
     transform: translateY(-2px);
   }
-
   50% {
     transform: translateY(2px);
   }
-
   75% {
     transform: translateY(-2px);
   }
-
   100% {
     transform: translateY(0);
   }
@@ -7963,20 +7089,17 @@ th.gridjs-th-sort:hover {
   block-size: 100%;
   mask: repeat left center/var(--starsize) var(--symbol);
 }
-
 .custom-rating::-webkit-slider-runnable-track {
   background: linear-gradient(to left, var(--fill) 0 var(--x), var(--fillbg) 0 var(--x));
   block-size: 100%;
   mask: repeat left center/var(--starsize) var(--symbol);
   -webkit-mask: repeat left center/var(--starsize) var(--symbol);
 }
-
 .custom-rating::-moz-range-thumb {
   height: var(--starsize);
   opacity: 0;
   width: var(--starsize);
 }
-
 .custom-rating::-webkit-slider-thumb {
   height: var(--starsize);
   opacity: 0;
@@ -7989,7 +7112,7 @@ pre[class*=language-] {
   margin: 0;
 }
 
-pre[class*=language-]>code {
+pre[class*=language-] > code {
   border: 1px solid var(--pe-border-color);
   background-color: var(--pe-body-bg);
   box-shadow: none;
@@ -7997,8 +7120,7 @@ pre[class*=language-]>code {
   padding: 16px;
 }
 
-pre[class*=language-]:after,
-pre[class*=language-]:before {
+pre[class*=language-]:after, pre[class*=language-]:before {
   display: none;
 }
 
@@ -8015,7 +7137,6 @@ code[class*=language-] {
   padding: 1em 0;
   list-style-type: none;
 }
-
 .timeline:before {
   position: absolute;
   right: 50%;
@@ -8027,11 +7148,9 @@ code[class*=language-] {
   background: linear-gradient(to bottom, rgba(242, 117, 56, 0) 0%, rgb(242, 117, 56) 50%, rgba(242, 117, 56, 0) 100%);
   z-index: 5;
 }
-
 .timeline li {
   padding: 1em 0;
 }
-
 .timeline li:after {
   content: "";
   display: block;
@@ -8039,14 +7158,12 @@ code[class*=language-] {
   clear: both;
   visibility: hidden;
 }
-
 .timeline li .direction-l {
   position: relative;
   width: 300px;
   float: right;
   text-align: left;
 }
-
 .timeline li .direction-l .flag::before {
   position: absolute;
   top: 50%;
@@ -8061,7 +7178,6 @@ code[class*=language-] {
   border: 4px solid var(--pe-primary);
   z-index: 10;
 }
-
 .timeline li .direction-l .flag::after {
   content: "";
   position: absolute;
@@ -8075,7 +7191,6 @@ code[class*=language-] {
   border-width: 8px;
   pointer-events: none;
 }
-
 .timeline li .direction-l .xl::before {
   position: absolute;
   top: 50%;
@@ -8090,13 +7205,11 @@ code[class*=language-] {
   border: 5px solid #f37334;
   z-index: 10;
 }
-
 .timeline li .direction-r {
   position: relative;
   width: 300px;
   float: left;
 }
-
 .timeline li .direction-r .flag::before {
   position: absolute;
   top: 50%;
@@ -8111,7 +7224,6 @@ code[class*=language-] {
   border: 4px solid #f37334;
   z-index: 10;
 }
-
 .timeline li .direction-r .flag::after {
   content: "";
   position: absolute;
@@ -8125,7 +7237,6 @@ code[class*=language-] {
   border-width: 8px;
   pointer-events: none;
 }
-
 .timeline .desc {
   margin: 1em 2em 0 2em;
 }
@@ -8135,55 +7246,44 @@ code[class*=language-] {
   .timeline {
     width: 100%;
   }
-
   .timeline::before {
     right: 0;
   }
-
   .timeline li .direction-l {
     float: none;
     width: auto;
     margin-right: 24px;
   }
-
   .timeline li .direction-l .flag::before {
     right: -31px;
   }
-
   .timeline li .direction-l .flag::after {
     display: none;
   }
-
   .timeline li .direction-l .xl::before {
     right: -36px;
   }
-
   .timeline li .direction-r {
     float: none;
     width: auto;
     margin-right: 24px;
   }
-
   .timeline li .direction-r .flag::before {
     right: -31px;
   }
-
   .timeline li .direction-r .flag::after {
     display: none;
   }
 }
-
 .timeline2 {
   margin-right: 18px;
 }
-
 .timeline2 ul {
   position: relative;
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .timeline2 ul:before {
   content: "";
   position: absolute;
@@ -8192,7 +7292,6 @@ code[class*=language-] {
   height: 100%;
   border: 1px dashed rgba(var(--pe-primary-rgb), 0.3);
 }
-
 .timeline2 ul .box {
   margin-bottom: 20px;
   padding: 0px 10px;
@@ -8200,18 +7299,15 @@ code[class*=language-] {
   border-radius: 5px;
   box-sizing: border-box;
 }
-
 .timeline2 ul .box:last-child {
   margin-bottom: 0px;
 }
-
 @media (max-width: 768px) {
   .timeline2 ul .box {
     width: auto;
   }
 }
-
-.timeline2 ul .box>span {
+.timeline2 ul .box > span {
   position: absolute;
   right: -17px;
   top: 5px;
@@ -8222,30 +7318,24 @@ code[class*=language-] {
   outline: 1px solid rgba(var(--pe-primary-rgb), 0.5);
   border-radius: 100%;
 }
-
 .timeline2 ul .title {
   font-weight: 700;
 }
-
 .timeline2 ul .sub-title {
   font-size: 13px;
   color: #aaa;
 }
-
 .timeline2 ul .info {
   margin: 12px 0;
 }
-
 .timeline2 ul .time span {
   font-size: 10px;
   color: #aaa;
 }
-
 .timeline2 ul .time span:first-child {
   top: -10px;
   right: -70px;
 }
-
 .timeline2 ul .time span:last-child {
   top: 100%;
   right: -70px;
@@ -8256,7 +7346,6 @@ code[class*=language-] {
   border-radius: 0.5rem;
   overflow: hidden;
 }
-
 .gallery-card-body::before {
   content: "";
   position: absolute;
@@ -8273,26 +7362,22 @@ code[class*=language-] {
   display: grid;
   gap: 0.75rem;
 }
-
 @media (min-width: 992px) {
   .gallery {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 .gallery .gallery-card {
   display: grid;
   grid-template-rows: 250px 250px 250px;
   gap: 0.75rem;
   transition: grid-template-rows 300ms ease-in-out;
 }
-
 .gallery .gallery-card .gallery-body {
   position: relative;
   overflow: hidden;
   border-radius: 0.5rem;
 }
-
 .gallery .gallery-card .gallery-body:hover .card-bottom {
   opacity: 100;
   visibility: visible;
@@ -8305,28 +7390,23 @@ code[class*=language-] {
   transition: all 0.5s ease-in-out;
   padding: 50px;
 }
-
 .gallery .gallery-card .gallery-body img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
-
 .gallery .gallery-card .gallery-body .card-bottom {
   opacity: 0;
   visibility: hidden;
   scale: 0.4;
 }
-
 .gallery .gallery-card:has(> .gallery-body:nth-child(1):hover) {
   grid-template-rows: 500px 125px 125px;
 }
-
 .gallery .gallery-card:has(> .gallery-body:nth-child(2):hover) {
   grid-template-rows: 125px 500px 125px;
 }
-
 .gallery .gallery-card:has(> .gallery-body:nth-child(3):hover) {
   grid-template-rows: 125px 125px 500px;
 }
@@ -8340,18 +7420,15 @@ code[class*=language-] {
   border-radius: 0.3125rem;
   position: relative;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul {
   padding-right: 35px;
   position: relative;
   padding-top: 10px;
   margin-bottom: 0;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul li {
   position: relative;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul li:not(:last-child)::before {
   content: "";
   position: absolute;
@@ -8360,17 +7437,14 @@ code[class*=language-] {
   bottom: -25px;
   border: 1px solid var(--pe-border-color);
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title {
   padding: 16px 18px;
   display: inline-block;
   position: relative;
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title i {
   color: var(--pe-primary);
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title::before {
   content: "";
   position: absolute;
@@ -8380,7 +7454,6 @@ code[class*=language-] {
   width: 20px;
   border: 1px solid var(--pe-border-color);
 }
-
 .sitemap-wrapper .sitemap-wrapper-ul .main-title::after {
   content: "\f234";
   font-family: bootstrap-icons !important;
@@ -8390,7 +7463,6 @@ code[class*=language-] {
   transform: translateY(-50%);
   color: var(--pe-border-color);
 }
-
 .sitemap-wrapper.sitemap-long-content-wrapper li:not(:last-child)::before {
   top: -10px;
   bottom: -36px;
@@ -8399,17 +7471,14 @@ code[class*=language-] {
 .select2-container--classic {
   width: auto !important;
 }
-
 .select2-container--classic .select2-search__field {
   width: 80px !important;
 }
-
 .select2-container--classic .select2-selection--multiple {
   font-size: 10px;
   min-height: auto;
   border: 1px dashed #e9ecef !important;
 }
-
 .select2-container--classic .select2-selection--multiple .select2-selection__choice {
   background-color: #f6f6f8 !important;
   border: 1px solid #e9ecef !important;
@@ -8418,10 +7487,7 @@ code[class*=language-] {
 .subscribe-btn input {
   padding-inline-end: 115px;
 }
-
-.subscribe-btn .btn,
-.subscribe-btn .ql-snow .ql-tooltip .ql-action,
-.ql-snow .ql-tooltip .subscribe-btn .ql-action {
+.subscribe-btn .btn, .subscribe-btn .ql-snow .ql-tooltip .ql-action, .ql-snow .ql-tooltip .subscribe-btn .ql-action {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -8433,18 +7499,15 @@ code[class*=language-] {
   background-color: var(--pe-secondary-bg);
   border-radius: 0.3125rem;
 }
-
 .chat-wrapper .app-chat-sidebar {
   background-color: var(--pe-secondary-bg);
   position: static;
 }
-
 @media (max-width: 1199.98px) {
   .chat-wrapper .app-chat-sidebar {
     display: none !important;
   }
 }
-
 @media (max-width: 1199.98px) {
   .chat-wrapper .app-chat-sidebar.active {
     display: block !important;
@@ -8455,36 +7518,28 @@ code[class*=language-] {
     z-index: 4;
   }
 }
-
 .chat-wrapper .app-chat-sidebar .chat-room-list {
   height: calc(100vh - 385px);
 }
-
 .chat-wrapper .app-chat-sidebar .chat-room-list .contact-list {
   margin-bottom: 0;
 }
-
 .chat-wrapper .app-chat-sidebar .chat-room-list .contact-list li {
   padding: 8px 20px;
 }
-
 .chat-wrapper .app-chat-sidebar .chat-room-list li {
   cursor: pointer;
 }
-
 .chat-wrapper .app-chat-sidebar .chat-room-list li.active {
   background-color: var(--pe-light-bg-subtle);
 }
-
 .chat-wrapper .app-chat-sidebar .chat-room-list li:hover {
   transition: all 0.2s ease-in-out;
   background-color: var(--pe-light-bg-subtle);
 }
-
 .chat-wrapper .avatar-wrapper {
   position: relative;
 }
-
 .chat-wrapper .avatar-wrapper::before {
   content: "";
   height: 0.75rem;
@@ -8497,40 +7552,31 @@ code[class*=language-] {
   left: 0;
   display: none;
 }
-
 .chat-wrapper .avatar-wrapper.active::before {
   display: block;
 }
-
 .chat-wrapper .chat-conversation {
   height: calc(100vh - 365px);
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list {
   padding-top: 10px;
   margin-bottom: 0;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list {
   display: flex;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list.right {
   justify-content: flex-end;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list.right .ctext-wrap-content {
   order: 1;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list.right .message-box-drop {
   order: 0;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list.right .conversation-name {
   justify-content: end;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list {
   margin-bottom: 24px;
   display: inline-flex;
@@ -8538,31 +7584,26 @@ code[class*=language-] {
   position: relative;
   max-width: 80%;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .ctext-wrap {
   display: flex;
   margin-bottom: 6px;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .ctext-wrap .ctext-wrap-content {
   padding: 10px 14px;
   background-color: var(--pe-light-bg-subtle);
   position: relative;
   border-radius: 0.3125rem;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .ctext-wrap .ctext-wrap-content .ctext-content {
   word-wrap: break-word;
   word-break: break-word;
   font-weight: 500;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .conversation-name {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .message-img {
   border-radius: 0.2rem;
   position: relative;
@@ -8570,15 +7611,12 @@ code[class*=language-] {
   flex-wrap: wrap;
   gap: 8px;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .message-img .message-img-list {
   position: relative;
 }
-
 .chat-wrapper .chat-conversation .chat-conversation-list .chat-list .conversation-list .message-img img {
   max-width: 150px;
 }
-
 .chat-wrapper .app-chat-overlay {
   position: absolute;
   top: 0;
@@ -8591,10 +7629,9 @@ code[class*=language-] {
   z-index: 3;
   transition: all 0.2s ease-in-out;
   -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
   background-color: rgba(var(--pe-dark-rgb), 0.6);
 }
-
 .chat-wrapper .app-chat-overlay.show {
   visibility: visible;
 }
@@ -8606,19 +7643,16 @@ code[class*=language-] {
   background-color: var(--pe-secondary-bg);
   border-radius: 0.3125rem;
 }
-
 .mail-wrapper .mail-sidebar {
   width: 350px;
   border-left: 1px solid var(--pe-border-color);
   padding: 1.25rem;
 }
-
 @media (max-width: 1199.98px) {
   .mail-wrapper .mail-sidebar {
     display: none;
   }
 }
-
 @media (max-width: 1199.98px) {
   .mail-wrapper .mail-sidebar.active {
     display: block;
@@ -8630,43 +7664,33 @@ code[class*=language-] {
     z-index: 2;
   }
 }
-
 .mail-wrapper .mail-sidebar .email-menu-sidebar-scroll {
   max-height: 400px;
 }
-
 .mail-wrapper .mail-sidebar .email-menu-sidebar-scroll .mail-list a {
   padding: 10px 12px;
   border-radius: 0.3125rem;
   transition: all 0.2s ease-in-out;
 }
-
-.mail-wrapper .mail-sidebar .email-menu-sidebar-scroll .mail-list a.active,
-.mail-wrapper .mail-sidebar .email-menu-sidebar-scroll .mail-list a:hover {
+.mail-wrapper .mail-sidebar .email-menu-sidebar-scroll .mail-list a.active, .mail-wrapper .mail-sidebar .email-menu-sidebar-scroll .mail-list a:hover {
   background-color: var(--pe-light-bg-subtle);
 }
-
 .mail-wrapper .message-list-content {
   height: calc(100vh - 255px);
 }
-
 .mail-wrapper .message-list-content .message-list {
   padding: 0;
 }
-
 .mail-wrapper .message-list-content .message-list .inbox-data:hover {
   background-color: var(--pe-body-bg);
   transition: all 0.2s ease-in-out;
 }
-
 .mail-wrapper .message-list-content .message-list .important-mail.active {
   color: #ffc107;
 }
-
 .mail-wrapper .mail-preview {
   padding: 20px;
 }
-
 .mail-wrapper .mail-preview .mail-header {
   display: flex;
   align-items: center;
@@ -8674,11 +7698,9 @@ code[class*=language-] {
   border-bottom: 1px solid var(--pe-border-color);
   padding-bottom: 16px;
 }
-
 .mail-wrapper .mail-preview .mail-body {
   margin-top: 15px;
 }
-
 .mail-wrapper .mail-preview .attachment {
   display: flex;
   align-items: center;
@@ -8688,19 +7710,15 @@ code[class*=language-] {
   border-radius: 7px;
   cursor: pointer;
 }
-
 .mail-wrapper .mail-preview .attachment:hover {
   background: var(--pe-body-bg);
 }
-
 .mail-wrapper .mail-preview .mail-actions {
   margin-top: 15px;
 }
-
 .mail-wrapper .mail-preview .quick-reply {
   margin-top: 20px;
 }
-
 @media (max-width: 1199.98px) {
   .mail-wrapper .app-chat-overlay {
     position: absolute;
@@ -8713,8 +7731,7 @@ code[class*=language-] {
     opacity: 0;
     visibility: hidden;
   }
-
-  .mail-wrapper .mail-sidebar.active~.app-chat-overlay {
+  .mail-wrapper .mail-sidebar.active ~ .app-chat-overlay {
     opacity: 1;
     visibility: visible;
   }
@@ -8727,7 +7744,6 @@ code[class*=language-] {
   background: var(--pe-body-bg);
   border-radius: 5px;
 }
-
 .filter-accordion .slider .progress {
   height: 100%;
   right: 25%;
@@ -8736,7 +7752,6 @@ code[class*=language-] {
   border-radius: 5px;
   background: #f37334;
 }
-
 .filter-accordion .range-input input {
   position: absolute;
   width: 100%;
@@ -8746,7 +7761,6 @@ code[class*=language-] {
   pointer-events: none;
   -webkit-appearance: none;
 }
-
 .filter-accordion .range-input input[type=range]::-webkit-slider-thumb {
   height: 17px;
   width: 17px;
@@ -8760,12 +7774,10 @@ code[class*=language-] {
 .card-style-2 {
   overflow: hidden;
 }
-
 .card-style-2:hover .btns-container-1 {
   bottom: 30%;
   z-index: 2;
 }
-
 .card-style-2 .top-left-badge {
   padding: 0.45rem 0.65rem;
   position: absolute;
@@ -8775,11 +7787,9 @@ code[class*=language-] {
   inset-inline-end: 1rem;
   justify-items: end;
 }
-
 .card-style-2 .card-img-top {
   position: relative;
 }
-
 .card-style-2 .card-img-top .btns-container-1 {
   position: absolute;
   inset-inline-start: 0;
@@ -8791,7 +7801,6 @@ code[class*=language-] {
   z-index: -1;
   transition: all 0.5s;
 }
-
 .card-style-2 .card-img-top .btns-container-1 .btn-icon {
   width: 2.1rem;
   height: 2.1rem;
@@ -8799,18 +7808,15 @@ code[class*=language-] {
   padding: 0.375rem;
   flex-shrink: 0;
 }
-
 .card-style-2 .card-img-top .btns-container-1 .btn-icon i {
   padding: 0rem;
   margin: 0 -0.5rem;
 }
-
 .card-style-2 .card-img-top .img-box-2 {
   transition: transform ease 1.5s;
   display: flex;
   justify-content: center;
 }
-
 .card-style-2 .card-img-top .img-box-2::after {
   content: "";
   position: absolute;
@@ -8819,7 +7825,6 @@ code[class*=language-] {
   inset-inline-start: 0;
   inset-block-start: 0;
 }
-
 .card-style-2 .color-btn {
   display: flex;
   align-items: center;
@@ -8829,7 +7834,7 @@ code[class*=language-] {
   padding: 0px;
 }
 
-.timeline2.profile-timeline ul .box>span {
+.timeline2.profile-timeline ul .box > span {
   right: -25px;
   top: 0;
 }
@@ -8858,7 +7863,6 @@ code[class*=language-] {
 .address-content {
   border: 1px dashed var(--pe-border-color) !important;
 }
-
 .address-content.selected {
   border: 1px solid #f37334 !important;
   border-radius: 6px;

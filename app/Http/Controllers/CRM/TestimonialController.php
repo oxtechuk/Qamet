@@ -11,6 +11,7 @@ class TestimonialController extends Controller
     public function index()
     {
         $testimonials = Testimonial::all();
+
         return view('crm.settings.testimonials.index', compact('testimonials'));
     }
 
@@ -38,7 +39,7 @@ class TestimonialController extends Controller
 
         $data = $request->except(['image', 'review_image']);
         $data['is_visible'] = $request->has('is_visible');
-        
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('testimonials', 'public');
         }
@@ -66,6 +67,7 @@ class TestimonialController extends Controller
     public function edit(string $id)
     {
         $testimonial = Testimonial::findOrFail($id);
+
         return view('crm.settings.testimonials.edit', compact('testimonial'));
     }
 
@@ -113,7 +115,7 @@ class TestimonialController extends Controller
     public function destroy(string $id)
     {
         $testimonial = Testimonial::findOrFail($id);
-        
+
         if ($testimonial->image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($testimonial->image);
         }
@@ -121,7 +123,7 @@ class TestimonialController extends Controller
         if ($testimonial->review_image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($testimonial->review_image);
         }
-        
+
         $testimonial->delete();
 
         return back()->with('success', __('تم حذف التوصية بنجاح'));
