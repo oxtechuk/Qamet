@@ -20,8 +20,7 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'car_ids' => 'required|array',
-            'car_ids.*' => 'exists:cars,id',
+            'car_id' => 'required|exists:cars,id',
             'title' => 'required|array',
             'title.ar' => 'required|string|max:255',
             'title.en' => 'required|string|max:255',
@@ -40,8 +39,7 @@ class OfferController extends Controller
             $data['image'] = $request->file('image')->store('offers', 'public');
         }
 
-        $offer = Offer::create($data);
-        $offer->cars()->sync($request->car_ids);
+        Offer::create($data);
 
         return back()->with('success', 'تمت إضافة العرض');
     }
@@ -49,8 +47,7 @@ class OfferController extends Controller
     public function update(Request $request, Offer $offer)
     {
         $data = $request->validate([
-            'car_ids' => 'required|array',
-            'car_ids.*' => 'exists:cars,id',
+            'car_id' => 'required|exists:cars,id',
             'title' => 'required|array',
             'title.ar' => 'required|string|max:255',
             'title.en' => 'required|string|max:255',
@@ -68,7 +65,6 @@ class OfferController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($offer->image && \Storage::disk('public')->exists($offer->image)) {
                 \Storage::disk('public')->delete($offer->image);
             }
@@ -76,7 +72,6 @@ class OfferController extends Controller
         }
 
         $offer->update($data);
-        $offer->cars()->sync($request->car_ids);
 
         return back()->with('success', 'تم تحديث العرض');
     }

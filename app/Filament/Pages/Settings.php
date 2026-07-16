@@ -61,7 +61,12 @@ class Settings extends Page
             'address_ar' => $this->getBilingual('address', 'ar'),
             'address_en' => $this->getBilingual('address', 'en'),
             'social_links' => $this->getSetting('social_links', []),
-            'working_hours' => $this->getSetting('working_hours', 'Sat-Thu: 9:00 AM - 9:00 PM'),
+            'working_hours_from' => $this->getSetting('working_hours_from', '09:00'),
+            'working_hours_to' => $this->getSetting('working_hours_to', '21:00'),
+            'working_days' => $this->getSetting('working_days', ['sat', 'sun', 'mon', 'tue', 'wed', 'thu']),
+            'sales_phone' => $this->getSetting('sales_phone', ''),
+            'finance_phone' => $this->getSetting('finance_phone', ''),
+            'aftersales_phone' => $this->getSetting('aftersales_phone', ''),
             'meta_title_ar' => $this->getBilingual('meta_title', 'ar'),
             'meta_title_en' => $this->getBilingual('meta_title', 'en'),
             'meta_description_ar' => $this->getBilingual('meta_description', 'ar'),
@@ -74,6 +79,9 @@ class Settings extends Page
             'maintenance_message_en' => $this->getBilingual('maintenance_message', 'en'),
             'currency' => $this->getSetting('currency', 'SAR'),
             'locale' => $this->getSetting('locale', 'ar'),
+            'max_car_price' => $this->getSetting('max_car_price', 2500000),
+            'max_down_payment' => $this->getSetting('max_down_payment', 80),
+            'offer_hero_slides' => $this->getSetting('offer_hero_slides', []),
         ]);
 
         $this->callHook('afterFill');
@@ -134,9 +142,52 @@ class Settings extends Page
                                                     ->label(__('Address').' ('.__('English').')')
                                                     ->columnSpanFull(),
                                             ]),
-                                        Forms\Components\TextInput::make('working_hours')
-                                            ->label(__('Working Hours'))
-                                            ->columnSpanFull(),
+                                    ]),
+                                Section::make(__('Working Hours'))
+                                    ->schema([
+                                        Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\TimePicker::make('working_hours_from')
+                                                    ->label(__('From'))
+                                                    ->required(),
+                                                Forms\Components\TimePicker::make('working_hours_to')
+                                                    ->label(__('To'))
+                                                    ->required(),
+                                                Forms\Components\Select::make('working_days')
+                                                    ->label(__('Working Days'))
+                                                    ->multiple()
+                                                    ->options([
+                                                        'sat' => __('Saturday'),
+                                                        'sun' => __('Sunday'),
+                                                        'mon' => __('Monday'),
+                                                        'tue' => __('Tuesday'),
+                                                        'wed' => __('Wednesday'),
+                                                        'thu' => __('Thursday'),
+                                                        'fri' => __('Friday'),
+                                                    ])
+                                                    ->required(),
+                                            ]),
+                                    ]),
+                                Section::make(__('Department Phones'))
+                                    ->schema([
+                                        Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('sales_phone')
+                                                    ->label(__('Sales Department'))
+                                                    ->tel()
+                                                    ->placeholder(__('e.g. +966501234567')),
+                                                Forms\Components\TextInput::make('finance_phone')
+                                                    ->label(__('Finance Department'))
+                                                    ->tel()
+                                                    ->placeholder(__('e.g. +966501234567')),
+                                                Forms\Components\TextInput::make('aftersales_phone')
+                                                    ->label(__('After-Sales Service'))
+                                                    ->tel()
+                                                    ->placeholder(__('e.g. +966501234567')),
+                                            ]),
+                                    ]),
+                                Section::make(__('Social Links'))
+                                    ->schema([
                                         Forms\Components\Repeater::make('social_links')
                                             ->label(__('Social Links'))
                                             ->schema([
@@ -190,6 +241,70 @@ class Settings extends Page
                                             ->label(__('WhatsApp Number'))
                                             ->tel()
                                             ->placeholder(__('e.g. +966501234567')),
+                                    ]),
+                            ]),
+                        Tab::make(__('Calculator'))
+                            ->icon('heroicon-m-calculator')
+                            ->schema([
+                                Section::make(__('Calculator Limits'))
+                                    ->schema([
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('max_car_price')
+                                                    ->label(__('Max Car Price'))
+                                                    ->numeric()
+                                                    ->prefix(__('SAR'))
+                                                    ->required()
+                                                    ->helperText(__('Maximum car price allowed in the calculator.')),
+                                                Forms\Components\TextInput::make('max_down_payment')
+                                                    ->label(__('Max Down Payment %'))
+                                                    ->numeric()
+                                                    ->suffix('%')
+                                                    ->minValue(0)
+                                                    ->maxValue(100)
+                                                    ->required()
+                                                    ->helperText(__('Maximum down payment percentage allowed.')),
+                                            ]),
+                                    ]),
+                            ]),
+                        Tab::make(__('Offers Slider'))
+                            ->icon('heroicon-m-photo')
+                            ->schema([
+                                Section::make(__('Offer Hero Slides'))
+                                    ->description(__('Image slider displayed at the top of the offers page.'))
+                                    ->schema([
+                                        Forms\Components\Repeater::make('offer_hero_slides')
+                                            ->label(__('Slides'))
+                                            ->schema([
+                                                Grid::make(2)
+                                                    ->schema([
+                                                        Forms\Components\FileUpload::make('image')
+                                                            ->label(__('Image'))
+                                                            ->image()
+                                                            ->directory('slides/offers')
+                                                            ->visibility('public')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('link')
+                                                            ->label(__('Link URL'))
+                                                            ->url(),
+                                                    ]),
+                                                Grid::make(2)
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('title_ar')
+                                                            ->label(__('Title').' ('.__('Arabic').')'),
+                                                        Forms\Components\TextInput::make('title_en')
+                                                            ->label(__('Title').' ('.__('English').')'),
+                                                    ]),
+                                                Grid::make(2)
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('button_text_ar')
+                                                            ->label(__('Button Text').' ('.__('Arabic').')'),
+                                                        Forms\Components\TextInput::make('button_text_en')
+                                                            ->label(__('Button Text').' ('.__('English').')'),
+                                                    ]),
+                                            ])
+                                            ->addActionLabel(__('Add Slide'))
+                                            ->collapsible(),
                                     ]),
                             ]),
                         Tab::make(__('Maintenance'))
@@ -282,7 +397,6 @@ class Settings extends Page
             $data = $this->form->getState();
 
             foreach ($data as $key => $value) {
-                // Check if this is an _ar or _en suffix field (bilingual)
                 $suffix = '';
                 $baseKey = $key;
                 if (str_ends_with($key, '_ar')) {
@@ -294,7 +408,6 @@ class Settings extends Page
                 }
 
                 if ($suffix !== '' && in_array($baseKey, self::BILINGUAL_KEYS)) {
-                    // Merge into existing bilingual value
                     $existing = $this->getSetting($baseKey, []);
                     $existing[$suffix] = $value;
                     Setting::updateOrCreate(
@@ -302,7 +415,6 @@ class Settings extends Page
                         ['value' => $existing]
                     );
                 } elseif (! str_ends_with($key, '_ar') && ! str_ends_with($key, '_en')) {
-                    // Regular single-value field
                     Setting::updateOrCreate(
                         ['key' => $key],
                         ['value' => $value]

@@ -52,11 +52,11 @@ class OfferResource extends Resource
                                 Forms\Components\TextInput::make('title_en')->label(__('Title').' ('.__('English').')')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\Select::make('cars')->label(__('Cars'))
-                                    ->relationship('cars', 'name')
-                                    ->multiple()
+                                Forms\Components\Select::make('car_id')->label(__('Car'))
+                                    ->relationship('car', 'name')
+                                    ->searchable()
                                     ->preload()
-                                    ->searchable(),
+                                    ->required(),
                             ]),
                         Grid::make(3)
                             ->schema([
@@ -107,6 +107,9 @@ class OfferResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->limit(30),
+                Tables\Columns\TextColumn::make('car.name')->label(__('Car'))
+                    ->searchable()
+                    ->limit(25),
                 Tables\Columns\TextColumn::make('discount_percent')
                     ->label(__('Discount'))
                     ->suffix('%')
@@ -115,10 +118,6 @@ class OfferResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('special_price')->label(__('Special Price'))
                     ->money('SAR')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('cars_count')
-                    ->label(__('Cars'))
-                    ->counts('cars')
                     ->sortable(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label(__('Status'))

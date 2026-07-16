@@ -62,12 +62,13 @@ class BlogPostResource extends Resource
                                     ->relationship('categories', 'name')
                                     ->multiple()
                                     ->preload(),
-                                Grid::make(2)->schema([
+                                Grid::make(3)->schema([
                                     Forms\Components\Select::make('author_id')->label(__('Author'))
                                         ->relationship('author', 'name')
                                         ->searchable()
                                         ->preload(),
                                     Forms\Components\Toggle::make('is_published')->label(__('Published')),
+                                    Forms\Components\Toggle::make('is_featured')->label(__('Featured')),
                                 ]),
                             ]),
                     ])
@@ -83,6 +84,7 @@ class BlogPostResource extends Resource
                 Tables\Columns\TextColumn::make('categories.name')->label(__('Categories'))->badge()->sortable(),
                 Tables\Columns\TextColumn::make('author.name')->label(__('Author'))->badge()->sortable(),
                 Tables\Columns\IconColumn::make('is_published')->label(__('Published'))->boolean()->sortable(),
+                Tables\Columns\IconColumn::make('is_featured')->label(__('Featured'))->boolean()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->label(__('Created At'))->date()->sortable(),
             ])
             ->filters([

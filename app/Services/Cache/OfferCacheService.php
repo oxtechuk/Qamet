@@ -12,7 +12,7 @@ class OfferCacheService extends BaseCacheService
     {
         return $this->remember('offers.data', function () {
             $offers = Offer::active()
-                ->with(['cars.brand'])
+                ->with(['car.brand'])
                 ->latest()
                 ->paginate(12);
 
@@ -33,12 +33,37 @@ class OfferCacheService extends BaseCacheService
                     : (json_decode($settings['main_gallery'], true) ?: []);
             }
 
-            return compact('offers', 'bentoCars', 'mainGallery');
+            $offerHeroSlides = $settings['offer_hero_slides'] ?? [];
+            if (is_string($offerHeroSlides)) {
+                $offerHeroSlides = json_decode($offerHeroSlides, true) ?: [];
+            }
+
+            return compact('offers', 'bentoCars', 'mainGallery', 'offerHeroSlides');
         });
+    }
+
+    public function rememberOfferHeroSlides(): array
+    {
+        return $this->remember('offers.hero_slides', function () {
+            $settings = $this->rememberSettings();
+            $slides = $settings['offer_hero_slides'] ?? [];
+            if (is_string($slides)) {
+                $slides = json_decode($slides, true) ?: [];
+            }
+
+            return array_map(function (array $slide): array {
+                if (isset($slide['image']) && is_string($slide['image']) && ! str_starts_with($slide['image'], 'http')) {
+                    $slide['image'] = \Illuminate\Support\Facades\Storage::disk('public')->url($slide['image']);
+                }
+
+                return $slide;
+            }, $slides);
+        }, self::TTL_LONG);
     }
 
     public function forgetOffers(): void
     {
         Cache::forget('offers.data');
+        Cache::forget('offers.hero_slides');
     }
 }

@@ -84,23 +84,33 @@ class BookingResource extends Resource
                                                 Forms\Components\Select::make('car_id')->label(__('Car'))
                                                     ->relationship('car', 'name')
                                                     ->searchable()
-                                                    ->preload()
-                                                    ->required(),
-                                                Forms\Components\TextInput::make('total_price')->label(__('Total Price'))
-                                                    ->numeric()
-                                                    ->prefix(__('SAR')),
+                                                    ->preload(),
+                                                Forms\Components\TextInput::make('car_type')->label(__('Car Type'))
+                                                    ->placeholder(__('e.g. Toyota Camry 2025'))
+                                                    ->helperText(__('Required if no car is selected from inventory.')),
                                             ]),
                                         Grid::make(3)
                                             ->schema([
+                                                Forms\Components\TextInput::make('total_price')->label(__('Total Price'))
+                                                    ->numeric()
+                                                    ->prefix(__('SAR')),
                                                 Forms\Components\TextInput::make('down_payment')->label(__('Down Payment'))
                                                     ->numeric()
                                                     ->prefix(__('SAR')),
                                                 Forms\Components\TextInput::make('monthly_installment')->label(__('Monthly Installment'))
                                                     ->numeric()
                                                     ->prefix(__('SAR')),
+                                            ]),
+                                        Grid::make(3)
+                                            ->schema([
                                                 Forms\Components\TextInput::make('duration_years')->label(__('Duration Years'))
                                                     ->numeric()
                                                     ->suffix(__('years')),
+                                                Forms\Components\Select::make('payment_method')->label(__('Payment Method'))
+                                                    ->options([
+                                                        'cash' => __('Cash'),
+                                                        'bank' => __('Bank Financing'),
+                                                    ]),
                                             ]),
                                     ]),
                             ]),
@@ -172,6 +182,25 @@ class BookingResource extends Resource
                     ->label(__('Car'))
                     ->searchable()
                     ->limit(25),
+
+                Tables\Columns\TextColumn::make('car_type')
+                    ->label(__('Car Type'))
+                    ->limit(25)
+                    ->placeholder('-'),
+
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->label(__('Payment'))
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'cash' => __('Cash'),
+                        'bank' => __('Bank'),
+                        default => '-',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'cash' => 'success',
+                        'bank' => 'info',
+                        default => 'gray',
+                    }),
 
                 Tables\Columns\TextColumn::make('total_price')->label(__('Total Price'))
                     ->money('SAR')

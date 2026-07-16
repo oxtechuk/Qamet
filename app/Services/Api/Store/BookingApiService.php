@@ -23,7 +23,7 @@ final class BookingApiService
 
     public function create(BookingData $data): Booking
     {
-        $car = Car::findOrFail($data->car_id);
+        $car = $data->car_id ? Car::find($data->car_id) : null;
 
         $booking = Booking::create($data->toDatabase());
 
@@ -32,7 +32,9 @@ final class BookingApiService
         $admins = Employee::where('role', 'admin')->orWhere('id', 1)->get();
         Notification::send($admins, new NewBookingNotification($booking));
 
-        $this->sendWelcomeWhatsApp($booking, $car);
+        if ($car) {
+            $this->sendWelcomeWhatsApp($booking, $car);
+        }
 
         return $booking;
     }

@@ -20,6 +20,9 @@ class OfferResource extends JsonResource
             'starts_at' => $this->starts_at,
             'ends_at' => $this->ends_at,
             'is_active' => $this->is_active,
+            'time_remaining' => $this->time_remaining,
+            'is_expired' => $this->is_expired,
+            'car' => $this->whenLoaded('car', fn () => CarMiniResource::make($this->car)->resolve()),
         ];
     }
 }

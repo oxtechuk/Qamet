@@ -26,7 +26,7 @@ class HomeCacheService extends BaseCacheService
                 ->get();
 
             $activeOffers = Offer::active()
-                ->with('cars.brand')
+                ->with('car.brand')
                 ->limit(4)
                 ->get();
 

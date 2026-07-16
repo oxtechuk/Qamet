@@ -33,6 +33,7 @@ final class SettingApiService
     private const NESTED_IMAGE_KEYS = [
         'hero_slides',
         'promo_popup',
+        'offer_hero_slides',
     ];
 
     public function __construct(
@@ -67,6 +68,14 @@ final class SettingApiService
                 'phone' => $settings->get('contact_phone', ''),
                 'whatsapp' => $settings->get('contact_whatsapp', ''),
                 'address' => $settings->get('contact_address', ''),
+                'sales_phone' => $settings->get('sales_phone', ''),
+                'finance_phone' => $settings->get('finance_phone', ''),
+                'aftersales_phone' => $settings->get('aftersales_phone', ''),
+            ],
+            'working_hours' => [
+                'from' => $settings->get('working_hours_from', '09:00'),
+                'to' => $settings->get('working_hours_to', '21:00'),
+                'days' => $settings->get('working_days', ['sat', 'sun', 'mon', 'tue', 'wed', 'thu']),
             ],
             'social_media' => $socialMedia,
         ];

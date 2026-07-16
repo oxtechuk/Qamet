@@ -35,11 +35,12 @@ final class BookingController extends ApiBaseController
      */
     public function store(BookingRequest $request)
     {
-        $car = Car::findOrFail($request->input('car_id'));
+        $carId = $request->input('car_id');
+        $car = $carId ? Car::find($carId) : null;
 
         $data = BookingData::fromRequest(
             $request->validated(),
-            $car->cash_price,
+            $car?->cash_price,
         );
 
         $booking = $this->bookingService->create($data);
@@ -49,6 +50,8 @@ final class BookingController extends ApiBaseController
             'client_name' => $booking->client_name,
             'client_phone' => $booking->client_phone,
             'car_id' => $booking->car_id,
+            'car_type' => $booking->car_type,
+            'payment_method' => $booking->payment_method,
             'booking_type' => $booking->booking_type,
             'monthly_installment' => $booking->monthly_installment,
             'total_price' => $booking->total_price,
