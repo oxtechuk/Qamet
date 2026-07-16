@@ -77,8 +77,9 @@ class CarShowTest extends TestCase
         ]);
         $car->features_list()->attach($feature->id);
 
-        // Add offer
+        // Add offer (created the modern way, via car_id, matching how the CRM creates offers today)
         $offer = Offer::create([
+            'car_id' => $car->id,
             'title' => ['en' => 'Summer Sale', 'ar' => 'خصم الصيف'],
             'discount_percent' => 10,
             'special_price' => 112500,
@@ -86,7 +87,6 @@ class CarShowTest extends TestCase
             'starts_at' => now()->subDay(),
             'ends_at' => now()->addDay(),
         ]);
-        $car->offers()->attach($offer->id);
 
         // 3. Make request
         $response = $this->getJson(

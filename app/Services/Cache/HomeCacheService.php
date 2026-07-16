@@ -18,7 +18,7 @@ class HomeCacheService extends BaseCacheService
     public function rememberHomeData(): array
     {
         $result = $this->remember('home.data', function () {
-            $featuredCars = Car::with(['brand', 'images'])
+            $featuredCars = Car::with(['brand', 'images', 'activeOffers'])
                 ->where('is_featured', true)
                 ->where('is_active', true)
                 ->latest()
@@ -111,16 +111,17 @@ class HomeCacheService extends BaseCacheService
                 ];
             })->values();
 
-            $bentoCars = Car::with(['brand', 'images'])
+            $bentoCars = Car::with(['brand', 'images', 'activeOffers'])
                 ->where('is_active', true)
                 ->latest()
                 ->take(5)
                 ->get();
 
-            $highlightedCars = Car::with(['brand', 'images'])
+            $highlightedCars = Car::with(['brand', 'images', 'activeOffers'])
                 ->where('is_highlighted', '!=', 'none')
                 ->where('is_active', true)
                 ->latest()
+                ->limit(8)
                 ->get();
 
             $highlightCounts = Car::where('is_active', true)

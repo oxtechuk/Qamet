@@ -30,9 +30,23 @@ class AboutTest extends TestCase
         ]);
 
         Setting::create([
-            'key' => 'store_about_stats',
+            'key' => 'about_stats',
             'value' => [
                 ['label' => 'Customers', 'value' => '1000+'],
+            ],
+        ]);
+
+        Setting::create([
+            'key' => 'about_core_values',
+            'value' => [
+                ['icon' => 'trust', 'title' => ['en' => 'Trust', 'ar' => 'الثقة'], 'description' => ['en' => 'We keep every promise.', 'ar' => 'كل وعد نقطعه هو التزام نفي به.']],
+            ],
+        ]);
+
+        Setting::create([
+            'key' => 'about_why_choose_us',
+            'value' => [
+                ['icon' => 'team', 'title' => ['en' => 'Expert Team', 'ar' => 'فريق متخصص'], 'description' => ['en' => 'Certified advisors.', 'ar' => 'مستشارون معتمدون.']],
             ],
         ]);
 
@@ -47,22 +61,26 @@ class AboutTest extends TestCase
                 'testimonials',
                 'partners',
                 'about_branches',
+                'about_stats',
+                'about_core_values',
+                'about_why_choose_us',
                 'main_gallery',
-            ],
-            'meta' => [
                 'page_sections' => [
                     'hero',
                     'story',
+                    'values',
                     'partners',
+                    'why_choose_us',
                     'dealer',
                     'locations',
                     'testimonials',
                 ],
-                'about_stats',
             ],
         ]);
 
         $this->assertCount(1, $response->json('data.testimonials'));
         $this->assertCount(1, $response->json('data.partners'));
+        $this->assertSame('Trust', $response->json('data.about_core_values.0.title'));
+        $this->assertSame('Expert Team', $response->json('data.about_why_choose_us.0.title'));
     }
 }

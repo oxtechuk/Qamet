@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\BlogPost;
+use App\Models\Branch;
 use App\Models\Brand;
 use App\Models\CalculatorBank;
 use App\Models\CalculatorFactor;
@@ -15,6 +16,7 @@ use App\Models\Setting;
 use App\Models\Specification;
 use App\Models\Testimonial;
 use App\Observers\BlogPostObserver;
+use App\Observers\BranchObserver;
 use App\Observers\BrandObserver;
 use App\Observers\CalculatorBankObserver;
 use App\Observers\CalculatorFactorObserver;
@@ -81,5 +83,6 @@ class AppServiceProvider extends ServiceProvider
         Partner::observe(PartnerObserver::class);
         CalculatorBank::observe(CalculatorBankObserver::class);
         CalculatorFactor::observe(CalculatorFactorObserver::class);
+        Branch::observe(BranchObserver::class);
     }
 }

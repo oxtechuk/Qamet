@@ -20,7 +20,7 @@ class OfferCacheService extends BaseCacheService
                 ->where(function ($q) {
                     $q->where('is_featured', true)->orWhereHas('offers');
                 })
-                ->with(['brand', 'offers'])
+                ->with(['brand', 'images', 'activeOffers'])
                 ->latest()
                 ->take(5)
                 ->get();

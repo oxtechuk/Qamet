@@ -24,6 +24,8 @@ final class AboutApiService
         $rawSections = $this->cache->rememberAboutSections();
         $aboutStats = $this->cache->rememberAboutStats();
         $aboutBranches = $this->cache->rememberAboutBranches();
+        $coreValues = $this->localizeItems($this->cache->rememberAboutCoreValues(), $locale);
+        $whyChooseUs = $this->localizeItems($this->cache->rememberAboutWhyChooseUs(), $locale);
 
         $pageSections = [
             'hero' => [
@@ -39,10 +41,18 @@ final class AboutApiService
                 'vision_title' => $rawSections['story']['vision_title'][$locale] ?? '',
                 'vision_text' => $rawSections['story']['vision_text'][$locale] ?? '',
             ],
+            'values' => [
+                'badge' => $rawSections['values']['badge'][$locale] ?? '',
+                'title' => $rawSections['values']['title'][$locale] ?? '',
+            ],
             'partners' => [
                 'badge' => $rawSections['partners']['badge'][$locale] ?? '',
                 'title' => $rawSections['partners']['title'][$locale] ?? '',
                 'subtitle' => $rawSections['partners']['subtitle'][$locale] ?? '',
+            ],
+            'why_choose_us' => [
+                'title' => $rawSections['why_choose_us']['title'][$locale] ?? '',
+                'subtitle' => $rawSections['why_choose_us']['subtitle'][$locale] ?? '',
             ],
             'dealer' => [
                 'title' => $rawSections['dealer']['title'][$locale] ?? '',
@@ -67,7 +77,22 @@ final class AboutApiService
             'main_gallery' => $mainGallery,
             'about_stats' => $aboutStats,
             'about_branches' => $aboutBranches,
+            'about_core_values' => $coreValues,
+            'about_why_choose_us' => $whyChooseUs,
             'page_sections' => $pageSections,
         ];
+    }
+
+    /**
+     * @param  array<int, array{icon?: string, title?: array<string, string>, description?: array<string, string>}>  $items
+     * @return array<int, array{icon: string, title: string, description: string}>
+     */
+    private function localizeItems(array $items, string $locale): array
+    {
+        return array_map(fn (array $item): array => [
+            'icon' => $item['icon'] ?? '',
+            'title' => $item['title'][$locale] ?? ($item['title']['en'] ?? ''),
+            'description' => $item['description'][$locale] ?? ($item['description']['en'] ?? ''),
+        ], $items);
     }
 }

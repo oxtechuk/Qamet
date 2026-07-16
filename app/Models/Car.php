@@ -114,19 +114,27 @@ class Car extends Model
         return $this->hasMany(Booking::class);
     }
 
-    public function offers()
+    public function offers(): HasMany
     {
-        return $this->belongsToMany(Offer::class, 'car_offer');
+        return $this->hasMany(Offer::class);
     }
 
-    public function activeOffers()
+    public function activeOffers(): HasMany
     {
-        return $this->belongsToMany(Offer::class, 'car_offer')
+        return $this->offers()
             ->where('is_active', true)
             ->where(function ($q) {
                 $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
             })
             ->latest();
+    }
+
+    /**
+     * @deprecated Use offers() instead. Kept for the legacy car_offer pivot which the current CRM no longer writes to.
+     */
+    public function legacyOffers()
+    {
+        return $this->belongsToMany(Offer::class, 'car_offer');
     }
 
     public function getMainImageAttribute(): ?string

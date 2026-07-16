@@ -37,4 +37,18 @@ class AboutCacheService extends BaseCacheService
 
         return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
     }
+
+    public function rememberAboutCoreValues(): array
+    {
+        $raw = $this->rememberSetting('about_core_values', []);
+
+        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+    }
+
+    public function rememberAboutWhyChooseUs(): array
+    {
+        $raw = $this->rememberSetting('about_why_choose_us', []);
+
+        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+    }
 }

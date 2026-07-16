@@ -48,7 +48,7 @@ final class HomeApiService
             'title' => $featuredSetting['title'][$locale] ?? '',
             'description' => $featuredSetting['description'][$locale] ?? '',
             'car' => $carId ? CarMiniResource::make(Car::with('brand', 'images')->find($carId))->resolve() : null,
-            'offer' => $offerId ? HomeOfferResource::make(Offer::query()->find($offerId))->resolve() : null,
+            'offer' => $offerId ? HomeOfferResource::make(Offer::with('car.brand')->find($offerId))->resolve() : null,
         ];
 
         $pageSections = [
