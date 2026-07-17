@@ -120,7 +120,7 @@ export default function CarDetailsHero({
   ) : null;
 
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-10">
+    <section dir={i18n.dir()} className="w-full py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
           {/* Content */}

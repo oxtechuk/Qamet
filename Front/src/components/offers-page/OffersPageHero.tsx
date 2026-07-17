@@ -14,7 +14,7 @@ export default function OffersPageHero({
 }: IOffersPageHeroProps) {
   const { i18n } = useTranslation();
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-16 md:py-24">
+    <section dir={i18n.dir()} className="w-full py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-[24px] bg-white">
           <div className="flex flex-col-reverse lg:flex-row">

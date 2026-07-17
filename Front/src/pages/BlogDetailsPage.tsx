@@ -55,7 +55,7 @@ export default function BlogDetailsPage() {
 
   if (isLoading) {
     return (
-      <section className="flex h-[60vh] items-center justify-center bg-[#F0F2F5]">
+      <section className="flex h-[60vh] items-center justify-center">
         <p className="text-[18px] text-[#6B7280]">
           {t("blogPage.details.page.loading")}
         </p>
@@ -65,7 +65,7 @@ export default function BlogDetailsPage() {
 
   if (isError || !blog) {
     return (
-      <section className="flex h-[60vh] items-center justify-center bg-[#F0F2F5]">
+      <section className="flex h-[60vh] items-center justify-center">
         <p className="text-[18px] text-[#6B7280]">
           {t("blogPage.details.page.error")}
         </p>

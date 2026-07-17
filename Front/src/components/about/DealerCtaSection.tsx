@@ -12,7 +12,7 @@ export default function DealerCtaSection({
 }: IDealerCtaSectionProps) {
   const { i18n } = useTranslation();
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-8">
+    <section dir={i18n.dir()} className="w-full py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-[26px] bg-gradient-to-l from-[#163F8B] to-[#051023] px-6 py-10 md:px-12">
           <div className="flex flex-col items-center justify-between gap-8 md:flex-row">

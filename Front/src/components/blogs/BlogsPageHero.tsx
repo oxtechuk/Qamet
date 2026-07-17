@@ -1,5 +1,10 @@
 import { useTranslation } from "react-i18next";
-import BlogFeaturedCard from "./BlogFeaturedCard";
+import {
+  CalendarDays,
+  Clock3,
+  UserRound,
+} from "lucide-react";
+
 import type { IBlogsPageHeroProps } from "../../interfaces/IBlogsPageHeroProps";
 
 export default function BlogsPageHero({
@@ -12,48 +17,123 @@ export default function BlogsPageHero({
   featuredPost,
 }: IBlogsPageHeroProps) {
   const { i18n } = useTranslation();
-  return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex rounded-full bg-white px-5 py-2 text-[14px] font-medium text-[#6B7280]">
-            {badgeText}
-          </span>
 
-          <h1
-            className="mt-7 text-[34px] font-extrabold leading-tight text-[#07111F] md:text-[44px]"
-            dangerouslySetInnerHTML={{ __html: title }}
+  if (!featuredPost) {
+    return null;
+  }
+
+  return (
+    <section
+      dir={i18n.dir()}
+      className="w-full bg-[#F4F5F7] py-5 sm:py-7 lg:py-8"
+    >
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+        {/* Hero */}
+        <article className="relative min-h-[285px] overflow-hidden rounded-[18px] bg-[#061525] sm:min-h-[360px] lg:min-h-[430px]">
+          {/* Background image */}
+          <img
+            src={featuredPost.image}
+            alt={featuredPost.title}
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
           />
 
-          <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-8 text-[#6B7280]">
-            {description}
-          </p>
-        </div>
+          {/* Main dark overlay */}
+          <div className="absolute inset-0 bg-black/30" />
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          {categories.map((category) => {
-            const isActive = category.value === activeCategory;
+          {/* Dark gradient for content readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#00182D]/95 via-[#00182D]/40 to-black/10" />
 
-            return (
-              <button
-                key={category.value}
-                type="button"
-                onClick={() => onCategoryChange?.(category.value)}
-                className={`h-[40px] rounded-full px-6 text-[14px] font-bold transition ${
-                  isActive
-                    ? "bg-[var(--brand-secondary-color)] text-white"
-                    : "bg-white text-[#6B7280] hover:bg-[var(--brand-secondary-color)] hover:text-white"
-                }`}
-              >
-                {category.label}
-              </button>
-            );
-          })}
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-l from-[#00182D]/55 via-transparent to-transparent rtl:bg-gradient-to-r" />
 
-        {featuredPost && (
-          <div className="mt-16">
-            <BlogFeaturedCard {...featuredPost} />
+          {/* Content */}
+          <div className="relative z-10 flex min-h-[285px] flex-col justify-between px-5 py-5 sm:min-h-[260px] sm:px-8 sm:py-7 lg:min-h-[330px] lg:px-12 lg:py-10">
+            {/* Top badge */}
+            <div className="flex justify-start">
+              <span className="inline-flex min-h-[30px] items-center rounded-full bg-[var(--brand-secondary-color)] px-4 text-[11px] font-bold text-[var(--brand-primary-color)] shadow-lg sm:text-xs">
+                {badgeText}
+              </span>
+            </div>
+
+            {/* Main blog details */}
+            <div className="max-w-[900px] self-end text-start">
+              {featuredPost.category && (
+                <p className="mb-3 text-[12px] font-bold text-[var(--brand-secondary-color)] sm:text-[13px]">
+                  {featuredPost.category}
+                </p>
+              )}
+
+              <h1
+                className="max-w-[980px] text-[25px] font-extrabold leading-[1.45] text-white sm:text-[34px] md:text-[40px] lg:text-[44px]"
+                dangerouslySetInnerHTML={{
+                  __html: featuredPost.title || title,
+                }}
+              />
+
+              <p className="mt-3 max-w-[860px] text-[12px] leading-6 text-white/75 sm:mt-4 sm:text-[14px] sm:leading-7 lg:text-[15px]">
+                {featuredPost.description || description}
+              </p>
+
+              {/* Metadata */}
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-[11px] font-medium text-white/80 sm:text-[12px]">
+                <div className="flex items-center gap-2">
+                    <UserRound
+                      size={15}
+                      className="text-white/80"
+                    />
+                    <span>{featuredPost.author || "فهد القحطاني"}</span>
+                  </div>
+
+                {featuredPost.readTime && (
+                  <div className="flex items-center gap-2">
+                    <Clock3
+                      size={15}
+                      className="text-white/80"
+                    />
+                    <span>{featuredPost.readTime}</span>
+                  </div>
+                )}
+
+                {featuredPost.date && (
+                  <div className="flex items-center gap-2">
+                    <CalendarDays
+                      size={15}
+                      className="text-white/80"
+                    />
+                    <span>{featuredPost.date}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </article>
+
+        {/* Categories */}
+        {categories.length > 0 && (
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            {categories.map((category) => {
+              const isActive =
+                category.value === activeCategory;
+
+              return (
+                <button
+                  key={category.value}
+                  type="button"
+                  onClick={() =>
+                    onCategoryChange?.(category.value)
+                  }
+                  className={[
+                    "min-h-[40px] rounded-full px-6",
+                    "text-[13px] font-bold transition duration-300",
+                    isActive
+                      ? "bg-[var(--brand-secondary-color)] text-[var(--brand-primary-color)]"
+                      : "bg-white text-[#667085] shadow-sm hover:bg-[var(--brand-primary-color)] hover:text-white",
+                  ].join(" ")}
+                >
+                  {category.label}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

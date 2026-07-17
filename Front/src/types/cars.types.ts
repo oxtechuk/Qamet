@@ -64,6 +64,7 @@ export interface CarDetails {
   features: string;
   is_featured: boolean;
   availability_status: string;
+  highlight?: string;
   views: number;
   brand: { id: number; name: string; slug: string; logo: string };
   category: { id: number; name: string; slug: string } | null;

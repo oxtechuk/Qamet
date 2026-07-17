@@ -54,6 +54,7 @@ export interface CarItem {
   is_featured: boolean;
   is_current_year?: boolean;
   availability_status: string;
+  highlight?: string;
   views: number;
   brand: BrandInfo;
   active_offers: any[];
@@ -67,6 +68,7 @@ export interface OfferItem {
 }
 
 export interface HeroData {
+  title: string | null;
   title1: string | null;
   title2: string | null;
   subtitle: string | null;

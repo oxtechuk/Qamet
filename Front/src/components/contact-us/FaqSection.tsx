@@ -23,7 +23,7 @@ export default function FaqSection({
   };
 
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-16">
+    <section dir={i18n.dir()} className="w-full py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-3">

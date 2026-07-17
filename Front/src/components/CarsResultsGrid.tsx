@@ -24,7 +24,7 @@ export default function CarsResultsGrid({
   return (
     <section className="w-full">
       {/* Cars Grid */}
-      <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
+      <div className="grid grid-cols-1 items-stretch gap-7 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
         {cars.map((car) => (
           <CarCard key={car.id} {...car} />
         ))}

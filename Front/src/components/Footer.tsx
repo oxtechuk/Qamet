@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { NavLink } from "react-router-dom";
@@ -5,136 +6,206 @@ import type { IFooterProps } from "../interfaces/IFooterProps";
 import { useSettingsStore } from "../store/settings.store";
 import { useLanguageStore } from "../store/language.store";
 import { getSocialIcon } from "../utils/social-icons";
-import { FooterTitle, ContactItem } from "./footer-parts";
+import { APP_IMAGES } from "../constants/app-images";
 
 export default function Footer({
-  logoSrc,
-  logoAlt = "Logo",
-  quickLinks,
-  socialLinks: propSocialLinks,
-  phone: propPhone,
-  email: propEmail,
-  address: propAddress,
-  copyright: propCopyright,
+    logoSrc,
+    logoAlt = "Logo",
+    quickLinks,
+    socialLinks: propSocialLinks,
+    phone: propPhone,
+    email: propEmail,
+    address: propAddress,
+    copyright: propCopyright,
 }: IFooterProps) {
-  const { t } = useTranslation();
-  const direction = useLanguageStore((s) => s.direction);
-  const settings = useSettingsStore((s) => s.settings);
+    const { t } = useTranslation();
 
-  const phone = settings?.contact?.phone ?? propPhone;
-  const email = settings?.contact?.email ?? propEmail;
-  const address = settings?.contact?.address ?? propAddress;
-  const copyright = settings?.footer_text ?? propCopyright;
-  const socialLinks = settings?.social_media?.length
-    ? settings.social_media.map((sm) => ({
-        name: sm.icon,
-        icon: sm.icon,
-        url: sm.link,
-      }))
-    : propSocialLinks;
+    const direction = useLanguageStore((state) => state.direction);
+    const settings = useSettingsStore((state) => state.settings);
+    const [logoError, setLogoError] = useState(false);
 
-  return (
-    <footer className="w-full bg-[#111318] text-white pb-[96px] lg:pb-0">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-[92px]">
-        {/* Main Footer */}
-        <div
-          className="grid grid-cols-1 gap-8 py-10 lg:gap-12 lg:py-[72px] lg:grid-cols-[260px_1fr_240px] lg:items-start"
-          dir={direction}
-        >
-          {/* Social */}
-          <div className="flex flex-col items-center lg:items-start">
-            <FooterTitle title={t("footer.followUs")} />
+    useEffect(() => {
+        setLogoError(false);
+    }, [logoSrc]);
 
-            <div className="mt-8 flex items-center gap-5">
-              {(socialLinks ?? []).map((social) => (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="flex h-[42px] w-[42px] items-center justify-center rounded-full transition hover:scale-105"
-                >
-                  {getSocialIcon(social.icon)}
-                </a>
-              ))}
-            </div>
-          </div>
+    const resolvedLogo = !logoError ? (logoSrc || APP_IMAGES.LOGO) : APP_IMAGES.LOGO;
 
-          {/* Center Content */}
-          <div className="flex flex-col items-center">
-            <FooterTitle title={t("footer.quickLinks")} centered />
+    const phone = settings?.contact?.phone ?? propPhone;
+    const email = settings?.contact?.email ?? propEmail;
+    const address = settings?.contact?.address ?? propAddress;
+    const copyright = settings?.footer_text ?? propCopyright;
 
-            <nav className="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-5">
-              {quickLinks.map((link) => (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className="flex items-center gap-2 text-[15px] text-white/85 transition hover:text-[var(--brand-secondary-color)]"
-                >
-                  <span className="h-[7px] w-[7px] rounded-full bg-[var(--brand-secondary-color)]" />
-                  {link.label}
-                </NavLink>
-              ))}
-            </nav>
+    const socialLinks = settings?.social_media?.length
+        ? settings.social_media.map((social) => ({
+              name: social.icon,
+              icon: social.icon,
+              url: social.link,
+          }))
+        : propSocialLinks;
 
-            {/* Contact */}
-            <div className="mt-10 lg:mt-[64px] w-full">
-              <FooterTitle title={t("footer.contactUs")} centered />
-
-              <div className="mt-9 grid grid-cols-1 gap-8 sm:grid-cols-3 lg:gap-8">
-                <ContactItem
-                  label={t("footer.addressLabel")}
-                  value={address ?? ""}
-                  icon={<MapPin size={21} />}
-                />
-
-                <ContactItem
-                  label={t("footer.emailLabel")}
-                  value={email ?? ""}
-                  icon={<Mail size={21} />}
-                />
-
-                <ContactItem
-                  label={t("footer.phoneLabel")}
-                  value={phone ?? ""}
-                  icon={<Phone size={21} />}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Logo */}
-          <div className="flex justify-center lg:justify-start">
-            <img
-              src={logoSrc}
-              alt={logoAlt}
-              className="w-[190px] max-w-full object-contain"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        {/* Bottom Footer */}
-        <div className="border-t border-[#8DA8D4]/45 py-8">
-          <div
-            className="flex flex-col items-center justify-between gap-6 text-[14px] text-[#BFD3F4] md:flex-row"
+    return (
+        <footer
             dir={direction}
-          >
-            <div className="flex items-center gap-10">
-              <NavLink to="/privacy" className="transition hover:text-white">
-                {t("footer.privacyPolicy")}
-              </NavLink>
+            className="w-full bg-[#111318] pb-[96px] text-white lg:pb-0"
+        >
+            <div className="mx-auto max-w-[1440px] px-6 lg:px-[92px]">
+                {/* Logo */}
+                <div className="flex justify-center pb-12 pt-14 lg:pb-16 lg:pt-[72px]">
+                    <img
+                        src={resolvedLogo}
+                        alt={logoAlt}
+                        loading="lazy"
+                        onError={() => setLogoError(true)}
+                        className="w-[230px] max-w-full object-contain md:w-[280px]"
+                    />
+                </div>
 
-              <NavLink to="/terms" className="transition hover:text-white">
-                {t("footer.termsAndConditions")}
-              </NavLink>
+                {/* Main footer columns */}
+                <div className="grid grid-cols-1 gap-12 pb-14 md:grid-cols-3 md:gap-10 lg:pb-[64px]">
+                    {/* Quick links */}
+                    <FooterSection title={t("footer.quickLinks")}>
+                        <nav className="flex flex-col items-start gap-6">
+                            {quickLinks.map((link) => (
+                                <NavLink
+                                    key={link.to}
+                                    to={link.to}
+                                    className="group flex items-center gap-3 text-[15px] text-white/70 transition-colors hover:text-white"
+                                >
+                                    <span className="h-[7px] w-[7px] shrink-0 rounded-full bg-[var(--brand-secondary-color)]" />
+
+                                    <span>{link.label}</span>
+                                </NavLink>
+                            ))}
+                        </nav>
+                    </FooterSection>
+
+                    {/* Contact */}
+                    <FooterSection title={t("footer.contactUs")}>
+                        <div className="flex flex-col items-start gap-6">
+                            {phone && (
+                                <ContactRow
+                                    label={t("footer.phoneLabel")}
+                                    value={phone}
+                                    href={`tel:${phone.replace(/\s+/g, "")}`}
+                                    icon={<Phone size={19} />}
+                                />
+                            )}
+
+                            {email && (
+                                <ContactRow
+                                    label={t("footer.emailLabel")}
+                                    value={email}
+                                    href={`mailto:${email}`}
+                                    icon={<Mail size={19} />}
+                                />
+                            )}
+
+                            {address && (
+                                <ContactRow
+                                    label={t("footer.addressLabel")}
+                                    value={address}
+                                    icon={<MapPin size={19} />}
+                                />
+                            )}
+                        </div>
+                    </FooterSection>
+
+                    {/* Social links */}
+                    <FooterSection title={t("footer.followUs")}>
+                        <div className="flex flex-col items-start gap-5">
+                            {(socialLinks ?? []).map((social) => (
+                                <a
+                                    key={`${social.name}-${social.url}`}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={social.name}
+                                    className="flex h-[42px] w-[42px] items-center justify-center rounded-full transition duration-300 hover:scale-110"
+                                >
+                                    {getSocialIcon(social.icon)}
+                                </a>
+                            ))}
+                        </div>
+                    </FooterSection>
+                </div>
+
+                {/* Bottom footer */}
+                <div className="border-t border-[#8DA8D4]/45 py-7">
+                    <div className="flex flex-col items-center justify-between gap-5 text-center text-[13px] text-[#BFD3F4] md:flex-row md:text-start">
+                        {/* Copyright on the right in RTL */}
+                        <p>{copyright}</p>
+
+                        {/* Policies on the left in RTL */}
+                        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:justify-start">
+                            <NavLink
+                                to="/privacy"
+                                className="transition-colors hover:text-white"
+                            >
+                                {t("footer.privacyPolicy")}
+                            </NavLink>
+
+                            <NavLink
+                                to="/terms"
+                                className="transition-colors hover:text-white"
+                            >
+                                {t("footer.termsAndConditions")}
+                            </NavLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
+}
+
+interface FooterSectionProps {
+    title: string;
+    children: React.ReactNode;
+}
+
+function FooterSection({ title, children }: FooterSectionProps) {
+    return (
+        <section className="mx-auto flex w-full max-w-[260px] flex-col items-start md:mx-0">
+            <h3 className="mb-7 w-full text-start text-[17px] font-semibold text-white">
+                {title}
+            </h3>
+
+            <div className="w-full">{children}</div>
+        </section>
+    );
+}
+
+interface ContactRowProps {
+    label: string;
+    value: string;
+    icon: React.ReactNode;
+    href?: string;
+}
+
+function ContactRow({ label, value, icon, href }: ContactRowProps) {
+    const content = (
+        <div className="flex items-center gap-4">
+            <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[9px] border border-[var(--brand-secondary-color)]/30 bg-[var(--brand-secondary-color)]/10 text-[var(--brand-secondary-color)]">
+                {icon}
             </div>
 
-            <p>{copyright}</p>
-          </div>
+            <div className="min-w-0 text-start">
+                <p className="mb-1 text-[12px] text-white/45">{label}</p>
+
+                <p className="break-words text-[13px] font-medium leading-6 text-white/90">
+                    {value}
+                </p>
+            </div>
         </div>
-      </div>
-    </footer>
-  );
+    );
+
+    if (!href) {
+        return content;
+    }
+
+    return (
+        <a href={href} className="transition-opacity hover:opacity-80">
+            {content}
+        </a>
+    );
 }

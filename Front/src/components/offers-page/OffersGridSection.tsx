@@ -25,7 +25,7 @@ export default function OffersGridSection({
   const resolvedCategories = categories ?? defaultCategories;
 
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-14">
+    <section dir={i18n.dir()} className="w-full py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">

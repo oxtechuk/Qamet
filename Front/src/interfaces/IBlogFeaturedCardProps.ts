@@ -8,4 +8,6 @@ export interface IBlogFeaturedCardProps {
   authorRole: string;
   authorImage: string;
   readMoreTo: string;
+  author?: string;
+  readTime?: string;
 }

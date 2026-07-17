@@ -9,9 +9,9 @@
 }
 
 :root {
-  --brand-primary-color: #299BE0;
-  --brand-primary-light-color: #5AC1F4;
-  --brand-secondary-color: #EB5E28;
+  --brand-primary-color: #021F38;
+  --brand-primary-light-color: #2F5F8A;
+  --brand-secondary-color: #DFC675;
   --barand-footer-color: #121317;
   --brand-CTA-BG-color: #0D1018;
 
@@ -34,7 +34,7 @@
 
   --contact-cta-border: rgba(0, 98, 241, 0.2);
 
-  --background: #F0F2F5;
+  --background: #FAFAF8;
   --border: #e5e4e7;
 
   --font-main: "The Year of Handicrafts", system-ui, sans-serif;
@@ -50,7 +50,7 @@ body {
   font-size: 18px;
   line-height: 145%;
   letter-spacing: 0.18px;
-  background: var(--background);
+  background-color: var(--background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

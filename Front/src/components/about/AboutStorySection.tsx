@@ -9,7 +9,7 @@ export default function AboutStorySection({
 }: IAboutStorySectionProps) {
   const { i18n } = useTranslation();
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-16">
+    <section dir={i18n.dir()} className="w-full py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-[26px] font-extrabold leading-[1.6] text-[#07111F] md:text-[32px]">

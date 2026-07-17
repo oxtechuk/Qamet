@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLanguageStore } from "../store/language.store";
-import { APP_IMAGES } from "../constants/app-images";
+import { APP_IMAGES, getImageUrl } from "../constants/app-images";
 import { getSettings } from "../services/api";
 import { useSettingsStore } from "../store/settings.store";
-import { getImageUrl } from "../constants/app-images";
 import TopBar from "../components/top-bar";
 import Header from "../components/header";
 import Footer from "../components/Footer";
@@ -17,8 +16,10 @@ import WhatsAppWidget from "../components/WhatsAppWidget";
 
 export default function RootLayout() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const { language, setLanguage } = useLanguageStore();
   const { loaded, settings, setSettings, setLoading } = useSettingsStore();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     if (loaded) return;
@@ -41,7 +42,7 @@ export default function RootLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] pt-0 sm:pt-[30px]">
+    <div className={`min-h-screen  ${isHome ? "pt-0" : "pt-0 sm:pt-[30px]"}`}>
       <ScrollToTop />
       <ToastContainer
         position="top-center"
@@ -49,22 +50,26 @@ export default function RootLayout() {
         theme="colored"
       />
 
-      <TopBar
-        phone={t("topbar.phoneValue")}
-        email={t("topbar.emailValue")}
-        location={t("topbar.locationValue")}
-        onLanguageToggle={() => setLanguage(language === "en" ? "ar" : "en")}
-      />
+      {!isHome && (
+        <>
+          <TopBar
+            phone={t("topbar.phoneValue")}
+            email={t("topbar.emailValue")}
+            location={t("topbar.locationValue")}
+            onLanguageToggle={() => setLanguage(language === "en" ? "ar" : "en")}
+          />
 
-      <div className="hidden md:block sticky top-[35px] sm:top-[35px] z-40">
-        <Header
-          logoSrc={getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO}
-          logoAlt="Knoz Cars"
-          navItems={navItems}
-          ctaText={t("nav.contact")}
-          ctaPath="/contact"
-        />
-      </div>
+          <div className="hidden md:block sticky top-[35px] sm:top-[35px] z-40">
+            <Header
+              logoSrc={getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO}
+              logoAlt="Knoz Cars"
+              navItems={navItems}
+              ctaText={t("nav.contact")}
+              ctaPath="/contact"
+            />
+          </div>
+        </>
+      )}
 
       <main className="pb-[96px] md:pb-0">
         <Outlet />

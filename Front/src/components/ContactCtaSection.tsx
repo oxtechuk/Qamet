@@ -13,7 +13,7 @@ export default function ContactCtaSection({
   phoneHref: propPhoneHref,
   whatsappText,
   whatsappHref: propWhatsappHref,
-  sectionBgColor = "#F0F2F5",
+  sectionBgColor = "transparent",
 }: IContactCtaSectionProps) {
   const { i18n } = useTranslation();
   const settings = useSettingsStore((s) => s.settings);

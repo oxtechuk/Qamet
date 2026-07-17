@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ArrowLeft,
-  ArrowRight,
   CarFront,
   Flame,
   Gauge,
@@ -11,6 +9,7 @@ import {
 } from "lucide-react";
 import Button from "./button";
 import CarCard from "./CarCard";
+import SlideArrow from "./SlideArrow";
 import type { ICarsShowcaseSectionProps } from "../interfaces/ICarsShowcaseSectionProps";
 import type { IFilterItem } from "../interfaces/IFilterItem";
 
@@ -110,14 +109,12 @@ export default function CarsShowcaseSection({
     return () => clearInterval(id);
   }, [isPaused, totalSlides]);
 
-  const filters = useFilters(t);
-
   if (!cars.length) return null;
 
   return (
     <section
       dir={i18n.dir()}
-      className="w-full bg-[#F0F2F5] py-14"
+      className="w-full py-14"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -139,31 +136,23 @@ export default function CarsShowcaseSection({
             </p>
           </div>
 
-          <Button to={buttonTo} className="w-full px-6 py-2.5 text-[13px] md:w-auto md:px-8 md:py-3 md:text-[15px]">
-            {buttonText}
-          </Button>
-        </div>
+          {totalSlides > 1 && (
+            <div className="flex items-center justify-center gap-6">
+              <SlideArrow
+                direction="next"
+                onClick={isRTL ? prevSlide : nextSlide}
+              />
 
-        {/* Filters */}
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-4">
-          {filters.map((filter) => (
-            <button
-              key={filter.label}
-              type="button"
-              className={`flex h-[44px] items-center gap-2 rounded-full border px-5 text-[14px] font-medium transition ${
-                filter.active
-                  ? "border-[var(--brand-primary-color)] bg-[var(--brand-primary-color)] text-white"
-                  : "border-[#D7DCE3] bg-transparent text-[#555F6D] hover:border-[var(--brand-primary-color)] hover:text-[var(--brand-primary-color)]"
-              }`}
-            >
-              {filter.icon}
-              {filter.label}
-            </button>
-          ))}
+              <SlideArrow
+                direction="prev"
+                onClick={isRTL ? nextSlide : prevSlide}
+              />
+            </div>
+          )}
         </div>
 
         {/* Carousel */}
-        <div className="relative overflow-hidden">
+        <div className="overflow-hidden">
           <div
             className="flex transition-transform duration-300 ease-in-out"
             style={{ transform: `translateX(${isRTL ? "" : "-"}${currentSlide * 100}%)` }}
@@ -171,13 +160,13 @@ export default function CarsShowcaseSection({
             {slides.map((slide, sIdx) => (
               <div
                 key={sIdx}
-                className="flex shrink-0 w-full gap-[28px]"
+                className="flex shrink-0 items-stretch w-full gap-[28px]"
                 dir={isRTL ? "rtl" : "ltr"}
               >
                 {slide.map((car, cIdx) => (
                   <div
                     key={`${car.id}-${sIdx}-${cIdx}`}
-                    className="shrink-0"
+                    className="h-full shrink-0"
                     style={{ width: cardWidth }}
                   >
                     <CarCard {...car} />
@@ -188,41 +177,15 @@ export default function CarsShowcaseSection({
           </div>
         </div>
 
-        {/* Slider Controls */}
-        {totalSlides > 1 && (
-          <div className="mt-10 flex items-center justify-center gap-6">
-            <button
-              type="button"
-              onClick={isRTL ? nextSlide : prevSlide}
-              className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[var(--brand-primary-color)] text-white transition hover:opacity-90"
-            >
-              {isRTL ? <ArrowRight size={21} /> : <ArrowLeft size={21} />}
-            </button>
-
-            <div className="flex items-center gap-2" dir="ltr">
-              {Array.from({ length: totalSlides }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => goToSlide(i)}
-                  className={`rounded-full transition-all duration-300 ${
-                    i === currentSlide
-                      ? "h-[6px] w-[24px] bg-[var(--brand-primary-color)]"
-                      : "h-[6px] w-[10px] bg-[#C6C9CD] hover:bg-[#a0b4cc]"
-                  }`}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={isRTL ? prevSlide : nextSlide}
-              className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[var(--brand-primary-color)] text-white transition hover:opacity-90"
-            >
-              {isRTL ? <ArrowLeft size={21} /> : <ArrowRight size={21} />}
-            </button>
-          </div>
-        )}
+        {/* Button */}
+        <div className="mt-10 flex justify-center">
+          <Button
+            to={buttonTo}
+            className="w-full px-6 py-2.5 text-[13px] md:w-auto md:px-8 md:py-3 md:text-[15px]"
+          >
+            {buttonText}
+          </Button>
+        </div>
       </div>
     </section>
   );

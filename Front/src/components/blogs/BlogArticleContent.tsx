@@ -6,7 +6,7 @@ export default function BlogArticleContent({
 }: IBlogArticleContentProps) {
   const { i18n } = useTranslation();
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-8">
+    <section dir={i18n.dir()} className="w-full py-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           {sections.map((section, index) => (

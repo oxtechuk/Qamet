@@ -47,7 +47,7 @@ export default function FinanceCalculatorPage() {
   };
 
   return (
-    <main dir={i18n.dir()} className="min-h-screen w-full bg-[#F0F2F5] py-14">
+    <main dir={i18n.dir()} className="min-h-screen w-full py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {step === 1 ? (
           <StepOneForm

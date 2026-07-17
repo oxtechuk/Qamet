@@ -153,7 +153,7 @@ export default function MobileBottomNav() {
                     className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold leading-none transition ${
                       isActive
                         ? "bg-[var(--brand-primary-color)]/10 text-[var(--brand-primary-color)]"
-                        : "text-[#07111F] hover:bg-[#F0F2F5]"
+                        : "text-[#07111F] hover:bg-[var(--background)]"
                     }`}
                   >
                     <LinkIcon size={20} strokeWidth={2} />
@@ -175,7 +175,7 @@ export default function MobileBottomNav() {
                   setLanguage(language === "en" ? "ar" : "en");
                   setSidebarOpen(false);
                 }}
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold leading-none text-[#07111F] transition hover:bg-[#F0F2F5]"
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold leading-none text-[#07111F] transition hover:bg-[var(--background)]"
               >
                 <Languages size={20} strokeWidth={2} />
                 {t("topbar.language")}

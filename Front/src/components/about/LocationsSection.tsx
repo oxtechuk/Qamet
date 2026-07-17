@@ -37,7 +37,7 @@ export default function LocationsSection({
   const showMapLink = activeLocation.mapLink || searchQuery;
 
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-16">
+    <section dir={i18n.dir()} className="w-full py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="mb-20 text-center text-[42px] font-extrabold leading-tight md:text-[52px]">
           <span className="text-[#07111F]">{titleBlack} </span>

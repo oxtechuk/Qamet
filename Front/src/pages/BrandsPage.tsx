@@ -13,7 +13,7 @@ export default function BrandsPage() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] py-16">
+    <section dir={i18n.dir()} className="w-full py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <h1 className="text-[34px] font-bold leading-tight md:text-[40px]">

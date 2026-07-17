@@ -52,6 +52,8 @@
     "monthlyPayment": "Monthly payment",
     "estimated": "Estimated",
     "reserve": "Book now",
+    "details": "Details",
+    "startsFrom": "Starts from"
     "model": "Model"
   },
   "offers": {
@@ -235,6 +237,9 @@
     "description": "We've gathered the latest models and best financing offers in one place. We provide options that make the math easy and deliver your car to your doorstep or anywhere in the kingdom.",
     "primaryButton": "Browse All Cars",
     "secondaryButton": "Calculate Your Finance",
+    "menu": "Menu",
+    "searchPlaceholder": "Search for a car by name, brand, or model...",
+    "filter": "Filter",
     "cards": [
       {
         "title": "Eid Offers Are Still On!",
@@ -246,6 +251,28 @@
         "description": "Sporty hashtag, limited edition",
         "buttonText": "Order Now",
         "badge": "NEW ARRIVAL 2026"
+      }
+    ],
+    "slides": [
+      {
+        "subtitle": "Premium Car Dealership",
+        "title": "Your Dream Car Awaits You",
+        "description": "Discover the latest models with the best financing options. We deliver your car to your doorstep anywhere in the kingdom."
+      },
+      {
+        "subtitle": "Exclusive Offers",
+        "title": "Drive Your Dream Today",
+        "description": "Handpicked vehicles at unbeatable prices with flexible financing plans tailored for you."
+      },
+      {
+        "subtitle": "Seasonal Deals",
+        "title": "Special Offers This Season",
+        "description": "Don't miss our limited-time offers on the most sought-after models. Finance made easy."
+      },
+      {
+        "subtitle": "See It in Action",
+        "title": "Experience the Drive",
+        "description": "Watch our latest arrivals and see what luxury feels like."
       }
     ]
   },

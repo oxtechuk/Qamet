@@ -14,7 +14,7 @@ export default function BlogDetailsHero({
 }: IBlogDetailsHeroProps) {
   const { i18n } = useTranslation();
   return (
-    <section dir={i18n.dir()} className="w-full bg-[#F0F2F5] pt-12 pb-8">
+    <section dir={i18n.dir()} className="w-full pt-12 pb-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-start">
           <span className="inline-flex rounded-full bg-[#FFF0EB] px-4 py-2 text-[13px] font-bold text-[var(--brand-secondary-color)]">

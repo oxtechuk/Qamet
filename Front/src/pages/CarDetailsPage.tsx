@@ -57,6 +57,7 @@ function mapRelatedCar(car: CarItem): CarCardProps | null {
         "var(--brand-secondary-color)",
       ),
       detailsTo: `/cars/${slug}`,
+      badgeText: car.highlight,
     };
   } catch {
     return null;
