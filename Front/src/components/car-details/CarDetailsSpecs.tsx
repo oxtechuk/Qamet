@@ -49,10 +49,10 @@ export default function CarDetailsSpecs({ tabs }: ICarDetailsSpecsProps) {
               key={i}
               className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm"
             >
-              <span className="text-right text-sm font-bold text-[var(--brand-secondary-color)]">
+              <span className="text-end text-sm font-bold text-[var(--brand-secondary-color)]">
                 {item.label}
               </span>
-              <span className="text-left text-sm font-medium text-gray-600">
+              <span className="text-start text-sm font-medium text-gray-600">
                 {item.value}
               </span>
             </div>
@@ -69,7 +69,7 @@ export default function CarDetailsSpecs({ tabs }: ICarDetailsSpecsProps) {
                 <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-secondary-color)] text-base">
                   {isFeature ? item.icon : <CircleCheck size={18} className="text-white" />}
                 </div>
-                <span className="flex-1 text-right text-sm font-semibold text-[#1f2937]">
+                <span className="flex-1 text-end text-sm font-semibold text-[#1f2937]">
                   {isFeature ? item.name : item}
                 </span>
               </div>
@@ -83,12 +83,12 @@ export default function CarDetailsSpecs({ tabs }: ICarDetailsSpecsProps) {
               <div
                 key={i}
                 className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm"
-                style={{ borderRight: "3px solid var(--brand-secondary-color)" }}
+                style={{ borderInlineEnd: "3px solid var(--brand-secondary-color)" }}
               >
                 <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-secondary-color)]">
                   <CircleCheck size={18} className="text-white" />
                 </div>
-                <span className="flex-1 text-right text-sm font-semibold text-[#1f2937]">
+                <span className="flex-1 text-end text-sm font-semibold text-[#1f2937]">
                   {isFeature ? item.name : item}
                 </span>
               </div>
