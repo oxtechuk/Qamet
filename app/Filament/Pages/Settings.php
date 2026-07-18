@@ -172,6 +172,19 @@ class Settings extends Page
             'blog_hero_subtitle_ar' => $blogHero['subtitle']['ar'] ?? '',
             'blog_hero_subtitle_en' => $blogHero['subtitle']['en'] ?? '',
             'blog_hero_image' => $blogHero['image'] ?? null,
+            'footer_text' => $this->getSetting('footer_text', ''),
+            'auto_assign_bookings' => $this->getSetting('auto_assign_bookings', false),
+            'site_logo' => $this->getSetting('site_logo'),
+            'site_favicon' => $this->getSetting('site_favicon'),
+            'breadcrumb_bg' => $this->getSetting('breadcrumb_bg'),
+            'page_loader_enabled' => $this->getSetting('page_loader_enabled', true),
+            'page_loader_image' => $this->getSetting('page_loader_image'),
+            'promo_popup_enabled' => $this->getSetting('promo_popup_enabled', false),
+            'promo_popup_image' => $this->getSetting('promo_popup_image'),
+            'promo_popup_title' => $this->getSetting('promo_popup_title', ''),
+            'promo_popup_text' => $this->getSetting('promo_popup_text', ''),
+            'promo_popup_link' => $this->getSetting('promo_popup_link', ''),
+            'promo_popup_button_text' => $this->getSetting('promo_popup_button_text', __('Browse Offers')),
         ]);
 
         $this->callHook('afterFill');
@@ -313,6 +326,88 @@ class Settings extends Page
                                                     ]),
                                             ])
                                             ->addActionLabel(__('Add Social Link')),
+                                    ]),
+                                Section::make(__('Footer & Automation'))
+                                    ->schema([
+                                        Forms\Components\Textarea::make('footer_text')
+                                            ->label(__('Footer Text'))
+                                            ->rows(3)
+                                            ->maxLength(500)
+                                            ->helperText(__('Text displayed in the site footer')),
+                                        Forms\Components\Toggle::make('auto_assign_bookings')
+                                            ->label(__('Auto-assign Bookings'))
+                                            ->default(false)
+                                            ->helperText(__('Automatically distribute bookings to sales employees (Round-Robin)')),
+                                    ]),
+                                Section::make(__('Branding'))
+                                    ->description(__('Logo, favicon, and page backgrounds'))
+                                    ->schema([
+                                        Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\FileUpload::make('site_logo')
+                                                    ->label(__('Site Logo'))
+                                                    ->image()
+                                                    ->directory('branding')
+                                                    ->visibility('public'),
+                                                Forms\Components\FileUpload::make('site_favicon')
+                                                    ->label(__('Favicon'))
+                                                    ->image()
+                                                    ->directory('branding')
+                                                    ->visibility('public'),
+                                                Forms\Components\FileUpload::make('breadcrumb_bg')
+                                                    ->label(__('Breadcrumb Background'))
+                                                    ->image()
+                                                    ->directory('branding')
+                                                    ->visibility('public')
+                                                    ->helperText(__('Background image shown on inner page headers')),
+                                            ]),
+                                    ]),
+                                Section::make(__('Page Loader'))
+                                    ->description(__('Loading screen shown while the page loads'))
+                                    ->schema([
+                                        Forms\Components\Toggle::make('page_loader_enabled')
+                                            ->label(__('Enable Page Loader'))
+                                            ->default(true)
+                                            ->helperText(__('Show a loading screen before the page fully loads')),
+                                        Forms\Components\FileUpload::make('page_loader_image')
+                                            ->label(__('Loader Image / GIF'))
+                                            ->image()
+                                            ->directory('loader')
+                                            ->visibility('public')
+                                            ->helperText(__('PNG or animated GIF')),
+                                    ]),
+                                Section::make(__('Promo Popup'))
+                                    ->description(__('Promotional popup shown to visitors after browsing'))
+                                    ->schema([
+                                        Forms\Components\Toggle::make('promo_popup_enabled')
+                                            ->label(__('Enable Popup'))
+                                            ->default(false),
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\FileUpload::make('promo_popup_image')
+                                                    ->label(__('Popup Image'))
+                                                    ->image()
+                                                    ->directory('popup')
+                                                    ->visibility('public'),
+                                                Forms\Components\TextInput::make('promo_popup_title')
+                                                    ->label(__('Popup Title'))
+                                                    ->maxLength(255),
+                                            ]),
+                                        Forms\Components\Textarea::make('promo_popup_text')
+                                            ->label(__('Popup Text'))
+                                            ->rows(3)
+                                            ->maxLength(500),
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('promo_popup_link')
+                                                    ->label(__('Button URL'))
+                                                    ->url()
+                                                    ->maxLength(500),
+                                                Forms\Components\TextInput::make('promo_popup_button_text')
+                                                    ->label(__('Button Text'))
+                                                    ->maxLength(255)
+                                                    ->default(__('Browse Offers')),
+                                            ]),
                                     ]),
                             ]),
                         Tab::make(__('Pages'))
