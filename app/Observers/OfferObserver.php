@@ -15,19 +15,19 @@ class OfferObserver
 
     public function saved(Offer $offer): void
     {
-        $this->homeCache->forgetHome();
+        $this->homeCache->forgetOffers();
         $this->offerCache->forgetOffers();
     }
 
     public function deleted(Offer $offer): void
     {
-        $this->homeCache->forgetHome();
+        $this->homeCache->forgetOffers();
         $this->offerCache->forgetOffers();
     }
 
     public function forceDeleted(Offer $offer): void
     {
-        $this->homeCache->forgetHome();
+        $this->homeCache->forgetOffers();
         $this->offerCache->forgetOffers();
     }
 }

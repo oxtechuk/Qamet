@@ -59,36 +59,32 @@ class Offer extends Model
         }
 
         if ($this->ends_at->isPast()) {
-            return 'منتهي';
+            return __('Expired');
         }
 
         $now = now();
         $diff = $now->diff($this->ends_at);
 
         if ($diff->days === 0) {
-            return 'ينتهي اليوم';
+            return __('Ends today');
         }
 
         if ($diff->days === 1) {
-            return 'ينتهي غداً';
+            return __('Ends tomorrow');
         }
 
         if ($diff->days < 7) {
-            return "ينتهي خلال {$diff->days} أيام";
+            return __('Ends in :count days', ['count' => $diff->days]);
         }
 
-        $weeks = (int) ceil($diff->days / 7);
         if ($diff->days < 30) {
-            return "ينتهي خلال {$weeks} ".($weeks === 1 ? 'أسبوع' : 'أسابيع');
+            return __('Ends in :count weeks', ['count' => (int) ceil($diff->days / 7)]);
         }
 
-        $months = (int) ceil($diff->days / 30);
         if ($diff->days < 365) {
-            return "ينتهي خلال {$months} ".($months === 1 ? 'شهر' : 'أشهر');
+            return __('Ends in :count months', ['count' => (int) ceil($diff->days / 30)]);
         }
 
-        $years = (int) ceil($diff->days / 365);
-
-        return "ينتهي خلال {$years} ".($years === 1 ? 'سنة' : 'سنوات');
+        return __('Ends in :count years', ['count' => (int) ceil($diff->days / 365)]);
     }
 }

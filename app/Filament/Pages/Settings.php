@@ -2,6 +2,9 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Resources\CoreValueResource;
+use App\Filament\Resources\GalleryItemResource;
+use App\Filament\Resources\WhyChooseUsItemResource;
 use App\Models\Setting;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -51,13 +54,16 @@ class Settings extends Page
     {
         $this->callHook('beforeFill');
 
-        $homeHero = $this->getSetting('store_home_hero', []);
         $bookingHero = $this->getSetting('store_booking_hero', []);
         $carsHero = $this->getSetting('store_hero', []);
         $offersHero = $this->getSetting('store_offers_hero', []);
         $contactHero = $this->getSetting('store_contact_hero', []);
         $blogHero = $this->getSetting('store_blog_hero', []);
-        $featured = $this->getSetting('homepage_featured', []);
+        $homeBanner = $this->getSetting('home_banner', []);
+        $aboutHero = $this->getSetting('about_hero', []);
+        $aboutStory = $this->getSetting('about_story', []);
+        $aboutValuesSection = $this->getSetting('about_values_section', []);
+        $aboutWhyChooseUsSection = $this->getSetting('about_why_choose_us_section', []);
 
         $this->form->fill([
             'site_name_ar' => $this->getBilingual('site_name', 'ar'),
@@ -91,18 +97,51 @@ class Settings extends Page
             'max_down_payment' => $this->getSetting('max_down_payment', 80),
             'offer_hero_slides' => $this->getSetting('offer_hero_slides', []),
             'hero_slides' => $this->getSetting('hero_slides', []),
+            'home_why_us' => $this->getSetting('home_why_us', []),
+            'home_budget_brackets' => $this->getSetting('home_budget_brackets', []),
             'homepage_stats' => $this->getSetting('homepage_stats', []),
-            'home_hero_title_ar' => $homeHero['title']['ar'] ?? '',
-            'home_hero_title_en' => $homeHero['title']['en'] ?? '',
-            'home_hero_subtitle_ar' => $homeHero['subtitle']['ar'] ?? '',
-            'home_hero_subtitle_en' => $homeHero['subtitle']['en'] ?? '',
-            'home_hero_image' => $homeHero['image'] ?? null,
-            'featured_title_ar' => $featured['title']['ar'] ?? '',
-            'featured_title_en' => $featured['title']['en'] ?? '',
-            'featured_description_ar' => $featured['description']['ar'] ?? '',
-            'featured_description_en' => $featured['description']['en'] ?? '',
-            'about_stats' => $this->getSetting('about_stats', []),
-            'about_branches' => $this->getSetting('about_branches', []),
+            'banner_title_ar' => $homeBanner['title']['ar'] ?? '',
+            'banner_title_en' => $homeBanner['title']['en'] ?? '',
+            'banner_button_text_ar' => $homeBanner['button_text']['ar'] ?? '',
+            'banner_button_text_en' => $homeBanner['button_text']['en'] ?? '',
+            'banner_image' => $homeBanner['image'] ?? null,
+            'banner_mobile_image' => $homeBanner['mobile_image'] ?? null,
+            'banner_url' => $homeBanner['url'] ?? '',
+            'banner_starts_at' => $homeBanner['starts_at'] ?? null,
+            'banner_ends_at' => $homeBanner['ends_at'] ?? null,
+            'banner_active' => $homeBanner['active'] ?? true,
+            'about_hero_badge_ar' => $aboutHero['badge']['ar'] ?? '',
+            'about_hero_badge_en' => $aboutHero['badge']['en'] ?? '',
+            'about_hero_title_ar' => $aboutHero['title']['ar'] ?? '',
+            'about_hero_title_en' => $aboutHero['title']['en'] ?? '',
+            'about_hero_subtitle_ar' => $aboutHero['subtitle']['ar'] ?? '',
+            'about_hero_subtitle_en' => $aboutHero['subtitle']['en'] ?? '',
+            'about_hero_image' => $aboutHero['image'] ?? null,
+            'about_hero_mobile_image' => $aboutHero['mobile_image'] ?? null,
+            'about_hero_cta_text_ar' => $aboutHero['cta_text']['ar'] ?? '',
+            'about_hero_cta_text_en' => $aboutHero['cta_text']['en'] ?? '',
+            'about_hero_cta_url' => $aboutHero['cta_url'] ?? '',
+            'about_story_title_ar' => $aboutStory['title']['ar'] ?? '',
+            'about_story_title_en' => $aboutStory['title']['en'] ?? '',
+            'about_story_description_ar' => $aboutStory['description']['ar'] ?? '',
+            'about_story_description_en' => $aboutStory['description']['en'] ?? '',
+            'about_story_mission_title_ar' => $aboutStory['mission_title']['ar'] ?? '',
+            'about_story_mission_title_en' => $aboutStory['mission_title']['en'] ?? '',
+            'about_story_mission_text_ar' => $aboutStory['mission_text']['ar'] ?? '',
+            'about_story_mission_text_en' => $aboutStory['mission_text']['en'] ?? '',
+            'about_story_vision_title_ar' => $aboutStory['vision_title']['ar'] ?? '',
+            'about_story_vision_title_en' => $aboutStory['vision_title']['en'] ?? '',
+            'about_story_vision_text_ar' => $aboutStory['vision_text']['ar'] ?? '',
+            'about_story_vision_text_en' => $aboutStory['vision_text']['en'] ?? '',
+            'about_story_image' => $aboutStory['image'] ?? null,
+            'about_values_section_title_ar' => $aboutValuesSection['title']['ar'] ?? '',
+            'about_values_section_title_en' => $aboutValuesSection['title']['en'] ?? '',
+            'about_values_section_subtitle_ar' => $aboutValuesSection['subtitle']['ar'] ?? '',
+            'about_values_section_subtitle_en' => $aboutValuesSection['subtitle']['en'] ?? '',
+            'about_why_choose_us_section_title_ar' => $aboutWhyChooseUsSection['title']['ar'] ?? '',
+            'about_why_choose_us_section_title_en' => $aboutWhyChooseUsSection['title']['en'] ?? '',
+            'about_why_choose_us_section_subtitle_ar' => $aboutWhyChooseUsSection['subtitle']['ar'] ?? '',
+            'about_why_choose_us_section_subtitle_en' => $aboutWhyChooseUsSection['subtitle']['en'] ?? '',
             'booking_hero_title_ar' => $bookingHero['title']['ar'] ?? '',
             'booking_hero_title_en' => $bookingHero['title']['en'] ?? '',
             'booking_hero_subtitle_ar' => $bookingHero['subtitle']['ar'] ?? '',
@@ -284,30 +323,8 @@ class Settings extends Page
                                         Tab::make(__('Homepage'))
                                             ->icon('heroicon-m-home')
                                             ->schema([
-                                                Section::make(__('Homepage Hero'))
-                                                    ->schema([
-                                                        Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\TextInput::make('home_hero_title_ar')
-                                                                    ->label(__('Title').' ('.__('Arabic').')'),
-                                                                Forms\Components\TextInput::make('home_hero_title_en')
-                                                                    ->label(__('Title').' ('.__('English').')'),
-                                                            ]),
-                                                        Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\Textarea::make('home_hero_subtitle_ar')
-                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
-                                                                Forms\Components\Textarea::make('home_hero_subtitle_en')
-                                                                    ->label(__('Subtitle').' ('.__('English').')'),
-                                                            ]),
-                                                        Forms\Components\FileUpload::make('home_hero_image')
-                                                            ->label(__('Hero Image'))
-                                                            ->image()
-                                                            ->directory('heroes/home')
-                                                            ->visibility('public'),
-                                                    ]),
                                                 Section::make(__('Hero Slides'))
-                                                    ->description(__('Carousel banners displayed on homepage'))
+                                                    ->description(__('Carousel banners displayed at the top of the homepage. Link a car to auto-fill its price, or leave blank for a manual title.'))
                                                     ->schema([
                                                         Forms\Components\Repeater::make('hero_slides')
                                                             ->label(__('Slides'))
@@ -315,19 +332,143 @@ class Settings extends Page
                                                                 Grid::make(2)
                                                                     ->schema([
                                                                         Forms\Components\FileUpload::make('image')
-                                                                            ->label(__('Image'))
+                                                                            ->label(__('Background Image'))
                                                                             ->image()
                                                                             ->directory('slides/home')
                                                                             ->visibility('public')
                                                                             ->required(),
-                                                                        Forms\Components\TextInput::make('link')
-                                                                            ->label(__('Link URL'))
-                                                                            ->url(),
+                                                                        Forms\Components\Select::make('car_id')
+                                                                            ->label(__('Linked Car').' ('.__('optional').')')
+                                                                            ->options(fn () => \App\Models\Car::query()->where('is_active', true)->get()->pluck('name', 'id'))
+                                                                            ->searchable()
+                                                                            ->helperText(__('If set, price is pulled from this car automatically')),
                                                                     ]),
-                                                                Forms\Components\TextInput::make('button_text')
-                                                                    ->label(__('Button Text')),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('title_ar')
+                                                                            ->label(__('Title').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('title_en')
+                                                                            ->label(__('Title').' ('.__('English').')'),
+                                                                    ]),
+                                                                Grid::make(3)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('button_text_ar')
+                                                                            ->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('button_text_en')
+                                                                            ->label(__('Button Text').' ('.__('English').')'),
+                                                                        Forms\Components\TextInput::make('link')
+                                                                            ->label(__('Button Link')),
+                                                                    ]),
+                                                                Forms\Components\Toggle::make('is_active')
+                                                                    ->label(__('Active'))
+                                                                    ->default(true),
                                                             ])
                                                             ->addActionLabel(__('Add Slide'))
+                                                            ->reorderable()
+                                                            ->collapsible(),
+                                                    ]),
+                                                Section::make(__('Why Choose Us'))
+                                                    ->description(__('Icon + text cards shown below the hero'))
+                                                    ->schema([
+                                                        Forms\Components\Repeater::make('home_why_us')
+                                                            ->label(__('Items'))
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('icon')
+                                                                    ->label(__('Icon'))
+                                                                    ->placeholder('heroicon-o-currency-dollar'),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('title_ar')
+                                                                            ->label(__('Title').' ('.__('Arabic').')')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('title_en')
+                                                                            ->label(__('Title').' ('.__('English').')')
+                                                                            ->required(),
+                                                                    ]),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\Textarea::make('description_ar')
+                                                                            ->label(__('Description').' ('.__('Arabic').')'),
+                                                                        Forms\Components\Textarea::make('description_en')
+                                                                            ->label(__('Description').' ('.__('English').')'),
+                                                                    ]),
+                                                            ])
+                                                            ->addActionLabel(__('Add Item'))
+                                                            ->reorderable()
+                                                            ->collapsible(),
+                                                    ]),
+                                                Section::make(__('Campaign Banner'))
+                                                    ->description(__('Full-width promotional banner shown between the offers and budget sections'))
+                                                    ->schema([
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\FileUpload::make('banner_image')
+                                                                    ->label(__('Desktop Image'))
+                                                                    ->image()
+                                                                    ->directory('banners/home')
+                                                                    ->visibility('public'),
+                                                                Forms\Components\FileUpload::make('banner_mobile_image')
+                                                                    ->label(__('Mobile Image'))
+                                                                    ->image()
+                                                                    ->directory('banners/home')
+                                                                    ->visibility('public'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('banner_title_ar')
+                                                                    ->label(__('Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('banner_title_en')
+                                                                    ->label(__('Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(3)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('banner_button_text_ar')
+                                                                    ->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('banner_button_text_en')
+                                                                    ->label(__('Button Text').' ('.__('English').')'),
+                                                                Forms\Components\TextInput::make('banner_url')
+                                                                    ->label(__('Button URL'))
+                                                                    ->url(),
+                                                            ]),
+                                                        Grid::make(3)
+                                                            ->schema([
+                                                                Forms\Components\DateTimePicker::make('banner_starts_at')
+                                                                    ->label(__('Active From')),
+                                                                Forms\Components\DateTimePicker::make('banner_ends_at')
+                                                                    ->label(__('Active Until')),
+                                                                Forms\Components\Toggle::make('banner_active')
+                                                                    ->label(__('Active'))
+                                                                    ->default(true),
+                                                            ]),
+                                                    ]),
+                                                Section::make(__('Cars By Budget'))
+                                                    ->description(__('Price-bracket chips shown in the budget section'))
+                                                    ->schema([
+                                                        Forms\Components\Repeater::make('home_budget_brackets')
+                                                            ->label(__('Brackets'))
+                                                            ->schema([
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('label_ar')
+                                                                            ->label(__('Label').' ('.__('Arabic').')')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('label_en')
+                                                                            ->label(__('Label').' ('.__('English').')')
+                                                                            ->required(),
+                                                                    ]),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('min')
+                                                                            ->label(__('Min Price'))
+                                                                            ->numeric()
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('max')
+                                                                            ->label(__('Max Price').' ('.__('empty = no limit').')')
+                                                                            ->numeric(),
+                                                                    ]),
+                                                            ])
+                                                            ->addActionLabel(__('Add Bracket'))
+                                                            ->reorderable()
                                                             ->collapsible(),
                                                     ]),
                                                 Section::make(__('Stats'))
@@ -352,79 +493,163 @@ class Settings extends Page
                                                             ->addActionLabel(__('Add Stat'))
                                                             ->collapsible(),
                                                     ]),
-                                                Section::make(__('Featured Section'))
-                                                    ->schema([
-                                                        Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\TextInput::make('featured_title_ar')
-                                                                    ->label(__('Title').' ('.__('Arabic').')'),
-                                                                Forms\Components\TextInput::make('featured_title_en')
-                                                                    ->label(__('Title').' ('.__('English').')'),
-                                                            ]),
-                                                        Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\Textarea::make('featured_description_ar')
-                                                                    ->label(__('Description').' ('.__('Arabic').')'),
-                                                                Forms\Components\Textarea::make('featured_description_en')
-                                                                    ->label(__('Description').' ('.__('English').')'),
-                                                            ]),
-                                                    ]),
                                             ]),
                                         Tab::make(__('About'))
                                             ->icon('heroicon-m-information-circle')
                                             ->schema([
-                                                Section::make(__('About Stats'))
+                                                Section::make(__('Related Resources'))
+                                                    ->description(__('Core Values, Why Choose Us, and Gallery items are managed as full CRUD lists, not here.'))
                                                     ->schema([
-                                                        Forms\Components\Repeater::make('about_stats')
-                                                            ->label(__('Stats'))
-                                                            ->schema([
-                                                                Grid::make(2)
-                                                                    ->schema([
-                                                                        Forms\Components\TextInput::make('value')
-                                                                            ->label(__('Value'))
-                                                                            ->required(),
-                                                                        Forms\Components\TextInput::make('label_ar')
-                                                                            ->label(__('Label').' ('.__('Arabic').')')
-                                                                            ->required(),
-                                                                    ]),
-                                                                Forms\Components\TextInput::make('label_en')
-                                                                    ->label(__('Label').' ('.__('English').')')
-                                                                    ->required(),
-                                                            ])
-                                                            ->addActionLabel(__('Add Stat'))
-                                                            ->collapsible(),
+                                                        Actions::make([
+                                                            Action::make('manage_core_values')
+                                                                ->label(__('Manage Core Values'))
+                                                                ->icon('heroicon-o-heart')
+                                                                ->color('gray')
+                                                                ->url(fn () => CoreValueResource::getUrl('index')),
+                                                            Action::make('manage_why_choose_us')
+                                                                ->label(__('Manage Why Choose Us'))
+                                                                ->icon('heroicon-o-check-badge')
+                                                                ->color('gray')
+                                                                ->url(fn () => WhyChooseUsItemResource::getUrl('index')),
+                                                            Action::make('manage_gallery')
+                                                                ->label(__('Manage Gallery'))
+                                                                ->icon('heroicon-o-photo')
+                                                                ->color('gray')
+                                                                ->url(fn () => GalleryItemResource::getUrl('index')),
+                                                        ]),
                                                     ]),
-                                                Section::make(__('Branches'))
+                                                Section::make(__('About Hero'))
                                                     ->schema([
-                                                        Forms\Components\Repeater::make('about_branches')
-                                                            ->label(__('Branches'))
+                                                        Grid::make(2)
                                                             ->schema([
-                                                                Grid::make(2)
-                                                                    ->schema([
-                                                                        Forms\Components\TextInput::make('city')
-                                                                            ->label(__('City'))
-                                                                            ->required(),
-                                                                        Forms\Components\TextInput::make('name')
-                                                                            ->label(__('Name'))
-                                                                            ->required(),
-                                                                    ]),
-                                                                Forms\Components\TextInput::make('address')
-                                                                    ->label(__('Address'))
-                                                                    ->required(),
-                                                                Grid::make(2)
-                                                                    ->schema([
-                                                                        Forms\Components\TextInput::make('phone')
-                                                                            ->label(__('Phone'))
-                                                                            ->tel(),
-                                                                        Forms\Components\TextInput::make('working_hours')
-                                                                            ->label(__('Working Hours')),
-                                                                    ]),
-                                                                Forms\Components\TextInput::make('map_link')
-                                                                    ->label(__('Map Link'))
-                                                                    ->url(),
-                                                            ])
-                                                            ->addActionLabel(__('Add Branch'))
-                                                            ->collapsible(),
+                                                                Forms\Components\TextInput::make('about_hero_badge_ar')
+                                                                    ->label(__('Badge').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_hero_badge_en')
+                                                                    ->label(__('Badge').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_hero_title_ar')
+                                                                    ->label(__('Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_hero_title_en')
+                                                                    ->label(__('Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\Textarea::make('about_hero_subtitle_ar')
+                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                Forms\Components\Textarea::make('about_hero_subtitle_en')
+                                                                    ->label(__('Subtitle').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\FileUpload::make('about_hero_image')
+                                                                    ->label(__('Background Image'))
+                                                                    ->image()
+                                                                    ->directory('heroes/about')
+                                                                    ->visibility('public'),
+                                                                Forms\Components\FileUpload::make('about_hero_mobile_image')
+                                                                    ->label(__('Mobile Background'))
+                                                                    ->image()
+                                                                    ->directory('heroes/about')
+                                                                    ->visibility('public'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_hero_cta_text_ar')
+                                                                    ->label(__('CTA Button Text').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_hero_cta_text_en')
+                                                                    ->label(__('CTA Button Text').' ('.__('English').')'),
+                                                            ]),
+                                                        Forms\Components\TextInput::make('about_hero_cta_url')
+                                                            ->label(__('CTA URL'))
+                                                            ->url(),
+                                                    ]),
+                                                Section::make(__('Company Story'))
+                                                    ->schema([
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_story_title_ar')
+                                                                    ->label(__('Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_story_title_en')
+                                                                    ->label(__('Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\Textarea::make('about_story_description_ar')
+                                                                    ->label(__('Description').' ('.__('Arabic').')'),
+                                                                Forms\Components\Textarea::make('about_story_description_en')
+                                                                    ->label(__('Description').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_story_mission_title_ar')
+                                                                    ->label(__('Mission Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_story_mission_title_en')
+                                                                    ->label(__('Mission Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\Textarea::make('about_story_mission_text_ar')
+                                                                    ->label(__('Mission Text').' ('.__('Arabic').')'),
+                                                                Forms\Components\Textarea::make('about_story_mission_text_en')
+                                                                    ->label(__('Mission Text').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_story_vision_title_ar')
+                                                                    ->label(__('Vision Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_story_vision_title_en')
+                                                                    ->label(__('Vision Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\Textarea::make('about_story_vision_text_ar')
+                                                                    ->label(__('Vision Text').' ('.__('Arabic').')'),
+                                                                Forms\Components\Textarea::make('about_story_vision_text_en')
+                                                                    ->label(__('Vision Text').' ('.__('English').')'),
+                                                            ]),
+                                                        Forms\Components\FileUpload::make('about_story_image')
+                                                            ->label(__('Optional Image'))
+                                                            ->image()
+                                                            ->directory('about')
+                                                            ->visibility('public'),
+                                                    ]),
+                                                Section::make(__('Core Values Section'))
+                                                    ->description(__('Heading shown above the 4 core value cards'))
+                                                    ->schema([
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_values_section_title_ar')
+                                                                    ->label(__('Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_values_section_title_en')
+                                                                    ->label(__('Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_values_section_subtitle_ar')
+                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_values_section_subtitle_en')
+                                                                    ->label(__('Subtitle').' ('.__('English').')'),
+                                                            ]),
+                                                    ]),
+                                                Section::make(__('Why Choose Us Section'))
+                                                    ->description(__('Heading shown above the 6 why-choose-us cards'))
+                                                    ->schema([
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_why_choose_us_section_title_ar')
+                                                                    ->label(__('Title').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_why_choose_us_section_title_en')
+                                                                    ->label(__('Title').' ('.__('English').')'),
+                                                            ]),
+                                                        Grid::make(2)
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('about_why_choose_us_section_subtitle_ar')
+                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                Forms\Components\TextInput::make('about_why_choose_us_section_subtitle_en')
+                                                                    ->label(__('Subtitle').' ('.__('English').')'),
+                                                            ]),
                                                     ]),
                                             ]),
                                         Tab::make(__('Booking'))
@@ -852,11 +1077,6 @@ class Settings extends Page
     private function saveHeroSetting(string $flatKey, mixed $value): void
     {
         $map = [
-            'home_hero_title_ar' => ['store_home_hero', 'title', 'ar'],
-            'home_hero_title_en' => ['store_home_hero', 'title', 'en'],
-            'home_hero_subtitle_ar' => ['store_home_hero', 'subtitle', 'ar'],
-            'home_hero_subtitle_en' => ['store_home_hero', 'subtitle', 'en'],
-            'home_hero_image' => ['store_home_hero', 'image'],
             'booking_hero_title_ar' => ['store_booking_hero', 'title', 'ar'],
             'booking_hero_title_en' => ['store_booking_hero', 'title', 'en'],
             'booking_hero_subtitle_ar' => ['store_booking_hero', 'subtitle', 'ar'],
@@ -882,10 +1102,48 @@ class Settings extends Page
             'blog_hero_subtitle_ar' => ['store_blog_hero', 'subtitle', 'ar'],
             'blog_hero_subtitle_en' => ['store_blog_hero', 'subtitle', 'en'],
             'blog_hero_image' => ['store_blog_hero', 'image'],
-            'featured_title_ar' => ['homepage_featured', 'title', 'ar'],
-            'featured_title_en' => ['homepage_featured', 'title', 'en'],
-            'featured_description_ar' => ['homepage_featured', 'description', 'ar'],
-            'featured_description_en' => ['homepage_featured', 'description', 'en'],
+            'banner_title_ar' => ['home_banner', 'title', 'ar'],
+            'banner_title_en' => ['home_banner', 'title', 'en'],
+            'banner_button_text_ar' => ['home_banner', 'button_text', 'ar'],
+            'banner_button_text_en' => ['home_banner', 'button_text', 'en'],
+            'banner_image' => ['home_banner', 'image'],
+            'banner_mobile_image' => ['home_banner', 'mobile_image'],
+            'banner_url' => ['home_banner', 'url'],
+            'banner_starts_at' => ['home_banner', 'starts_at'],
+            'banner_ends_at' => ['home_banner', 'ends_at'],
+            'banner_active' => ['home_banner', 'active'],
+            'about_hero_badge_ar' => ['about_hero', 'badge', 'ar'],
+            'about_hero_badge_en' => ['about_hero', 'badge', 'en'],
+            'about_hero_title_ar' => ['about_hero', 'title', 'ar'],
+            'about_hero_title_en' => ['about_hero', 'title', 'en'],
+            'about_hero_subtitle_ar' => ['about_hero', 'subtitle', 'ar'],
+            'about_hero_subtitle_en' => ['about_hero', 'subtitle', 'en'],
+            'about_hero_image' => ['about_hero', 'image'],
+            'about_hero_mobile_image' => ['about_hero', 'mobile_image'],
+            'about_hero_cta_text_ar' => ['about_hero', 'cta_text', 'ar'],
+            'about_hero_cta_text_en' => ['about_hero', 'cta_text', 'en'],
+            'about_hero_cta_url' => ['about_hero', 'cta_url'],
+            'about_story_title_ar' => ['about_story', 'title', 'ar'],
+            'about_story_title_en' => ['about_story', 'title', 'en'],
+            'about_story_description_ar' => ['about_story', 'description', 'ar'],
+            'about_story_description_en' => ['about_story', 'description', 'en'],
+            'about_story_mission_title_ar' => ['about_story', 'mission_title', 'ar'],
+            'about_story_mission_title_en' => ['about_story', 'mission_title', 'en'],
+            'about_story_mission_text_ar' => ['about_story', 'mission_text', 'ar'],
+            'about_story_mission_text_en' => ['about_story', 'mission_text', 'en'],
+            'about_story_vision_title_ar' => ['about_story', 'vision_title', 'ar'],
+            'about_story_vision_title_en' => ['about_story', 'vision_title', 'en'],
+            'about_story_vision_text_ar' => ['about_story', 'vision_text', 'ar'],
+            'about_story_vision_text_en' => ['about_story', 'vision_text', 'en'],
+            'about_story_image' => ['about_story', 'image'],
+            'about_values_section_title_ar' => ['about_values_section', 'title', 'ar'],
+            'about_values_section_title_en' => ['about_values_section', 'title', 'en'],
+            'about_values_section_subtitle_ar' => ['about_values_section', 'subtitle', 'ar'],
+            'about_values_section_subtitle_en' => ['about_values_section', 'subtitle', 'en'],
+            'about_why_choose_us_section_title_ar' => ['about_why_choose_us_section', 'title', 'ar'],
+            'about_why_choose_us_section_title_en' => ['about_why_choose_us_section', 'title', 'en'],
+            'about_why_choose_us_section_subtitle_ar' => ['about_why_choose_us_section', 'subtitle', 'ar'],
+            'about_why_choose_us_section_subtitle_en' => ['about_why_choose_us_section', 'subtitle', 'en'],
         ];
 
         if (! isset($map[$flatKey])) {
@@ -914,9 +1172,6 @@ class Settings extends Page
     ];
 
     private const HERO_KEYS = [
-        'home_hero_title_ar', 'home_hero_title_en',
-        'home_hero_subtitle_ar', 'home_hero_subtitle_en',
-        'home_hero_image',
         'booking_hero_title_ar', 'booking_hero_title_en',
         'booking_hero_subtitle_ar', 'booking_hero_subtitle_en',
         'booking_hero_image',
@@ -932,14 +1187,32 @@ class Settings extends Page
         'blog_hero_title_ar', 'blog_hero_title_en',
         'blog_hero_subtitle_ar', 'blog_hero_subtitle_en',
         'blog_hero_image',
-        'featured_title_ar', 'featured_title_en',
-        'featured_description_ar', 'featured_description_en',
+        'banner_title_ar', 'banner_title_en',
+        'banner_button_text_ar', 'banner_button_text_en',
+        'banner_image', 'banner_mobile_image', 'banner_url',
+        'banner_starts_at', 'banner_ends_at', 'banner_active',
+        'about_hero_badge_ar', 'about_hero_badge_en',
+        'about_hero_title_ar', 'about_hero_title_en',
+        'about_hero_subtitle_ar', 'about_hero_subtitle_en',
+        'about_hero_image', 'about_hero_mobile_image',
+        'about_hero_cta_text_ar', 'about_hero_cta_text_en', 'about_hero_cta_url',
+        'about_story_title_ar', 'about_story_title_en',
+        'about_story_description_ar', 'about_story_description_en',
+        'about_story_mission_title_ar', 'about_story_mission_title_en',
+        'about_story_mission_text_ar', 'about_story_mission_text_en',
+        'about_story_vision_title_ar', 'about_story_vision_title_en',
+        'about_story_vision_text_ar', 'about_story_vision_text_en',
+        'about_story_image',
+        'about_values_section_title_ar', 'about_values_section_title_en',
+        'about_values_section_subtitle_ar', 'about_values_section_subtitle_en',
+        'about_why_choose_us_section_title_ar', 'about_why_choose_us_section_title_en',
+        'about_why_choose_us_section_subtitle_ar', 'about_why_choose_us_section_subtitle_en',
     ];
 
     private const ARRAY_KEYS = [
         'social_links', 'working_days', 'offer_hero_slides',
-        'hero_slides', 'homepage_stats', 'about_stats',
-        'about_branches', 'booking_steps',
+        'hero_slides', 'homepage_stats', 'booking_steps',
+        'home_why_us', 'home_budget_brackets',
     ];
 
     private function getSetting(string $key, mixed $default = null, ?string $locale = null): mixed

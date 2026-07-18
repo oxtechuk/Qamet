@@ -2,53 +2,92 @@
 
 namespace App\Services\Cache;
 
+use App\Models\CoreValue;
+use App\Models\GalleryItem;
+use App\Models\Testimonial;
+use App\Models\WhyChooseUsItem;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
+
 class AboutCacheService extends BaseCacheService
 {
-    public function rememberMainGallery(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function rememberHero(): array
     {
-        $settings = $this->rememberSettings();
+        $hero = $this->rememberSetting('about_hero', []);
 
-        if (! isset($settings['main_gallery'])) {
-            return [];
-        }
-
-        return is_array($settings['main_gallery'])
-            ? $settings['main_gallery']
-            : (json_decode($settings['main_gallery'], true) ?: []);
+        return is_array($hero) ? $hero : (json_decode((string) $hero, true) ?: []);
     }
 
-    public function rememberAboutSections(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function rememberCompanyStory(): array
     {
-        $raw = $this->rememberSetting('about_sections', []);
+        $story = $this->rememberSetting('about_story', []);
 
-        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+        return is_array($story) ? $story : (json_decode((string) $story, true) ?: []);
     }
 
-    public function rememberAboutStats(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function rememberValuesSection(): array
     {
-        $raw = $this->rememberSetting('about_stats', []);
+        $section = $this->rememberSetting('about_values_section', []);
 
-        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+        return is_array($section) ? $section : (json_decode((string) $section, true) ?: []);
     }
 
-    public function rememberAboutBranches(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function rememberWhyChooseUsSection(): array
     {
-        $raw = $this->rememberSetting('about_branches', []);
+        $section = $this->rememberSetting('about_why_choose_us_section', []);
 
-        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+        return is_array($section) ? $section : (json_decode((string) $section, true) ?: []);
     }
 
-    public function rememberAboutCoreValues(): array
+    public function rememberCoreValues(): Collection
     {
-        $raw = $this->rememberSetting('about_core_values', []);
-
-        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+        return $this->remember('about.core_values', fn () => CoreValue::where('is_active', true)->orderBy('sort_order')->get());
     }
 
-    public function rememberAboutWhyChooseUs(): array
+    public function rememberWhyChooseUs(): Collection
     {
-        $raw = $this->rememberSetting('about_why_choose_us', []);
+        return $this->remember('about.why_choose_us', fn () => WhyChooseUsItem::where('is_active', true)->orderBy('sort_order')->get());
+    }
 
-        return is_array($raw) ? $raw : (json_decode((string) $raw, true) ?: []);
+    public function rememberGallery(): Collection
+    {
+        return $this->remember('about.gallery', fn () => GalleryItem::where('is_active', true)->orderBy('sort_order')->get());
+    }
+
+    public function rememberTestimonials(): Collection
+    {
+        return $this->remember('about.testimonials', fn () => Testimonial::where('is_visible', true)->get());
+    }
+
+    public function forgetCoreValues(): void
+    {
+        Cache::forget('about.core_values');
+    }
+
+    public function forgetWhyChooseUs(): void
+    {
+        Cache::forget('about.why_choose_us');
+    }
+
+    public function forgetGallery(): void
+    {
+        Cache::forget('about.gallery');
+    }
+
+    public function forgetTestimonials(): void
+    {
+        Cache::forget('about.testimonials');
     }
 }

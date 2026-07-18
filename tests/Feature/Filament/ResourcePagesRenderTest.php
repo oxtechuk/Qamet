@@ -27,6 +27,9 @@ class ResourcePagesRenderTest extends TestCase
             'calculator-banks',
             'cars',
             'bookings',
+            'core-values',
+            'why-choose-us-items',
+            'gallery-items',
         ];
 
         $cases = [];
@@ -35,6 +38,8 @@ class ResourcePagesRenderTest extends TestCase
             $cases["{$slug} index"] = ["/admin/{$slug}"];
             $cases["{$slug} create"] = ["/admin/{$slug}/create"];
         }
+
+        $cases['settings page'] = ['/admin/settings'];
 
         return $cases;
     }
