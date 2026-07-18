@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
 use App\Http\Middleware\LocalizationMiddleware;
+use App\Models\Setting;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -60,8 +61,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->font('Inter')
             ->brandName('GR Motors')
-            ->favicon(asset('images/favicon.ico'))
-            ->brandLogo(asset('images/logo.png'))
+            ->favicon(function (): string {
+                $favicon = Setting::where('key', 'site_favicon')->value('value');
+
+                return $favicon ? asset('storage/'.$favicon) : asset('images/favicon.ico');
+            })
+            ->brandLogo(function (): string {
+                $logo = Setting::where('key', 'site_logo')->value('value');
+
+                return $logo ? asset('storage/'.$logo) : asset('images/logo.png');
+            })
             ->brandLogoHeight('2.5rem')
             ->sidebarCollapsibleOnDesktop()
             ->sidebarWidth('16rem')
