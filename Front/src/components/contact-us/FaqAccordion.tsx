@@ -1,13 +1,7 @@
-import { Plus, X } from "lucide-react";
-import type { IFaqItem } from "../../interfaces/IFaqItem";
+import { ChevronDown } from "lucide-react";
+import type { IFaqAccordionProps } from "../../interfaces/IFaqAccordionProps";
 
-interface FaqAccordionProps {
-  faq: IFaqItem;
-  isOpen: boolean;
-  onToggle: (id: string | number) => void;
-}
-
-export default function FaqAccordion({ faq, isOpen, onToggle }: FaqAccordionProps) {
+export default function FaqAccordion({ faq, isOpen, onToggle }: IFaqAccordionProps) {
   return (
     <div
       className={`overflow-hidden rounded-[14px] border bg-white transition ${
@@ -32,16 +26,20 @@ export default function FaqAccordion({ faq, isOpen, onToggle }: FaqAccordionProp
               : "bg-[#EEF0F2] text-[#6B7280]"
           }`}
         >
-          {isOpen ? <X size={18} /> : <Plus size={18} />}
+          <ChevronDown
+            size={18}
+            className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          />
         </span>
       </button>
 
       {isOpen && (
         <div className="px-7 pb-7">
           <div className="mb-5 h-px w-full bg-[#E5E7EB]" />
-          <p className="text-[16px] leading-9 text-[#5F6672]">
-            {faq.answer}
-          </p>
+          <div
+            className="text-[16px] leading-9 text-[#5F6672] [&_p]:m-0 [&_p]:mb-2 last:[&_p]:mb-0"
+            dangerouslySetInnerHTML={{ __html: faq.answer }}
+          />
         </div>
       )}
     </div>

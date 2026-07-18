@@ -582,13 +582,40 @@
         }
       ],
       "successToast": "تم إرسال رسالتك بنجاح، سنتواصل معك قريباً",
-      "errorToast": "حدث خطأ أثناء الإرسال، حاول مرة أخرى"
+      "errorToast": "حدث خطأ أثناء الإرسال، حاول مرة أخرى",
+      "subjects": ["استفسار", "تمويل", "حجز", "شكوى"],
+      "orDivider": "أو",
+      "whatsappText": "تواصل عبر واتساب مباشرة",
+      "openMap": "افتح في خرائط جوجل"
+    },
+    "contactMethods": {
+      "title": "تواصل معنا",
+      "whatsappLabel": "واتساب",
+      "whatsappValue": "تواصل فوري",
+      "whatsappDescription": "رد خلال دقائق",
+      "phoneLabel": "اتصل بنا",
+      "phoneDescription": "السبت - الخميس",
+      "hoursLabel": "ساعات العمل",
+      "hoursDescription": "طوال أيام الأسبوع",
+      "morning": "صباحا",
+      "evening": "مساءا",
+      "timeFrom": "من",
+      "timeTo": "الى",
+      "days": {
+        "sat": "السبت",
+        "sun": "الأحد",
+        "mon": "الاثنين",
+        "tue": "الثلاثاء",
+        "wed": "الأربعاء",
+        "thu": "الخميس",
+        "fri": "الجمعة"
+      }
     },
     "faq": {
       "eyebrow": "الأسئلة الشائعة",
-      "titleBlack": "لديك سؤال؟",
-      "titleOrange": "لدينا الجواب",
-      "description": "إذا لم تجد إجابة لسؤالك، لا تتردد في التواصل مع فريقنا مباشرة.",
+      "titleBlack": "أسئلة شائعة",
+      "titleOrange":"",
+      "description": "قبل التواصل معنا، ربما تجد إجابتك هنا",
       "buttonText": "اسألنا الآن",
       "items": [
         {

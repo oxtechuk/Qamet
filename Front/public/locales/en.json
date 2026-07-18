@@ -582,7 +582,34 @@
         }
       ],
       "successToast": "Your message has been sent successfully. We will contact you soon.",
-      "errorToast": "An error occurred while sending. Please try again."
+      "errorToast": "An error occurred while sending. Please try again.",
+      "subjects": ["Inquiry", "Finance", "Reservation", "Complaint"],
+      "orDivider": "or",
+      "whatsappText": "Contact us via WhatsApp directly",
+      "openMap": "Open in Google Maps"
+    },
+    "contactMethods": {
+      "title": "Contact Us",
+      "whatsappLabel": "WhatsApp",
+      "whatsappValue": "Instant Chat",
+      "whatsappDescription": "Reply within minutes",
+      "phoneLabel": "Call Us",
+      "phoneDescription": "Saturday - Thursday",
+      "hoursLabel": "Working Hours",
+      "hoursDescription": "Throughout the week",
+      "morning": "AM",
+      "evening": "PM",
+      "timeFrom": "From",
+      "timeTo": "to",
+      "days": {
+        "sat": "Sat",
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri"
+      }
     },
     "faq": {
       "eyebrow": "FAQ",

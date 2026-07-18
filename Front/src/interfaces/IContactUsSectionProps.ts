@@ -1,11 +1,7 @@
-import type { IContactFormValues } from "./IContactFormValues";
-import type { ISelectOption } from "./ISelectOption";
+import type { IContactBranch } from "../types/contact.types";
 
 export interface IContactUsSectionProps {
-  eyebrow: string;
   title: string;
   description: string;
-  countries?: ISelectOption[];
-  isSubmitting?: boolean;
-  onSubmit?: (values: IContactFormValues) => void;
+  branches?: IContactBranch[];
 }
