@@ -482,10 +482,17 @@
     }
   },
   "comparePage": {
+    "best": "الأفضل",
     "compareTable": "جدول المقارنة",
     "compareDescription": "مقارنة تفصيلية بين سيارتين من اختيارك",
     "specLabel": "المواصفة",
     "summaryTitle": "ملخص المقارنة",
+    "summaryBadge": "نتيجة المقارنة",
+    "winnerLabel": "الفائز بالمواصفات",
+    "winnerScore": "{{score}} نقطة أفضل",
+    "winnerScoreDetail": "({{winner}} مقابل {{loser}} في الفئات المقاسة)",
+    "consultExpert": "استشر خبيرنا",
+    "browseMore": "تصفح المزيد",
     "carOne": "السيارة الأولى",
     "carTwo": "السيارة الثانية",
     "points": "نقطة",

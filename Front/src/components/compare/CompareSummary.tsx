@@ -1,13 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { ICompareSummaryProps } from "../../interfaces/ICompareSummaryProps";
-import ScoreBadge from "./ScoreBadge";
 
 export default function CompareSummary({
   sections,
   car1Name,
   car2Name,
+  car1Slug,
+  car2Slug,
 }: ICompareSummaryProps) {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+
   const car1Score = sections.reduce(
     (sum, s) => sum + s.rows.filter((r) => r.winner === 1).length,
     0,
@@ -16,49 +20,53 @@ export default function CompareSummary({
     (sum, s) => sum + s.rows.filter((r) => r.winner === 2).length,
     0,
   );
-  const maxScore = Math.max(car1Score, car2Score, 1);
 
-  const bars = [
-    { value: car1Score, color: "#2FA3DC" },
-    { value: car2Score, color: "#FF652F" },
-  ];
+  const winnerName = car1Score >= car2Score ? car1Name : car2Name;
+  const winnerScore = Math.max(car1Score, car2Score);
+  const loserScore = Math.min(car1Score, car2Score);
+  const winnerSlug = car1Score >= car2Score ? car1Slug : car2Slug;
 
   return (
-    <section dir={i18n.dir()} className="mx-auto w-full max-w-[1200px] px-4 pb-20">
-      <div className="rounded-2xl bg-[#071426] px-7 py-8 text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)]">
-        <h2 className="mb-7 text-center text-2xl font-black">{t("comparePage.summaryTitle")}</h2>
+    <section dir={i18n.dir()} className="mx-auto w-full max-w-[1200px] px-4 pb-8">
+      <div className="rounded-[20px] bg-[#021F38] px-8 py-8 text-center text-white">
+        {/* Badge */}
+        <p className="mb-2 text-[13px] font-semibold text-[var(--brand-secondary-color)]">
+          {t("comparePage.summaryBadge")}
+        </p>
 
-        <div className="grid items-center gap-8 lg:grid-cols-[260px_1fr_260px]">
-          <div className="flex flex-col items-start gap-3 max-lg:items-center">
-            <span className="text-sm text-white/45">{t("comparePage.carOne")}</span>
-            <h3 className="text-lg font-extrabold">{car1Name}</h3>
-            <ScoreBadge score={car1Score} color="#2FA3DC" />
-          </div>
+        {/* Winner label */}
+        <p className="text-[14px] text-white/60">{t("comparePage.winnerLabel")}</p>
 
-          <div className="space-y-5">
-            {bars.map((bar, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <span className="w-5 text-sm font-bold text-white/55">
-                  {bar.value}
-                </span>
-                <div className="h-3 flex-1 overflow-hidden rounded-full bg-[#263548]">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${(bar.value / maxScore) * 100}%`,
-                      backgroundColor: bar.color,
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Winner name */}
+        <h2 className="mt-1 text-[28px] font-extrabold text-white md:text-[34px]">
+          {winnerName}
+        </h2>
 
-          <div className="flex flex-col items-end gap-3 max-lg:items-center">
-            <span className="text-sm text-white/45">{t("comparePage.carTwo")}</span>
-            <h3 className="text-lg font-extrabold">{car2Name}</h3>
-            <ScoreBadge score={car2Score} color="#FF652F" />
-          </div>
+        {/* Score */}
+        <p className="mt-2 text-[15px] font-bold text-[var(--brand-secondary-color)]">
+          {t("comparePage.winnerScore", { score: winnerScore })}
+        </p>
+        <p className="mt-0.5 text-[13px] text-white/50">
+          {t("comparePage.winnerScoreDetail", { winner: winnerScore, loser: loserScore })}
+        </p>
+
+        {/* Buttons */}
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => winnerSlug && navigate(`/cars/${winnerSlug}`)}
+            className="h-[56px] rounded-[16px] bg-[var(--brand-secondary-color)] px-6 text-[14px] font-bold text-[var(--brand-primary-color)] transition hover:opacity-90"
+          >
+            {t("comparePage.consultExpert")}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => winnerSlug && navigate(`/cars/${winnerSlug}`)}
+            className="h-[56px] rounded-[16px] border border-white/30 px-6 text-[14px] font-bold text-white transition hover:bg-white/10"
+          >
+            {t("comparePage.browseMore")}
+          </button>
         </div>
       </div>
     </section>

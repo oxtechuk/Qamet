@@ -482,10 +482,17 @@
     }
   },
   "comparePage": {
+    "best": "Best",
     "compareTable": "Comparison Table",
     "compareDescription": "Detailed comparison between two cars of your choice",
     "specLabel": "Specification",
     "summaryTitle": "Comparison Summary",
+    "summaryBadge": "Comparison Result",
+    "winnerLabel": "Winner by Specs",
+    "winnerScore": "{{score}} points better",
+    "winnerScoreDetail": "({{winner}} vs {{loser}} in measured categories)",
+    "consultExpert": "Consult Our Expert",
+    "browseMore": "Browse More",
     "carOne": "Car 1",
     "carTwo": "Car 2",
     "points": "points",

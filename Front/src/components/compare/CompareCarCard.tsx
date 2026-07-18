@@ -1,60 +1,61 @@
 import { useTranslation } from "react-i18next";
-import { Trash2 } from "lucide-react";
+import { X } from "lucide-react";
 import { formatPrice } from "../../utils/format";
 import { APP_IMAGES, getImageUrl } from "../../constants/app-images";
 import type { ICompareCarCardProps } from "../../interfaces/ICompareCarCardProps";
 
 export default function CompareCarCard({
   car,
+  label,
   onRemove,
 }: ICompareCarCardProps) {
   const { t, i18n } = useTranslation();
   const cashPrice = car.current_price ?? car.cash_price ?? 0;
-  const monthly = car.min_installment ?? 0;
 
   return (
-    <div dir={i18n.dir()} className="overflow-hidden rounded-2xl border border-[#e5eaf1] bg-white shadow-lg">
-      <div className="flex h-[190px] items-center justify-center bg-[#f6f8fb] p-6">
+    <div dir={i18n.dir()} className="overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-white shadow-sm">
+      {/* Image */}
+      <div className="relative h-[220px] w-full overflow-hidden bg-[#F5F5F3]">
         <img
           src={getImageUrl(car.main_image) || APP_IMAGES.CAR_PLACEHOLDER}
           alt={car.name}
-          className="h-full w-full object-contain"
+          className="h-full w-full object-cover"
           loading="lazy"
         />
+
+        {/* Label badge — top end */}
+        {label && (
+          <div className="absolute end-3 top-3 rounded-full bg-[var(--brand-secondary-color)] px-4 py-1.5 text-[13px] font-semibold text-[var(--brand-primary-color)]">
+            {label}
+          </div>
+        )}
+
+        {/* Remove button — bottom start */}
+        {onRemove && (
+          <button
+            type="button"
+            onClick={onRemove}
+            className="absolute bottom-3 start-3 flex h-[36px] w-[36px] items-center justify-center rounded-full bg-white shadow-md text-[#374151] transition hover:bg-[#F5F5F3]"
+            aria-label={t("comparePage.remove")}
+          >
+            <X size={16} strokeWidth={2.5} />
+          </button>
+        )}
       </div>
 
-      <div className="px-[18px] pb-5 pt-[22px]">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <h3 className="m-0 text-base font-extrabold text-[#142b63]">
-            {car.brand?.name} {car.name}
+      {/* Info */}
+      <div className="px-4 pb-4 pt-3" dir={i18n.dir()}>
+        {/* Brand */}
+        <p className="text-end text-[13px] text-[#6B7280]">{car.brand?.name}</p>
+
+        {/* Name + Price row */}
+        <div className="mt-0.5 flex items-center justify-between gap-2">
+          <p className="text-[18px] font-extrabold text-[#021F38]">
+            {formatPrice(cashPrice, "#021F38")}
+          </p>
+          <h3 className="text-[18px] font-extrabold text-[#021F38]">
+            {car.name} {car.year}
           </h3>
-
-          {onRemove && (
-            <button
-              type="button"
-              onClick={onRemove}
-              className="inline-flex h-9 cursor-pointer items-center gap-[6px] rounded-[10px] border border-[#ffb9a5] bg-[#fff5f1] px-[14px] text-[13px] text-[#ff5b2e]"
-            >
-              <Trash2 size={14} />
-              {t("comparePage.remove")}
-            </button>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 gap-[14px]">
-          <div className="flex min-h-[78px] flex-col justify-center rounded-[14px] border border-[#ffb9a5] bg-[#fff7f3] p-[14px] text-[#ff5b2e]">
-            <span className="mb-[6px] text-[13px]">{t("comparePage.monthlyInstallment")}</span>
-            <strong className="text-[22px] font-black leading-none">
-              {formatPrice(monthly, "#ff5b2e")}
-            </strong>
-          </div>
-
-          <div className="flex min-h-[78px] flex-col justify-center rounded-[14px] border border-[#bdcdf1] bg-[#f7f9ff] p-[14px] text-[#0068ff]">
-            <span className="mb-[6px] text-[13px]">{t("comparePage.cashPrice")}</span>
-            <strong className="text-[22px] font-black leading-none">
-              {formatPrice(cashPrice, "#0068ff")}
-            </strong>
-          </div>
         </div>
       </div>
     </div>

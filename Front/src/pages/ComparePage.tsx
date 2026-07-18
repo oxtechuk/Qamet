@@ -2,18 +2,63 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import BgImageMaskedSection from "../components/BgImageMaskedSection/BgImageMaskedSection";
 import CompareCarCard from "../components/compare/CompareCarCard";
 import CompareTable from "../components/compare/CompareTable";
 import CompareSummary from "../components/compare/CompareSummary";
 import CarSelect from "../components/compare/CarSelect";
 import LoadingSlot from "../components/compare/LoadingSlot";
 import EmptySlot from "../components/compare/EmptySlot";
-import CarBadge from "../components/compare/CarBadge";
-import ContactCtaSection from "../components/ContactCtaSection";
-import { APP_IMAGES } from "../constants/app-images";
 import { useSEO } from "../utils/useSEO";
 import { getCarBySlug, compareCars } from "../services/api/cars.service";
+import type { CarDetails } from "../types/cars.types";
+
+/* ---------------- Slot sub-component ---------------- */
+
+interface ICompareCarSlotProps {
+  slug: string;
+  car: CarDetails | undefined;
+  isLoading: boolean;
+  showSearch: boolean;
+  label: string;
+  dir: string;
+  onSelect: (slug: string) => void;
+  onRemove: () => void;
+  onShowSearch: () => void;
+  onHideSearch: () => void;
+}
+
+function CompareCarSlot({
+  slug,
+  car,
+  isLoading,
+  showSearch,
+  label,
+  dir,
+  onSelect,
+  onRemove,
+  onShowSearch,
+  onHideSearch,
+}: ICompareCarSlotProps) {
+  if (slug && car) {
+    return <CompareCarCard car={car} label={label} onRemove={onRemove} />;
+  }
+  if (slug && isLoading) {
+    return <LoadingSlot />;
+  }
+  if (showSearch) {
+    return (
+      <CarSelect
+        selectedSlug={slug}
+        onSelect={onSelect}
+        onCancel={onHideSearch}
+        dir={dir}
+      />
+    );
+  }
+  return <EmptySlot onClick={onShowSearch} />;
+}
+
+/* ---------------- Main page ---------------- */
 
 export default function ComparePage() {
   const { t, i18n } = useTranslation();
@@ -45,90 +90,68 @@ export default function ComparePage() {
     enabled: !!car1Slug && !!car2Slug,
   });
 
-  const handleSelectCar1 = (slug: string) => {
-    setCar1Slug(slug);
-    setShowSearch1(false);
-  };
-
-  const handleRemoveCar1 = () => {
-    setCar1Slug("");
-    setShowSearch1(true);
-  };
-
-  const handleSelectCar2 = (slug: string) => {
-    setCar2Slug(slug);
-    setShowSearch2(false);
-  };
-
-  const handleRemoveCar2 = () => {
-    setCar2Slug("");
-    setShowSearch2(true);
-  };
+  const dir = i18n.dir();
 
   return (
-    <div dir={i18n.dir()} className="min-h-screen overflow-x-hidden bg-[#f3f6fa]">
-      <BgImageMaskedSection imageSrc={APP_IMAGES.COMPARE_IMAGE} />
-
-      <div className="relative z-20 -mt-[100px] px-6 pb-20">
+    <div dir={dir} className="min-h-screen overflow-x-hidden bg-[#f3f6fa]">
+      <div className="relative z-20 mt-[80px] px-6 pb-20">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-[minmax(280px,380px)_1fr_minmax(280px,380px)] items-start gap-12 max-lg:grid-cols-1 max-lg:max-w-[460px] max-lg:mx-auto max-lg:gap-7">
+            {/* Car 1 slot */}
             <div className="max-lg:order-1">
-              {car1Slug && car1 ? (
-                <CompareCarCard car={car1} onRemove={handleRemoveCar1} />
-              ) : car1Slug && isLoading1 ? (
-                <LoadingSlot />
-              ) : showSearch1 ? (
-                <CarSelect
-                  selectedSlug={car1Slug}
-                  onSelect={handleSelectCar1}
-                  onCancel={() => setShowSearch1(false)}
-                  dir={i18n.dir()}
-                />
-              ) : (
-                <EmptySlot onClick={() => setShowSearch1(true)} />
-              )}
+              <CompareCarSlot
+                slug={car1Slug}
+                car={car1}
+                isLoading={isLoading1}
+                showSearch={showSearch1}
+                label={t("comparePage.carOne")}
+                dir={dir}
+                onSelect={(slug) => { setCar1Slug(slug); setShowSearch1(false); }}
+                onRemove={() => { setCar1Slug(""); setShowSearch1(true); }}
+                onShowSearch={() => setShowSearch1(true)}
+                onHideSearch={() => setShowSearch1(false)}
+              />
             </div>
 
+            {/* VS divider */}
             <div className="relative flex min-h-[320px] flex-col items-center max-lg:order-2 max-lg:min-h-auto">
-              <div className="mt-10 mb-5 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-[#35aee8] text-[26px] font-black text-white shadow-lg max-lg:mt-0">
+              <div
+                className="absolute left-1/2 -translate-x-1/2"
+                style={{
+                  top: 0,
+                  bottom: "calc(50% + 36px)",
+                  width: "1px",
+                  background: "linear-gradient(to bottom, transparent 0%, rgba(2,31,56,0.38) 100%)",
+                }}
+              />
+              <div
+                className="absolute left-1/2 -translate-x-1/2"
+                style={{
+                  top: "calc(50% + 36px)",
+                  bottom: 0,
+                  width: "1px",
+                  background: "linear-gradient(to bottom, rgba(2,31,56,0.38) 0%, transparent 100%)",
+                }}
+              />
+              <div className="relative z-10 mt-auto mb-auto flex h-[64px] w-[64px] items-center justify-center rounded-full border-2 border-[var(--brand-primary-color)] bg-white text-[18px] font-black text-[var(--brand-primary-color)]">
                 {t("comparePage.vs")}
               </div>
-
-              {car1Slug && car1 && (
-                <>
-                  <CarBadge
-                    num={1}
-                    name={`${car1.brand?.name} ${car1.name}`}
-                    year={car1.year}
-                  />
-                  <div className="mt-5 h-[120px] w-px bg-[#cfd6df] max-lg:hidden" />
-                </>
-              )}
-
-              {car2Slug && car2 && (
-                <CarBadge
-                  num={2}
-                  name={`${car2.brand?.name} ${car2.name}`}
-                  year={car2.year}
-                />
-              )}
             </div>
 
+            {/* Car 2 slot */}
             <div className="max-lg:order-3">
-              {car2Slug && car2 ? (
-                <CompareCarCard car={car2} onRemove={handleRemoveCar2} />
-              ) : car2Slug && isLoading2 ? (
-                <LoadingSlot />
-              ) : showSearch2 ? (
-                <CarSelect
-                  selectedSlug={car2Slug}
-                  onSelect={handleSelectCar2}
-                  onCancel={() => setShowSearch2(false)}
-                  dir={i18n.dir()}
-                />
-              ) : (
-                <EmptySlot onClick={() => setShowSearch2(true)} />
-              )}
+              <CompareCarSlot
+                slug={car2Slug}
+                car={car2}
+                isLoading={isLoading2}
+                showSearch={showSearch2}
+                label={t("comparePage.carTwo")}
+                dir={dir}
+                onSelect={(slug) => { setCar2Slug(slug); setShowSearch2(false); }}
+                onRemove={() => { setCar2Slug(""); setShowSearch2(true); }}
+                onShowSearch={() => setShowSearch2(true)}
+                onHideSearch={() => setShowSearch2(false)}
+              />
             </div>
           </div>
         </div>
@@ -152,20 +175,11 @@ export default function ComparePage() {
               sections={compareData}
               car1Name={`${car1.brand?.name} ${car1.name}`}
               car2Name={`${car2.brand?.name} ${car2.name}`}
+              car1Slug={car1Slug}
+              car2Slug={car2Slug}
             />
           </>
         )}
-
-      <ContactCtaSection
-        badgeText={t("allCarsPage.contactBadge")}
-        titleWhite={t("allCarsPage.contactTitleWhite")}
-        titleOrange={t("allCarsPage.contactTitleOrange")}
-        description={t("allCarsPage.contactDescription")}
-        phoneText={t("allCarsPage.contactPhone")}
-        phoneHref="tel:+966500000000"
-        whatsappText={t("allCarsPage.contactWhatsapp")}
-        
-      />
     </div>
   );
 }
