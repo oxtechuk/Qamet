@@ -52,9 +52,10 @@ class Lead extends Model
     {
         return $this->belongsTo(Employee::class, 'assigned_to');
     }
+
     public function orders(): HasMany
     {
-        return $this->hasMany(Booking::class,'client_phone','client_phone');
+        return $this->hasMany(Booking::class, 'client_phone', 'client_phone');
     }
 
     public function assignedTo(): BelongsTo

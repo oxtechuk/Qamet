@@ -3,21 +3,21 @@
 namespace App\Observers;
 
 use App\Models\CarCategory;
-use App\Services\Cache\HomeCacheService;
+use App\Services\Cache\CarCacheService;
 
 class CarCategoryObserver
 {
     public function __construct(
-        private HomeCacheService $homeCache,
+        private CarCacheService $carCache,
     ) {}
 
     public function saved(CarCategory $carCategory): void
     {
-        $this->homeCache->forgetHome();
+        $this->carCache->forgetCars();
     }
 
     public function deleted(CarCategory $carCategory): void
     {
-        $this->homeCache->forgetHome();
+        $this->carCache->forgetCars();
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
@@ -15,7 +15,7 @@ try {
     Role::firstOrCreate(['name' => 'sales-rep', 'guard_name' => 'employee']);
     echo "Employee guard roles seeded successfully!\n";
 } catch (\Exception $e) {
-    echo "Error seeding roles: " . $e->getMessage() . "\n";
+    echo 'Error seeding roles: '.$e->getMessage()."\n";
 }
 
 echo "\n--- Check if Role assign works ---\n";
@@ -29,7 +29,7 @@ try {
         echo "No employees found.\n";
     }
 } catch (\Exception $e) {
-    echo "Error: " . $e->getMessage() . "\n";
+    echo 'Error: '.$e->getMessage()."\n";
 }
 
 echo "\nRoles in database:\n";

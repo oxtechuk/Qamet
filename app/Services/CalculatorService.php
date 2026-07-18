@@ -34,9 +34,9 @@ class CalculatorService
         $total = $monthly * $months + $downPayment;
 
         return [
-            'monthly'        => round($monthly, 2),
-            'total'          => round($total, 2),
-            'principal'      => (float) $principal,
+            'monthly' => round($monthly, 2),
+            'total' => round($total, 2),
+            'principal' => (float) $principal,
             'effective_rate' => $annualRatePercent,
         ];
     }

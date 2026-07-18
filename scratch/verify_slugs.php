@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
@@ -15,7 +15,7 @@ $testCases = [
     'Hyundai Azera Classic 2026' => 'hyundai-azera-classic-2026',
     'هيونداي أزيرا كلاسيك 2026' => 'هيونداي-أزيرا-كلاسيك-2026',
     'Kia Sportage !!! 2025' => 'kia-sportage-2025',
-    'كيا سبورتاج 2025' => 'كيا-سبورتاج-2025'
+    'كيا سبورتاج 2025' => 'كيا-سبورتاج-2025',
 ];
 
 foreach ($testCases as $input => $expected) {
@@ -52,11 +52,11 @@ if ($firstCar) {
     echo "First Car Slug (AR): {$firstCar->getTranslation('slug', 'ar')}\n";
 
     // Try finding by the English slug
-    $foundByEn = Car::where(function($q) use ($firstCar) {
+    $foundByEn = Car::where(function ($q) use ($firstCar) {
         $q->where('slug->en', $firstCar->getTranslation('slug', 'en'))
-          ->orWhere('slug->ar', $firstCar->getTranslation('slug', 'en'));
+            ->orWhere('slug->ar', $firstCar->getTranslation('slug', 'en'));
     })->first();
-    echo "Query by En Slug found Car: " . ($foundByEn ? "YES (ID {$foundByEn->id})" : "NO") . "\n";
+    echo 'Query by En Slug found Car: '.($foundByEn ? "YES (ID {$foundByEn->id})" : 'NO')."\n";
 } else {
     echo "No cars found in database.\n";
 }

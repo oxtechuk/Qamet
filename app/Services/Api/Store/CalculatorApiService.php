@@ -71,12 +71,17 @@ final class CalculatorApiService
         return CalculatorBank::query()->activeOrdered()->get();
     }
 
-    public function calculate(int $carId, float $downPaymentPct, int $periodMonths, int $bankId): array
+    public function calculate(?int $carId, ?float $carPrice, float $downPaymentPct, int $periodMonths, int $bankId): array
     {
-        $car = Car::findOrFail($carId);
         $bank = CalculatorBank::findOrFail($bankId);
 
-        $carPrice = (float) ($car->current_price ?? $car->cash_price);
+        if ($carId) {
+            $car = Car::findOrFail($carId);
+            $carPrice = (float) ($car->current_price ?? $car->cash_price);
+        } else {
+            $carPrice = (float) $carPrice;
+        }
+
         $downPaymentAmount = round($carPrice * $downPaymentPct / 100);
         $loanAmount = $carPrice - $downPaymentAmount;
         $annualRate = $bank->annual_rate;

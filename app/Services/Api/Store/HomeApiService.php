@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Api\Store;
 
-use App\Http\Resources\Store\CarMiniResource;
-use App\Http\Resources\Store\HomeOfferResource;
+use App\Http\Resources\Store\BrandResource;
+use App\Http\Resources\Store\CarCardResource;
+use App\Http\Resources\Store\HeroCarResource;
+use App\Http\Resources\Store\OfferCardResource;
 use App\Models\Car;
-use App\Models\Offer;
 use App\Services\Cache\HomeCacheService;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,101 +20,158 @@ final class HomeApiService
 
     public function home(): array
     {
-        $data = $this->cache->rememberHomeData();
+        $locale = app()->getLocale();
 
-        $heroSlides = array_map(function (array $slide): array {
-            $slide['image'] = $this->resolveImage($slide['image'] ?? null);
+        return [
+            'hero_slides' => $this->buildHeroSlides($locale),
+            'brands' => BrandResource::collection($this->cache->rememberBrands())->resolve(),
+            'latest_cars' => [
+                'section' => $this->sectionCopy('featured_cars', $locale),
+                'items' => CarCardResource::collection($this->cache->rememberLatestCars())->resolve(),
+            ],
+            'why_us' => $this->buildWhyUs($locale),
+            'campaign_banner' => $this->buildBanner($locale),
+            'offers' => [
+                'section' => $this->sectionCopy('offers', $locale),
+                'items' => OfferCardResource::collection($this->cache->rememberOffers())->resolve(),
+            ],
+            'cars_by_budget' => $this->buildCarsByBudget($locale),
+        ];
+    }
 
-            return $slide;
-        }, $data['heroSlides'] ?? []);
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function buildHeroSlides(string $locale): array
+    {
+        $slides = $this->cache->rememberHomeHeroSlides();
+        $carIds = array_values(array_filter(array_column($slides, 'car_id')));
+        $cars = $carIds
+            ? Car::whereIn('id', $carIds)->get()->keyBy('id')
+            : collect();
 
-        $featuredSetting = $this->cache->rememberSetting('homepage_featured', []);
-        $homepageStats = $this->cache->rememberSetting('homepage_stats', []);
-        if (! is_array($homepageStats)) {
-            $homepageStats = json_decode((string) $homepageStats, true) ?: [];
+        return collect($slides)
+            ->filter(fn (array $slide): bool => $slide['is_active'] ?? true)
+            ->map(function (array $slide) use ($cars, $locale): array {
+                $car = isset($slide['car_id']) ? $cars->get($slide['car_id']) : null;
+
+                return [
+                    'image' => $this->resolveImage($slide['image'] ?? null),
+                    'title' => $slide["title_{$locale}"] ?? $slide['title_en'] ?? '',
+                    'car' => $car ? HeroCarResource::make($car)->resolve() : null,
+                    'button_text' => $slide["button_text_{$locale}"] ?? $slide['button_text_en'] ?? '',
+                    'button_link' => $slide['link'] ?? null,
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function buildWhyUs(string $locale): array
+    {
+        return collect($this->cache->rememberWhyUs())
+            ->map(fn (array $item): array => [
+                'icon' => $item['icon'] ?? '',
+                'title' => $item["title_{$locale}"] ?? $item['title_en'] ?? '',
+                'description' => $item["description_{$locale}"] ?? $item['description_en'] ?? '',
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildBanner(string $locale): array
+    {
+        $banner = $this->cache->rememberBanner();
+
+        if (empty($banner)) {
+            return [
+                'image' => null, 'mobile_image' => null, 'title' => '',
+                'button_text' => '', 'url' => null, 'is_active' => false,
+            ];
         }
 
+        $now = now();
+        $startsAt = $banner['starts_at'] ?? null;
+        $endsAt = $banner['ends_at'] ?? null;
+        $withinDateRange = (! $startsAt || $now->gte($startsAt)) && (! $endsAt || $now->lte($endsAt));
+
+        return [
+            'image' => $this->resolveImage($banner['image'] ?? null),
+            'mobile_image' => $this->resolveImage($banner['mobile_image'] ?? null),
+            'title' => $banner['title'][$locale] ?? $banner['title']['en'] ?? '',
+            'button_text' => $banner['button_text'][$locale] ?? $banner['button_text']['en'] ?? '',
+            'url' => $banner['url'] ?? null,
+            'is_active' => ($banner['active'] ?? true) && $withinDateRange,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildCarsByBudget(string $locale): array
+    {
+        $rawBrackets = $this->cache->rememberBudgetBrackets();
+
+        $brackets = collect($rawBrackets)
+            ->map(function (array $bracket) use ($locale): array {
+                $min = (int) ($bracket['min'] ?? 0);
+                $max = isset($bracket['max']) && $bracket['max'] !== null ? (int) $bracket['max'] : null;
+
+                $count = Car::where('is_active', true)
+                    ->where('cash_price', '>=', $min)
+                    ->when($max !== null, fn ($q) => $q->where('cash_price', '<=', $max))
+                    ->count();
+
+                return [
+                    'label' => $bracket["label_{$locale}"] ?? $bracket['label_en'] ?? '',
+                    'min' => $min,
+                    'max' => $max,
+                    'count' => $count,
+                ];
+            })
+            ->values();
+
+        // Default cars shown before any bracket is selected — the first (lowest) bracket's range.
+        $first = $brackets->first() ?? ['min' => 0, 'max' => null];
+        $defaultCars = Car::where('is_active', true)
+            ->where('cash_price', '>=', $first['min'])
+            ->when($first['max'] !== null, fn ($q) => $q->where('cash_price', '<=', $first['max']))
+            ->with(['brand', 'images', 'activeOffers'])
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        return [
+            'section' => $this->sectionCopy('budget', $locale),
+            'brackets' => $brackets->all(),
+            'cars' => CarCardResource::collection($defaultCars)->resolve(),
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function sectionCopy(string $key, string $locale): array
+    {
         $rawSections = $this->cache->rememberSetting('homepage_sections', []);
         if (! is_array($rawSections)) {
             $rawSections = json_decode((string) $rawSections, true) ?: [];
         }
 
-        $hero = $this->cache->rememberHeroSetting('store_home_hero');
-
-        $locale = app()->getLocale();
-        $carId = $featuredSetting['car_id'] ?? null;
-        $offerId = $featuredSetting['offer_id'] ?? null;
-
-        $featuredSection = [
-            'title' => $featuredSetting['title'][$locale] ?? '',
-            'description' => $featuredSetting['description'][$locale] ?? '',
-            'car' => $carId ? CarMiniResource::make(Car::with('brand', 'images')->find($carId))->resolve() : null,
-            'offer' => $offerId ? HomeOfferResource::make(Offer::query()->find($offerId))->resolve() : null,
-        ];
-
-        $pageSections = [
-            'filter' => [
-                'title' => $rawSections['filter']['title'][$locale] ?? '',
-            ],
-            'featured_cars' => [
-                'badge' => $rawSections['featured_cars']['badge'][$locale] ?? '',
-                'title' => $rawSections['featured_cars']['title'][$locale] ?? '',
-                'subtitle' => $rawSections['featured_cars']['subtitle'][$locale] ?? '',
-                'button_text' => $rawSections['featured_cars']['button_text'][$locale] ?? '',
-            ],
-            'offers' => [
-                'badge' => $rawSections['offers']['badge'][$locale] ?? '',
-                'title' => $rawSections['offers']['title'][$locale] ?? '',
-                'button_text' => $rawSections['offers']['button_text'][$locale] ?? '',
-            ],
-            'highlighted_cars' => [
-                'badge' => $rawSections['highlighted_cars']['badge'][$locale] ?? '',
-                'title' => $rawSections['highlighted_cars']['title'][$locale] ?? '',
-                'subtitle' => $rawSections['highlighted_cars']['subtitle'][$locale] ?? '',
-                'button_text' => $rawSections['highlighted_cars']['button_text'][$locale] ?? '',
-            ],
-            'finance' => [
-                'title' => $rawSections['finance']['title'][$locale] ?? '',
-                'subtitle' => $rawSections['finance']['subtitle'][$locale] ?? '',
-                'features' => array_values(array_filter(array_map('trim', explode("\n", $rawSections['finance']['features'][$locale] ?? '')))),
-                'button_text' => $rawSections['finance']['button_text'][$locale] ?? '',
-            ],
-            'brands' => [
-                'title' => $rawSections['brands']['title'][$locale] ?? '',
-                'subtitle' => $rawSections['brands']['subtitle'][$locale] ?? '',
-            ],
-            'budget' => [
-                'badge' => $rawSections['budget']['badge'][$locale] ?? '',
-                'title' => $rawSections['budget']['title'][$locale] ?? '',
-                'description' => $rawSections['budget']['description'][$locale] ?? '',
-                'button_text' => $rawSections['budget']['button_text'][$locale] ?? '',
-            ],
-        ];
+        $section = $rawSections[$key] ?? [];
 
         return [
-            'hero' => $hero,
-            'featured_cars' => ($data['featuredCars'] ?? collect())->values(),
-            'active_offers' => ($data['activeOffers'] ?? collect())->values(),
-            'brands' => ($data['brands'] ?? collect())->values(),
-            'latest_posts' => ($data['latestPosts'] ?? collect())->values(),
-            'stats' => $data['stats'] ?? [],
-            'testimonials' => ($data['testimonials'] ?? collect())->values(),
-            'partners' => ($data['partners'] ?? collect())->values(),
-            'filter_brands' => ($data['filterBrands'] ?? collect())->values(),
-            'filter_categories' => ($data['filterCategories'] ?? collect())->values(),
-            'filter_types' => ($data['filterTypes'] ?? collect())->values(),
-            'filter_years' => ($data['filterYears'] ?? collect())->values(),
-            'filter_prices' => ($data['filterPrices'] ?? collect())->values(),
-            'filter_fuels' => ($data['filterFuels'] ?? collect())->values(),
-            'filter_horsepowers' => ($data['filterHorsepowers'] ?? collect())->values(),
-            'filter_highlights' => ($data['filterHighlights'] ?? collect())->values(),
-            'filter_brand_types' => ($data['filterBrandTypes'] ?? collect())->values(),
-            'bento_cars' => ($data['bentoCars'] ?? collect())->values(),
-            'highlighted_cars' => ($data['highlightedCars'] ?? collect())->values(),
-            'hero_slides' => $heroSlides,
-            'featured_section' => $featuredSection,
-            'homepage_stats' => $homepageStats,
-            'page_sections' => $pageSections,
+            'badge' => $section['badge'][$locale] ?? '',
+            'title' => $section['title'][$locale] ?? '',
+            'subtitle' => $section['subtitle'][$locale] ?? '',
+            'description' => $section['description'][$locale] ?? '',
+            'button_text' => $section['button_text'][$locale] ?? '',
         ];
     }
 

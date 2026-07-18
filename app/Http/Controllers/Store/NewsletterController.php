@@ -29,10 +29,10 @@ class NewsletterController extends Controller
 
             // إعادة تفعيل الاشتراك إذا كان ملغياً
             $existing->update([
-                'is_active'       => true,
-                'subscribed_at'   => now(),
+                'is_active' => true,
+                'subscribed_at' => now(),
                 'unsubscribed_at' => null,
-                'ip_address'      => $request->ip(),
+                'ip_address' => $request->ip(),
             ]);
 
             return response()->json([
@@ -43,9 +43,9 @@ class NewsletterController extends Controller
 
         // إنشاء مشترك جديد
         NewsletterSubscriber::create([
-            'email'         => $email,
-            'is_active'     => true,
-            'ip_address'    => $request->ip(),
+            'email' => $email,
+            'is_active' => true,
+            'ip_address' => $request->ip(),
             'subscribed_at' => now(),
         ]);
 

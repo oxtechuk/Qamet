@@ -40,8 +40,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->redirectTo(
             guests: function ($request) {
-                if ($request->is('crm') || $request->is('crm/*')) {
-                    return route('crm.login');
+                if ($request->is('admin') || $request->is('admin/*')) {
+                    return route('filament.admin.auth.login');
                 }
 
                 return route('store.auth.login');
@@ -94,8 +94,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json(['message' => __('Unauthenticated')], 401);
             }
 
-            if ($request->is('crm') || $request->is('crm/*')) {
-                return redirect()->guest(route('crm.login'));
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return redirect()->guest(route('filament.admin.auth.login'));
             }
 
             return redirect()->guest(route('store.auth.login'));

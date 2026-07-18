@@ -4,14 +4,28 @@ namespace App\Http\Controllers\Api\Store;
 
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Requests\Api\Store\ContactRequest;
+use App\Http\Resources\Store\BranchResource;
 use App\Services\Api\Store\ContactApiService;
+use App\Services\Cache\ContactCacheService;
 
 final class ContactController extends ApiBaseController
 {
     public function __construct(
         private readonly ContactApiService $contactService,
+        private readonly ContactCacheService $contactCache,
     ) {
         parent::__construct(app(\App\Http\Api\Response\Builder\ApiResponseBuilder::class));
+    }
+
+    /**
+     * Return contact page metadata (hero, branches).
+     */
+    public function meta()
+    {
+        return $this->respondSuccess([
+            'hero' => $this->contactCache->rememberContactHero(),
+            'branches' => BranchResource::collection($this->contactCache->rememberBranches())->resolve(),
+        ], 'Contact page metadata retrieved successfully');
     }
 
     public function store(ContactRequest $request)

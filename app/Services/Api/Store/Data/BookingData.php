@@ -7,14 +7,16 @@ namespace App\Services\Api\Store\Data;
 final class BookingData
 {
     public function __construct(
-        public readonly int $car_id,
+        public readonly ?int $car_id,
+        public readonly ?string $car_type,
+        public readonly ?string $payment_method,
         public readonly string $client_name,
         public readonly string $client_phone,
-        public readonly float $down_payment,
-        public readonly int $duration_years,
+        public readonly ?float $down_payment,
+        public readonly ?int $duration_years,
         public readonly float $interest_rate,
-        public readonly int $monthly_installment,
-        public readonly int $total_price,
+        public readonly ?int $monthly_installment,
+        public readonly ?int $total_price,
         public readonly string $status = 'new',
         public readonly string $source = 'api',
         public readonly ?string $booking_type = null,
@@ -23,27 +25,39 @@ final class BookingData
         public readonly ?string $notes = null,
     ) {}
 
-    public static function fromRequest(array $validated, float $cashPrice): self
+    public static function fromRequest(array $validated, ?float $cashPrice = null): self
     {
         $interestRate = isset($validated['interest_rate']) && $validated['interest_rate'] > 0
             ? (float) $validated['interest_rate']
             : (float) config('store-api.booking.default_interest_rate', 4.0);
 
-        $principal = max(0, $cashPrice - (float) $validated['down_payment']);
-        $totalMonths = (int) $validated['duration_years'] * 12;
+        $monthlyInstallment = null;
+        $totalPrice = null;
+        $downPayment = isset($validated['down_payment']) ? (float) $validated['down_payment'] : null;
+        $durationYears = isset($validated['duration_years']) ? (int) $validated['duration_years'] : null;
 
-        $calculator = new \App\Services\Api\Store\Helpers\InstallmentCalculator;
-        $monthly = $calculator->calculate($principal, $totalMonths, $interestRate);
+        if ($cashPrice !== null && $durationYears !== null) {
+            $principal = max(0, $cashPrice - (float) $downPayment);
+            $totalMonths = $durationYears * 12;
+
+            $calculator = new \App\Services\Api\Store\Helpers\InstallmentCalculator;
+            $monthly = $calculator->calculate($principal, $totalMonths, $interestRate);
+
+            $monthlyInstallment = (int) round($monthly);
+            $totalPrice = (int) round($monthly * $totalMonths + (float) $downPayment);
+        }
 
         return new self(
-            car_id: (int) $validated['car_id'],
+            car_id: $validated['car_id'] ? (int) $validated['car_id'] : null,
+            car_type: $validated['car_type'] ?? null,
+            payment_method: $validated['payment_method'] ?? null,
             client_name: $validated['client_name'],
             client_phone: $validated['client_phone'],
-            down_payment: (float) $validated['down_payment'],
-            duration_years: (int) $validated['duration_years'],
+            down_payment: $downPayment,
+            duration_years: $durationYears,
             interest_rate: $interestRate,
-            monthly_installment: (int) round($monthly),
-            total_price: (int) round($monthly * $totalMonths + (float) $validated['down_payment']),
+            monthly_installment: $monthlyInstallment,
+            total_price: $totalPrice,
             booking_type: $validated['booking_type'] ?? null,
             location: $validated['location'] ?? null,
             client_email: $validated['client_email'] ?? null,
@@ -53,8 +67,10 @@ final class BookingData
 
     public function toDatabase(): array
     {
-        return [
+        return array_filter([
             'car_id' => $this->car_id,
+            'car_type' => $this->car_type,
+            'payment_method' => $this->payment_method,
             'client_name' => $this->client_name,
             'client_phone' => $this->client_phone,
             'down_payment' => $this->down_payment,
@@ -68,6 +84,6 @@ final class BookingData
             'location' => $this->location,
             'client_email' => $this->client_email,
             'notes' => $this->notes,
-        ];
+        ], fn ($value) => $value !== null);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\AsImageUrl;
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +12,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Car extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
     public const HIGHLIGHT_OPTIONS = [
         'new_arrival' => ['ar' => 'أحدث السيارات', 'en' => 'New Arrivals'],
@@ -113,19 +114,27 @@ class Car extends Model
         return $this->hasMany(Booking::class);
     }
 
-    public function offers()
+    public function offers(): HasMany
     {
-        return $this->belongsToMany(Offer::class, 'car_offer');
+        return $this->hasMany(Offer::class);
     }
 
-    public function activeOffers()
+    public function activeOffers(): HasMany
     {
-        return $this->belongsToMany(Offer::class, 'car_offer')
+        return $this->offers()
             ->where('is_active', true)
             ->where(function ($q) {
                 $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
             })
             ->latest();
+    }
+
+    /**
+     * @deprecated Use offers() instead. Kept for the legacy car_offer pivot which the current CRM no longer writes to.
+     */
+    public function legacyOffers()
+    {
+        return $this->belongsToMany(Offer::class, 'car_offer');
     }
 
     public function getMainImageAttribute(): ?string

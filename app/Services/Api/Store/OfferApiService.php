@@ -13,15 +13,15 @@ final class OfferApiService
     public function list(array $filters = [], int $perPage = 12): LengthAwarePaginator
     {
         $query = Offer::active()
-            ->with(['cars.brand'])
+            ->with(['car.brand'])
             ->latest();
 
         if (! empty($filters['brand_id'])) {
-            $query->whereHas('cars', fn (Builder $q) => $q->where('brand_id', $filters['brand_id']));
+            $query->whereHas('car', fn (Builder $q) => $q->where('brand_id', $filters['brand_id']));
         }
 
         if (! empty($filters['car_type'])) {
-            $query->whereHas('cars', fn (Builder $q) => $q->where('type', $filters['car_type']));
+            $query->whereHas('car', fn (Builder $q) => $q->where('type', $filters['car_type']));
         }
 
         return $query->paginate($perPage);

@@ -19,11 +19,11 @@ class CarCategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'       => 'required|array',
-            'name.ar'    => 'required|string|max:100',
-            'name.en'    => 'required|string|max:100',
+            'name' => 'required|array',
+            'name.ar' => 'required|string|max:100',
+            'name.en' => 'required|string|max:100',
             'sort_order' => 'nullable|integer|min:0|max:65535',
-            'is_active'  => 'boolean',
+            'is_active' => 'boolean',
         ]);
         $data['slug'] = Str::slug($data['name']['en'].'-'.uniqid());
         $data['is_active'] = $request->boolean('is_active', true);
@@ -36,11 +36,11 @@ class CarCategoryController extends Controller
     public function update(Request $request, CarCategory $carCategory)
     {
         $data = $request->validate([
-            'name'       => 'required|array',
-            'name.ar'    => 'required|string|max:100',
-            'name.en'    => 'required|string|max:100',
+            'name' => 'required|array',
+            'name.ar' => 'required|string|max:100',
+            'name.en' => 'required|string|max:100',
             'sort_order' => 'nullable|integer|min:0|max:65535',
-            'is_active'  => 'boolean',
+            'is_active' => 'boolean',
         ]);
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;

@@ -31,134 +31,6 @@
                 "home"
               ]
             },
-            "description": "Returns aggregated data for the store homepage including featured cars, active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
-          },
-          "response": [
-            {
-              "name": "Success — Full homepage payload",
-              "originalRequest": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "url": {
-                  "raw": "{{ga_base_url}}/api/store/home",
-                  "host": [
-                    "{{ga_base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "store",
-                    "home"
-                  ]
-                },
-                "description": "Returns aggregated data for the store homepage including featured cars, active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "Text",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Homepage data retrieved successfully\",\n    \"data\": {\n        \"featured_cars\": [\n            {\n                \"id\": 1,\n                \"name\": {\n                    \"en\": \"Mercedes-Benz G-Class\",\n                    \"ar\": \"مرسيدس بنز جي كلاس\"\n                },\n                \"cash_price\": 850000,\n                \"min_installment\": 15000,\n                \"year\": 2025,\n                \"is_featured\": true,\n                \"brand\": {\n                    \"id\": 1,\n                    \"name\": \"Mercedes-Benz\"\n                }\n            }\n        ],\n        \"active_offers\": [],\n        \"brands\": [],\n        \"latest_posts\": [],\n        \"stats\": {\n            \"cars\": 120,\n            \"brands\": 15\n        },\n        \"testimonials\": [],\n        \"partners\": [],\n        \"hero\": {\n            \"title\": \"قيادة الأحلام تبدأ من هنا\",\n            \"subtitle\": \"اكتشف مجموعتنا الحصرية من السيارات الفاخرة بأفضل الأسعار وخطط التقسيط.\",\n            \"image\": null\n        },\n        \"featured_design\": null,\n        \"social_designs\": [],\n        \"filter_brands\": [],\n        \"filter_categories\": [],\n        \"filter_years\": [],\n        \"bento_cars\": [],\n        \"featured_offers\": [],\n        \"highlighted_cars\": [],\n        \"hero_slides\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
-            }
-          ]
-        },
-        {
-          "name": "About Page",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{ga_base_url}}/api/store/about",
-              "host": [
-                "{{ga_base_url}}"
-              ],
-              "path": [
-                "api",
-                "store",
-                "about"
-              ]
-            },
-            "description": "Returns about page data: visible testimonials, ordered partners, featured car designs, and the main gallery from settings."
-          },
-          "response": [
-            {
-              "name": "Success — About page payload",
-              "originalRequest": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "url": {
-                  "raw": "{{ga_base_url}}/api/store/about",
-                  "host": [
-                    "{{ga_base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "store",
-                    "about"
-                  ]
-                },
-                "description": "Returns about page data: visible testimonials, ordered partners, featured car designs, and the main gallery from settings."
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "Text",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"About page data retrieved successfully\",\n    \"data\": {\n        \"testimonials\": [\n            {\n                \"id\": 1,\n                \"name\": \"خالد العتيبي\",\n                \"content\": \"تجربة رائعة! سيارتي المثالية وجدتها هنا.\",\n                \"is_visible\": true\n            }\n        ],\n        \"partners\": [\n            {\n                \"id\": 1,\n                \"name\": \"BMW Saudi Arabia\",\n                \"sort_order\": 0\n            }\n        ],\n        \"featured_designs\": [],\n        \"main_gallery\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
-            }
-          ]
-        }
-      ],
-          "description": "Homepage and static content endpoints."
-    },
-    {
-      "name": "🏠 Home & Static",
-      "item": [
-        {
-          "name": "Homepage Data",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{ga_base_url}}/api/store/home",
-              "host": [
-                "{{ga_base_url}}"
-              ],
-              "path": [
-                "api",
-                "store",
-                "home"
-              ]
-            },
             "description": "Returns aggregated data for the store homepage including featured cars (with brand, images), active offers, brands, latest blog posts, testimonials, partners, hero banner, filter options, bento cars, featured offers, highlighted cars, and hero slides.\n\nAll data is cached via `HomeCacheService` for performance."
           },
           "response": [
@@ -1006,13 +878,200 @@
               "body": "{\n    \"success\": true,\n    \"message\": \"Car categories retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"SUV\",\n            \"slug\": \"suv\",\n            \"sort_order\": 0,\n            \"is_active\": true,\n            \"cars_count\": 12\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Sedan\",\n            \"slug\": \"sedan\",\n            \"sort_order\": 1,\n            \"is_active\": true,\n            \"cars_count\": 8\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
             }
           ]
+        },
+        {
+          "name": "Car Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/car-types",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "car-types"
+              ]
+            },
+            "description": "Returns all active car types ordered by sort_order. Useful for building filter dropdowns."
+          },
+          "response": [
+            {
+              "name": "Success — Car types list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/car-types",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "car-types"
+                  ]
+                },
+                "description": "Returns all active car types ordered by sort_order. Useful for building filter dropdowns."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Car types retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"new\",\n            \"is_active\": true,\n            \"sort_order\": 0\n        },\n        {\n            \"id\": 2,\n            \"name\": \"used\",\n            \"is_active\": true,\n            \"sort_order\": 1\n        }\n    ],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Cars Meta",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/cars/meta",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cars",
+                "meta"
+              ]
+            },
+            "description": "Returns aggregated metadata for the car catalog including filter options (brands, types, categories, years, prices, fuels, horsepowers, highlights), total counts, featured offer, homepage stats, and hero slides."
+          },
+          "response": [
+            {
+              "name": "Success — Cars meta",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/cars/meta",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "cars",
+                    "meta"
+                  ]
+                },
+                "description": "Returns aggregated metadata for the car catalog including filter options (brands, types, categories, years, prices, fuels, horsepowers, highlights), total counts, featured offer, homepage stats, and hero slides."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing meta retrieved successfully\",\n    \"data\": {\n        \"featured_offer\": null,\n        \"total_cars\": 45,\n        \"total_brands\": 8,\n        \"filter_brands\": [],\n        \"filter_types\": [],\n        \"filter_categories\": [],\n        \"filter_brand_types\": [],\n        \"filter_years\": [],\n        \"filter_prices\": [],\n        \"filter_fuels\": [],\n        \"filter_horsepowers\": [],\n        \"filter_highlights\": [],\n        \"homepage_stats\": null,\n        \"hero\": null,\n        \"hero_slides\": [],\n        \"hero_ads\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
         }
       ],
-      "description": "Car listing, detail, search, compare, brand, and category endpoints."
+      "description": "Car listing, detail, search, compare, brand, category, and type endpoints."
     },
     {
       "name": "📋 Booking",
       "item": [
+        {
+          "name": "Booking Meta",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/booking/meta",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "booking",
+                "meta"
+              ]
+            },
+            "description": "Returns booking page layout metadata including hero section, steps, and sections."
+          },
+          "response": [
+            {
+              "name": "Success — Booking meta",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/booking/meta",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "booking",
+                    "meta"
+                  ]
+                },
+                "description": "Returns booking page layout metadata including hero section, steps, and sections."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Booking page metadata retrieved successfully\",\n    \"data\": {\n        \"hero\": null,\n        \"steps\": [],\n        \"sections\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
         {
           "name": "Create Booking",
           "request": {
@@ -1024,12 +1083,85 @@
               },
               {
                 "key": "Content-Type",
-                "value": "application/json"
+                "value": "multipart/form-data"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n    \"car_id\": 1,\n    \"client_name\": \"أحمد محمد\",\n    \"client_phone\": \"+966501234567\",\n    \"client_email\": \"ahmed@example.com\",\n    \"down_payment\": 50000,\n    \"duration_years\": 5,\n    \"interest_rate\": 4.0,\n    \"notes\": \"أود معاينة السيارة يوم الجمعة\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "car_id",
+                  "value": "1",
+                  "description": "required|integer|exists:cars,id — Either car_id or car_type is required",
+                  "type": "text"
+                },
+                {
+                  "key": "car_type",
+                  "value": "",
+                  "description": "nullable|string|max:255 — required_without:car_id",
+                  "type": "text"
+                },
+                {
+                  "key": "payment_method",
+                  "value": "cash",
+                  "description": "nullable|string|in:cash,bank",
+                  "type": "text"
+                },
+                {
+                  "key": "client_name",
+                  "value": "أحمد محمد",
+                  "description": "required|string|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "client_phone",
+                  "value": "+966501234567",
+                  "description": "required|string|max:20",
+                  "type": "text"
+                },
+                {
+                  "key": "client_email",
+                  "value": "ahmed@example.com",
+                  "description": "nullable|email|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "down_payment",
+                  "value": "50000",
+                  "description": "nullable|integer|min:0",
+                  "type": "text"
+                },
+                {
+                  "key": "duration_years",
+                  "value": "5",
+                  "description": "nullable|integer|min:1|max:10",
+                  "type": "text"
+                },
+                {
+                  "key": "interest_rate",
+                  "value": "4.0",
+                  "description": "nullable|numeric|min:0|max:50",
+                  "type": "text"
+                },
+                {
+                  "key": "notes",
+                  "value": "أود معاينة السيارة يوم الجمعة",
+                  "description": "nullable|string|max:1000",
+                  "type": "text"
+                },
+                {
+                  "key": "booking_type",
+                  "value": "purchase",
+                  "description": "nullable|string|in:test_drive,purchase,inquiry",
+                  "type": "text"
+                },
+                {
+                  "key": "location",
+                  "value": "",
+                  "description": "nullable|string|max:500",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
               "raw": "{{ga_base_url}}/api/store/booking",
@@ -1140,6 +1272,179 @@
       "name": "🧮 Calculator",
       "item": [
         {
+          "name": "Calculator Banks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/calculator/banks",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "calculator",
+                "banks"
+              ]
+            },
+            "description": "Returns available calculator banks and calculator settings (max car price, max down payment percentage)."
+          },
+          "response": [
+            {
+              "name": "Success — Banks list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/calculator/banks",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "banks"
+                  ]
+                },
+                "description": "Returns available calculator banks and calculator settings (max car price, max down payment percentage)."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Calculator banks retrieved successfully\",\n    \"data\": {\n        \"banks\": [],\n        \"settings\": {\n            \"max_car_price\": 2500000,\n            \"max_down_payment\": 80\n        }\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Calculate Installment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "car_id",
+                  "value": "1",
+                  "description": "nullable|integer|exists:cars,id — Either car_id or car_price is required",
+                  "type": "text"
+                },
+                {
+                  "key": "car_price",
+                  "value": "850000",
+                  "description": "nullable|numeric|min:1|max:2500000",
+                  "type": "text"
+                },
+                {
+                  "key": "down_payment_percentage",
+                  "value": "20",
+                  "description": "nullable|numeric|min:0|max:100",
+                  "type": "text"
+                },
+                {
+                  "key": "period_months",
+                  "value": "60",
+                  "description": "nullable|integer|in:12,24,36,48,60",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_id",
+                  "value": "1",
+                  "description": "nullable|integer|exists:calculator_banks,id",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/calculator/calculate",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "calculator",
+                "calculate"
+              ]
+            },
+            "description": "Calculates installment details based on car price, down payment, period, and bank.\n\nEither `car_id` or `car_price` is required.\n\n## Validation Rules\n| Field                   | Rules                                        |\n|-------------------------|----------------------------------------------|\n| car_id                  | nullable, integer, exists:cars,id             |\n| car_price               | nullable, numeric, min:1, max:{max_car_price}|\n| down_payment_percentage | nullable, numeric, min:0, max:100             |\n| period_months           | nullable, integer, in:12,24,36,48,60         |\n| bank_id                 | nullable, integer, exists:calculator_banks,id |"
+          },
+          "response": [
+            {
+              "name": "Success — Calculation result",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"car_price\": 850000,\n    \"down_payment_percentage\": 20,\n    \"period_months\": 60,\n    \"bank_id\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/calculator/calculate",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "calculator",
+                    "calculate"
+                  ]
+                },
+                "description": "Calculates installment details based on car price, down payment, period, and bank.\n\nEither `car_id` or `car_price` is required.\n\n## Validation Rules\n| Field                   | Rules                                        |\n|-------------------------|----------------------------------------------|\n| car_id                  | nullable, integer, exists:cars,id             |\n| car_price               | nullable, numeric, min:1, max:{max_car_price}|\n| down_payment_percentage | nullable, numeric, min:0, max:100             |\n| period_months           | nullable, integer, in:12,24,36,48,60         |\n| bank_id                 | nullable, integer, exists:calculator_banks,id |"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Calculation completed successfully\",\n    \"data\": {},\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
           "name": "Save Lead",
           "request": {
             "method": "POST",
@@ -1150,17 +1455,72 @@
               },
               {
                 "key": "Content-Type",
-                "value": "application/json"
+                "value": "multipart/form-data"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\",\n    \"car_id\": 1,\n    \"details\": {\n        \"page\": \"calculator_page\",\n        \"utm_source\": \"google\",\n        \"utm_campaign\": \"ramadan_2026\"\n    }\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "أحمد محمد",
+                  "description": "required|string|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+966501234567",
+                  "description": "required|string|max:20",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "ahmed@example.com",
+                  "description": "required|email|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "city",
+                  "value": "الرياض",
+                  "description": "required|string|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "salary",
+                  "value": "15000",
+                  "description": "required|numeric|min:0",
+                  "type": "text"
+                },
+                {
+                  "key": "monthly_obligations",
+                  "value": "3000",
+                  "description": "required|numeric|min:0",
+                  "type": "text"
+                },
+                {
+                  "key": "preferred_bank_id",
+                  "value": "1",
+                  "description": "nullable|integer|exists:calculator_banks,id",
+                  "type": "text"
+                },
+                {
+                  "key": "car_ids[]",
+                  "value": "1",
+                  "description": "nullable|array — Each: integer, exists:cars,id",
+                  "type": "text"
+                },
+                {
+                  "key": "notes",
+                  "value": "",
+                  "description": "nullable|string|max:500",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
-              "raw": "{{base_url}}/api/store/calculator/lead",
+              "raw": "{{ga_base_url}}/api/store/calculator/lead",
               "host": [
-                "{{base_url}}"
+                "{{ga_base_url}}"
               ],
               "path": [
                 "api",
@@ -1193,7 +1553,7 @@
                 "url": {
                   "raw": "{{base_url}}/api/store/calculator/lead",
                   "host": [
-                    "{{base_url}}"
+                    "{{ga_base_url}}"
                   ],
                   "path": [
                     "api",
@@ -1229,17 +1589,30 @@
               },
               {
                 "key": "Content-Type",
-                "value": "application/json"
+                "value": "multipart/form-data"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "أحمد محمد",
+                  "description": "required|string|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+966501234567",
+                  "description": "required|string|max:20",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
-              "raw": "{{base_url}}/api/store/calculator/otp/send",
+              "raw": "{{ga_base_url}}/api/store/calculator/otp/send",
               "host": [
-                "{{base_url}}"
+                "{{ga_base_url}}"
               ],
               "path": [
                 "api",
@@ -1273,7 +1646,7 @@
                 "url": {
                   "raw": "{{base_url}}/api/store/calculator/otp/send",
                   "host": [
-                    "{{base_url}}"
+                    "{{ga_base_url}}"
                   ],
                   "path": [
                     "api",
@@ -1318,7 +1691,7 @@
                 "url": {
                   "raw": "{{base_url}}/api/store/calculator/otp/send",
                   "host": [
-                    "{{base_url}}"
+                    "{{ga_base_url}}"
                   ],
                   "path": [
                     "api",
@@ -1355,17 +1728,30 @@
               },
               {
                 "key": "Content-Type",
-                "value": "application/json"
+                "value": "multipart/form-data"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n    \"phone\": \"+966501234567\",\n    \"code\": \"123456\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "phone",
+                  "value": "+966501234567",
+                  "description": "required|string|max:20",
+                  "type": "text"
+                },
+                {
+                  "key": "code",
+                  "value": "123456",
+                  "description": "required|string|size:6",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
-              "raw": "{{base_url}}/api/store/calculator/otp/verify",
+              "raw": "{{ga_base_url}}/api/store/calculator/otp/verify",
               "host": [
-                "{{base_url}}"
+                "{{ga_base_url}}"
               ],
               "path": [
                 "api",
@@ -1399,7 +1785,7 @@
                 "url": {
                   "raw": "{{base_url}}/api/store/calculator/otp/verify",
                   "host": [
-                    "{{base_url}}"
+                    "{{ga_base_url}}"
                   ],
                   "path": [
                     "api",
@@ -1444,7 +1830,7 @@
                 "url": {
                   "raw": "{{base_url}}/api/store/calculator/otp/verify",
                   "host": [
-                    "{{base_url}}"
+                    "{{ga_base_url}}"
                   ],
                   "path": [
                     "api",
@@ -1545,7 +1931,7 @@
                     }
                   ]
                 },
-            "description": "Paginated blog listing with hero section and featured posts. Data is cached via `BlogCacheService`.\n\nReturns:\n- `hero` — hero section with title, subtitle, and background image from settings\n- `featured_posts` — array of featured/pinned posts\n- `posts` — paginated regular posts\n- `meta` — pagination metadata when posts are paginated"
+                "description": "Paginated blog listing with hero section and featured posts. Data is cached via `BlogCacheService`.\n\nReturns:\n- `hero` — hero section with title, subtitle, and background image from settings\n- `featured_posts` — array of featured/pinned posts\n- `posts` — paginated regular posts\n- `meta` — pagination metadata when posts are paginated"
               },
               "status": "OK",
               "code": 200,
@@ -1558,6 +1944,69 @@
               ],
               "cookie": [],
               "body": "{\n    \"success\": true,\n    \"message\": \"Blog posts retrieved successfully\",\n    \"data\": {\n        \"featured_posts\": [\n            {\n                \"id\": 1,\n                \"title\": \"أفضل السيارات الفاخرة لعام 2026\",\n                \"slug\": \"best-luxury-cars-2026\",\n                \"excerpt\": \"نظرة على أبرز السيارات الفاخرة التي ستطلق هذا العام...\",\n                \"published_at\": \"2026-06-01T10:00:00.000000Z\"\n            }\n        ],\n        \"posts\": [\n            {\n                \"id\": 2,\n                \"title\": \"نصائح قبل شراء سيارة مستعملة\",\n                \"slug\": \"tips-buying-used-car\",\n                \"excerpt\": \"دليلك الشامل لفحص وشراء سيارة مستعملة بأفضل سعر...\",\n                \"published_at\": \"2026-05-28T10:00:00.000000Z\"\n            }\n        ],\n        \"meta\": {\n            \"current_page\": 1,\n            \"per_page\": 10,\n            \"total\": 15,\n            \"last_page\": 2\n        }\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Blog Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/blog/categories",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "blog",
+                "categories"
+              ]
+            },
+            "description": "Returns all active blog categories ordered by sort_order."
+          },
+          "response": [
+            {
+              "name": "Success — Blog categories list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/blog/categories",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "blog",
+                    "categories"
+                  ]
+                },
+                "description": "Returns all active blog categories ordered by sort_order."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Blog categories retrieved successfully\",\n    \"data\": [],\n    \"errors\": null,\n    \"meta\": null\n}"
             }
           ]
         },
@@ -1779,12 +2228,19 @@
               },
               {
                 "key": "Content-Type",
-                "value": "application/json"
+                "value": "multipart/form-data"
               }
             ],
             "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"ahmed@example.com\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "ahmed@example.com",
+                  "description": "required|email|max:191",
+                  "type": "text"
+                }
+              ]
             },
             "url": {
               "raw": "{{ga_base_url}}/api/store/newsletter",
@@ -1978,13 +2434,376 @@
       "description": "Newsletter subscription management."
     },
     {
-      "name": "settings",
+      "name": "❓ FAQs",
       "item": [
         {
-          "name": "list settings",
+          "name": "List FAQs",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/faqs",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "faqs"
+              ]
+            },
+            "description": "Returns all visible FAQs ordered by sort_order."
+          },
+          "response": [
+            {
+              "name": "Success — FAQs list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/faqs",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "faqs"
+                  ]
+                },
+                "description": "Returns all visible FAQs ordered by sort_order."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"FAQs retrieved successfully\",\n    \"data\": [],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Frequently asked questions."
+    },
+    {
+      "name": "📞 Contact",
+      "item": [
+        {
+          "name": "Contact Meta",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/contact",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "contact"
+              ]
+            },
+            "description": "Returns contact page metadata including hero section and branches."
+          },
+          "response": [
+            {
+              "name": "Success — Contact meta",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/contact",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "contact"
+                  ]
+                },
+                "description": "Returns contact page metadata including hero section and branches."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Contact page metadata retrieved successfully\",\n    \"data\": {\n        \"hero\": null,\n        \"branches\": []\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Submit Contact Form",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "أحمد محمد",
+                  "description": "required|string|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+966501234567",
+                  "description": "required|string|max:50",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "ahmed@example.com",
+                  "description": "nullable|email|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "subject",
+                  "value": "استفسار عن سيارة",
+                  "description": "nullable|string|max:255",
+                  "type": "text"
+                },
+                {
+                  "key": "country",
+                  "value": "السعودية",
+                  "description": "nullable|string|max:100",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "أريد معرفة المزيد عن مرسيدس G-Class",
+                  "description": "nullable|string|max:2000",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/contact",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "contact"
+              ]
+            },
+            "description": "Submits a contact form message and creates a lead.\n\n## Validation Rules\n| Field   | Rules                          |\n|---------|--------------------------------|\n| name    | required, string, max:255      |\n| phone   | required, string, max:50       |\n| email   | nullable, email, max:255       |\n| subject | nullable, string, max:255      |\n| country | nullable, string, max:100      |\n| message | nullable, string, max:2000     |"
+          },
+          "response": [
+            {
+              "name": "Success — Message submitted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"أحمد محمد\",\n    \"phone\": \"+966501234567\",\n    \"email\": \"ahmed@example.com\",\n    \"subject\": \"استفسار عن سيارة\",\n    \"country\": \"السعودية\",\n    \"message\": \"أريد معرفة المزيد عن مرسيدس G-Class\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/contact",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "contact"
+                  ]
+                },
+                "description": "Submits a contact form message and creates a lead."
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Message submitted successfully\",\n    \"data\": {\n        \"lead_id\": 1\n    },\n    \"errors\": null,\n    \"meta\": null\n}"
+            },
+            {
+              "name": "Error — Validation failure",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"\",\n    \"phone\": \"\"\n}"
+                },
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/contact",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "contact"
+                  ]
+                },
+                "description": "Submits a contact form message and creates a lead."
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": {\n        \"name\": [\"The name field is required.\"],\n        \"phone\": [\"The phone field is required.\"]\n    },\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Contact page metadata and form submission."
+    },
+    {
+      "name": "🖼️ Gallery",
+      "item": [
+        {
+          "name": "Gallery",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/gallery",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "gallery"
+              ]
+            },
+            "description": "Returns the store gallery data."
+          },
+          "response": [
+            {
+              "name": "Success — Gallery data",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/gallery",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "gallery"
+                  ]
+                },
+                "description": "Returns the store gallery data."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Gallery retrieved successfully\",\n    \"data\": [],\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Store gallery."
+    },
+    {
+      "name": "⚙️ Settings",
+      "item": [
+        {
+          "name": "List Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{ga_base_url}}/api/store/settings",
               "host": [
@@ -1995,16 +2814,247 @@
                 "store",
                 "settings"
               ]
-            }
+            },
+            "description": "Returns all active settings as key-value pairs."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success — Settings list",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/settings",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "settings"
+                  ]
+                },
+                "description": "Returns all active settings as key-value pairs."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Settings retrieved successfully\",\n    \"data\": {},\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Structured Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/settings/structured",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "settings",
+                "structured"
+              ]
+            },
+            "description": "Returns settings organized by their group names for structured consumption."
+          },
+          "response": [
+            {
+              "name": "Success — Structured settings",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/settings/structured",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "settings",
+                    "structured"
+                  ]
+                },
+                "description": "Returns settings organized by their group names for structured consumption."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Structured settings retrieved successfully\",\n    \"data\": {},\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Footer Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/settings/footer",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "settings",
+                "footer"
+              ]
+            },
+            "description": "Returns footer-specific settings including social links, contact info, and copyright."
+          },
+          "response": [
+            {
+              "name": "Success — Footer settings",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/settings/footer",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "settings",
+                    "footer"
+                  ]
+                },
+                "description": "Returns footer-specific settings including social links, contact info, and copyright."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Footer data retrieved successfully\",\n    \"data\": {},\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Finance Solution",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{ga_base_url}}/api/store/settings/finance-solution",
+              "host": [
+                "{{ga_base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "settings",
+                "finance-solution"
+              ]
+            },
+            "description": "Returns finance solution settings and configuration."
+          },
+          "response": [
+            {
+              "name": "Success — Finance solution",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{ga_base_url}}/api/store/settings/finance-solution",
+                  "host": [
+                    "{{ga_base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "store",
+                    "settings",
+                    "finance-solution"
+                  ]
+                },
+                "description": "Returns finance solution settings and configuration."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Finance solution data retrieved successfully\",\n    \"data\": {},\n    \"errors\": null,\n    \"meta\": null\n}"
+            }
+          ]
         }
-      ]
+      ],
+      "description": "Application settings, footer, and finance solution configuration."
     }
   ],
   "variable": [
     {
       "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "ga_base_url",
       "value": "http://localhost:8000"
     }
   ]

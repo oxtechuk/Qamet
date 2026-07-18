@@ -100,7 +100,7 @@ final class CarApiService
     public function listMeta(): array
     {
         $featuredOffer = Offer::active()
-            ->with(['cars' => fn ($q) => $q->where('is_active', true)->limit(3)])
+            ->with('car.brand')
             ->first();
 
         $totalCars = Car::where('is_active', true)->count();

@@ -15,10 +15,10 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::guard('employee')->check()) {
-            return redirect()->route('crm.dashboard');
+            return redirect('/admin');
         }
 
-        return view('crm.auth.login');
+        return redirect('/admin');
     }
 
     /**
@@ -39,7 +39,7 @@ class AuthController extends Controller
         if (Auth::guard('employee')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('crm.dashboard'));
+            return redirect()->intended('/admin');
         }
 
         throw ValidationException::withMessages([
@@ -57,6 +57,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('crm.login');
+        return redirect('/admin/login');
     }
 }

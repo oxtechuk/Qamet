@@ -31,7 +31,6 @@ final class CarController extends ApiBaseController
         $featuredOffer = null;
         if ($offer) {
             $featuredOffer = HomeOfferResource::make($offer)->resolve();
-            $featuredOffer['cars'] = CarMiniResource::collection($offer->cars)->resolve();
         }
 
         return $this->respondSuccess([

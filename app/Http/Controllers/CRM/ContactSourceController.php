@@ -18,9 +18,9 @@ class ContactSourceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'       => 'required|string|max:120',
+            'name' => 'required|string|max:120',
             'sort_order' => 'nullable|integer|min:0|max:65535',
-            'is_active'  => 'boolean',
+            'is_active' => 'boolean',
         ]);
         $data['is_active'] = $request->boolean('is_active', true);
         $data['sort_order'] = $data['sort_order'] ?? 0;
@@ -32,9 +32,9 @@ class ContactSourceController extends Controller
     public function update(Request $request, ContactSource $contactSource)
     {
         $data = $request->validate([
-            'name'       => 'required|string|max:120',
+            'name' => 'required|string|max:120',
             'sort_order' => 'nullable|integer|min:0|max:65535',
-            'is_active'  => 'boolean',
+            'is_active' => 'boolean',
         ]);
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;

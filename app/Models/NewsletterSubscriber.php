@@ -15,8 +15,8 @@ class NewsletterSubscriber extends Model
     ];
 
     protected $casts = [
-        'is_active'       => 'boolean',
-        'subscribed_at'   => 'datetime',
+        'is_active' => 'boolean',
+        'subscribed_at' => 'datetime',
         'unsubscribed_at' => 'datetime',
     ];
 
@@ -30,6 +30,6 @@ class NewsletterSubscriber extends Model
     public function scopeThisMonth($query)
     {
         return $query->whereMonth('subscribed_at', now()->month)
-                     ->whereYear('subscribed_at', now()->year);
+            ->whereYear('subscribed_at', now()->year);
     }
 }

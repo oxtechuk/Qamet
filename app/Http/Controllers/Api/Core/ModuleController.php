@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Core;
 
+use App\Core\ModuleManager;
 use App\Http\Controllers\Controller;
 use App\Models\Module;
-use App\Core\ModuleManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,12 +17,12 @@ class ModuleController extends Controller
     {
         // يجب التأكد من وجود الصلاحية
         // Gate::authorize('modules.manage');
-        
+
         $modules = Module::all()->map(function ($module) {
             // جلب البيانات الإضافية من ملف module.json لو أردنا
             $manifestPath = base_path("Modules/{$module->alias}/module.json");
             $manifest = file_exists($manifestPath) ? json_decode(file_get_contents($manifestPath), true) : [];
-            
+
             return [
                 'id' => $module->id,
                 'alias' => $module->alias,

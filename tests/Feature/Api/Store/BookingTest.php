@@ -102,11 +102,11 @@ class BookingTest extends TestCase
         $this->assertEquals('new', $response->json('data.status'));
     }
 
-    public function test_booking_requires_car_id_and_client_details(): void
+    public function test_booking_requires_client_details_and_car_identifier(): void
     {
         $response = $this->postJson(route('store.api.booking.store'), []);
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['car_id', 'client_name', 'client_phone', 'down_payment', 'duration_years']);
+        $response->assertJsonValidationErrors(['car_id', 'car_type', 'client_name', 'client_phone']);
     }
 }

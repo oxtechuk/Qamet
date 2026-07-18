@@ -13,6 +13,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = auth()->guard('employee')->user();
+
         return view('crm.profile.index', compact('user'));
     }
 
@@ -21,15 +22,15 @@ class ProfileController extends Controller
         $user = auth()->guard('employee')->user();
 
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => ['required', 'email', 'max:255', Rule::unique('employees')->ignore($user->id)],
-            'phone'    => 'nullable|string|max:20',
-            'avatar'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'email', 'max:255', Rule::unique('employees')->ignore($user->id)],
+            'phone' => 'nullable|string|max:20',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $data = [
-            'name'  => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
         ];

@@ -11,6 +11,7 @@ class SpecificationController extends Controller
     public function index()
     {
         $specifications = Specification::latest()->paginate(20);
+
         return view('crm.specifications.index', compact('specifications'));
     }
 
@@ -45,6 +46,7 @@ class SpecificationController extends Controller
     public function destroy(Specification $specification)
     {
         $specification->delete();
+
         return back()->with('success', 'تم حذف المواصفة');
     }
 }

@@ -43,7 +43,7 @@ class TranslationController extends Controller
 
         foreach ($keys as $index => $key) {
             $n = trim($key);
-            if (!empty($n)) {
+            if (! empty($n)) {
                 $newEn[$n] = $enValues[$index] ?? '';
                 $newAr[$n] = $arValues[$index] ?? '';
             }

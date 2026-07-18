@@ -30,7 +30,7 @@ class CalculatorFactor extends Model
     {
         return [
             'rate_adjustment' => 'float',
-            'is_active'       => 'boolean',
+            'is_active' => 'boolean',
         ];
     }
 
