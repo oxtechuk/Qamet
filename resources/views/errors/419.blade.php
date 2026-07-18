@@ -146,7 +146,7 @@
         <h1 class="error-title">{{ __('انتهت') }} <span>{{ __('الجلسة') }}</span></h1>
         <p class="error-subtitle">{{ __('انتهت صلاحية جلستك بسبب عدم النشاط. يرجى تسجيل الدخول مرة أخرى للمتابعة.') }}</p>
         <div class="err-btn-group">
-            <a href="{{ route('store.auth.login') }}" class="btn-err btn-err--primary">
+            <a href="{{ route('store.home') }}" class="btn-err btn-err--primary">
                 <i class="bi bi-box-arrow-in-right"></i>
                 {{ __('تسجيل الدخول مجدداً') }}
             </a>

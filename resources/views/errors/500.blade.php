@@ -155,7 +155,7 @@
                 <i class="bi bi-house-door-fill"></i>
                 {{ __('العودة للرئيسية') }}
             </a>
-            <a href="{{ route('store.cars.index') }}" class="btn-err btn-err--ghost">
+            <a href="{{ route('store.home') }}" class="btn-err btn-err--ghost">
                 <i class="bi bi-car-front-fill"></i>
                 {{ __('تصفح السيارات') }}
             </a>

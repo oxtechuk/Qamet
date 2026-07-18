@@ -392,7 +392,7 @@
                 <i class="bi bi-house-door-fill"></i>
                 {{ __('الصفحة الرئيسية') }}
             </a>
-            <a href="{{ route('store.cars.index') }}" class="btn-404 btn-404--ghost">
+            <a href="{{ route('store.home') }}" class="btn-404 btn-404--ghost">
                 <i class="bi bi-car-front-fill"></i>
                 {{ __('تصفح السيارات') }}
             </a>
@@ -400,17 +400,11 @@
 
         {{-- Quick Links --}}
         <div class="quick-links">
-            <a href="{{ route('store.offers.index') }}" class="quick-link">
-                <i class="bi bi-tag-fill"></i> {{ __('العروض') }}
+            <a href="{{ route('store.home') }}" class="quick-link">
+                <i class="bi bi-house-door-fill"></i> {{ __('الصفحة الرئيسية') }}
             </a>
-            <a href="{{ route('store.blog.index') }}" class="quick-link">
-                <i class="bi bi-journal-text"></i> {{ __('المقالات') }}
-            </a>
-            <a href="{{ route('store.about') }}" class="quick-link">
+            <a href="{{ route('store.home') }}" class="quick-link">
                 <i class="bi bi-info-circle-fill"></i> {{ __('من نحن') }}
-            </a>
-            <a href="{{ route('store.calculator') }}" class="quick-link">
-                <i class="bi bi-calculator-fill"></i> {{ __('الحاسبة') }}
             </a>
         </div>
 

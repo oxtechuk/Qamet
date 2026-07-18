@@ -151,7 +151,7 @@
                 <?php echo e(__('الصفحة الرئيسية')); ?>
 
             </a>
-            <a href="<?php echo e(route('store.about')); ?>" class="btn-err btn-err--ghost">
+            <a href="<?php echo e(route('store.home')); ?>" class="btn-err btn-err--ghost">
                 <i class="bi bi-info-circle-fill"></i>
                 <?php echo e(__('اتصل بنا')); ?>
 
