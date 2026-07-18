@@ -1,3 +1,25 @@
+export interface OfferCar {
+  id: number;
+  name: string;
+  slug: string;
+  main_image: string | null;
+  thumbnail: string | null;
+  cash_price: number;
+  current_price: number;
+  savings: number;
+  min_installment: number;
+  min_down_payment: number;
+  type: string;
+  year: string;
+  specs: { label: string; value: string }[];
+  colors: { hex: string; name: string }[];
+  is_featured: boolean;
+  availability_status: string;
+  highlight: string | null;
+  is_current_year: boolean;
+  brand: { id: number; name: string };
+}
+
 export interface OfferData {
   id: number;
   title: string;
@@ -9,6 +31,15 @@ export interface OfferData {
   starts_at: string;
   ends_at: string;
   is_active: boolean;
+  time_remaining: string;
+  is_expired: boolean;
+  car: OfferCar;
+}
+
+export interface OfferHeroSlide {
+  id: number;
+  image: string;
+  link: string;
 }
 
 export interface OfferHero {
@@ -21,16 +52,36 @@ export interface OfferHero {
 export interface BentoCar {
   id: number;
   name: string;
-  image: string;
+  slug: string;
+  main_image: string | null;
+  thumbnail: string | null;
+  cash_price: number;
+  current_price: number;
+  savings: number;
+  min_installment: number;
+  min_down_payment: number;
+  type: string;
+  year: string;
+  specs: { label: string; value: string }[];
+  colors: { hex: string; name: string }[];
+  is_featured: boolean;
+  availability_status: string;
+  highlight: string | null;
+  is_current_year: boolean;
+  brand: { id: number; name: string };
 }
 
 export interface OffersMeta {
-  hero: OfferHero;
-  bento_cars: BentoCar[];
   current_page: number;
-  last_page: number;
   per_page: number;
   total: number;
+  last_page: number;
+  from: number;
+  to: number;
+  hero: OfferHero;
+  hero_slides: OfferHeroSlide[];
+  bento_cars: BentoCar[];
+  main_gallery: string[];
 }
 
 export interface OffersApiResponse {

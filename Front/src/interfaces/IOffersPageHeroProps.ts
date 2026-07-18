@@ -3,8 +3,8 @@ export interface IOffersPageHeroProps {
   badgeText: string;
   title: string;
   description: string;
+  carLabel?: string;
+  endsAt?: string;
   primaryButtonText: string;
   primaryButtonTo: string;
-  secondaryButtonText: string;
-  secondaryButtonTo: string;
 }

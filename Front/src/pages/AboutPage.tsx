@@ -181,14 +181,13 @@ export default function AboutPage() {
       />
 
       <ContactCtaSection
-        badgeText={t("allCarsPage.contactBadge")}
-        titleWhite={t("allCarsPage.contactTitleWhite")}
-        titleOrange={t("allCarsPage.contactTitleOrange")}
+        badgeText={t("contactCta.badge")}
+        titleWhite={t("contactCta.title")}
+        titleOrange=""
         description={t("allCarsPage.contactDescription")}
         phoneText={t("allCarsPage.contactPhone")}
         phoneHref="tel:+966500000000"
         whatsappText={t("allCarsPage.contactWhatsapp")}
-        
         sectionBgColor="var(--brand-CTA-BG-color)"
       />
     </>

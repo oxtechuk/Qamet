@@ -12,7 +12,7 @@ import { useSEO } from "../utils/useSEO";
 
 export default function OffersPage() {
   const { t } = useTranslation();
-  useSEO(t("nav.offers"), t("offersPage.hero.description"));
+  useSEO(t("pageTitles.offers"), t("offersPage.hero.description"));
   const language = useLanguageStore((s) => s.language);
 
   const {
@@ -31,6 +31,8 @@ export default function OffersPage() {
   });
 
   const hero = offersResponse?.pages?.[0]?.meta.hero;
+  const firstOffer = offersResponse?.pages?.[0]?.data[0];
+  const firstCar = firstOffer?.car;
 
   const offers = useMemo(() => {
     if (!offersResponse?.pages) return [];
@@ -39,25 +41,36 @@ export default function OffersPage() {
     );
   }, [offersResponse, t]);
 
+  const brandName = firstCar?.brand?.name ?? "";
+  const carLabel = firstCar
+    ? brandName
+      ? `${brandName} ${firstCar.name} ${firstCar.year}`
+      : `${firstCar.name} ${firstCar.year}`
+    : undefined;
+
   return (
     <>
       <OffersPageHero
-        image={getImageUrl(hero?.image ?? null) || APP_IMAGES.OFFER_PLACEHOLDER}
+        image={
+          getImageUrl(hero?.image ?? null) ||
+          getImageUrl(firstOffer?.image ?? null) ||
+          getImageUrl(firstCar?.main_image ?? null) ||
+          APP_IMAGES.OFFER_PLACEHOLDER
+        }
         badgeText={hero?.badge || t("offersPage.hero.badge")}
         title={hero?.title || t("offersPage.hero.title")}
         description={hero?.subtitle || t("offersPage.hero.description")}
+        carLabel={carLabel}
+        endsAt={firstOffer?.ends_at}
         primaryButtonText={t("offersPage.hero.primaryButton")}
         primaryButtonTo="/cars"
-        secondaryButtonText={t("offersPage.hero.secondaryButton")}
-        secondaryButtonTo="/finance-calculator"
       />
 
       <OffersGridSection
-        title={t("offersPage.grid.title")}
         offers={offers}
         loadMoreText={
           isFetchingNextPage
-            ? t("blogPage.latestArticles.loading")
+            ? t("offersPage.grid.loading")
             : t("offersPage.grid.loadMore")
         }
         hasMore={!!hasNextPage}
@@ -65,14 +78,13 @@ export default function OffersPage() {
       />
 
       <ContactCtaSection
-        badgeText={t("allCarsPage.contactBadge")}
-        titleWhite={t("allCarsPage.contactTitleWhite")}
-        titleOrange={t("allCarsPage.contactTitleOrange")}
-        description={t("allCarsPage.contactDescription")}
-        phoneText={t("allCarsPage.contactPhone")}
+        badgeText={t("contactCta.badge")}
+        titleWhite={t("contactCta.title")}
+        titleOrange=""
+        description={t("contactCta.description")}
+        phoneText={t("contactCta.phoneText")}
         phoneHref="tel:+966500000000"
         whatsappText={t("allCarsPage.contactWhatsapp")}
-        
         sectionBgColor="var(--brand-CTA-BG-color)"
       />
     </>

@@ -192,6 +192,12 @@
     "search": "بحث...",
     "noResults": "لا توجد نتائج"
   },
+  "contactCta": {
+    "badge": "لا تنتظر أكثر",
+    "title": "هل أعجبك عرض؟ تواصل معنا الآن",
+    "description": "فريقنا جاهز لمساعدتك ٧ أيام في الأسبوع",
+    "phoneText": "اطلب الان"
+  },
   "allCarsPage": {
     "noCarsMatch": "لا توجد سيارات مطابقة للبحث",
     "availableCars": "سيارة متاحة",
@@ -417,7 +423,12 @@
       "title": "عرض كنوز الحصري بمناسبة العيد",
       "description": "نقدم لك مجموعة مختارة من أقوى السيارات بعروض وحلول تمويلية وخصومات مباشرة على أحدث الموديلات بمناسبة العيد.",
       "primaryButton": "اكتشف العرض",
-      "secondaryButton": "حاسبة التمويل"
+      "secondaryButton": "حاسبة التمويل",
+      "countdownLabel": "ينتهي العرض خلال",
+      "countdownDays": "يوم",
+      "countdownHours": "ساعة",
+      "countdownMinutes": "دقيقة",
+      "countdownSeconds": "ثانية"
     },
     "grid": {
       "title": "تصفح العروض",
@@ -430,9 +441,13 @@
       "card": {
         "priceLabel": "يبدأ القسط من",
         "priceUnit": "/ شهر",
-        "buttonText": "اكتشف العرض"
+        "buttonText": "اكتشف العرض",
+        "badgeDiscount": "خصم {{percent}}%",
+        "badgeSeasonal": "عرض موسمي",
+        "youSave": "وفرت"
       },
-      "loadMore": "عرض المزيد من العروض"
+      "loadMore": "عرض المزيد من العروض",
+      "loading": "جاري التحميل..."
     }
   },
   "carDetails": {
@@ -778,6 +793,7 @@
     "compare": "مقارنة السيارات",
     "brands": "الماركات",
     "financeCalculator": "حاسبة التمويل",
-    "notFound": "الصفحة غير موجودة"
+    "notFound": "الصفحة غير موجودة",
+    "offers": "عروض خاصة"
   }
 }

@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { Phone } from "lucide-react";
 import type { IContactCtaSectionProps } from "../interfaces/IContactCtaSectionProps";
 import { SiWhatsapp } from "react-icons/si";
 import { useSettingsStore } from "../store/settings.store";
@@ -32,19 +31,18 @@ export default function ContactCtaSection({
       }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-[28px] border border-[#0B3F86] px-6 py-12 md:px-10 md:py-16">
+        <div className="relative overflow-hidden rounded-[28px] border border-[#0B3F86] px-6 py-3 md:px-10 md:py-5">
           {/* Gradient overlay */}
           <div
             className="absolute inset-0"
             style={{
-              background: "var(--contact-cta-bg)",
+              background: "var(--brand-primary-color)",
               borderColor: "var(--contact-cta-border)",
             }}
           />
 
           <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[rgba(235,94,40,0.35)] bg-[rgba(235,94,40,0.08)] px-6 py-3 text-[18px] font-medium text-[var(--brand-secondary-color)]">
-              <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-secondary-color)]" />
+            <div className="mb-8 inline-flex items-center gap-2  px-6 py-2 text-[18px] font-medium text-[var(--brand-secondary-color)]">
               {badgeText}
             </div>
 
@@ -62,10 +60,9 @@ export default function ContactCtaSection({
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
               <a
                 href={phoneHref}
-                className="flex h-[56px] min-w-[155px] items-center justify-center gap-2 rounded-[10px] bg-[var(--brand-primary-color)] px-8 text-[22px] font-medium text-white! transition hover:opacity-90"
+                className="flex h-[56px] min-w-[155px] items-center justify-center gap-2 rounded-[10px] bg-[var(--brand-secondary-color)] px-8 text-[22px] font-medium text-white! transition hover:opacity-90"
               >
                 {phoneText}
-                <Phone size={22} color="#fff" />
               </a>
 
               <a

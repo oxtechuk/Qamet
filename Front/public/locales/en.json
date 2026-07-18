@@ -192,6 +192,12 @@
     "search": "Search...",
     "noResults": "No results found"
   },
+  "contactCta": {
+    "badge": "Don't Wait Any Longer",
+    "title": "Liked an Offer? Contact Us Now",
+    "description": "Our team is ready to help you 7 days a week",
+    "phoneText": "Call Now"
+  },
   "allCarsPage": {
     "noCarsMatch": "No cars match your search",
     "availableCars": "available cars",
@@ -417,7 +423,12 @@
       "title": "Eid Exclusive Offer from Knoz",
       "description": "We offer you a selection of the strongest cars with financing solutions and direct discounts on the latest models for Eid.",
       "primaryButton": "Discover the Offer",
-      "secondaryButton": "Finance Calculator"
+      "secondaryButton": "Finance Calculator",
+      "countdownLabel": "Offer ends in",
+      "countdownDays": "days",
+      "countdownHours": "hours",
+      "countdownMinutes": "min",
+      "countdownSeconds": "sec"
     },
     "grid": {
       "title": "Browse Offers",
@@ -430,9 +441,13 @@
       "card": {
         "priceLabel": "Installment starts from",
         "priceUnit": "/ month",
-        "buttonText": "Discover Offer"
+        "buttonText": "Discover Offer",
+        "badgeDiscount": "{{percent}}% Discount",
+        "badgeSeasonal": "Seasonal Offer",
+        "youSave": "You save"
       },
-      "loadMore": "Show More Offers"
+      "loadMore": "Show More Offers",
+      "loading": "Loading..."
     }
   },
   "carDetails": {
@@ -778,6 +793,7 @@
     "compare": "Compare Cars",
     "brands": "Brands",
     "financeCalculator": "Finance Calculator",
-    "notFound": "Page Not Found"
+    "notFound": "Page Not Found",
+    "offers": "Special Offers"
   }
 }
