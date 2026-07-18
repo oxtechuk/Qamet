@@ -6,9 +6,9 @@
     --dashboard-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
 }
 
-/* ── Sidebar polish ── */
+/* ── Sidebar polish (brand gold on warm charcoal, matching the Qemt Najd storefront) ── */
 .fi-sidebar {
-    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%) !important;
+    background: linear-gradient(180deg, #171310 0%, #211a13 100%) !important;
 }
 
 .fi-sidebar-item a {
@@ -17,13 +17,21 @@
     transition: all 0.15s ease;
 }
 
-.fi-sidebar-item-active a {
-    background: rgba(99, 102, 241, 0.15) !important;
-    border-left: 3px solid #6366f1;
+.fi-sidebar-item a:hover {
+    background: rgba(201, 162, 39, 0.08) !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+    background: rgba(201, 162, 39, 0.16) !important;
+    border-left: 3px solid #c9a227;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    color: #c9a227 !important;
 }
 
 .fi-sidebar-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.12);
     padding-bottom: 0.75rem;
 }
 

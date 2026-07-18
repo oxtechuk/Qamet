@@ -7,7 +7,7 @@
     @apply border-b border-gray-200 dark:border-gray-800;
 }
 
-.fi-sidebar-item-active {
+.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
     @apply bg-primary-50 dark:bg-primary-900/20 border-r-2 border-primary-500;
 }
 

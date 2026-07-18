@@ -51,7 +51,7 @@ class AdminPanelProvider extends PanelProvider
             ->authGuard('employee')
             ->authPasswordBroker('employees')
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::hex('#c9a227'),
                 'gray' => Color::Zinc,
                 'danger' => Color::Rose,
                 'warning' => Color::Amber,
@@ -97,9 +97,9 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook('panels::styles.after', function (): string {
                 return <<<'CSS'
                 <style>
-                    [dir="rtl"] .fi-sidebar-item-active a {
+                    [dir="rtl"] .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
                         border-left: none !important;
-                        border-right: 3px solid #6366f1 !important;
+                        border-right: 3px solid #c9a227 !important;
                     }
                     [dir="rtl"] .fi-stats-overview-stat::before {
                         left: auto !important;
@@ -109,7 +109,7 @@ class AdminPanelProvider extends PanelProvider
                         text-align: center;
                     }
                     [dir="rtl"] .fi-sidebar {
-                        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%) !important;
+                        background: linear-gradient(180deg, #171310 0%, #211a13 100%) !important;
                     }
                 </style>
                 CSS;

@@ -7,6 +7,8 @@ use App\Models\SafetyFeature;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,9 +41,13 @@ class SafetyFeatureResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->schema([
-            Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
-            Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
-            Forms\Components\TextInput::make('icon')->label(__('Icon'))->maxLength(100),
+            Section::make()->schema([
+                Grid::make(2)->schema([
+                    Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
+                    Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
+                ]),
+                Forms\Components\TextInput::make('icon')->label(__('Icon'))->maxLength(100),
+            ]),
         ]);
     }
 

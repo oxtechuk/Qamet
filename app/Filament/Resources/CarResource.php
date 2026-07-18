@@ -46,6 +46,7 @@ class CarResource extends Resource
             ->schema([
                 Wizard::make([
                     Step::make(__('Basic Information'))
+                        ->icon('heroicon-o-information-circle')
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -84,6 +85,7 @@ class CarResource extends Resource
                         ]),
 
                     Step::make(__('Pricing'))
+                        ->icon('heroicon-o-currency-dollar')
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -104,6 +106,7 @@ class CarResource extends Resource
                         ]),
 
                     Step::make(__('Specifications'))
+                        ->icon('heroicon-o-list-bullet')
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -133,6 +136,7 @@ class CarResource extends Resource
                         ]),
 
                     Step::make(__('Media & Colors'))
+                        ->icon('heroicon-o-photo')
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -159,6 +163,7 @@ class CarResource extends Resource
                         ]),
 
                     Step::make(__('Settings'))
+                        ->icon('heroicon-o-cog-6-tooth')
                         ->schema([
                             Section::make()
                                 ->schema([

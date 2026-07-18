@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -40,15 +41,17 @@ class CalculatorBankResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->schema([
-            Forms\Components\TextInput::make('name')->label(__('Name'))->required()->maxLength(255),
-            Grid::make(3)->schema([
-                Forms\Components\TextInput::make('annual_rate')->label(__('Annual Rate'))
-                    ->numeric()
-                    ->suffix('%')
-                    ->required()
-                    ->step(0.01),
-                Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
-                Forms\Components\Toggle::make('is_active')->label(__('Active'))->default(true),
+            Section::make()->schema([
+                Forms\Components\TextInput::make('name')->label(__('Name'))->required()->maxLength(255),
+                Grid::make(3)->schema([
+                    Forms\Components\TextInput::make('annual_rate')->label(__('Annual Rate'))
+                        ->numeric()
+                        ->suffix('%')
+                        ->required()
+                        ->step(0.01),
+                    Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
+                    Forms\Components\Toggle::make('is_active')->label(__('Active'))->default(true),
+                ]),
             ]),
         ]);
     }

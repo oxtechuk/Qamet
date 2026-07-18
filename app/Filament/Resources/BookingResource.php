@@ -47,6 +47,7 @@ class BookingResource extends Resource
                 Tabs::make(__('Booking'))
                     ->tabs([
                         Tab::make(__('Client Info'))
+                            ->icon('heroicon-o-user')
                             ->schema([
                                 Section::make()
                                     ->schema([
@@ -76,6 +77,7 @@ class BookingResource extends Resource
                                     ]),
                             ]),
                         Tab::make(__('Car & Pricing'))
+                            ->icon('heroicon-o-truck')
                             ->schema([
                                 Section::make()
                                     ->schema([
@@ -115,6 +117,7 @@ class BookingResource extends Resource
                                     ]),
                             ]),
                         Tab::make(__('Status & Assignment'))
+                            ->icon('heroicon-o-flag')
                             ->schema([
                                 Section::make()
                                     ->schema([
@@ -215,8 +218,7 @@ class BookingResource extends Resource
                     ->colors([
                         'primary' => 'new',
                         'info' => 'contacted',
-                        'warning' => 'interested',
-                        'warning' => 'negotiation',
+                        'warning' => fn ($state): bool => in_array($state, ['interested', 'negotiation'], true),
                         'success' => 'sold',
                         'danger' => 'rejected',
                         'gray' => 'cancelled',

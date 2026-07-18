@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -40,13 +41,17 @@ class BlogCategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->schema([
-            Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
-            Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
-            Forms\Components\TextInput::make('slug')->label(__('Slug'))->maxLength(255)->unique(ignoreRecord: true),
-            Forms\Components\TextInput::make('icon')->label(__('Icon'))->maxLength(100),
-            Grid::make(2)->schema([
-                Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
-                Forms\Components\Toggle::make('is_active')->label(__('Active'))->default(true),
+            Section::make()->schema([
+                Grid::make(2)->schema([
+                    Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
+                    Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
+                ]),
+                Forms\Components\TextInput::make('slug')->label(__('Slug'))->maxLength(255)->unique(ignoreRecord: true),
+                Forms\Components\TextInput::make('icon')->label(__('Icon'))->maxLength(100),
+                Grid::make(2)->schema([
+                    Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
+                    Forms\Components\Toggle::make('is_active')->label(__('Active'))->default(true),
+                ]),
             ]),
         ]);
     }
