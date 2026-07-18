@@ -194,12 +194,20 @@
   },
   "allCarsPage": {
     "noCarsMatch": "لا توجد سيارات مطابقة للبحث",
+    "availableCars": "سيارة متاحة",
     "contactBadge": "فريقنا جاهز للمساعدة",
     "contactTitleWhite": "هل لديك",
     "contactTitleOrange": "استفسار؟",
     "contactDescription": "فريقنا جاهز للإجابة على جميع أسئلتك ومساعدتك في اختيار السيارة التالية",
     "contactPhone": "تواصل معنا",
-    "contactWhatsapp": "واتساب"
+    "contactWhatsapp": "واتساب",
+    "homeOffers": {
+      "fordTerritoryAlt": "عرض فورد تيريتوري",
+      "kiaSportageAlt": "عرض كيا سبورتاج",
+      "toyotaCamryAlt": "عرض تويوتا كامري",
+      "discoverOffer": "اكتشف العرض",
+      "viewDetails": "عرض التفاصيل"
+    }
   },
   "allCarsFilterBar": {
     "searchPlaceholder": "اكتب اسم السيارة، الماركة، أو الموديل...",

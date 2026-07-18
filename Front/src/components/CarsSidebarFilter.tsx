@@ -185,10 +185,11 @@ function SidebarContent({
 
   return (
     <div className="overflow-visible rounded-t-[22px] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
-      {/* Blue Header */}
-      <div className="flex h-[72px] items-center justify-start gap-4 rounded-t-[22px] bg-gradient-to-l from-[#006BFF] to-[#164EB8] px-6 text-white">
-        <Search size={38} strokeWidth={2.2} />
-        <h2 className="text-[28px] font-extrabold">{t("carsSidebarFilter.search")}</h2>
+      <div className="flex h-[62px] items-center justify-start gap-4 rounded-t-[22px] bg-[#B1BAC1] px-6 text-white">
+        <Search size={38} strokeWidth={2.2} color="var(--brand-primary-color)" />
+        <h2 className="text-[25px] font-extrabold text-[var(--brand-primary-color)]">
+          {t("carsSidebarFilter.search")}
+        </h2>
       </div>
 
       {/* Tabs */}

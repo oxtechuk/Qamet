@@ -1,28 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SlideArrow from "./SlideArrow";
+import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
+import type { IHomeOffersSectionProps } from "../interfaces/IHomeOffersSectionProps";
 
-export interface HomeOfferSlide {
-    id: string | number;
-    image: string;
-    alt?: string;
-    buttonText?: string;
-    buttonTo?: string;
-}
-
-interface HomeOffersSectionProps {
-    slides: HomeOfferSlide[];
-    autoPlay?: boolean;
-    interval?: number;
-    className?: string;
-}
+export type { IHomeOfferSlide as HomeOfferSlide };
 
 export default function HomeOffersSection({
     slides,
     autoPlay = true,
     interval = 5000,
     className = "",
-}: HomeOffersSectionProps) {
+}: IHomeOffersSectionProps) {
     const { i18n, t } = useTranslation();
 
     const isRTL = i18n.dir() === "rtl";

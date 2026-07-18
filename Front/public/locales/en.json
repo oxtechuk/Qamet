@@ -194,12 +194,20 @@
   },
   "allCarsPage": {
     "noCarsMatch": "No cars match your search",
+    "availableCars": "available cars",
     "contactBadge": "Our team is ready to help",
     "contactTitleWhite": "Do you have",
     "contactTitleOrange": "a Question?",
     "contactDescription": "Our team is ready to answer all your questions and help you choose your next car",
     "contactPhone": "Contact Us",
-    "contactWhatsapp": "WhatsApp"
+    "contactWhatsapp": "WhatsApp",
+    "homeOffers": {
+      "fordTerritoryAlt": "Ford Territory offer",
+      "kiaSportageAlt": "Kia Sportage offer",
+      "toyotaCamryAlt": "Toyota Camry offer",
+      "discoverOffer": "Discover the Offer",
+      "viewDetails": "View Details"
+    }
   },
   "allCarsFilterBar": {
     "searchPlaceholder": "Search by car name, brand, or model...",
