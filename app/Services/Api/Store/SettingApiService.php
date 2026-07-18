@@ -466,7 +466,7 @@ final class SettingApiService
 
     private function resolveHomePage(mixed $settings, string $locale): array
     {
-        $heroSlides = $this->resolveNestedImages($this->toarray($settings->get('hero_slides', [])));
+        $heroSlides = $this->resolveNestedImages($settings->get('hero_slides', []));
         $homeHero = $this->resolveHero($settings->get('store_home_hero', []), $locale);
         $stats = $this->resolveStats($settings->get('homepage_stats', []));
         $featured = $this->resolveBilingualArray($settings->get('homepage_featured', []), $locale);
