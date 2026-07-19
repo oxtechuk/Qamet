@@ -1,0 +1,39 @@
+   "why_choose_us": {
+            "section": {
+                "title": "لماذا تختار قمة نجد؟",
+                "title1": "",
+                "subtitle": "نقدم لك تجربة شراء سيارة استثنائية مبنية على الثقة والجودة والخدمة المتميزة"
+            },
+            "items": [
+                {
+                    "icon": "heroicon-o-user-group",
+                    "title": "فريق متخصص",
+                    "description": null
+                },
+                {
+                    "icon": "heroicon-o-truck",
+                    "title": "توصيل مجاني",
+                    "description": null
+                },
+                {
+                    "icon": "heroicon-o-currency-dollar",
+                    "title": "أسعار شفافة",
+                    "description": null
+                },
+                {
+                    "icon": "heroicon-o-bolt",
+                    "title": "إجراءات سريعة",
+                    "description": null
+                },
+                {
+                    "icon": "heroicon-o-banknotes",
+                    "title": "تمويل ميسر",
+                    "description": null
+                },
+                {
+                    "icon": "heroicon-o-shield-check",
+                    "title": "ضمان الجودة",
+                    "description": null
+                }
+            ]
+        },

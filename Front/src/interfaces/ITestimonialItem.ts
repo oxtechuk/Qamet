@@ -1,8 +1,8 @@
 export interface ITestimonialItem {
   id: number;
   name: string;
-  job: string;
-  text: string;
+  role: string;
+  quote: string;
   avatar: string;
   rating: number;
 }

@@ -1,85 +1,231 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Star } from "lucide-react";
-import TestimonialCard from "./TestimonialCard";
-import type { ITestimonialsSectionProps } from "../../interfaces/ITestimonialsSectionProps";
+import { useLanguageStore } from "../../store/language.store";
+
+export interface ITestimonialItem {
+  id: string | number;
+  quote: string;
+  name: string;
+  role?: string;
+  avatar?: string;
+}
+
+interface ITestimonialsSectionProps {
+  title?: string;
+  testimonials: ITestimonialItem[];
+  autoPlay?: boolean;
+  interval?: number;
+}
+
+const MOCK_TESTIMONIALS: ITestimonialItem[] = [
+  { id: 1, quote: "تجربة ممتازة في شراء السيارة، والخدمة كانت احترافية من البداية للنهاية. أنصح الجميع بالتعامل معهم.", name: "محمد العتيبي", role: "عميل دائم" },
+  { id: 2, quote: "فريق عمل متعاون ومحترف، ساعدوني في اختيار السيارة المناسبة بميزانيتي بكل شفافية.", name: "فهد الشمري", role: "عميل جديد" },
+  { id: 3, quote: "الأسعار منافسة جداً مقارنة بالسوق، والتقسيط كان مريح وبدون تعقيدات.", name: "سلطان الدوسري", role: "رجل أعمال" },
+  { id: 4, quote: "خدمة ما بعد البيع رائعة، وهم دائماً جاهزين للمساعدة. شكراً لكم على هذا المستوى.", name: "عبدالله القحطاني", role: "مهندس" },
+  { id: 5, quote: "اشتريت سيارتي الأولى من هنا وكانت تجربة لا تُنسى. السرعة في الإنجاز كانت مذهلة.", name: "أحمد الحربي", role: "موظف حكومي" },
+  { id: 6, quote: "الفريق المتخصص فهم احتياجاتي بالضبط وقدّم لي عدة خيارات ممتازة.", name: "ناصر المطيري", role: "طبيب" },
+  { id: 7, quote: "أفضل تجربة شراء سيارة مررت بها. الشفافية والثقة هي ما يميز قمة نجد عن غيرهم.", name: "خالد العتيبي", role: "مدير شركة" },
+];
 
 export default function TestimonialsSection({
-  badge,
-  titleBlack,
-  titleBlue,
-  ratingText,
+  title,
   testimonials,
+  autoPlay = true,
+  interval = 5000,
 }: ITestimonialsSectionProps) {
-  const { i18n, t } = useTranslation();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const total = testimonials.length;
+  const { t } = useTranslation();
+  const direction = useLanguageStore((s) => s.direction);
+  const isRTL = direction === "rtl";
 
-  const next = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % total);
-  }, [total]);
+  const resolvedTitle = title || t("aboutPage.testimonials.title");
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const displayTestimonials =
+    testimonials.length > 0 ? testimonials : MOCK_TESTIMONIALS;
+  const totalItems = displayTestimonials.length;
+  const activeTestimonial = displayTestimonials[currentIndex];
+
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (!totalItems) return;
+      setCurrentIndex(((index % totalItems) + totalItems) % totalItems);
+    },
+    [totalItems],
+  );
+
+  const nextSlide = useCallback(() => {
+    if (!totalItems) return;
+    setCurrentIndex((previous) => (previous + 1) % totalItems);
+  }, [totalItems]);
+
+  const previousSlide = useCallback(() => {
+    if (!totalItems) return;
+    setCurrentIndex((previous) => (previous - 1 + totalItems) % totalItems);
+  }, [totalItems]);
 
   useEffect(() => {
-    if (total < 2) return;
-    const id = setInterval(next, 4000);
-    return () => clearInterval(id);
-  }, [next, total]);
+    if (!autoPlay || isPaused || totalItems <= 1) return;
+    const intervalId = window.setInterval(nextSlide, interval);
+    return () => { window.clearInterval(intervalId); };
+  }, [autoPlay, interval, isPaused, nextSlide, totalItems]);
 
-  if (total === 0) return null;
+  if (!activeTestimonial) return null;
 
-  // Build a 3-card window: [prev, active, next]
-  const visibleIndices = [
-    (activeIndex - 1 + total) % total,
-    activeIndex,
-    (activeIndex + 1) % total,
-  ];
+  const visiblePages = getVisiblePages(currentIndex, totalItems);
 
   return (
-    <section dir={i18n.dir()} className="bg-[#F3F6FA] px-6 py-20">
-      <div className="mx-auto max-w-[1200px]">
-        <div className="mb-16 flex items-start justify-between gap-8 max-md:flex-col-reverse max-md:items-start">
-          <div className="text-start">
-            <p className="mb-4 text-sm font-bold text-[#FF5B2E]">{badge}</p>
-            <h2 className="text-4xl font-black text-[#111827] max-sm:text-3xl">
-              {titleBlack} <span className="text-[#2FA3DC]">{titleBlue}</span>
-            </h2>
-          </div>
-          <div className="pt-8 text-[#FF5B2E]">
-            <div className="flex items-center gap-1 text-lg font-extrabold">
-              <Star size={18} fill="#FF5B2E" strokeWidth={0} />
-              <span>
-                {ratingText || t("aboutPage.testimonials.ratingText")}
-              </span>
+    <section
+      dir={direction}
+      className="w-full bg-[var(--brand-primary-color)] py-14 text-white sm:py-16 lg:py-20 mb-[140px]"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-6 lg:px-8">
+        <h2 className="text-center text-[28px] font-extrabold text-[var(--brand-secondary-color)] sm:text-[34px]">
+          {resolvedTitle}
+        </h2>
+
+        <div className="mt-10 flex justify-start sm:mt-12">
+          <article
+            key={activeTestimonial.id}
+            className={[
+              "w-full max-w-[850px] rounded-[24px] bg-white",
+              "px-6 py-8 text-[var(--brand-primary-color)]",
+              "shadow-[0_18px_50px_rgba(0,0,0,0.16)]",
+              "sm:px-10 sm:py-10 lg:px-14",
+            ].join(" ")}
+          >
+            <blockquote className="text-start text-[23px] font-extrabold leading-[1.6] sm:text-[29px] lg:text-[32px]">
+              {activeTestimonial.quote}
+            </blockquote>
+
+            <div className="mt-7 flex items-start justify-start gap-4">
+              {activeTestimonial.avatar ? (
+                <img
+                  src={activeTestimonial.avatar}
+                  alt={activeTestimonial.name}
+                  className="h-[52px] w-[52px] shrink-0 rounded-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-[var(--brand-secondary-color)] text-lg font-extrabold text-[var(--brand-primary-color)]">
+                  {activeTestimonial.name.trim().charAt(0)}
+                </div>
+              )}
+
+              <div className="text-start">
+                <h3 className="text-[16px] font-extrabold sm:text-[18px]">
+                  {activeTestimonial.name}
+                </h3>
+
+                {activeTestimonial.role && (
+                  <p className="mt-1 text-[12px] text-[#7C8794] sm:text-[13px]">
+                    {activeTestimonial.role}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
+          </article>
         </div>
 
-        <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.22fr_1fr]">
-          {visibleIndices.map((tIdx, col) => (
-            <div key={tIdx} className={col === 1 ? "" : "hidden lg:block"}>
-              <TestimonialCard
-                testimonial={{ ...testimonials[tIdx], isActive: col === 1 }}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-10 flex items-center justify-center gap-2">
-          {testimonials.map((_, i) => (
+        {totalItems > 1 && (
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <button
-              key={i}
               type="button"
-              onClick={() => setActiveIndex(i)}
-              className={`h-2.5 rounded-full transition-all ${
-                i === activeIndex ? "w-7 bg-[#2FA3DC]" : "w-2.5 bg-[#C6CCD4]"
-              }`}
-              aria-label={t("aboutPage.testimonials.goToTestimonial", {
-                number: i + 1,
+              onClick={nextSlide}
+              aria-label={t("aboutPage.testimonials.goToTestimonial", { number: "next" })}
+              className={[
+                "flex h-[40px] w-[40px] items-center justify-center",
+                "rounded-[13px] border border-white/45",
+                "bg-transparent text-white/75",
+                "transition hover:bg-white/10 hover:text-white",
+              ].join(" ")}
+            >
+              {isRTL ? <ChevronRight size={21} /> : <ChevronLeft size={21} />}
+            </button>
+
+            <div dir="ltr" className="flex items-center gap-3">
+              {visiblePages.map((page, idx) => {
+                if (page === "ellipsis") {
+                  return (
+                    <span
+                      key={`ellipsis-${idx}`}
+                      className={[
+                        "flex h-[40px] min-w-[40px] items-center justify-center",
+                        "rounded-[13px] border border-white/30",
+                        "px-3 text-[15px] font-bold text-white/65",
+                      ].join(" ")}
+                    >
+                      ...
+                    </span>
+                  );
+                }
+
+                const pageIndex = page - 1;
+                const isActive = pageIndex === currentIndex;
+
+                return (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => goToSlide(pageIndex)}
+                    aria-label={t("aboutPage.testimonials.goToTestimonial", { number: page })}
+                    className={[
+                      "flex h-[40px] min-w-[40px] items-center justify-center",
+                      "rounded-[13px] border px-3",
+                      "text-[15px] font-bold transition",
+                      isActive
+                        ? ["border-[var(--brand-secondary-color)]", "bg-[var(--brand-secondary-color)]", "text-white"].join(" ")
+                        : ["border-white/35", "bg-transparent", "text-white/65", "hover:border-white/70", "hover:text-white"].join(" "),
+                    ].join(" ")}
+                  >
+                    {page}
+                  </button>
+                );
               })}
-            />
-          ))}
-        </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={previousSlide}
+              aria-label={t("aboutPage.testimonials.goToTestimonial", { number: "prev" })}
+              className={[
+                "flex h-[40px] w-[40px] items-center justify-center",
+                "rounded-[13px] border border-white/45",
+                "bg-white/25 text-white",
+                "backdrop-blur-md transition",
+                "hover:bg-white/35",
+              ].join(" ")}
+            >
+              {isRTL ? <ChevronLeft size={21} /> : <ChevronRight size={21} />}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
+}
+
+function getVisiblePages(
+  currentIndex: number,
+  totalItems: number,
+): Array<number | "ellipsis"> {
+  if (totalItems <= 5) {
+    return Array.from({ length: totalItems }, (_, index) => index + 1);
+  }
+
+  const currentPage = currentIndex + 1;
+
+  if (currentPage <= 3) {
+    return [1, 2, 3, "ellipsis", totalItems];
+  }
+
+  if (currentPage >= totalItems - 2) {
+    return [1, "ellipsis", totalItems - 2, totalItems - 1, totalItems];
+  }
+
+  return [1, "ellipsis", currentPage, "ellipsis", totalItems];
 }

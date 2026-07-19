@@ -37,4 +37,8 @@ export const APP_IMAGES = {
   SOCIAL_TIKTOK: `${cleanBase}images/social/tiktok.png`,
   SOCIAL_FACEBOOK: `${cleanBase}images/social/facebook.png`,
   SOCIAL_INSTAGRAM: `${cleanBase}images/social/instagram.png`,
+  GALLERY_G1: `${cleanBase}images/g1.png`,
+  GALLERY_G2: `${cleanBase}images/g2.png`,
+  GALLERY_G3: `${cleanBase}images/g3.png`,
+  GALLERY_G4: `${cleanBase}images/g4.png`,
 } as const;

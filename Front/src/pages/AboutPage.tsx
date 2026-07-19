@@ -1,194 +1,94 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import AboutHero from "../components/about/AboutHero";
-import AboutStorySection from "../components/about/AboutStorySection";
-import DealerCtaSection from "../components/about/DealerCtaSection";
-import LocationsSection from "../components/about/LocationsSection";
-import PartnersSection from "../components/about/PartnersSection";
-import TestimonialsSection from "../components/about/TestimonialsSection";
-import ContactCtaSection from "../components/ContactCtaSection";
-import { getAboutPageData } from "../services/api";
 import { useLanguageStore } from "../store/language.store";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
 import { useSEO } from "../utils/useSEO";
-import type { IAboutStat } from "../interfaces/IAboutStat";
-import type { IAboutStorySectionProps } from "../interfaces/IAboutStorySectionProps";
-import type { IPartnerCardProps } from "../interfaces/IPartnerCardProps";
-import type { ILocationItem } from "../interfaces/ILocationItem";
-import type { ITestimonialItem } from "../interfaces/ITestimonialItem";
+import { getAboutPageData } from "../services/api";
 import type { IAboutData } from "../interfaces/IAboutData";
+import type { ITestimonialItem } from "../interfaces/ITestimonialItem";
+import type { IShowroomGalleryItem } from "../components/about/ShowroomGallerySection";
+import CoreValuesSection from "../components/about/CoreValuesSection";
+import AboutIntroSection from "../components/about/AboutIntroSection";
+import WhyChooseUsSection from "../components/about/WhyChooseUsSection";
+import ShowroomGallerySection from "../components/about/ShowroomGallerySection";
+import TestimonialsSection from "../components/about/TestimonialsSection";
+
+const FALLBACK_GALLERY_ITEMS: IShowroomGalleryItem[] = [
+  { id: 1, src: APP_IMAGES.GALLERY_G1, alt: "سيارة داخل المعرض", type: "video", poster: APP_IMAGES.GALLERY_G1 },
+  { id: 2, src: APP_IMAGES.GALLERY_G2, alt: "سيارات داخل معرض قمة نجد", type: "image" },
+  { id: 3, src: APP_IMAGES.GALLERY_G3, alt: "سيارة تويوتا داخل المعرض", type: "image" },
+  { id: 4, src: APP_IMAGES.GALLERY_G4, alt: "سيارة كيا داخل المعرض", type: "image" },
+];
 
 export default function AboutPage() {
   const { t } = useTranslation();
-  useSEO(t("nav.about"), t("aboutPage.hero.description"));
   const language = useLanguageStore((s) => s.language);
+
+  useSEO(t("nav.about"), t("aboutPage.hero.description"));
 
   const { data: aboutData } = useQuery<IAboutData>({
     queryKey: ["about", language],
     queryFn: getAboutPageData,
   });
 
-  const sections = aboutData?.page_sections;
-  const hero = sections?.hero;
-  const story = sections?.story;
+  const coreValues = aboutData?.core_values;
+  const companyStory = aboutData?.company_story;
+  const whyChooseUs = aboutData?.why_choose_us;
+  const gallery = aboutData?.gallery;
 
-  const stats: IAboutStat[] = useMemo(() => {
-    if (aboutData?.about_stats?.length) {
-      return aboutData.about_stats;
-    }
-    return t("aboutPage.stats", { returnObjects: true }) as IAboutStat[];
-  }, [aboutData, t]);
-
-  const storySection: IAboutStorySectionProps = useMemo(() => {
-    const paragraphs = story?.content?.trim()
-      ? story.content.split(/\r?\n\r?\n/).filter(Boolean)
-      : (t("aboutPage.story.paragraphs", { returnObjects: true }) as string[]);
-
-    return {
-      title: story?.title?.trim() || t("aboutPage.story.title"),
-      paragraphs,
-      cards: [
-        {
-          title: story?.mission_title?.trim() || t("aboutPage.story.missionTitle"),
-          description: story?.mission_text?.trim() || t("aboutPage.story.missionText"),
-          variant: "dark",
-          icon: "target",
-        },
-        {
-          title: story?.vision_title?.trim() || t("aboutPage.story.visionTitle"),
-          description: story?.vision_text?.trim() || t("aboutPage.story.visionText"),
-          variant: "light",
-          icon: "eye",
-        },
-      ],
-    };
-  }, [story, t]);
-
-  const partners: IPartnerCardProps[] = useMemo(() => {
-    const api = aboutData?.partners ?? [];
-    if (!api.length) {
-      return [];
-    }
-    return api.map((p) => ({
-      id: p.id,
-      name: p.name,
-      logo: getImageUrl(p.logo) || APP_IMAGES.BRAND_PLACEHOLDER,
+  const galleryItems: IShowroomGalleryItem[] = useMemo(() => {
+    if (!gallery || !gallery.length) return FALLBACK_GALLERY_ITEMS;
+    return gallery.map((item) => ({
+      id: item.id,
+      src: getImageUrl(item.url) || "",
+      type: item.type,
     }));
-  }, [aboutData]);
-
-  const locations: ILocationItem[] = useMemo(() => {
-    const api = aboutData?.about_branches ?? [];
-    if (!api.length) return [];
-    return api.map((branch, idx) => ({
-      id: branch.city + idx,
-      city: branch.city,
-      branchType: branch.name,
-      address: branch.address,
-      phone: branch.phone,
-      workingHours: branch.working_hours,
-      mapLink: branch.map_link,
-      label: idx === 0 ? t("aboutPage.locations.mainBranch") : undefined,
-    }));
-  }, [aboutData, t]);
+  }, [gallery]);
 
   const testimonials: ITestimonialItem[] = useMemo(() => {
     const api = aboutData?.testimonials ?? [];
     if (!api.length) return [];
-    return api.map((t) => ({
-      id: t.id,
-      name: t.name,
-      job: t.title,
-      text: t.content,
-      avatar: getImageUrl(t.image) || APP_IMAGES.AVATAR_PLACEHOLDER,
-      rating: t.rating,
+    return api.map((item) => ({
+      id: item.id,
+      name: item.name,
+      role: item.job_title,
+      quote: item.content,
+      avatar: getImageUrl(item.avatar) || APP_IMAGES.AVATAR_PLACEHOLDER,
+      rating: item.rating,
     }));
   }, [aboutData]);
 
   return (
     <>
-      <AboutHero
-        badgeText={hero?.badge?.trim() || t("aboutPage.hero.badge")}
-        titleWhite={hero?.title1?.trim() || t("aboutPage.hero.titleWhite")}
-        titleBlue={hero?.title2?.trim() || t("aboutPage.hero.titleBlue")}
-        subtitle={hero?.subtitle?.trim() || t("aboutPage.hero.subtitle")}
-        description={hero?.description?.trim() || t("aboutPage.hero.description")}
-        stats={stats}
+      <CoreValuesSection
+        eyebrow={coreValues?.section?.title?.trim() || undefined}
+        subtitle={coreValues?.section?.subtitle?.trim() || undefined}
+        items={coreValues?.items?.length ? coreValues.items : undefined}
       />
 
-      <AboutStorySection {...storySection} />
-
-      <PartnersSection
-        eyebrow={
-          sections?.partners?.badge?.trim() || t("aboutPage.partners.eyebrow")
-        }
-        titleBlack={
-          sections?.partners?.title1?.trim() || t("aboutPage.partners.titleBlack")
-        }
-        titleBlue={
-          sections?.partners?.title2?.trim() || t("aboutPage.partners.titleBlue")
-        }
-        description={
-          sections?.partners?.subtitle?.trim() || t("aboutPage.partners.description")
-        }
-        partners={partners}
+      <AboutIntroSection
+        titleStart={companyStory?.title?.trim() || undefined}
+        titleHighlight={companyStory?.title1?.trim() || undefined}
+        description={companyStory?.description?.trim() || undefined}
       />
 
-      <DealerCtaSection
-        title={sections?.dealer?.title?.trim() || t("aboutPage.dealer.title")}
-        description={
-          sections?.dealer?.description?.trim() || t("aboutPage.dealer.description")
-        }
-        primaryButtonText={
-          sections?.dealer?.partner_button_text?.trim() ||
-          t("aboutPage.dealer.primaryButton")
-        }
-        primaryButtonTo={
-          sections?.dealer?.partner_button_link?.trim() || "/partner"
-        }
-        secondaryButtonText={
-          sections?.dealer?.contact_button_text?.trim() ||
-          t("aboutPage.dealer.secondaryButton")
-        }
-        secondaryButtonTo="/contact"
+      <WhyChooseUsSection
+        titleStart={whyChooseUs?.section?.title?.trim() || undefined}
+        titleHighlight={whyChooseUs?.section?.title1?.trim() || undefined}
+        description={whyChooseUs?.section?.subtitle?.trim() || undefined}
+        items={whyChooseUs?.items?.length ? whyChooseUs.items : undefined}
       />
 
-      <LocationsSection
-        titleBlack={
-          sections?.locations?.title1?.trim() || t("aboutPage.locations.titleBlack")
-        }
-        titleBlue={
-          sections?.locations?.title2?.trim() || t("aboutPage.locations.titleBlue")
-        }
-        locations={locations}
+      <ShowroomGallerySection
+        logoSrc={APP_IMAGES.LOGO}
+        items={galleryItems}
       />
 
       <TestimonialsSection
-        badge={
-          sections?.testimonials?.badge?.trim() ||
-          t("aboutPage.testimonials.badge")
-        }
-        titleBlack={
-          sections?.testimonials?.title1?.trim() ||
-          t("aboutPage.testimonials.titleBlack")
-        }
-        titleBlue={
-          sections?.testimonials?.title2?.trim() ||
-          t("aboutPage.testimonials.titleBlue")
-        }
-        ratingText={sections?.testimonials?.rating_text?.trim() || undefined}
         testimonials={testimonials}
-      />
-
-      <ContactCtaSection
-        badgeText={t("contactCta.badge")}
-        titleWhite={t("contactCta.title")}
-        titleOrange=""
-        description={t("allCarsPage.contactDescription")}
-        phoneText={t("allCarsPage.contactPhone")}
-        phoneHref="tel:+966500000000"
-        whatsappText={t("allCarsPage.contactWhatsapp")}
-        sectionBgColor="var(--brand-CTA-BG-color)"
+        autoPlay
+        interval={5000}
       />
     </>
   );

@@ -26,7 +26,7 @@ export default function TestimonialCard({
             isActive ? "text-white/90" : "text-[#1F2937]"
           }`}
         >
-          &ldquo;{testimonial.text}&rdquo;
+          &ldquo;{testimonial.quote}&rdquo;
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export default function TestimonialCard({
                 isActive ? "text-white/50" : "text-[#6B7280]"
               }`}
             >
-              {testimonial.job}
+              {testimonial.role}
             </p>
           </div>
 

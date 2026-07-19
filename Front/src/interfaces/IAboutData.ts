@@ -1,14 +1,15 @@
-import type { IAboutTestimonial } from "./IAboutTestimonial";
-import type { IAboutPartner } from "./IAboutPartner";
-import type { IAboutStat } from "./IAboutStat";
-import type { IAboutBranch } from "./IAboutBranch";
-import type { IAboutPageSections } from "./IAboutPageSections";
-
 export interface IAboutData {
+  hero: IAboutHeroSection;
+  core_values: IAboutCoreValues;
+  company_story: IAboutCompanyStory;
+  why_choose_us: IAboutWhyChooseUs;
+  gallery: IAboutGalleryItem[];
   testimonials: IAboutTestimonial[];
-  partners: IAboutPartner[];
-  main_gallery: string[];
-  about_stats: IAboutStat[];
-  about_branches: IAboutBranch[];
-  page_sections: IAboutPageSections;
 }
+
+import type { IAboutHeroSection } from "./IAboutHeroSection";
+import type { IAboutCoreValues } from "./IAboutCoreValues";
+import type { IAboutCompanyStory } from "./IAboutCompanyStory";
+import type { IAboutWhyChooseUs } from "./IAboutWhyChooseUs";
+import type { IAboutGalleryItem } from "./IAboutGalleryItem";
+import type { IAboutTestimonial } from "./IAboutTestimonial";

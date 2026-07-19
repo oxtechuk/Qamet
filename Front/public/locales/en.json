@@ -352,27 +352,26 @@
       "subtitle": "And make owning your car easier than you imagine",
       "description": "Knoz is the leading platform in Saudi Arabia for car financing and sales. We connect the best customers with the best financing terms for over 5 years."
     },
-    "stats": [
-      {
-        "value": "+1,200",
-        "label": "Funded Cars",
-        "description": "Happy Customers"
-      },
-      {
-        "value": "+500",
-        "label": "Satisfied Clients",
-        "description": "Individuals & Corporates"
-      },
-      {
-        "value": "+50",
-        "label": "Brands",
-        "description": "Most Famous Global Brands"
-      },
-      {
-        "value": "5",
-        "label": "Years Experience",
-        "description": "In Saudi Market"
+    "intro": {
+      "titleStart": "About Qamet",
+      "titleHighlight": "Najd",
+      "description": "For years, we have been redefining the car buying experience in the Kingdom of Saudi Arabia. Not just a showroom, but a destination you trust that gives its customers the best experience."
+    },
+    "coreValues": {
+      "eyebrow": "What We Believe In",
+      "title": "Our Core Values",
+      "values": {
+        "trust": { "title": "Trust", "description": "Every promise we make is a commitment we uphold. Complete transparency in every step." },
+        "quality": { "title": "Quality", "description": "We accept nothing less than exceptional in every car we display and every service we provide." },
+        "speed": { "title": "Speed", "description": "We complete your transactions in hours, because your time is precious and should not be wasted." },
+        "care": { "title": "Care", "description": "Our customer is not a number, they are a partner with whom we build a long-term relationship." }
       }
+    },
+    "stats": [
+      { "value": "+1,200", "label": "Funded Cars", "description": "Happy Customers" },
+      { "value": "+500", "label": "Satisfied Clients", "description": "Individuals & Corporates" },
+      { "value": "+50", "label": "Brands", "description": "Most Famous Global Brands" },
+      { "value": "5", "label": "Years Experience", "description": "In Saudi Market" }
     ],
     "story": {
       "title": "Our story started from a gap in the market.",
@@ -384,6 +383,15 @@
       "missionText": "Empowering individuals in the region to own their own cars by providing a secure, transparent platform backed by innovative financing solutions that match their needs and aspirations.",
       "visionTitle": "Our Vision",
       "visionText": "To become the first and trusted destination for digital solutions in the automotive sector, where technology meets trust to shape the future of mobility in the Middle East."
+    },
+    "whyChooseUs": {
+      "title": "Why Choose Qamet",
+      "title1": "Najd?",
+      "description": "We offer you an exceptional car buying experience built on trust, quality, and outstanding service"
+    },
+    "gallery": {
+      "title": "Photos & Videos from Our Showroom",
+      "logoAlt": "Qamet Najd Logo"
     },
     "partners": {
       "eyebrow": "Trusted by Top Brands",
@@ -411,8 +419,7 @@
     },
     "testimonials": {
       "badge": "Our customers trust us",
-      "titleBlack": "Our Customers'",
-      "titleBlue": "Opinions",
+      "title": "Our Customers' Opinions",
       "ratingText": "4.9 out of +12,000 reviews",
       "goToTestimonial": "Go to testimonial {{number}}"
     }
