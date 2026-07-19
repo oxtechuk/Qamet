@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 
 import type { IBlogsPageHeroProps } from "../../interfaces/IBlogsPageHeroProps";
+import { useLanguageStore } from "../../store/language.store";
 
 export default function BlogsPageHero({
   badgeText,
@@ -16,7 +17,8 @@ export default function BlogsPageHero({
   onCategoryChange,
   featuredPost,
 }: IBlogsPageHeroProps) {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
+  const direction = useLanguageStore((s) => s.direction);
 
   if (!featuredPost) {
     return null;
@@ -24,7 +26,7 @@ export default function BlogsPageHero({
 
   return (
     <section
-      dir={i18n.dir()}
+      dir={direction}
       className="w-full bg-[#F4F5F7] py-5 sm:py-7 lg:py-8"
     >
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
@@ -56,7 +58,7 @@ export default function BlogsPageHero({
             </div>
 
             {/* Main blog details */}
-            <div className="max-w-[900px] self-end text-start">
+            <div className="max-w-[900px] self-start text-start">
               {featuredPost.category && (
                 <p className="mb-3 text-[12px] font-bold text-[var(--brand-secondary-color)] sm:text-[13px]">
                   {featuredPost.category}
@@ -81,7 +83,7 @@ export default function BlogsPageHero({
                       size={15}
                       className="text-white/80"
                     />
-                    <span>{featuredPost.author || "فهد القحطاني"}</span>
+                    <span>{featuredPost.author || t("blogPage.hero.defaultAuthor")}</span>
                   </div>
 
                 {featuredPost.readTime && (
@@ -110,7 +112,7 @@ export default function BlogsPageHero({
 
         {/* Categories */}
         {categories.length > 0 && (
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-7 flex flex-wrap items-start justify-start gap-3">
             {categories.map((category) => {
               const isActive =
                 category.value === activeCategory;
@@ -126,8 +128,8 @@ export default function BlogsPageHero({
                     "min-h-[40px] rounded-full px-6",
                     "text-[13px] font-bold transition duration-300",
                     isActive
-                      ? "bg-[var(--brand-secondary-color)] text-[var(--brand-primary-color)]"
-                      : "bg-white text-[#667085] shadow-sm hover:bg-[var(--brand-primary-color)] hover:text-white",
+                      ? "bg-[var(--brand-primary-color)] text-white shadow-md hover:bg-[var(--brand-primary-color)] hover:text-white"
+                      : "bg-[#F5F5F3] text-[#5B6572] shadow-sm hover:bg-[var(--brand-primary-color)] hover:text-white",
                   ].join(" ")}
                 >
                   {category.label}

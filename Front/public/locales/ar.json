@@ -318,6 +318,8 @@
       "badge": "مدونة كنوز",
       "title": "مدونة <span class=\"highlight\">كنوز كار</span>",
       "description": "تابع أحدث أخبار السيارات، النصائح، والمقالات الحصرية.",
+      "allCategories": "الكل",
+      "defaultAuthor": "فهد القحطاني",
       "featuredPost": {
         "category": "نصائح التمويل",
         "title": "كيف تختار خطة التمويل المناسبة لسيارتك الأولى؟",

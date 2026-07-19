@@ -1,7 +1,7 @@
-import { useTranslation } from "react-i18next";
-import { ArrowLeft } from "lucide-react";
+import { Clock } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import type { IBlogCardProps } from "../../interfaces/IBlogCardProps";
+import { useLanguageStore } from "../../store/language.store";
 
 export default function BlogCard({
   image,
@@ -15,67 +15,66 @@ export default function BlogCard({
   authorImage,
   readMoreTo,
 }: IBlogCardProps) {
-  const { t, i18n } = useTranslation();
+  const direction = useLanguageStore((s) => s.direction);
+
   return (
-    <article dir={i18n.dir()} className="w-full">
-      <div className="overflow-hidden rounded-t-[10px]">
+    <NavLink
+      to={readMoreTo}
+      className="block w-full overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+    >
+      {/* Image */}
+      <div className="relative h-[220px] w-full overflow-hidden">
         <img
           src={image}
           alt={title}
-          className="h-[190px] w-full object-cover"
+          className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
           loading="lazy"
         />
+        {/* Category badge — top start */}
+        {category && (
+          <div className="absolute start-3 top-3 rounded-full bg-[var(--brand-secondary-color)] px-4 py-1.5 text-[12px] font-semibold text-[var(--brand-primary-color)]">
+            {category}
+          </div>
+        )}
       </div>
 
-      <div className="pt-4">
-        <div className="mb-3 flex items-center gap-2 text-[12px]">
-          <span className="font-bold text-[var(--brand-secondary-color)]">
-            {category}
+      {/* Body */}
+      <div className="px-4 pb-5 pt-4" dir={direction}>
+        {/* Meta row */}
+        <div className="flex items-center justify-start gap-3 text-[12px] text-[#9CA3AF]">
+          <span>{date}</span>
+          <span className="h-1 w-1 rounded-full bg-[#D1D5DB]" />
+          <span className="flex items-center gap-1">
+            <Clock size={12} />
+            {readTime}
           </span>
-
-          <span className="h-1 w-1 rounded-full bg-[#CBD5E1]" />
-
-          <span className="text-[#8A8F99]">{date}</span>
-
-          <span className="h-1 w-1 rounded-full bg-[#CBD5E1]" />
-
-          <span className="text-[#8A8F99]">{readTime}</span>
         </div>
 
-        <h3 className="text-[21px] font-extrabold leading-[1.55] text-[#07111F]">
+        {/* Title */}
+        <h3 className="mt-2 text-[18px] font-extrabold leading-snug text-[#111827]">
           {title}
         </h3>
 
-        <p className="mt-3 text-[14px] leading-7 text-[#6B7280]">
+        {/* Description */}
+        <p className="mt-2 text-[13px] leading-7 text-[#6B7280] line-clamp-3">
           {description}
         </p>
 
-        <div className="mt-5 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        {/* Author */}
+        <div className="mt-4 flex items-center justify-start gap-3 border-t border-[#F3F4F6] pt-4">
             <img
-              src={authorImage}
-              alt={authorName}
-              className="h-[42px] w-[42px] rounded-full object-cover"
-              loading="lazy"
-            />
-
-            <div>
-              <p className="text-[13px] font-bold text-[#07111F]">
-                {authorName}
-              </p>
-              <p className="mt-1 text-[12px] text-[#6B7280]">{authorRole}</p>
-            </div>
+            src={authorImage}
+            alt={authorName}
+            className="h-[40px] w-[40px] rounded-full object-cover"
+            loading="lazy"
+          />
+          <div className="text-end">
+            <p className="text-[13px] font-bold text-[#111827]">{authorName}</p>
+            <p className="text-[12px] text-[#9CA3AF]">{authorRole}</p>
           </div>
-
-          <NavLink
-            to={readMoreTo}
-            className="inline-flex h-[36px] items-center justify-center gap-2 rounded-full bg-white px-4 text-[13px] font-bold text-[#07111F] transition hover:bg-[var(--brand-primary-color)] hover:text-white!"
-          >
-            {t("blogPage.readMore")}
-            <ArrowLeft size={15} />
-          </NavLink>
+        
         </div>
       </div>
-    </article>
+    </NavLink>
   );
 }

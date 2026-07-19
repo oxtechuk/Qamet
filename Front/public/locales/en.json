@@ -318,6 +318,8 @@
       "badge": "Our Blog",
       "title": "Knoz Motors <span class=\"highlight\">Blog</span>",
       "description": "Follow the latest car news, tips, and exclusive articles.",
+      "allCategories": "All",
+      "defaultAuthor": "Fahad Al-Qahtani",
       "featuredPost": {
         "category": "Financing Tips",
         "title": "How to Choose the Right Financing Plan for Your First Car",

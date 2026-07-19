@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import BlogsPageHero from "../components/blogs/BlogsPageHero";
 import LatestArticlesSection from "../components/blogs/LatestArticlesSection";
-import ContactCtaSection from "../components/ContactCtaSection";
 import { getBlogs } from "../services/api";
 import { useLanguageStore } from "../store/language.store";
 import { postToCardProps } from "../utils/blog";
@@ -33,7 +32,7 @@ export default function BlogsPage() {
   const categories = useMemo(() => {
     const apiCategories = blogResponse?.pages?.[0]?.meta.categories ?? [];
     return [
-      { label: language === "ar" ? "الكل" : "All", value: "all" },
+      { label: t("blogPage.hero.allCategories"), value: "all" },
       ...apiCategories.map((c) => ({ label: c.name, value: c.slug })),
     ];
   }, [blogResponse, language]);
@@ -74,18 +73,6 @@ export default function BlogsPage() {
         loadMoreText={isFetchingNextPage ? t("blogPage.latestArticles.loading") : t("blogPage.latestArticles.loadMore")}
         hasMore={!!hasNextPage}
         onLoadMore={handleLoadMore}
-      />
-
-      <ContactCtaSection
-        badgeText={t("allCarsPage.contactBadge")}
-        titleWhite={t("allCarsPage.contactTitleWhite")}
-        titleOrange={t("allCarsPage.contactTitleOrange")}
-        description={t("allCarsPage.contactDescription")}
-        phoneText={t("allCarsPage.contactPhone")}
-        phoneHref="tel:+966500000000"
-        whatsappText={t("allCarsPage.contactWhatsapp")}
-        
-        sectionBgColor="var(--brand-CTA-BG-color)"
       />
     </>
   );
