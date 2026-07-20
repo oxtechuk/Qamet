@@ -22,7 +22,7 @@ class NewBookingNotification extends Notification
         $this->booking = $booking;
         $this->title = $title ?? __('حجز جديد');
         $this->message = $message ?? __('تم إنشاء طلب حجز جديد من قبل').' '.$booking->client_name;
-        $this->url = route('crm.bookings.show', $booking->id);
+        $this->url = url('admin/bookings/'.$booking->id);
     }
 
     public function via($notifiable): array

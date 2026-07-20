@@ -63,8 +63,8 @@ class BlogPostResource extends Resource
                                     ->multiple()
                                     ->preload(),
                                 Grid::make(3)->schema([
-                                    Forms\Components\Select::make('author_id')->label(__('Author'))
-                                        ->relationship('author', 'name')
+                                    Forms\Components\Select::make('employee_id')->label(__('Author'))
+                                        ->relationship('employee', 'name')
                                         ->searchable()
                                         ->preload(),
                                     Forms\Components\Toggle::make('is_published')->label(__('Published')),
@@ -82,7 +82,7 @@ class BlogPostResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label(__('Title'))->searchable()->sortable()->limit(40),
                 Tables\Columns\TextColumn::make('categories.name')->label(__('Categories'))->badge()->sortable(),
-                Tables\Columns\TextColumn::make('author.name')->label(__('Author'))->badge()->sortable(),
+                Tables\Columns\TextColumn::make('employee.name')->label(__('Author'))->badge()->sortable(),
                 Tables\Columns\IconColumn::make('is_published')->label(__('Published'))->boolean()->sortable(),
                 Tables\Columns\IconColumn::make('is_featured')->label(__('Featured'))->boolean()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->label(__('Created At'))->date()->sortable(),
