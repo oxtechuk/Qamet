@@ -67,23 +67,23 @@ final class BookingData
 
     public function toDatabase(): array
     {
-        return array_filter([
+        return [
             'car_id' => $this->car_id,
             'car_type' => $this->car_type,
             'payment_method' => $this->payment_method,
             'client_name' => $this->client_name,
             'client_phone' => $this->client_phone,
-            'down_payment' => $this->down_payment,
-            'duration_years' => $this->duration_years,
+            'down_payment' => $this->down_payment ?? 0,
+            'duration_years' => $this->duration_years ?? 0,
             'interest_rate' => $this->interest_rate,
-            'monthly_installment' => $this->monthly_installment,
-            'total_price' => $this->total_price,
+            'monthly_installment' => $this->monthly_installment ?? 0,
+            'total_price' => $this->total_price ?? 0,
             'status' => $this->status,
             'source' => $this->source,
             'booking_type' => $this->booking_type,
             'location' => $this->location,
             'client_email' => $this->client_email,
             'notes' => $this->notes,
-        ], fn ($value) => $value !== null);
+        ];
     }
 }
