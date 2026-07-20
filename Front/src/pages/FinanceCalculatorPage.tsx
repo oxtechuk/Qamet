@@ -1,19 +1,19 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StepOneForm, StepTwoCalculator } from "../components/calculator";
+import Stepper from "../components/calculator/Stepper";
 import { getImageUrl } from "../constants/app-images";
 import { APP_IMAGES } from "../constants/app-images";
 import type { CarItem } from "../types/home.types";
 import type { ISelectedCar } from "../interfaces/ISelectedCar";
 import { useSEO } from "../utils/useSEO";
 import type { IPersonalInfo } from "../interfaces/IPersonalInfo";
-
-type Step = 1 | 2;
+import type { IStepperStep } from "../interfaces/IStepperProps";
 
 export default function FinanceCalculatorPage() {
   const { i18n, t } = useTranslation();
   useSEO(t("pageTitles.financeCalculator"), t("financeCalculator.description"));
-  const [step, setStep] = useState<Step>(1);
+  const [step, setStep] = useState<IStepperStep>(1);
   const [selectedCarData, setSelectedCarData] = useState<CarItem | null>(null);
   const [selectedCarId, setSelectedCarId] = useState<number>(0);
   const [downPaymentPercent, setDownPaymentPercent] = useState(30);
@@ -31,15 +31,10 @@ export default function FinanceCalculatorPage() {
       name: selectedCarData.name,
       model: String(selectedCarData.year ?? ""),
       price: selectedCarData.current_price,
-      tag: selectedCarData.is_featured ? "مميز" : "",
+      tag: "",
       image: getImageUrl(selectedCarData.main_image) || APP_IMAGES.CAR_PLACEHOLDER,
     };
   }, [selectedCarData]);
-
-  const downPayment = useMemo(
-    () => Math.round((selectedCar.price * downPaymentPercent) / 100),
-    [selectedCar.price, downPaymentPercent],
-  );
 
   const handleStep1Next = (info: IPersonalInfo) => {
     setPersonalInfo(info);
@@ -47,8 +42,20 @@ export default function FinanceCalculatorPage() {
   };
 
   return (
-    <main dir={i18n.dir()} className="min-h-screen w-full py-14">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <main dir={i18n.dir()} className="min-h-screen w-full bg-[#F5F4EF]">
+      <div className="w-full bg-[#021F38] px-4 py-10 text-center">
+        <h1 className="text-[32px] font-extrabold text-white md:text-[38px] mb-5">
+          {t("financeCalculator.titleWhite")} {t("financeCalculator.titleOrange")}
+        </h1>
+        <p className="mt-1 text-[14px] text-white/60">
+          {t("financeCalculator.description")}
+        </p>
+        <div className="mt-6">
+          <Stepper activeStep={step} />
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
         {step === 1 ? (
           <StepOneForm
             selectedCarId={selectedCarId}
@@ -64,7 +71,6 @@ export default function FinanceCalculatorPage() {
             selectedCar={selectedCar}
             downPaymentPercent={downPaymentPercent}
             setDownPaymentPercent={setDownPaymentPercent}
-            downPayment={downPayment}
             term={term}
             setTerm={setTerm}
             selectedBankId={selectedBankId}

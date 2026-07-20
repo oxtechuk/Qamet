@@ -5,6 +5,7 @@ export { getBlogs, getBlogBySlug } from "./blogs.service";
 export { getOffers } from "./offers.service";
 export { getAboutPageData } from "./about.service";
 export { submitContactForm, getContactPageData } from "./contact.service";
+export { submitBooking } from "./booking.service";
 export { submitCalculatorLead, getBanks, calculateFinance } from "./calculator.service";
 export { getFaqs } from "./faq.service";
 export { getSettings } from "./settings.service";

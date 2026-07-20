@@ -37,6 +37,7 @@ export default function RootLayout() {
     { label: t("nav.home"), path: "/" },
     { label: t("nav.cars"), path: "/cars" },
     { label: t("nav.offers"), path: "/offers" },
+    { label: t("nav.orders"), path: "/orders" },
     { label: t("nav.about"), path: "/about" },
     { label: t("nav.blog"), path: "/blog" },
   ];
@@ -62,7 +63,7 @@ export default function RootLayout() {
           <div className="hidden md:block sticky top-[35px] sm:top-[35px] z-40">
             <Header
               logoSrc={getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO}
-              logoAlt="Knoz Cars"
+                logoAlt={t("rootLayout.logoAlt")}
               navItems={navItems}
               ctaText={t("nav.contact")}
               ctaPath="/contact"

@@ -13,6 +13,7 @@ import BlogDetailsPage from "../pages/BlogDetailsPage";
 import ContactPage from "../pages/ContactPage";
 import FinanceCalculatorPage from "../pages/FinanceCalculatorPage";
 import BrandsPage from "../pages/BrandsPage";
+import OrdersPage from "../pages/OrdersPage";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: "/brands",
         element: <BrandsPage />,
+      },
+      {
+        path: "/orders",
+        element: <OrdersPage />,
       },
       {
         path: "*",

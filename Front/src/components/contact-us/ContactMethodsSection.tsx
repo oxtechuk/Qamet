@@ -54,7 +54,7 @@ export default function ContactMethodsSection() {
     return (
         <section dir={i18n.dir()} className="w-full bg-[#FAFAF8] py-12 sm:py-16">
             <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-                <div className="text-end">
+                <div className="text-start">
                     <h2 className="text-[34px] font-extrabold leading-tight text-[var(--brand-secondary-color)] sm:text-[42px]">
                         {t("contactPage.contactMethods.title")}
                     </h2>
