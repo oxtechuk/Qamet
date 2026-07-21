@@ -95,12 +95,20 @@ export default function HomeOffersSection({
                                         : "pointer-events-none opacity-0",
                                 ].join(" ")}
                             >
-                                <img
-                                    src={slide.image}
-                                    alt={slide.alt ?? ""}
-                                    loading={index === 0 ? "eager" : "lazy"}
-                                    className="h-full w-full object-cover"
-                                />
+                                <picture>
+                                    {slide.mobileImage && (
+                                        <source
+                                            media="(max-width: 639px)"
+                                            srcSet={slide.mobileImage}
+                                        />
+                                    )}
+                                    <img
+                                        src={slide.image}
+                                        alt={slide.alt ?? ""}
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        className="h-full w-full object-cover"
+                                    />
+                                </picture>
 
                                 <div className="absolute inset-0 bg-black/5" />
                             </div>

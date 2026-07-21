@@ -181,6 +181,22 @@ export default function MobileBottomNav() {
                 {t("topbar.language")}
               </button>
             </div>
+
+            <div className="mt-4 px-5 pb-6">
+              <NavLink
+                to="/contact"
+                onClick={() => setSidebarOpen(false)}
+                className={[
+                  "flex items-center justify-center gap-2 rounded-xl",
+                  "bg-[var(--brand-secondary-color)] px-6 py-3.5",
+                  "font-bold text-[var(--brand-primary-color)]",
+                  "transition hover:brightness-105",
+                ].join(" ")}
+              >
+                <Phone size={17} />
+                {t("nav.contact")}
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>

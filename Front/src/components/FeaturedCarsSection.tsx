@@ -14,8 +14,6 @@ function getItemsPerPage(width: number): number {
 
 export default function FeaturedCarsSection({
     titleBlue,
-    titleOrange,
-    description,
     buttonText,
     buttonTo,
     cars,
@@ -134,16 +132,10 @@ export default function FeaturedCarsSection({
             <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                     <div className={isRTL ? "text-right" : "text-left"}>
-                        <h2 className="text-[26px] font-bold text-[var(--brand-primary-color)] md:text-[40px]">
+                        <p className="text-[26px] font-bold text-[var(--brand-primary-color)] md:text-[26px]">
                             {titleBlue}
-                            <span className="text-[var(--brand-secondary-color)]">
-                                {" "}
-                                {titleOrange}
-                            </span>
-                        </h2>
-                        <p className="mt-3 max-w-xl text-[14px] leading-6 text-[#6EA9F5] md:text-[16px] md:leading-7">
-                            {description}
                         </p>
+                     
                     </div>
                     {totalSlides > 1 && (
                         <div className="flex items-center justify-center gap-6">

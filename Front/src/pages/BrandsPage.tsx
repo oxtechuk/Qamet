@@ -20,13 +20,7 @@ export default function BrandsPage() {
             <span className="text-[var(--brand-primary-color)]">
               {t("brandsSection.titleBlue")}
             </span>{" "}
-            <span className="text-[var(--brand-secondary-color)]">
-              {t("brandsSection.titleOrange")}
-            </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-[16px] leading-7 text-[#5F8FD7]">
-            {t("brandsSection.description")}
-          </p>
         </div>
 
         <div className="mb-12">

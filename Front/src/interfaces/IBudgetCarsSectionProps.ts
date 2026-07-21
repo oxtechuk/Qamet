@@ -3,7 +3,6 @@ import type { IBudgetRange } from "./IBudgetRange";
 
 export interface IBudgetCarsSectionProps {
     titleBlue: string;
-    titleOrange: string;
     description: string;
     buttonText: string;
     buttonTo: string;

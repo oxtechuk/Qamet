@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 interface BrandItem {
@@ -15,11 +16,15 @@ interface BrandsCarouselProps {
 
 export default function BrandsCarousel({
   brands,
-  speed = 28,
+  speed = 40,
   showName = false,
 }: BrandsCarouselProps) {
   const { i18n } = useTranslation();
   const direction = i18n.dir();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const pausedRef = useRef(false);
 
   if (!brands.length) {
     return null;
@@ -56,11 +61,7 @@ export default function BrandsCarousel({
     );
 
     if (!brand.url) {
-      return (
-        <div key={key}>
-          {card}
-        </div>
-      );
+      return <div key={key}>{card}</div>;
     }
 
     return (
@@ -70,42 +71,67 @@ export default function BrandsCarousel({
     );
   }
 
-  const setA = brands.map((b, i) => renderBrand(b, `a-${i}`));
-  const setB = brands.map((b, i) => renderBrand(b, `b-${i}`));
+  const itemWidth = 170 + 48;
+  const viewWidth = typeof window !== "undefined" ? window.innerWidth : 1440;
+  const repeats = Math.max(4, Math.ceil((viewWidth * 3) / (brands.length * itemWidth)));
+
+  const setA: React.ReactNode[] = [];
+  const setB: React.ReactNode[] = [];
+  for (let i = 0; i < repeats; i++) {
+    for (let j = 0; j < brands.length; j++) {
+      setA.push(renderBrand(brands[j], `a${i}-${j}`));
+      setB.push(renderBrand(brands[j], `b${i}-${j}`));
+    }
+  }
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const children = track.children;
+    const midpoint = Math.floor(children.length / 2);
+    let halfWidth = 0;
+    for (let i = 0; i < midpoint; i++) {
+      halfWidth += (children[i] as HTMLElement).offsetWidth;
+    }
+    if (halfWidth <= 0) return;
+
+    const tick = () => {
+      if (!pausedRef.current) {
+        const pxPerFrame = halfWidth / (speed * 60);
+        offsetRef.current += pxPerFrame;
+
+        if (offsetRef.current >= halfWidth) {
+          offsetRef.current -= halfWidth;
+        }
+
+        track.style.transform = `translateX(-${offsetRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [brands, speed]);
 
   return (
-    <section
-      dir={direction}
-      className="w-full overflow-hidden"
-    >
-      <style>
-        {`
-          @keyframes brands-scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-          }
-
-          .brands-carousel-track {
-            display: flex;
-            width: max-content;
-            animation: brands-scroll ${speed}s linear infinite;
-            will-change: transform;
-          }
-
-          .brands-carousel:hover .brands-carousel-track {
-            animation-play-state: paused;
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .brands-carousel-track {
-              animation: none !important;
-            }
-          }
-        `}
-      </style>
-
-      <div className="brands-carousel relative overflow-hidden">
-        <div className="brands-carousel-track">
+    <section dir={direction} className="w-full overflow-hidden">
+      <div
+        className="relative overflow-hidden"
+        onMouseEnter={() => {
+          pausedRef.current = true;
+        }}
+        onMouseLeave={() => {
+          pausedRef.current = false;
+        }}
+      >
+        <div
+          ref={trackRef}
+          className="flex w-max will-change-transform"
+        >
           {setA}
           {setB}
         </div>

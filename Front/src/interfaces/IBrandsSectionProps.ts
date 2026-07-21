@@ -7,8 +7,6 @@ export interface IBrandCategory {
 
 export interface IBrandsSectionProps {
   titleBlue: string;
-  titleOrange: string;
-  description: string;
   buttonText: string;
   buttonTo: string;
   brands: IBrandCardProps[];

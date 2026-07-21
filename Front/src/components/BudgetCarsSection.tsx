@@ -27,7 +27,6 @@ function useDefaultRanges(t: (key: string) => string): IBudgetRange[] {
 
 export default function BudgetCarsSection({
     titleBlue,
-    titleOrange,
     description,
     cars,
     ranges,
@@ -38,31 +37,33 @@ export default function BudgetCarsSection({
     const { direction } = useLanguageStore();
     const isRTL = direction === "rtl";
 
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [mobileContainer, setMobileContainer] = useState<HTMLDivElement | null>(null);
+    const [desktopContainer, setDesktopContainer] = useState<HTMLDivElement | null>(null);
     const [containerWidth, setContainerWidth] = useState(0);
     const [visible, setVisible] = useState(() => getVisible(window.innerWidth));
 
     useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
+        const activeEl = mobileContainer || desktopContainer;
+        if (!activeEl) return;
 
-        // ResizeObserver fires after layout — reliable for grid/flex children
         const ro = new ResizeObserver((entries) => {
             const w = entries[0]?.contentRect.width ?? 0;
             if (w > 0) setContainerWidth(w);
             setVisible(getVisible(window.innerWidth));
         });
-        ro.observe(el);
+        ro.observe(activeEl);
 
-        // fallback immediate measure
-        if (el.offsetWidth > 0) setContainerWidth(el.offsetWidth);
+        if (activeEl.offsetWidth > 0) setContainerWidth(activeEl.offsetWidth);
 
-        window.addEventListener("resize", () =>
-            setVisible(getVisible(window.innerWidth)),
-        );
         return () => {
             ro.disconnect();
         };
+    }, [mobileContainer, desktopContainer]);
+
+    useEffect(() => {
+        const onResize = () => setVisible(getVisible(window.innerWidth));
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
     }, []);
 
     const defaultRanges = useDefaultRanges(t);
@@ -135,18 +136,36 @@ export default function BudgetCarsSection({
     const translateX = isRTL ? step * idx : -(step * idx);
 
     return (
-        <section className="w-full overflow-hidden bg-[var(--brand-primary-color)] py-14 text-white sm:py-16 lg:min-h-[560px] lg:py-[68px]">
+        <section className="w-full bg-[var(--brand-primary-color)] py-14 text-white sm:py-16 lg:overflow-hidden lg:min-h-[560px] lg:py-[68px]">
             <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+                {/* Mobile: filters above cards */}
+                <div className="mb-6 lg:hidden">
+                    <div className={isRTL ? "text-right" : "text-left"}>
+                        <h2 className="text-[30px] font-extrabold leading-[1.35] text-white">
+                            <span>{titleBlue}</span>
+                        </h2>
+                        <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white/70">
+                            {description}
+                        </p>
+                        <BudgetCarsRangeFilters
+                            ranges={resolvedRanges}
+                            activeRange={activeRange}
+                            onRangeChange={onRangeChange}
+                        />
+                    </div>
+                </div>
+
+                {/* Desktop: side-by-side layout */}
                 <div
                     dir="ltr"
-                    className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.75fr)_minmax(330px,0.75fr)] lg:gap-16"
+                    className="hidden lg:grid lg:grid-cols-[minmax(0,1.75fr)_minmax(330px,0.75fr)] lg:items-center lg:gap-16"
                 >
                     <div
-                        className="min-w-0 lg:order-1"
+                        className="min-w-0"
                         onMouseEnter={() => setIsPaused(true)}
                         onMouseLeave={() => setIsPaused(false)}
                     >
-                        <div ref={containerRef} className="overflow-hidden">
+                        <div ref={setDesktopContainer} className="overflow-hidden">
                             <div
                                 className="flex"
                                 style={{
@@ -160,7 +179,7 @@ export default function BudgetCarsSection({
                             >
                                 {track.map((car, i) => (
                                     <div
-                                        key={`${car.id}-${i}`}
+                                        key={`desktop-${car.id}-${i}`}
                                         dir={isRTL ? "rtl" : "ltr"}
                                         style={{ width: `${cardWidth}px`, flexShrink: 0 }}
                                     >
@@ -188,15 +207,12 @@ export default function BudgetCarsSection({
 
                     <div
                         className={[
-                            "w-full lg:order-2",
+                            "w-full",
                             isRTL ? "text-right" : "text-left",
                         ].join(" ")}
                     >
                         <h2 className="text-[30px] font-extrabold leading-[1.35] text-white sm:text-[36px] lg:text-[38px]">
                             <span>{titleBlue}</span>
-                            {titleOrange && (
-                                <> <span className="text-white">{titleOrange}</span></>
-                            )}
                         </h2>
                         <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white/70 sm:text-[14px]">
                             {description}
@@ -207,6 +223,51 @@ export default function BudgetCarsSection({
                             onRangeChange={onRangeChange}
                         />
                     </div>
+                </div>
+
+                {/* Mobile: cards carousel */}
+                <div
+                    ref={setMobileContainer}
+                    className="overflow-hidden lg:hidden"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
+                    <div
+                        className="flex"
+                        style={{
+                            gap: `${GAP}px`,
+                            transform: `translateX(${translateX}px)`,
+                            transition: animated
+                                ? "transform 300ms ease-in-out"
+                                : "none",
+                        }}
+                        onTransitionEnd={onTransitionEnd}
+                    >
+                        {track.map((car, i) => (
+                            <div
+                                key={`mobile-${car.id}-${i}`}
+                                dir={isRTL ? "rtl" : "ltr"}
+                                style={{ width: `${cardWidth}px`, flexShrink: 0 }}
+                            >
+                                <CarCard {...car} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {canLoop && (
+                        <div className="mt-10 flex items-center justify-center gap-6">
+                            <SlideArrow
+                                direction="next"
+                                onClick={isRTL ? prev : next}
+                                className="h-[44px] w-[44px]"
+                            />
+                            <SlideArrow
+                                direction="prev"
+                                onClick={isRTL ? next : prev}
+                                className="h-[44px] w-[44px]"
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

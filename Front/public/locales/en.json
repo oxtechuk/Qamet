@@ -277,6 +277,7 @@
     "menu": "Menu",
     "searchPlaceholder": "Search for a car by name, brand, or model...",
     "filter": "Filter",
+    "startsFrom": "Starts from",
     "cards": [
       {
         "title": "Eid Offers Are Still On!",
@@ -885,5 +886,8 @@
     "validationError": "Please fill in your name and phone number",
     "successToast": "Your request has been sent successfully. We'll contact you soon.",
     "errorToast": "An error occurred. Please try again."
+  },
+  "campaignBanners": {
+    "discoverMore": "Discover More"
   }
 }

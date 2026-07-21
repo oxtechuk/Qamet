@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { BrandInfo, FilterCategory } from "../types/home.types";
 import type { CarFinderValues } from "./ICarFinderProps";
 
@@ -6,19 +7,19 @@ export interface HeroSlide {
   image?: string;
   video?: string;
   title?: string;
-  subtitle?: string;
+  subtitle?: ReactNode;
   description?: string;
   price?: string;
   thumbnail?: string;
+  buttonText?: string;
+  buttonLink?: string | null;
+  button2Text?: string;
+  button2Link?: string | null;
 }
 
 export interface IHomeHeroProps {
   slides: HeroSlide[];
   heroVideoUrl?: string;
-  primaryButtonText: string;
-  primaryButtonTo: string;
-  secondaryButtonText: string;
-  secondaryButtonTo: string;
   filterBrands?: BrandInfo[];
   filterTypes?: FilterCategory[];
   filterCategories?: FilterCategory[];

@@ -6,10 +6,10 @@ export interface ICarCardProps {
   brand: string;
   name: string;
   year: string | number;
-  type: string;
-  fuelType: string;
-  transmission: string;
-  seats: string;
+  type?: string;
+  fuelType?: string;
+  transmission?: string;
+  seats?: string;
   oldPrice?: ReactNode;
   price: ReactNode;
   monthlyPrice: ReactNode;

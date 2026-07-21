@@ -6,11 +6,12 @@ import AllCarsSearchBar from "../components/AllCarsSearchBar";
 import CarsSidebarFilter from "../components/CarsSidebarFilter";
 import CarsResultsGrid from "../components/CarsResultsGrid";
 import HomeOffersSection from "../components/HomeOffersSection";
-import { APP_IMAGES } from "../constants/app-images";
+import { APP_IMAGES, getImageUrl } from "../constants/app-images";
 import { getHomePageData, getCarsMeta } from "../services/api";
 import { getCars } from "../services/api/cars.service";
 import { useLanguageStore } from "../store/language.store";
 import { mapCarToCardProps, unique } from "../utils/car-mappers";
+import { formatPrice } from "../utils/format";
 import { useSEO } from "../utils/useSEO";
 import type { FilterValues, CarsQueryParams } from "../types/cars.types";
 import { DEFAULT_FILTER_VALUES } from "../types/cars.types";
@@ -83,18 +84,28 @@ export default function AllCarsPage() {
                 .filter(Boolean) as CarCardProps[];
         }
 
-        const fallback = homeData?.featured_cars ?? homeData?.bento_cars ?? [];
+        const fallback = homeData?.latest_cars?.items ?? homeData?.cars_by_budget?.cars ?? [];
         return fallback
-            .map(mapCarToCardProps)
+            .map((car) => ({
+                id: car.id,
+                image: getImageUrl(car.main_image) || APP_IMAGES.CAR_PLACEHOLDER,
+                brand: car.brand?.name ?? "",
+                name: car.name ?? "",
+                year: String(car.year ?? ""),
+                price: formatPrice(car.current_price || car.cash_price, "var(--brand-primary-color)"),
+                monthlyPrice: formatPrice(car.min_installment ?? 0, "var(--brand-secondary-color)"),
+                detailsTo: `/cars/${car.slug}`,
+                badgeText: car.highlight ?? undefined,
+            }))
             .filter(Boolean) as CarCardProps[];
-    }, [carsResponse, homeData?.featured_cars, homeData?.bento_cars]);
+    }, [carsResponse, homeData?.latest_cars?.items, homeData?.cars_by_budget?.cars]);
 
     const sidebarData = useMemo(() => {
         const transmissions = unique(
-            allCars.map((c) => c.transmission).filter(Boolean),
+            allCars.map((c) => c.transmission).filter((v): v is string => Boolean(v)),
         );
         const fuelTypes = unique(
-            allCars.map((c) => c.fuelType).filter(Boolean),
+            allCars.map((c) => c.fuelType).filter((v): v is string => Boolean(v)),
         );
         return { transmissions, fuelTypes };
     }, [allCars]);

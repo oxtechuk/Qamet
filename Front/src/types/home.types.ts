@@ -2,8 +2,8 @@ export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
-  errors: null;
-  meta: null;
+  errors: unknown;
+  meta: unknown;
 }
 
 export interface FilterCategory {
@@ -58,6 +58,81 @@ export interface CarItem {
   views: number;
   brand: BrandInfo;
   active_offers: any[];
+}
+
+export interface HomeCarItem {
+  id: number;
+  name: string;
+  slug: string;
+  main_image: string;
+  cash_price: number;
+  current_price: number;
+  savings: number;
+  min_installment: number;
+  year: string;
+  highlight: string | null;
+  brand: {
+    id: number;
+    name: string;
+  };
+}
+
+export interface HeroSlideData {
+  image: string | null;
+  title: string;
+  car: {
+    id: number;
+    name: string;
+    slug: string;
+    current_price: number;
+    min_installment: number;
+  } | null;
+  button_text: string;
+  button_link: string | null;
+  button_2_text: string;
+  button_2_link: string | null;
+}
+
+export interface SectionMeta {
+  badge: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  button_text: string;
+}
+
+export interface HomeOfferItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  installment_starts_from: number;
+  time_remaining: string;
+  is_expired: boolean;
+  car: {
+    id: number;
+    name: string;
+    slug: string;
+    main_image: string;
+    cash_price: number;
+    brand: { id: number; name: string };
+  };
+}
+
+export interface BudgetBracket {
+  label: string;
+  min: number;
+  max: number | null;
+  count: number;
+}
+
+export interface CampaignBanner {
+  image: string | null;
+  mobile_image: string | null;
+  title: string;
+  button_text: string;
+  url: string | null;
+  is_active: boolean;
 }
 
 export interface OfferItem {
@@ -131,26 +206,21 @@ export interface FinanceSettingsData {
 }
 
 export interface HomePageData {
-  featured_cars: CarItem[];
-  active_offers: any[];
+  hero_slides: HeroSlideData[];
   brands: BrandInfo[];
-  latest_posts: any[];
-  stats: HomeStats;
-  testimonials: any[];
-  partners: any[];
-  hero: HeroData;
-  featured_design: null;
-  social_designs: any[];
-  filter_brands: BrandInfo[];
-  filter_categories: FilterCategory[];
-  filter_types: FilterCategory[];
-  filter_years: string[];
-  filter_prices?: FilterPrice[];
-  bento_cars: CarItem[];
-  featured_offers: any[];
-  highlighted_cars: CarItem[];
-  hero_slides: any[];
-  featured_section?: FeaturedSection;
-  homepage_stats?: HomepageStat[];
-  page_sections?: PageSections;
+  latest_cars: {
+    section: SectionMeta;
+    items: HomeCarItem[];
+  };
+  why_us: unknown[];
+  campaign_banners: CampaignBanner[];
+  offers: {
+    section: SectionMeta;
+    items: HomeOfferItem[];
+  };
+  cars_by_budget: {
+    section: SectionMeta;
+    brackets: BudgetBracket[];
+    cars: HomeCarItem[];
+  };
 }

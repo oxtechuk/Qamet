@@ -50,10 +50,6 @@ const HERO_ANIMATIONS = `
 export default function HomeHero({
     slides,
     heroVideoUrl,
-    primaryButtonText,
-    primaryButtonTo,
-    secondaryButtonText,
-    secondaryButtonTo,
     filterBrands,
     filterTypes,
     filterCategories,
@@ -80,7 +76,6 @@ export default function HomeHero({
 
     const totalSlides = slides.length;
     const current = slides[currentSlide];
-    const firstSlide = slides[0];
 
     const logoSrc = !logoError
         ? getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO
@@ -177,7 +172,7 @@ export default function HomeHero({
                                         src={slide.image}
                                         alt={slide.title || ""}
                                         loading={index === 0 ? "eager" : "lazy"}
-                                        className="h-full w-full object-cover"
+                                        className="h-full w-full object-contain"
                                     />
                                 </div>
                             );
@@ -194,20 +189,6 @@ export default function HomeHero({
                     {/* Top header */}
                     <header className="absolute inset-x-0 top-0 z-30 px-5 pt-7 sm:px-8 md:px-10 lg:px-12">
                         <div className="relative flex items-start justify-between">
-                            {/* Contact button */}
-                            <NavLink
-                                to="/contact"
-                                className={[
-                                    "flex h-[42px] min-w-[106px] items-center justify-center rounded-[12px]",
-                                    "bg-[var(--brand-secondary-color)] px-5",
-                                    "text-[12px] font-bold text-[var(--brand-primary-color)]",
-                                    "shadow-[0_8px_24px_rgba(0,0,0,0.16)]",
-                                    "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
-                                    "order-3",
-                                ].join(" ")}
-                            >
-                                {t("nav.contact")}
-                            </NavLink>
                             {/* Menu button */}
                             <button
                                 type="button"
@@ -286,15 +267,15 @@ export default function HomeHero({
                                 "md:text-start md:items-start",
                             ].join(" ")}
                         >
-                            {firstSlide.title && (
+                            {current.title && (
                                 <h1 className="text-[28px] font-extrabold leading-[1.35] text-white sm:text-[34px] md:text-[31px] lg:text-[36px]">
-                                    {firstSlide.title}
+                                    {current.title}
                                 </h1>
                             )}
 
-                            {firstSlide.subtitle && (
+                            {current.subtitle && (
                                 <p className="mb-2 text-[13px] font-medium text-white/85 sm:text-[14px]">
-                                    {firstSlide.subtitle}
+                                    {current.subtitle}
                                 </p>
                             )}
 
@@ -304,31 +285,35 @@ export default function HomeHero({
                                     "sm:flex-row",
                                 ].join(" ")}
                             >
-                                <NavLink
-                                    to={primaryButtonTo}
-                                    className={[
-                                        "flex min-h-[42px] min-w-[120px] items-center justify-center",
-                                        "rounded-[10px] bg-[var(--brand-secondary-color)] px-6",
-                                        "text-[13px] font-bold text-[var(--brand-primary-color)]",
-                                        "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-                                        "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
-                                    ].join(" ")}
-                                >
-                                    {primaryButtonText}
-                                </NavLink>
+                                {current.buttonText && (
+                                    <NavLink
+                                        to={current.buttonLink || "/cars"}
+                                        className={[
+                                            "flex min-h-[42px] min-w-[120px] items-center justify-center",
+                                            "rounded-[10px] bg-[var(--brand-secondary-color)] px-6",
+                                            "text-[13px] font-bold text-[var(--brand-primary-color)]",
+                                            "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                                            "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
+                                        ].join(" ")}
+                                    >
+                                        {current.buttonText}
+                                    </NavLink>
+                                )}
 
-                                <NavLink
-                                    to={secondaryButtonTo}
-                                    className={[
-                                        "flex min-h-[42px] min-w-[120px] items-center justify-center",
-                                        "rounded-[10px] bg-white px-6",
-                                        "text-[13px] font-bold text-[var(--brand-primary-color)]",
-                                        "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-                                        "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
-                                    ].join(" ")}
-                                >
-                                    {secondaryButtonText}
-                                </NavLink>
+                                {current.button2Text && (
+                                    <NavLink
+                                        to={current.button2Link || "/finance-calculator"}
+                                        className={[
+                                            "flex min-h-[42px] min-w-[120px] items-center justify-center",
+                                            "rounded-[10px] bg-white px-6",
+                                            "text-[13px] font-bold text-[var(--brand-primary-color)]",
+                                            "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                                            "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
+                                        ].join(" ")}
+                                    >
+                                        {current.button2Text}
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -560,19 +545,6 @@ export default function HomeHero({
                                 </a>
                             )}
 
-                            <NavLink
-                                to="/contact"
-                                onClick={() => setMenuOpen(false)}
-                                className={[
-                                    "flex items-center justify-center gap-2 rounded-xl",
-                                    "bg-[var(--brand-secondary-color)] px-6 py-3.5",
-                                    "font-bold text-[var(--brand-primary-color)]",
-                                    "transition hover:brightness-105",
-                                ].join(" ")}
-                            >
-                                <Phone size={17} />
-                                {t("nav.contact")}
-                            </NavLink>
                         </div>
                     </aside>
                 </div>
