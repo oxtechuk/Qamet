@@ -57,7 +57,7 @@ class BlogPostResource extends Resource
                             ]),
                         Tab::make(__('Meta'))
                             ->schema([
-                                Forms\Components\FileUpload::make('featured_image')->label(__('Featured Image'))->image()->directory('blog'),
+                                Forms\Components\FileUpload::make('thumbnail')->label(__('Featured Image'))->image()->directory('blog'),
                                 Forms\Components\Select::make('categories')->label(__('Categories'))
                                     ->relationship('categories', 'name')
                                     ->multiple()

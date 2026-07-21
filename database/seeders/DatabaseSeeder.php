@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CarSeeder::class);
         $this->call(AboutContentSeeder::class);
         $this->call(HomeContentSeeder::class);
+        $this->call(BlogCategorySeeder::class);
+        $this->call(BlogPostSeeder::class);
     }
 }

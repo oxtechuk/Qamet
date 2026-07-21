@@ -47,6 +47,6 @@ class BlogPost extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)->whereNotNull('published_at');
+        return $query->where('is_published', true);
     }
 }
