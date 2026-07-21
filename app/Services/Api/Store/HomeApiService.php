@@ -30,7 +30,7 @@ final class HomeApiService
                 'items' => CarCardResource::collection($this->cache->rememberLatestCars())->resolve(),
             ],
             'why_us' => $this->buildWhyUs($locale),
-            'campaign_banner' => $this->buildBanner($locale),
+            'campaign_banners' => $this->buildBanners($locale),
             'offers' => [
                 'section' => $this->sectionCopy('offers', $locale),
                 'items' => OfferCardResource::collection($this->cache->rememberOffers())->resolve(),
@@ -85,32 +85,41 @@ final class HomeApiService
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<int, array<string, mixed>>
      */
-    private function buildBanner(string $locale): array
+    private function buildBanners(string $locale): array
     {
-        $banner = $this->cache->rememberBanner();
+        $raw = $this->cache->rememberBanner();
 
-        if (empty($banner)) {
-            return [
-                'image' => null, 'mobile_image' => null, 'title' => '',
-                'button_text' => '', 'url' => null, 'is_active' => false,
-            ];
+        if (empty($raw)) {
+            return [];
+        }
+
+        // Legacy single-banner format
+        if (isset($raw['image'])) {
+            $raw = [$raw];
         }
 
         $now = now();
-        $startsAt = $banner['starts_at'] ?? null;
-        $endsAt = $banner['ends_at'] ?? null;
-        $withinDateRange = (! $startsAt || $now->gte($startsAt)) && (! $endsAt || $now->lte($endsAt));
 
-        return [
-            'image' => $this->resolveImage($banner['image'] ?? null),
-            'mobile_image' => $this->resolveImage($banner['mobile_image'] ?? null),
-            'title' => $banner['title'][$locale] ?? $banner['title']['en'] ?? '',
-            'button_text' => $banner['button_text'][$locale] ?? $banner['button_text']['en'] ?? '',
-            'url' => $banner['url'] ?? null,
-            'is_active' => ($banner['active'] ?? true) && $withinDateRange,
-        ];
+        return collect($raw)
+            ->filter(fn (array $banner): bool => $banner['active'] ?? true)
+            ->map(function (array $banner) use ($locale, $now): array {
+                $startsAt = $banner['starts_at'] ?? null;
+                $endsAt = $banner['ends_at'] ?? null;
+                $withinDateRange = (! $startsAt || $now->gte($startsAt)) && (! $endsAt || $now->lte($endsAt));
+
+                return [
+                    'image' => $this->resolveImage($banner['image'] ?? null),
+                    'mobile_image' => $this->resolveImage($banner['mobile_image'] ?? null),
+                    'title' => $banner['title'][$locale] ?? $banner['title']['en'] ?? '',
+                    'button_text' => $banner['button_text'][$locale] ?? $banner['button_text']['en'] ?? '',
+                    'url' => $banner['url'] ?? null,
+                    'is_active' => ($banner['active'] ?? true) && $withinDateRange,
+                ];
+            })
+            ->values()
+            ->all();
     }
 
     /**

@@ -59,7 +59,6 @@ class Settings extends Page
         $offersHero = $this->getSetting('store_offers_hero', []);
         $contactHero = $this->getSetting('store_contact_hero', []);
         $blogHero = $this->getSetting('store_blog_hero', []);
-        $homeBanner = $this->getSetting('home_banner', []);
         $aboutHero = $this->getSetting('about_hero', []);
         $aboutStory = $this->getSetting('about_story', []);
         $aboutValuesSection = $this->getSetting('about_values_section', []);
@@ -100,16 +99,8 @@ class Settings extends Page
             'home_why_us' => $this->getSetting('home_why_us', []),
             'home_budget_brackets' => $this->getSetting('home_budget_brackets', []),
             'homepage_stats' => $this->getSetting('homepage_stats', []),
-            'banner_title_ar' => $homeBanner['title']['ar'] ?? '',
-            'banner_title_en' => $homeBanner['title']['en'] ?? '',
-            'banner_button_text_ar' => $homeBanner['button_text']['ar'] ?? '',
-            'banner_button_text_en' => $homeBanner['button_text']['en'] ?? '',
-            'banner_image' => $homeBanner['image'] ?? null,
-            'banner_mobile_image' => $homeBanner['mobile_image'] ?? null,
-            'banner_url' => $homeBanner['url'] ?? '',
-            'banner_starts_at' => $homeBanner['starts_at'] ?? null,
-            'banner_ends_at' => $homeBanner['ends_at'] ?? null,
-            'banner_active' => $homeBanner['active'] ?? true,
+            ...$this->flattenHomepageSections($this->getSetting('homepage_sections', [])),
+            'home_banner' => $this->getSetting('home_banner', []),
             'about_hero_badge_ar' => $aboutHero['badge']['ar'] ?? '',
             'about_hero_badge_en' => $aboutHero['badge']['en'] ?? '',
             'about_hero_title_ar' => $aboutHero['title']['ar'] ?? '',
@@ -501,49 +492,56 @@ class Settings extends Page
                                                             ->reorderable()
                                                             ->collapsible(),
                                                     ]),
-                                                Section::make(__('Campaign Banner'))
-                                                    ->description(__('Full-width promotional banner shown between the offers and budget sections'))
+                                                Section::make(__('Campaign Banners'))
+                                                    ->description(__('Full-width promotional banners shown between the offers and budget sections'))
                                                     ->schema([
-                                                        Grid::make(2)
+                                                        Forms\Components\Repeater::make('home_banner')
+                                                            ->label(__('Banners'))
                                                             ->schema([
-                                                                Forms\Components\FileUpload::make('banner_image')
-                                                                    ->label(__('Desktop Image'))
-                                                                    ->image()
-                                                                    ->directory('banners/home')
-                                                                    ->visibility('public'),
-                                                                Forms\Components\FileUpload::make('banner_mobile_image')
-                                                                    ->label(__('Mobile Image'))
-                                                                    ->image()
-                                                                    ->directory('banners/home')
-                                                                    ->visibility('public'),
-                                                            ]),
-                                                        Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\TextInput::make('banner_title_ar')
-                                                                    ->label(__('Title').' ('.__('Arabic').')'),
-                                                                Forms\Components\TextInput::make('banner_title_en')
-                                                                    ->label(__('Title').' ('.__('English').')'),
-                                                            ]),
-                                                        Grid::make(3)
-                                                            ->schema([
-                                                                Forms\Components\TextInput::make('banner_button_text_ar')
-                                                                    ->label(__('Button Text').' ('.__('Arabic').')'),
-                                                                Forms\Components\TextInput::make('banner_button_text_en')
-                                                                    ->label(__('Button Text').' ('.__('English').')'),
-                                                                Forms\Components\TextInput::make('banner_url')
-                                                                    ->label(__('Button URL'))
-                                                                    ->url(),
-                                                            ]),
-                                                        Grid::make(3)
-                                                            ->schema([
-                                                                Forms\Components\DateTimePicker::make('banner_starts_at')
-                                                                    ->label(__('Active From')),
-                                                                Forms\Components\DateTimePicker::make('banner_ends_at')
-                                                                    ->label(__('Active Until')),
-                                                                Forms\Components\Toggle::make('banner_active')
-                                                                    ->label(__('Active'))
-                                                                    ->default(true),
-                                                            ]),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\FileUpload::make('image')
+                                                                            ->label(__('Desktop Image'))
+                                                                            ->image()
+                                                                            ->directory('banners/home')
+                                                                            ->visibility('public'),
+                                                                        Forms\Components\FileUpload::make('mobile_image')
+                                                                            ->label(__('Mobile Image'))
+                                                                            ->image()
+                                                                            ->directory('banners/home')
+                                                                            ->visibility('public'),
+                                                                    ]),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('title_ar')
+                                                                            ->label(__('Title').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('title_en')
+                                                                            ->label(__('Title').' ('.__('English').')'),
+                                                                    ]),
+                                                                Grid::make(3)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('button_text_ar')
+                                                                            ->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('button_text_en')
+                                                                            ->label(__('Button Text').' ('.__('English').')'),
+                                                                        Forms\Components\TextInput::make('url')
+                                                                            ->label(__('Button URL'))
+                                                                            ->url(),
+                                                                    ]),
+                                                                Grid::make(3)
+                                                                    ->schema([
+                                                                        Forms\Components\DateTimePicker::make('starts_at')
+                                                                            ->label(__('Active From')),
+                                                                        Forms\Components\DateTimePicker::make('ends_at')
+                                                                            ->label(__('Active Until')),
+                                                                        Forms\Components\Toggle::make('active')
+                                                                            ->label(__('Active'))
+                                                                            ->default(true),
+                                                                    ]),
+                                                            ])
+                                                            ->addActionLabel(__('Add Banner'))
+                                                            ->reorderable()
+                                                            ->collapsible(),
                                                     ]),
                                                 Section::make(__('Cars By Budget'))
                                                     ->description(__('Price-bracket chips shown in the budget section'))
@@ -596,6 +594,130 @@ class Settings extends Page
                                                             ])
                                                             ->addActionLabel(__('Add Stat'))
                                                             ->collapsible(),
+                                                    ]),
+                                                Section::make(__('Section Copy'))
+                                                    ->description(__('Badge, title, subtitle, and button text for each homepage section'))
+                                                    ->schema([
+                                                        Section::make(__('Featured Cars'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_featured_cars_badge_ar')->label(__('Badge').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_featured_cars_badge_en')->label(__('Badge').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_featured_cars_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_featured_cars_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\Textarea::make('hcs_featured_cars_subtitle_ar')->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                    Forms\Components\Textarea::make('hcs_featured_cars_subtitle_en')->label(__('Subtitle').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_featured_cars_button_text_ar')->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_featured_cars_button_text_en')->label(__('Button Text').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
+                                                        Section::make(__('Offers'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_offers_badge_ar')->label(__('Badge').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_offers_badge_en')->label(__('Badge').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_offers_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_offers_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_offers_button_text_ar')->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_offers_button_text_en')->label(__('Button Text').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
+                                                        Section::make(__('Highlighted Cars'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_highlighted_cars_badge_ar')->label(__('Badge').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_highlighted_cars_badge_en')->label(__('Badge').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_highlighted_cars_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_highlighted_cars_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\Textarea::make('hcs_highlighted_cars_subtitle_ar')->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                    Forms\Components\Textarea::make('hcs_highlighted_cars_subtitle_en')->label(__('Subtitle').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_highlighted_cars_button_text_ar')->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_highlighted_cars_button_text_en')->label(__('Button Text').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
+                                                        Section::make(__('Finance'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_finance_badge_ar')->label(__('Badge').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_finance_badge_en')->label(__('Badge').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_finance_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_finance_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\Textarea::make('hcs_finance_subtitle_ar')->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                    Forms\Components\Textarea::make('hcs_finance_subtitle_en')->label(__('Subtitle').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\Textarea::make('hcs_finance_features_ar')->label(__('Features').' ('.__('Arabic').')')->helperText(__('One feature per line')),
+                                                                    Forms\Components\Textarea::make('hcs_finance_features_en')->label(__('Features').' ('.__('English').')')->helperText(__('One feature per line')),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_finance_button_text_ar')->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_finance_button_text_en')->label(__('Button Text').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
+                                                        Section::make(__('Brands'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_brands_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_brands_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\Textarea::make('hcs_brands_subtitle_ar')->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                                    Forms\Components\Textarea::make('hcs_brands_subtitle_en')->label(__('Subtitle').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
+                                                        Section::make(__('Budget'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_budget_badge_ar')->label(__('Badge').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_budget_badge_en')->label(__('Badge').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_budget_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_budget_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\Textarea::make('hcs_budget_description_ar')->label(__('Description').' ('.__('Arabic').')'),
+                                                                    Forms\Components\Textarea::make('hcs_budget_description_en')->label(__('Description').' ('.__('English').')'),
+                                                                ]),
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_budget_button_text_ar')->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_budget_button_text_en')->label(__('Button Text').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
+                                                        Section::make(__('Filter'))
+                                                            ->collapsed()
+                                                            ->schema([
+                                                                Grid::make(2)->schema([
+                                                                    Forms\Components\TextInput::make('hcs_filter_title_ar')->label(__('Title').' ('.__('Arabic').')'),
+                                                                    Forms\Components\TextInput::make('hcs_filter_title_en')->label(__('Title').' ('.__('English').')'),
+                                                                ]),
+                                                            ]),
                                                     ]),
                                             ]),
                                         Tab::make(__('About'))
@@ -1206,16 +1328,6 @@ class Settings extends Page
             'blog_hero_subtitle_ar' => ['store_blog_hero', 'subtitle', 'ar'],
             'blog_hero_subtitle_en' => ['store_blog_hero', 'subtitle', 'en'],
             'blog_hero_image' => ['store_blog_hero', 'image'],
-            'banner_title_ar' => ['home_banner', 'title', 'ar'],
-            'banner_title_en' => ['home_banner', 'title', 'en'],
-            'banner_button_text_ar' => ['home_banner', 'button_text', 'ar'],
-            'banner_button_text_en' => ['home_banner', 'button_text', 'en'],
-            'banner_image' => ['home_banner', 'image'],
-            'banner_mobile_image' => ['home_banner', 'mobile_image'],
-            'banner_url' => ['home_banner', 'url'],
-            'banner_starts_at' => ['home_banner', 'starts_at'],
-            'banner_ends_at' => ['home_banner', 'ends_at'],
-            'banner_active' => ['home_banner', 'active'],
             'about_hero_badge_ar' => ['about_hero', 'badge', 'ar'],
             'about_hero_badge_en' => ['about_hero', 'badge', 'en'],
             'about_hero_title_ar' => ['about_hero', 'title', 'ar'],
@@ -1248,6 +1360,53 @@ class Settings extends Page
             'about_why_choose_us_section_title_en' => ['about_why_choose_us_section', 'title', 'en'],
             'about_why_choose_us_section_subtitle_ar' => ['about_why_choose_us_section', 'subtitle', 'ar'],
             'about_why_choose_us_section_subtitle_en' => ['about_why_choose_us_section', 'subtitle', 'en'],
+            // Homepage section copy
+            'hcs_filter_title_ar' => ['homepage_sections', 'filter', 'title', 'ar'],
+            'hcs_filter_title_en' => ['homepage_sections', 'filter', 'title', 'en'],
+            'hcs_featured_cars_badge_ar' => ['homepage_sections', 'featured_cars', 'badge', 'ar'],
+            'hcs_featured_cars_badge_en' => ['homepage_sections', 'featured_cars', 'badge', 'en'],
+            'hcs_featured_cars_title_ar' => ['homepage_sections', 'featured_cars', 'title', 'ar'],
+            'hcs_featured_cars_title_en' => ['homepage_sections', 'featured_cars', 'title', 'en'],
+            'hcs_featured_cars_subtitle_ar' => ['homepage_sections', 'featured_cars', 'subtitle', 'ar'],
+            'hcs_featured_cars_subtitle_en' => ['homepage_sections', 'featured_cars', 'subtitle', 'en'],
+            'hcs_featured_cars_button_text_ar' => ['homepage_sections', 'featured_cars', 'button_text', 'ar'],
+            'hcs_featured_cars_button_text_en' => ['homepage_sections', 'featured_cars', 'button_text', 'en'],
+            'hcs_offers_badge_ar' => ['homepage_sections', 'offers', 'badge', 'ar'],
+            'hcs_offers_badge_en' => ['homepage_sections', 'offers', 'badge', 'en'],
+            'hcs_offers_title_ar' => ['homepage_sections', 'offers', 'title', 'ar'],
+            'hcs_offers_title_en' => ['homepage_sections', 'offers', 'title', 'en'],
+            'hcs_offers_button_text_ar' => ['homepage_sections', 'offers', 'button_text', 'ar'],
+            'hcs_offers_button_text_en' => ['homepage_sections', 'offers', 'button_text', 'en'],
+            'hcs_highlighted_cars_badge_ar' => ['homepage_sections', 'highlighted_cars', 'badge', 'ar'],
+            'hcs_highlighted_cars_badge_en' => ['homepage_sections', 'highlighted_cars', 'badge', 'en'],
+            'hcs_highlighted_cars_title_ar' => ['homepage_sections', 'highlighted_cars', 'title', 'ar'],
+            'hcs_highlighted_cars_title_en' => ['homepage_sections', 'highlighted_cars', 'title', 'en'],
+            'hcs_highlighted_cars_subtitle_ar' => ['homepage_sections', 'highlighted_cars', 'subtitle', 'ar'],
+            'hcs_highlighted_cars_subtitle_en' => ['homepage_sections', 'highlighted_cars', 'subtitle', 'en'],
+            'hcs_highlighted_cars_button_text_ar' => ['homepage_sections', 'highlighted_cars', 'button_text', 'ar'],
+            'hcs_highlighted_cars_button_text_en' => ['homepage_sections', 'highlighted_cars', 'button_text', 'en'],
+            'hcs_finance_badge_ar' => ['homepage_sections', 'finance', 'badge', 'ar'],
+            'hcs_finance_badge_en' => ['homepage_sections', 'finance', 'badge', 'en'],
+            'hcs_finance_title_ar' => ['homepage_sections', 'finance', 'title', 'ar'],
+            'hcs_finance_title_en' => ['homepage_sections', 'finance', 'title', 'en'],
+            'hcs_finance_subtitle_ar' => ['homepage_sections', 'finance', 'subtitle', 'ar'],
+            'hcs_finance_subtitle_en' => ['homepage_sections', 'finance', 'subtitle', 'en'],
+            'hcs_finance_features_ar' => ['homepage_sections', 'finance', 'features', 'ar'],
+            'hcs_finance_features_en' => ['homepage_sections', 'finance', 'features', 'en'],
+            'hcs_finance_button_text_ar' => ['homepage_sections', 'finance', 'button_text', 'ar'],
+            'hcs_finance_button_text_en' => ['homepage_sections', 'finance', 'button_text', 'en'],
+            'hcs_brands_title_ar' => ['homepage_sections', 'brands', 'title', 'ar'],
+            'hcs_brands_title_en' => ['homepage_sections', 'brands', 'title', 'en'],
+            'hcs_brands_subtitle_ar' => ['homepage_sections', 'brands', 'subtitle', 'ar'],
+            'hcs_brands_subtitle_en' => ['homepage_sections', 'brands', 'subtitle', 'en'],
+            'hcs_budget_badge_ar' => ['homepage_sections', 'budget', 'badge', 'ar'],
+            'hcs_budget_badge_en' => ['homepage_sections', 'budget', 'badge', 'en'],
+            'hcs_budget_title_ar' => ['homepage_sections', 'budget', 'title', 'ar'],
+            'hcs_budget_title_en' => ['homepage_sections', 'budget', 'title', 'en'],
+            'hcs_budget_description_ar' => ['homepage_sections', 'budget', 'description', 'ar'],
+            'hcs_budget_description_en' => ['homepage_sections', 'budget', 'description', 'en'],
+            'hcs_budget_button_text_ar' => ['homepage_sections', 'budget', 'button_text', 'ar'],
+            'hcs_budget_button_text_en' => ['homepage_sections', 'budget', 'button_text', 'en'],
         ];
 
         if (! isset($map[$flatKey])) {
@@ -1258,7 +1417,9 @@ class Settings extends Page
         $settingKey = $parts[0];
         $existing = $this->getSetting($settingKey, []);
 
-        if (count($parts) === 3) {
+        if (count($parts) === 4) {
+            $existing[$parts[1]][$parts[2]][$parts[3]] = $value;
+        } elseif (count($parts) === 3) {
             $existing[$parts[1]][$parts[2]] = $value;
         } else {
             $existing[$parts[1]] = $value;
@@ -1291,10 +1452,6 @@ class Settings extends Page
         'blog_hero_title_ar', 'blog_hero_title_en',
         'blog_hero_subtitle_ar', 'blog_hero_subtitle_en',
         'blog_hero_image',
-        'banner_title_ar', 'banner_title_en',
-        'banner_button_text_ar', 'banner_button_text_en',
-        'banner_image', 'banner_mobile_image', 'banner_url',
-        'banner_starts_at', 'banner_ends_at', 'banner_active',
         'about_hero_badge_ar', 'about_hero_badge_en',
         'about_hero_title_ar', 'about_hero_title_en',
         'about_hero_subtitle_ar', 'about_hero_subtitle_en',
@@ -1311,12 +1468,37 @@ class Settings extends Page
         'about_values_section_subtitle_ar', 'about_values_section_subtitle_en',
         'about_why_choose_us_section_title_ar', 'about_why_choose_us_section_title_en',
         'about_why_choose_us_section_subtitle_ar', 'about_why_choose_us_section_subtitle_en',
+        // Homepage section copy (hcs_ prefix)
+        'hcs_filter_title_ar', 'hcs_filter_title_en',
+        'hcs_featured_cars_badge_ar', 'hcs_featured_cars_badge_en',
+        'hcs_featured_cars_title_ar', 'hcs_featured_cars_title_en',
+        'hcs_featured_cars_subtitle_ar', 'hcs_featured_cars_subtitle_en',
+        'hcs_featured_cars_button_text_ar', 'hcs_featured_cars_button_text_en',
+        'hcs_offers_badge_ar', 'hcs_offers_badge_en',
+        'hcs_offers_title_ar', 'hcs_offers_title_en',
+        'hcs_offers_button_text_ar', 'hcs_offers_button_text_en',
+        'hcs_highlighted_cars_badge_ar', 'hcs_highlighted_cars_badge_en',
+        'hcs_highlighted_cars_title_ar', 'hcs_highlighted_cars_title_en',
+        'hcs_highlighted_cars_subtitle_ar', 'hcs_highlighted_cars_subtitle_en',
+        'hcs_highlighted_cars_button_text_ar', 'hcs_highlighted_cars_button_text_en',
+        'hcs_finance_badge_ar', 'hcs_finance_badge_en',
+        'hcs_finance_title_ar', 'hcs_finance_title_en',
+        'hcs_finance_subtitle_ar', 'hcs_finance_subtitle_en',
+        'hcs_finance_features_ar', 'hcs_finance_features_en',
+        'hcs_finance_button_text_ar', 'hcs_finance_button_text_en',
+        'hcs_brands_title_ar', 'hcs_brands_title_en',
+        'hcs_brands_subtitle_ar', 'hcs_brands_subtitle_en',
+        'hcs_budget_badge_ar', 'hcs_budget_badge_en',
+        'hcs_budget_title_ar', 'hcs_budget_title_en',
+        'hcs_budget_description_ar', 'hcs_budget_description_en',
+        'hcs_budget_button_text_ar', 'hcs_budget_button_text_en',
     ];
 
     private const ARRAY_KEYS = [
         'social_links', 'working_days', 'offer_hero_slides',
         'hero_slides', 'homepage_stats', 'booking_steps',
         'home_why_us', 'home_budget_brackets',
+        'home_banner',
     ];
 
     private function getSetting(string $key, mixed $default = null, ?string $locale = null): mixed
@@ -1339,5 +1521,34 @@ class Settings extends Page
     private function getBilingual(string $key, string $locale): ?string
     {
         return $this->getSetting($key, null, $locale);
+    }
+
+    /**
+     * @param  array<string, array<string, array<string, string>>>  $sections
+     * @return array<string, string>
+     */
+    private function flattenHomepageSections(array $sections): array
+    {
+        $flat = [];
+        $groups = [
+            'filter' => ['title'],
+            'featured_cars' => ['badge', 'title', 'subtitle', 'button_text'],
+            'offers' => ['badge', 'title', 'button_text'],
+            'highlighted_cars' => ['badge', 'title', 'subtitle', 'button_text'],
+            'finance' => ['badge', 'title', 'subtitle', 'features', 'button_text'],
+            'brands' => ['title', 'subtitle'],
+            'budget' => ['badge', 'title', 'description', 'button_text'],
+        ];
+
+        foreach ($groups as $group => $fields) {
+            foreach ($fields as $field) {
+                foreach (['ar', 'en'] as $locale) {
+                    $flatKey = "hcs_{$group}_{$field}_{$locale}";
+                    $flat[$flatKey] = $sections[$group][$field][$locale] ?? '';
+                }
+            }
+        }
+
+        return $flat;
     }
 }
