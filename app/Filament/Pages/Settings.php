@@ -454,6 +454,15 @@ class Settings extends Page
                                                                         Forms\Components\TextInput::make('link')
                                                                             ->label(__('Button Link')),
                                                                     ]),
+                                                                Grid::make(3)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('button_2_text_ar')
+                                                                            ->label(__('Button 2 Text').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('button_2_text_en')
+                                                                            ->label(__('Button 2 Text').' ('.__('English').')'),
+                                                                        Forms\Components\TextInput::make('link_2')
+                                                                            ->label(__('Button 2 Link')),
+                                                                    ]),
                                                                 Forms\Components\Toggle::make('is_active')
                                                                     ->label(__('Active'))
                                                                     ->default(true),

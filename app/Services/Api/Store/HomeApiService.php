@@ -61,6 +61,8 @@ final class HomeApiService
                     'car' => $car ? HeroCarResource::make($car)->resolve() : null,
                     'button_text' => $slide["button_text_{$locale}"] ?? $slide['button_text_en'] ?? '',
                     'button_link' => $slide['link'] ?? null,
+                    'button_2_text' => $slide["button_2_text_{$locale}"] ?? $slide['button_2_text_en'] ?? '',
+                    'button_2_link' => $slide['link_2'] ?? null,
                 ];
             })
             ->values()

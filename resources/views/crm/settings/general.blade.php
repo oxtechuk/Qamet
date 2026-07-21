@@ -417,6 +417,14 @@
                                                             <label class="form-label fw-semibold small text-muted mb-1">{{ __('نص الزر') }}</label>
                                                             <input type="text" name="hero_slides[{{ $idx }}][button_text]" class="form-control bg-light border-0 form-control-sm" value="{{ $slide['button_text'] ?? __('اكتشف السيارات') }}">
                                                         </div>
+                                                        <div class="col-12">
+                                                            <label class="form-label fw-semibold small text-muted mb-1">{{ __('نص الزر 2') }}</label>
+                                                            <input type="text" name="hero_slides[{{ $idx }}][button_2_text]" class="form-control bg-light border-0 form-control-sm" value="{{ $slide['button_2_text'] ?? '' }}">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label class="form-label fw-semibold small text-muted mb-1">{{ __('رابط الزر 2') }}</label>
+                                                            <input type="url" name="hero_slides[{{ $idx }}][link_2]" class="form-control bg-light border-0 text-start form-control-sm" dir="ltr" value="{{ $slide['link_2'] ?? '' }}" placeholder="https://...">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1264,6 +1272,14 @@ function addHeroSlide() {
                         <div class="col-12">
                             <label class="form-label fw-semibold small text-muted mb-1">{{ __('نص الزر') }}</label>
                             <input type="text" name="hero_slides[${idx}][button_text]" class="form-control bg-light border-0 form-control-sm" value="{{ __('اكتشف السيارات') }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small text-muted mb-1">{{ __('نص الزر 2') }}</label>
+                            <input type="text" name="hero_slides[${idx}][button_2_text]" class="form-control bg-light border-0 form-control-sm">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small text-muted mb-1">{{ __('رابط الزر 2') }}</label>
+                            <input type="url" name="hero_slides[${idx}][link_2]" class="form-control bg-light border-0 text-start form-control-sm" dir="ltr" placeholder="https://...">
                         </div>
                     </div>
                 </div>

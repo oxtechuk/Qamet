@@ -264,6 +264,8 @@ class GeneralSettingController extends Controller
                         'image' => $imagePath,
                         'link' => $slide['link'] ?? '',
                         'button_text' => $slide['button_text'] ?? __('اكتشف السيارات'),
+                        'link_2' => $slide['link_2'] ?? '',
+                        'button_2_text' => $slide['button_2_text'] ?? '',
                     ];
                 }
             }
