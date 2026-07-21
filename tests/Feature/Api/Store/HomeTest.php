@@ -82,13 +82,15 @@ class HomeTest extends TestCase
         Setting::create([
             'key' => 'home_banner',
             'value' => [
-                'image' => 'banners/home/banner.jpg',
-                'title' => ['en' => 'Ford Territory 2026', 'ar' => 'فورد تيريتوري 2026'],
-                'button_text' => ['en' => 'Discover', 'ar' => 'اكتشف'],
-                'url' => '/offers/ford-territory',
-                'starts_at' => now()->subDay()->toDateTimeString(),
-                'ends_at' => now()->addWeek()->toDateTimeString(),
-                'active' => true,
+                [
+                    'image' => 'banners/home/banner.jpg',
+                    'title' => ['en' => 'Ford Territory 2026', 'ar' => 'فورد تيريتوري 2026'],
+                    'button_text' => ['en' => 'Discover', 'ar' => 'اكتشف'],
+                    'url' => '/offers/ford-territory',
+                    'starts_at' => now()->subDay()->toDateTimeString(),
+                    'ends_at' => now()->addWeek()->toDateTimeString(),
+                    'active' => true,
+                ],
             ],
         ]);
 
@@ -112,7 +114,7 @@ class HomeTest extends TestCase
                 'brands',
                 'latest_cars' => ['section', 'items'],
                 'why_us' => ['*' => ['icon', 'title', 'description']],
-                'campaign_banner' => ['image', 'mobile_image', 'title', 'button_text', 'url', 'is_active'],
+                'campaign_banners' => ['*' => ['image', 'mobile_image', 'title', 'button_text', 'url', 'is_active']],
                 'offers' => ['section', 'items'],
                 'cars_by_budget' => ['section', 'brackets' => ['*' => ['label', 'min', 'max', 'count']], 'cars'],
             ],
@@ -127,8 +129,8 @@ class HomeTest extends TestCase
         $this->assertSame('Unbeatable Prices', $response->json('data.why_us.0.title'));
 
         // Campaign banner is active (within date range and toggled on)
-        $this->assertTrue($response->json('data.campaign_banner.is_active'));
-        $this->assertSame('Discover', $response->json('data.campaign_banner.button_text'));
+        $this->assertTrue($response->json('data.campaign_banners.0.is_active'));
+        $this->assertSame('Discover', $response->json('data.campaign_banners.0.button_text'));
 
         // Budget bracket counts real cars in range (by base cash_price)
         $this->assertSame('Under 150k', $response->json('data.cars_by_budget.brackets.0.label'));
@@ -192,11 +194,13 @@ class HomeTest extends TestCase
         Setting::create([
             'key' => 'home_banner',
             'value' => [
-                'image' => 'banner.jpg',
-                'title' => ['en' => 'Old Promo'],
-                'starts_at' => now()->subMonth()->toDateTimeString(),
-                'ends_at' => now()->subWeek()->toDateTimeString(),
-                'active' => true,
+                [
+                    'image' => 'banner.jpg',
+                    'title' => ['en' => 'Old Promo'],
+                    'starts_at' => now()->subMonth()->toDateTimeString(),
+                    'ends_at' => now()->subWeek()->toDateTimeString(),
+                    'active' => true,
+                ],
             ],
         ]);
 
@@ -204,6 +208,6 @@ class HomeTest extends TestCase
             ->getJson(route('store.api.home'));
 
         $response->assertStatus(200);
-        $this->assertFalse($response->json('data.campaign_banner.is_active'));
+        $this->assertFalse($response->json('data.campaign_banners.0.is_active'));
     }
 }

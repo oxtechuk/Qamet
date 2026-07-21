@@ -103,7 +103,7 @@ final class HomeApiService
         $now = now();
 
         return collect($raw)
-            ->filter(fn (array $banner): bool => $banner['active'] ?? true)
+            ->filter(fn ($banner): bool => is_array($banner) && ($banner['active'] ?? true))
             ->map(function (array $banner) use ($locale, $now): array {
                 $startsAt = $banner['starts_at'] ?? null;
                 $endsAt = $banner['ends_at'] ?? null;
