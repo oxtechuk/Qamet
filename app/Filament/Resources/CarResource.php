@@ -128,10 +128,10 @@ class CarResource extends Resource
                                                 ->preload()
                                                 ->searchable(),
                                         ]),
-                                    Forms\Components\KeyValue::make('specs')->label(__('Specs'))
-                                        ->keyLabel(__('Specification'))
-                                        ->valueLabel(__('Value'))
-                                        ->addActionLabel(__('Add spec')),
+//                                    Forms\Components\KeyValue::make('specs')->label(__('Specs'))
+//                                        ->keyLabel(__('Specification'))
+//                                        ->valueLabel(__('Value'))
+//                                        ->addActionLabel(__('Add spec')),
                                 ]),
                         ]),
 

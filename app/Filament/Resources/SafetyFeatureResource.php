@@ -46,6 +46,10 @@ class SafetyFeatureResource extends Resource
                     Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
                     Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
                 ]),
+                Grid::make(2)->schema([
+                    Forms\Components\Textarea::make('value_ar')->label(__('Value').' ('.__('Arabic').')')->columnSpanFull(),
+                    Forms\Components\Textarea::make('value_en')->label(__('Value').' ('.__('English').')')->columnSpanFull(),
+                ]),
                 Forms\Components\TextInput::make('icon')->label(__('Icon'))->maxLength(100),
             ]),
         ]);

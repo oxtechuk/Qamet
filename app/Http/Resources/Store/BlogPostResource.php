@@ -14,6 +14,7 @@ class BlogPostResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'thumbnail' => $this->thumbnail,
+            'content' => $this->content,
             'excerpt' => $this->excerpt,
             'published_at' => $this->published_at,
             'employee' => $this->whenLoaded('employee', fn () => [

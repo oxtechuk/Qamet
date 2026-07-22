@@ -11,9 +11,9 @@ class Feature extends Model
 {
     use HasBilingualFields, HasTranslations;
 
-    public $translatable = ['name'];
+    public $translatable = ['name', 'value'];
 
-    protected $fillable = ['name', 'icon'];
+    protected $fillable = ['name', 'value', 'icon'];
 
     public function cars(): BelongsToMany
     {

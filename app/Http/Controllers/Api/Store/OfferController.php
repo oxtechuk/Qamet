@@ -23,10 +23,7 @@ final class OfferController extends ApiBaseController
         $paginator = $this->offerService->list($filters, $perPage);
 
         $hero = $this->offerCache->rememberHeroSetting('store_offers_hero');
-        $offersData = $this->offerCache->rememberOffersData();
-        $bentoCars = $offersData['bentoCars'] ?? collect();
-        $mainGallery = $offersData['mainGallery'] ?? [];
-        $offerHeroSlides = $this->offerCache->rememberOfferHeroSlides();
+
 
         $offers = OfferResource::collection($paginator->items())->resolve();
 
@@ -42,9 +39,6 @@ final class OfferController extends ApiBaseController
                 'from' => $paginator->firstItem(),
                 'to' => $paginator->lastItem(),
                 'hero' => $hero,
-                'hero_slides' => $offerHeroSlides,
-                'bento_cars' => \App\Http\Resources\Store\CarMiniResource::collection($bentoCars)->resolve(),
-                'main_gallery' => $mainGallery,
             ])
             ->build();
     }
