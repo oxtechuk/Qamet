@@ -23,7 +23,7 @@ final class OfferController extends ApiBaseController
         $paginator = $this->offerService->list($filters, $perPage);
 
         $hero = $this->offerCache->rememberHeroSetting('store_offers_hero');
-
+        $heroOffer = $this->offerCache->rememberOffersHeroOffer();
 
         $offers = OfferResource::collection($paginator->items())->resolve();
 
@@ -39,6 +39,7 @@ final class OfferController extends ApiBaseController
                 'from' => $paginator->firstItem(),
                 'to' => $paginator->lastItem(),
                 'hero' => $hero,
+                'hero_offer' => $heroOffer,
             ])
             ->build();
     }

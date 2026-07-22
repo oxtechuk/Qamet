@@ -61,9 +61,63 @@ class OfferCacheService extends BaseCacheService
         }, self::TTL_LONG);
     }
 
+    public function rememberOffersHeroOffer(): ?array
+    {
+        return $this->remember('offers.hero_offer', function () {
+            $offerId = $this->rememberSetting('offers_hero_offer_id');
+
+            if (! $offerId) {
+                return null;
+            }
+
+            $offer = Offer::with(['car.brand'])->find($offerId);
+
+            if (! $offer || ! $offer->is_active) {
+                return null;
+            }
+
+            $endsAt = $offer->ends_at;
+            $remaining = null;
+
+            if ($endsAt && $endsAt->isFuture()) {
+                $now = now();
+                $diff = $now->diff($endsAt);
+                $remaining = [
+                    'days' => $diff->days,
+                    'hours' => $diff->h,
+                    'minutes' => $diff->i,
+                    'seconds' => $diff->s,
+                    'total_seconds' => (int) $now->diffInSeconds($endsAt),
+                ];
+            }
+
+            return [
+                'id' => $offer->id,
+                'title' => $offer->title,
+                'description' => $offer->description,
+                'image' => $offer->image,
+                'discount_percent' => $offer->discount_percent,
+                'special_price' => $offer->special_price,
+                'special_installment' => $offer->special_installment,
+                'ends_at' => $endsAt?->toISOString(),
+                'is_expired' => $offer->is_expired,
+                'remaining' => $remaining,
+                'car' => $offer->car ? [
+                    'id' => $offer->car->id,
+                    'name' => $offer->car->name,
+                    'slug' => $offer->car->slug,
+                    'thumbnail' => $offer->car->thumbnail,
+                    'cash_price' => $offer->car->cash_price,
+                    'brand' => $offer->car->brand?->name,
+                ] : null,
+            ];
+        }, self::TTL_DEFAULT);
+    }
+
     public function forgetOffers(): void
     {
         Cache::forget('offers.data');
         Cache::forget('offers.hero_slides');
+        Cache::forget('offers.hero_offer');
     }
 }

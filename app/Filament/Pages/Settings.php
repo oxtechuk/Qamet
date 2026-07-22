@@ -95,6 +95,7 @@ class Settings extends Page
             'max_car_price' => $this->getSetting('max_car_price', 2500000),
             'max_down_payment' => $this->getSetting('max_down_payment', 80),
             'offer_hero_slides' => $this->getSetting('offer_hero_slides', []),
+            'offers_hero_offer_id' => $this->getSetting('offers_hero_offer_id'),
             'car_hero_slides' => $this->getSetting('car_hero_slides', []),
             'hero_slides' => $this->getSetting('hero_slides', []),
             'home_why_us' => $this->getSetting('home_why_us', []),
@@ -1026,6 +1027,22 @@ class Settings extends Page
                                         Tab::make(__('Offers'))
                                             ->icon('heroicon-m-megaphone')
                                             ->schema([
+                                                Section::make(__('Hero Offer'))
+                                                    ->description(__('Select an active offer to feature in the offers page hero with countdown timer'))
+                                                    ->schema([
+                                                        Forms\Components\Select::make('offers_hero_offer_id')
+                                                            ->label(__('Featured Offer'))
+                                                            ->options(fn () => \App\Models\Offer::where('is_active', true)
+                                                                ->with('car')
+                                                                ->get()
+                                                                ->mapWithKeys(fn ($offer) => [
+                                                                    $offer->id => $offer->title.' - '.($offer->car?->name ?? ''),
+                                                                ]))
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->nullable()
+                                                            ->helperText(__('Leave empty to hide the hero offer section')),
+                                                    ]),
                                                 Section::make(__('Offers Page Hero'))
                                                     ->schema([
                                                         Grid::make(2)
@@ -1170,6 +1187,7 @@ class Settings extends Page
                         Tab::make(__('Offers Slider'))
                             ->icon('heroicon-m-photo')
                             ->schema([
+
                                 Section::make(__('Offer Hero Slides'))
                                     ->description(__('Image slider displayed at the top of the offers page.'))
                                     ->schema([
