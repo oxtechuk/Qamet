@@ -137,6 +137,22 @@ class Car extends Model
         return $this->belongsToMany(Offer::class, 'car_offer');
     }
 
+    public function getExteriorImagesAttribute(): array
+    {
+        return $this->images->where('type', 'exterior')
+            ->map(fn (CarImage $img) => $img->getOriginal('image_path'))
+            ->values()
+            ->all();
+    }
+
+    public function getInteriorImagesAttribute(): array
+    {
+        return $this->images->where('type', 'interior')
+            ->map(fn (CarImage $img) => $img->getOriginal('image_path'))
+            ->values()
+            ->all();
+    }
+
     public function getMainImageAttribute(): ?string
     {
         if ($this->thumbnail) {

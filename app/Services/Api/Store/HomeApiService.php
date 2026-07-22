@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Api\Store;
 
 use App\Http\Resources\Store\BrandResource;
+use App\Http\Resources\Store\BrandTypeResource;
 use App\Http\Resources\Store\CarCardResource;
+use App\Http\Resources\Store\CarCategoryResource;
+use App\Http\Resources\Store\CarTypeResource;
 use App\Http\Resources\Store\HeroCarResource;
 use App\Http\Resources\Store\OfferCardResource;
 use App\Models\Car;
@@ -16,11 +19,13 @@ final class HomeApiService
 {
     public function __construct(
         private readonly HomeCacheService $cache,
+        private readonly CarApiService $carService,
     ) {}
 
     public function home(): array
     {
         $locale = app()->getLocale();
+        $result = $this->carService->listMeta();
 
         return [
             'hero_slides' => $this->buildHeroSlides($locale),
@@ -36,6 +41,12 @@ final class HomeApiService
                 'items' => OfferCardResource::collection($this->cache->rememberOffers())->resolve(),
             ],
             'cars_by_budget' => $this->buildCarsByBudget($locale),
+            'filter_brands' => BrandResource::collection($result['filterBrands'])->resolve(),
+            'filter_types' => CarTypeResource::collection($result['filterTypes'])->resolve(),
+            'filter_categories' => CarCategoryResource::collection($result['filterCategories'])->resolve(),
+            'filter_brand_types' => BrandTypeResource::collection($result['filterBrandTypes'])->resolve(),
+            'filter_years' => $result['filterYears'],
+            'filter_prices' => $result['filterPrices'],
         ];
     }
 
@@ -113,7 +124,7 @@ final class HomeApiService
                     'image' => $this->resolveImage($banner['image'] ?? null),
                     'mobile_image' => $this->resolveImage($banner['mobile_image'] ?? null),
                     'title' => $banner['title'][$locale] ?? $banner['title']['en'] ?? '',
-                    'button_text' => $banner['button_text'][$locale] ?? $banner['button_text']['en'] ?? '',
+                    'button_text' => $banner['button_text_'.$locale] ?? $banner['button_text_en'] ?? '',
                     'url' => $banner['url'] ?? null,
                     'is_active' => ($banner['active'] ?? true) && $withinDateRange,
                 ];

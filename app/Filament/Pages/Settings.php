@@ -95,6 +95,7 @@ class Settings extends Page
             'max_car_price' => $this->getSetting('max_car_price', 2500000),
             'max_down_payment' => $this->getSetting('max_down_payment', 80),
             'offer_hero_slides' => $this->getSetting('offer_hero_slides', []),
+            'car_hero_slides' => $this->getSetting('car_hero_slides', []),
             'hero_slides' => $this->getSetting('hero_slides', []),
             'home_why_us' => $this->getSetting('home_why_us', []),
             'home_budget_brackets' => $this->getSetting('home_budget_brackets', []),
@@ -937,25 +938,61 @@ class Settings extends Page
                                             ->schema([
                                                 Section::make(__('Cars Page Hero'))
                                                     ->schema([
-                                                        Grid::make(2)
+                                                        //                                                        Grid::make(2)
+                                                        //                                                            ->schema([
+                                                        //                                                                Forms\Components\TextInput::make('cars_hero_title_ar')
+                                                        //                                                                    ->label(__('Title').' ('.__('Arabic').')'),
+                                                        //                                                                Forms\Components\TextInput::make('cars_hero_title_en')
+                                                        //                                                                    ->label(__('Title').' ('.__('English').')'),
+                                                        //                                                            ]),
+                                                        //                                                        Grid::make(2)
+                                                        //                                                            ->schema([
+                                                        //                                                                Forms\Components\Textarea::make('cars_hero_subtitle_ar')
+                                                        //                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                        //                                                                Forms\Components\Textarea::make('cars_hero_subtitle_en')
+                                                        //                                                                    ->label(__('Subtitle').' ('.__('English').')'),
+                                                        //                                                            ]),
+                                                        //                                                        Forms\Components\FileUpload::make('cars_hero_image')
+                                                        //                                                            ->label(__('Hero Image'))
+                                                        //                                                            ->image()
+                                                        //                                                            ->directory('heroes/cars')
+                                                        //                                                            ->visibility('public'),
+                                                    ]),
+                                                Section::make(__('Car Hero Slides'))
+                                                    ->description(__('Carousel banners displayed at the top of the cars page'))
+                                                    ->schema([
+                                                        Forms\Components\Repeater::make('car_hero_slides')
+                                                            ->label(__('Slides'))
                                                             ->schema([
-                                                                Forms\Components\TextInput::make('cars_hero_title_ar')
-                                                                    ->label(__('Title').' ('.__('Arabic').')'),
-                                                                Forms\Components\TextInput::make('cars_hero_title_en')
-                                                                    ->label(__('Title').' ('.__('English').')'),
-                                                            ]),
-                                                        Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\Textarea::make('cars_hero_subtitle_ar')
-                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
-                                                                Forms\Components\Textarea::make('cars_hero_subtitle_en')
-                                                                    ->label(__('Subtitle').' ('.__('English').')'),
-                                                            ]),
-                                                        Forms\Components\FileUpload::make('cars_hero_image')
-                                                            ->label(__('Hero Image'))
-                                                            ->image()
-                                                            ->directory('heroes/cars')
-                                                            ->visibility('public'),
+                                                                Forms\Components\FileUpload::make('image')
+                                                                    ->label(__('Background Image'))
+                                                                    ->image()
+                                                                    ->directory('slides/cars')
+                                                                    ->visibility('public')
+                                                                    ->required(),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('title_ar')
+                                                                            ->label(__('Title').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('title_en')
+                                                                            ->label(__('Title').' ('.__('English').')'),
+                                                                    ]),
+                                                                Grid::make(3)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('button_text_ar')
+                                                                            ->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('button_text_en')
+                                                                            ->label(__('Button Text').' ('.__('English').')'),
+                                                                        Forms\Components\TextInput::make('link')
+                                                                            ->label(__('Button Link')),
+                                                                    ]),
+                                                                Forms\Components\Toggle::make('is_active')
+                                                                    ->label(__('Active'))
+                                                                    ->default(true),
+                                                            ])
+                                                            ->addActionLabel(__('Add Slide'))
+                                                            ->reorderable()
+                                                            ->collapsible(),
                                                     ]),
                                                 Section::make(__('Hero Ads'))
                                                     ->schema([
@@ -1496,7 +1533,7 @@ class Settings extends Page
 
     private const ARRAY_KEYS = [
         'social_links', 'working_days', 'offer_hero_slides',
-        'hero_slides', 'homepage_stats', 'booking_steps',
+        'car_hero_slides', 'hero_slides', 'homepage_stats', 'booking_steps',
         'home_why_us', 'home_budget_brackets',
         'home_banner',
     ];

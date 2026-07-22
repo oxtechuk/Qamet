@@ -52,7 +52,7 @@ class GalleryItemResource extends Resource
                 Forms\Components\FileUpload::make('file')
                     ->label(fn (Get $get): string => $get('type') === 'video' ? __('Video File') : __('Image'))
                     ->image(fn (Get $get): bool => $get('type') !== 'video')
-                    ->acceptedFileTypes(fn (Get $get): ?array => $get('type') === 'video' ? ['video/mp4'] : null)
+                 //   ->acceptedFileTypes(fn (Get $get): ?array => $get('type') === 'video' ? ['video/mp4'] : null)
                     ->directory(fn (Get $get): string => $get('type') === 'video' ? 'gallery/videos' : 'gallery')
                     ->visibility('public')
                     ->required(),

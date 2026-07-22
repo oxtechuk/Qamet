@@ -121,6 +121,12 @@ final class CarApiService
             return $slide;
         }, $this->cache->rememberHeroSlides());
 
+        $carHeroSlides = array_map(function (array $slide): array {
+            $slide['image'] = $this->resolveImage($slide['image'] ?? null);
+
+            return $slide;
+        }, $this->cache->rememberCarHeroSlides());
+
         $heroAds = [
             [
                 'image' => $this->resolveImage($this->cache->rememberSetting('hero_ad_1_image')),
@@ -148,6 +154,7 @@ final class CarApiService
             'homepageStats' => $homepageStats,
             'hero' => $hero,
             'heroSlides' => $heroSlides,
+            'carHeroSlides' => $carHeroSlides,
             'heroAds' => $heroAds,
         ];
     }

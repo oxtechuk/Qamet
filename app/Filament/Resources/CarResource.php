@@ -144,6 +144,18 @@ class CarResource extends Resource
                                         ->image()
                                         ->directory('cars/thumbnails')
                                         ->visibility('public'),
+                                    Forms\Components\FileUpload::make('exterior_images')->label(__('Exterior Images'))
+                                        ->multiple()
+                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                        ->maxSize(5120)
+                                        ->directory('cars/exterior')
+                                        ->visibility('public'),
+                                    Forms\Components\FileUpload::make('interior_images')->label(__('Interior Images'))
+                                        ->multiple()
+                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                        ->maxSize(5120)
+                                        ->directory('cars/interior')
+                                        ->visibility('public'),
                                     Forms\Components\Repeater::make('colors')->label(__('Colors'))
                                         ->schema([
                                             Grid::make(3)
