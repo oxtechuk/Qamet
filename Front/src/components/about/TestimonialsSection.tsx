@@ -88,7 +88,7 @@ export default function TestimonialsSection({
           {resolvedTitle}
         </h2>
 
-        <div className="mt-10 flex justify-start sm:mt-12">
+        <div className="mt-10 flex justify-center sm:mt-12">
           <article
             key={activeTestimonial.id}
             className={[

@@ -43,7 +43,7 @@
     "year": "Year / Model",
     "yearPlaceholder": "Choose year",
     "searchPlaceholder": "Search by car name, brand, or model...",
-    "searchButton": "Show Results",
+    "searchButton": "Search",
     "resetButton": "Reset"
   },
   "carCard": {
@@ -92,7 +92,7 @@
     "noCars": "No cars found matching your filters."
   },
   "rootLayout": {
-    "logoAlt": "Knoz Cars",
+    "logoAlt": "Qemt Cars",
     "quickLinks": [
       {
         "label": "Home",
@@ -118,7 +118,7 @@
     "phone": "056 9988 998",
     "email": "Tese@test.com",
     "address": "Riyadh, Saudi Arabia",
-    "copyright": "All rights reserved, Konooz Car 2026 ©"
+    "copyright": "All rights reserved, qmet nagd 2026 ©"
   },
   "footer": {
     "followUs": "Follow Us",
@@ -317,8 +317,8 @@
   "blogPage": {
     "readMore": "Read More",
     "hero": {
-      "badge": "Our Blog",
-      "title": "Knoz Motors <span class=\"highlight\">Blog</span>",
+         "badge": "featured blog post",
+      "title": "Qemt Motors <span class=\"highlight\">Blog</span>",
       "description": "Follow the latest car news, tips, and exclusive articles.",
       "allCategories": "All",
       "defaultAuthor": "Fahad Al-Qahtani",
@@ -354,7 +354,7 @@
       "titleWhite": "We Finance",
       "titleBlue": "Your Dreams",
       "subtitle": "And make owning your car easier than you imagine",
-      "description": "Knoz is the leading platform in Saudi Arabia for car financing and sales. We connect the best customers with the best financing terms for over 5 years."
+      "description": "Qemt is the leading platform in Saudi Arabia for car financing and sales. We connect the best customers with the best financing terms for over 5 years."
     },
     "intro": {
       "titleStart": "About Qamet",
@@ -431,7 +431,7 @@
   "offersPage": {
     "hero": {
       "badge": "Limited Time Offers",
-      "title": "Eid Exclusive Offer from Knoz",
+      "title": "Eid Exclusive Offer from Qemt",
       "description": "We offer you a selection of the strongest cars with financing solutions and direct discounts on the latest models for Eid.",
       "primaryButton": "Discover the Offer",
       "secondaryButton": "Finance Calculator",
@@ -630,19 +630,19 @@
       "buttonText": "Ask us now",
       "items": [
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "Applying for finance is easy and fast. Start by filling out the finance application form on the website or contact us via WhatsApp. The application usually requires a national ID, salary statement, and bank statement for the last 3 months. The application is reviewed within 24-48 business hours."
         },
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "You can choose the suitable car and send the finance application directly, and our team will contact you to complete the required information."
         },
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "Yes, we provide multiple financing solutions based on your credit status and suitable monthly budget."
         },
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "After finance approval, the booking and delivery procedures are coordinated according to the available city."
         }
       ]
@@ -652,7 +652,7 @@
       "badge": "Instant Finance Calculator",
       "titleWhite": "Calculate Your",
       "titleOrange": "Installment in Seconds",
-      "description": "Enter your data once and get instant financing results from multiple accredited financing entities in the Kingdom.",
+      "description": "Calculate your monthly payment accurately and submit your application now.",
       "infoBoxes": [
         {
           "title": "Calculate your monthly payment instantly",
@@ -747,9 +747,9 @@
   "financeCalculator": {
     "currency": "SAR",
     "badge": "Instant Finance Calculator",
-    "titleWhite": "Calculate Your",
+    "titleWhite": "Calculate your installment",
     "titleOrange": "Installment in Seconds",
-    "description": "Enter your data once and get instant financing results from multiple accredited financing entities in the Kingdom.",
+    "description": "Calculate your monthly payment accurately and submit your application now.",
     "infoBoxes": [
       {
         "title": "Calculate your monthly payment instantly",

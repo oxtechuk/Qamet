@@ -8,7 +8,7 @@ import RelatedArticlesSection from "../components/blogs/RelatedArticlesSection";
 import { getBlogBySlug } from "../services/api";
 import { useLanguageStore } from "../store/language.store";
 import { getImageUrl } from "../constants/app-images";
-import { formatBlogDate, formatBlogReadTime, parseBlogContent, postToCardProps } from "../utils/blog";
+import { formatBlogDate, formatBlogReadTime, postToCardProps } from "../utils/blog";
 import { useSEO } from "../utils/useSEO";
 import type { BlogPost, BlogCategory } from "../types/blogs.types";
 
@@ -38,11 +38,6 @@ export default function BlogDetailsPage() {
     () =>
       blog ? formatBlogReadTime(blog.reading_time, language) : "",
     [blog, language]
-  );
-
-  const sections = useMemo(
-    () => (blog ? parseBlogContent(blog.content) : []),
-    [blog]
   );
 
   const relatedArticles = useMemo(
@@ -86,7 +81,7 @@ export default function BlogDetailsPage() {
         image={getImageUrl(blog.thumbnail) || "/images/blog.png"}
       />
 
-      <BlogArticleContent sections={sections} />
+      <BlogArticleContent html={blog.content} />
 
       {relatedArticles.length > 0 && (
         <RelatedArticlesSection

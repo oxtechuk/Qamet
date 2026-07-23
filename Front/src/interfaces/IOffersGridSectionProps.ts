@@ -10,6 +10,11 @@ export interface IOffersGridSectionProps {
   categories?: IOfferCategory[];
   activeCategory?: string;
   onCategoryChange?: (value: string) => void;
+  // pagination
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
+  // legacy load-more (kept for compat)
   loadMoreText?: string;
   hasMore?: boolean;
   onLoadMore?: () => void;

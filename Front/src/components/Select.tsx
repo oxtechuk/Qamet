@@ -97,24 +97,36 @@ function SearchableSelect({
   useEffect(() => {
     if (!open) return;
     setQuery("");
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-      const dropdownHeight = 260;
-      const placeAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+    const updatePosition = () => {
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        const dropdownHeight = 260;
+        const placeAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
 
-      setDropdownAbove(placeAbove);
+        setDropdownAbove(placeAbove);
 
-      setDropdownStyle({
-        position: "fixed",
-        top: placeAbove ? rect.top - 4 : rect.bottom + 4,
-        left: rect.left,
-        width: rect.width,
-        zIndex: 200,
-      });
-    }
+        setDropdownStyle({
+          position: "fixed",
+          top: placeAbove ? rect.top - 4 : rect.bottom + 4,
+          left: rect.left,
+          width: rect.width,
+          zIndex: 200,
+        });
+      }
+    };
+
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+
     setTimeout(() => inputRef.current?.focus(), 0);
+
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
   }, [open]);
 
   useEffect(() => {

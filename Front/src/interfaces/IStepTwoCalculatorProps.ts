@@ -7,9 +7,6 @@ export interface IStepTwoCalculatorProps {
   setDownPaymentPercent: (v: number) => void;
   term: number;
   setTerm: (v: number) => void;
-  selectedBankId: number;
-  setSelectedBankId: (id: number) => void;
   personalInfo: IPersonalInfo;
-  carId: number;
   onBack: () => void;
 }

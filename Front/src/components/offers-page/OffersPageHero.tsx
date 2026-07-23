@@ -21,6 +21,8 @@ export default function OffersPageHero({
   description,
   carLabel,
   endsAt,
+  discountPercent,
+  specialPrice,
   primaryButtonText,
   primaryButtonTo,
 }: IOffersPageHeroProps) {
@@ -66,6 +68,22 @@ export default function OffersPageHero({
                 <p className="mt-4 text-[15px] font-bold text-[var(--brand-secondary-color)]">
                   {carLabel}
                 </p>
+              )}
+
+              {/* Discount & Price */}
+              {(discountPercent || specialPrice) && (
+                <div className="mt-4 flex items-center gap-3">
+                  {discountPercent && (
+                    <span className="rounded-full bg-red-500/10 px-3 py-1 text-[13px] font-bold text-red-400">
+                      -{discountPercent}%
+                    </span>
+                  )}
+                  {specialPrice && (
+                    <span className="text-[22px] font-extrabold text-[var(--brand-secondary-color)]">
+                      {specialPrice.toLocaleString()} {t("financeCalculator.step2.riyal")}
+                    </span>
+                  )}
+                </div>
               )}
 
               {/* Countdown */}

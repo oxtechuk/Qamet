@@ -183,15 +183,15 @@ export default function BrandsSection({
 
                 {/* Arrows */}
                 {totalSlides > 1 && (
-                    <div className="mt-8 flex items-center justify-start gap-6">
-                        <SlideArrow
-                            direction="next"
-                            onClick={isRTL ? prevSlide : nextSlide}
-                            className="bg-white/80 text-gray-700 backdrop-blur-md hover:bg-white border border-gray-200"
-                        />
+                    <div dir="ltr" className="mt-8 flex items-center justify-start gap-6">
                         <SlideArrow
                             direction="prev"
                             onClick={isRTL ? nextSlide : prevSlide}
+                            className="bg-white/80 text-gray-700 backdrop-blur-md hover:bg-white border border-gray-200"
+                        />
+                        <SlideArrow
+                            direction="next"
+                            onClick={isRTL ? prevSlide : nextSlide}
                             className="bg-white/80 text-gray-700 backdrop-blur-md hover:bg-white border border-gray-200"
                         />
                     </div>

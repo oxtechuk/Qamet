@@ -5,6 +5,8 @@ export interface IOffersPageHeroProps {
   description: string;
   carLabel?: string;
   endsAt?: string;
+  discountPercent?: number | null;
+  specialPrice?: number | null;
   primaryButtonText: string;
   primaryButtonTo: string;
 }

@@ -156,10 +156,21 @@ export default function BudgetCarsSection({
                 </div>
 
                 {/* Desktop: side-by-side layout */}
-                <div
-                    dir="ltr"
-                    className="hidden lg:grid lg:grid-cols-[minmax(0,1.75fr)_minmax(330px,0.75fr)] lg:items-center lg:gap-16"
-                >
+                <div className="hidden lg:grid lg:grid-cols-[minmax(330px,0.75fr)_minmax(0,1.75fr)] lg:items-center lg:gap-16">
+                    <div className={isRTL ? "text-right" : "text-left"}>
+                        <h2 className="text-[30px] font-extrabold leading-[1.35] text-white sm:text-[36px] lg:text-[38px]">
+                            <span>{titleBlue}</span>
+                        </h2>
+                        <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white/70 sm:text-[14px]">
+                            {description}
+                        </p>
+                        <BudgetCarsRangeFilters
+                            ranges={resolvedRanges}
+                            activeRange={activeRange}
+                            onRangeChange={onRangeChange}
+                        />
+                    </div>
+
                     <div
                         className="min-w-0"
                         onMouseEnter={() => setIsPaused(true)}
@@ -190,38 +201,19 @@ export default function BudgetCarsSection({
                         </div>
 
                         {canLoop && (
-                            <div className="mt-10 flex items-center justify-center gap-6">
-                                <SlideArrow
-                                    direction="next"
-                                    onClick={isRTL ? prev : next}
-                                    className="h-[44px] w-[44px]"
-                                />
+                            <div dir="ltr" className="mt-10 flex items-center justify-center gap-6">
                                 <SlideArrow
                                     direction="prev"
                                     onClick={isRTL ? next : prev}
                                     className="h-[44px] w-[44px]"
                                 />
+                                <SlideArrow
+                                    direction="next"
+                                    onClick={isRTL ? prev : next}
+                                    className="h-[44px] w-[44px]"
+                                />
                             </div>
                         )}
-                    </div>
-
-                    <div
-                        className={[
-                            "w-full",
-                            isRTL ? "text-right" : "text-left",
-                        ].join(" ")}
-                    >
-                        <h2 className="text-[30px] font-extrabold leading-[1.35] text-white sm:text-[36px] lg:text-[38px]">
-                            <span>{titleBlue}</span>
-                        </h2>
-                        <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white/70 sm:text-[14px]">
-                            {description}
-                        </p>
-                        <BudgetCarsRangeFilters
-                            ranges={resolvedRanges}
-                            activeRange={activeRange}
-                            onRangeChange={onRangeChange}
-                        />
                     </div>
                 </div>
 
@@ -255,15 +247,15 @@ export default function BudgetCarsSection({
                     </div>
 
                     {canLoop && (
-                        <div className="mt-10 flex items-center justify-center gap-6">
-                            <SlideArrow
-                                direction="next"
-                                onClick={isRTL ? prev : next}
-                                className="h-[44px] w-[44px]"
-                            />
+                        <div dir="ltr" className="mt-10 flex items-center justify-center gap-6">
                             <SlideArrow
                                 direction="prev"
                                 onClick={isRTL ? next : prev}
+                                className="h-[44px] w-[44px]"
+                            />
+                            <SlideArrow
+                                direction="next"
+                                onClick={isRTL ? prev : next}
                                 className="h-[44px] w-[44px]"
                             />
                         </div>

@@ -71,6 +71,33 @@ export interface BentoCar {
   brand: { id: number; name: string };
 }
 
+export interface HeroOffer {
+  id: number;
+  title: string;
+  description: string;
+  image: string | null;
+  discount_percent: number | null;
+  special_price: number | null;
+  special_installment: number | null;
+  ends_at: string;
+  is_expired: boolean;
+  remaining: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    total_seconds: number;
+  };
+  car: {
+    id: number;
+    name: string;
+    slug: string;
+    thumbnail: string | null;
+    cash_price: number;
+    brand: string;
+  };
+}
+
 export interface OffersMeta {
   current_page: number;
   per_page: number;
@@ -79,6 +106,7 @@ export interface OffersMeta {
   from: number;
   to: number;
   hero: OfferHero;
+  hero_offer: HeroOffer | null;
   hero_slides: OfferHeroSlide[];
   bento_cars: BentoCar[];
   main_gallery: string[];

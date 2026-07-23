@@ -23,7 +23,6 @@ export default function CarDetailsHero({
     orderTo,
 }: ICarDetailsHeroProps) {
     const { t, i18n } = useTranslation();
-    const isRTL = i18n.dir() === "rtl";
     const settings = useSettingsStore((s) => s.settings);
     const whatsappNumber =
         settings?.contact?.whatsapp?.replace(/\D/g, "") ?? "";
@@ -187,7 +186,6 @@ export default function CarDetailsHero({
                         onClearColor={() => setSelectedColor(null)}
                         viewType={viewType}
                         onViewChange={handleViewChange}
-                        isRTL={isRTL}
                     />
                 </div>
             </div>
@@ -208,7 +206,6 @@ interface ICarDetailsGalleryProps {
     onClearColor: () => void;
     viewType: "inside" | "outside";
     onViewChange: (type: "inside" | "outside") => void;
-    isRTL: boolean;
 }
 
 function CarDetailsGallery({
@@ -222,7 +219,6 @@ function CarDetailsGallery({
     onClearColor,
     viewType,
     onViewChange,
-    isRTL,
 }: ICarDetailsGalleryProps) {
     const { t } = useTranslation();
     const totalImages = images.length;
@@ -295,8 +291,8 @@ function CarDetailsGallery({
                     dir="ltr"
                 >
                     <SlideArrow
-                        direction="next"
-                        onClick={isRTL ? handlePrev : handleNext}
+                        direction="prev"
+                        onClick={handlePrev}
                         className="h-[48px] w-[48px] rounded-[12px]! border-[#000000]! bg-[#ffffff]/50! text-[#000000]! shadow-[0_4px_12px_rgba(0,0,0,0.06)] backdrop-blur-lg transition duration-300 hover:bg-[#E4E7EB]/60!"
                     />
 
@@ -326,8 +322,8 @@ function CarDetailsGallery({
                     </div>
 
                     <SlideArrow
-                        direction="prev"
-                        onClick={isRTL ? handleNext : handlePrev}
+                        direction="next"
+                        onClick={handleNext}
                         className="h-[48px] w-[48px] rounded-[12px]! border-[#000000]! bg-[#ffffff]/50! text-[#000000]! shadow-[0_4px_12px_rgba(0,0,0,0.06)] backdrop-blur-lg transition duration-300 hover:bg-[#E4E7EB]/60!"
                     />
                 </div>

@@ -24,7 +24,7 @@ export default function ContactCtaSection({
 
   return (
     <section
-      className="w-full py-10"
+      className="w-full py-20"
       dir={i18n.dir()}
       style={{
         background: sectionBgColor,

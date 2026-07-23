@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import ContactCtaSection from "../components/ContactCtaSection";
 import OffersGridSection from "../components/offers-page/OffersGridSection";
 import OffersPageHero from "../components/offers-page/OffersPageHero";
@@ -14,67 +14,54 @@ export default function OffersPage() {
   const { t } = useTranslation();
   useSEO(t("pageTitles.offers"), t("offersPage.hero.description"));
   const language = useLanguageStore((s) => s.language);
+  const [page, setPage] = useState(1);
 
-  const {
-    data: offersResponse,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["offers", language],
-    queryFn: ({ pageParam }) => getOffers(pageParam as number, 12),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.meta.current_page < lastPage.meta.last_page
-        ? lastPage.meta.current_page + 1
-        : undefined,
+  const { data: offersResponse } = useQuery({
+    queryKey: ["offers", language, page],
+    queryFn: () => getOffers(page, 12),
   });
 
-  const hero = offersResponse?.pages?.[0]?.meta.hero;
-  const firstOffer = offersResponse?.pages?.[0]?.data[0];
-  const firstCar = firstOffer?.car;
+  const hero = offersResponse?.meta.hero;
+  const heroOffer = offersResponse?.meta.hero_offer;
 
   const offers = useMemo(() => {
-    if (!offersResponse?.pages) return [];
-    return offersResponse.pages.flatMap((page) =>
-      page.data.map((offer) => offerToCardProps(offer, t))
-    );
+    if (!offersResponse?.data) return [];
+    return offersResponse.data.map((offer) => offerToCardProps(offer, t));
   }, [offersResponse, t]);
 
-  const brandName = firstCar?.brand?.name ?? "";
-  const carLabel = firstCar
-    ? brandName
-      ? `${brandName} ${firstCar.name} ${firstCar.year}`
-      : `${firstCar.name} ${firstCar.year}`
+  const currentPage = offersResponse?.meta.current_page ?? page;
+  const totalPages = offersResponse?.meta.last_page ?? 1;
+
+  const heroCarLabel = heroOffer?.car
+    ? heroOffer.car.brand
+      ? `${heroOffer.car.brand} ${heroOffer.car.name}`
+      : heroOffer.car.name
     : undefined;
 
   return (
     <>
       <OffersPageHero
         image={
+          getImageUrl(heroOffer?.image ?? null) ||
           getImageUrl(hero?.image ?? null) ||
-          getImageUrl(firstOffer?.image ?? null) ||
-          getImageUrl(firstCar?.main_image ?? null) ||
           APP_IMAGES.OFFER_PLACEHOLDER
         }
-        badgeText={hero?.badge || t("offersPage.hero.badge")}
-        title={hero?.title || t("offersPage.hero.title")}
-        description={hero?.subtitle || t("offersPage.hero.description")}
-        carLabel={carLabel}
-        endsAt={firstOffer?.ends_at}
+        badgeText={heroOffer?.discount_percent ? `${heroOffer.discount_percent}% ${t("offersPage.hero.badge")}` : hero?.badge || t("offersPage.hero.badge")}
+        title={heroOffer?.title || hero?.title || t("offersPage.hero.title")}
+        description={heroOffer?.description ? heroOffer.description.replace(/<[^>]+>/g, "") : hero?.subtitle || t("offersPage.hero.description")}
+        carLabel={heroCarLabel}
+        endsAt={heroOffer?.ends_at}
+        discountPercent={heroOffer?.discount_percent}
+        specialPrice={heroOffer?.special_price}
         primaryButtonText={t("offersPage.hero.primaryButton")}
-        primaryButtonTo="/cars"
+        primaryButtonTo={heroOffer?.car?.slug ? `/cars/${heroOffer.car.slug}` : "/cars"}
       />
 
       <OffersGridSection
         offers={offers}
-        loadMoreText={
-          isFetchingNextPage
-            ? t("offersPage.grid.loading")
-            : t("offersPage.grid.loadMore")
-        }
-        hasMore={!!hasNextPage}
-        onLoadMore={() => fetchNextPage()}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setPage}
       />
 
       <ContactCtaSection
@@ -85,7 +72,6 @@ export default function OffersPage() {
         phoneText={t("contactCta.phoneText")}
         phoneHref="tel:+966500000000"
         whatsappText={t("allCarsPage.contactWhatsapp")}
-        sectionBgColor="var(--brand-CTA-BG-color)"
       />
     </>
   );

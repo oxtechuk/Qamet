@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SlideArrowProps {
     direction: "prev" | "next";
@@ -22,7 +22,7 @@ export default function SlideArrow({ direction, onClick, className = "" }: Slide
                 className,
             ].join(" ")}
         >
-            {isPrev ? <ArrowRight size={20} /> : <ArrowLeft size={20} />}
+            {isPrev ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
     );
 }

@@ -16,7 +16,7 @@ import { useSEO } from "../utils/useSEO";
 import type { FilterValues, CarsQueryParams } from "../types/cars.types";
 import { DEFAULT_FILTER_VALUES } from "../types/cars.types";
 import type { CarCardProps } from "../components/CarCard";
-import type { IAllCarsPageHomeOffer } from "../interfaces/IAllCarsPageHomeOffer";
+import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 
 const PAGE_SIZE = 6;
 
@@ -137,32 +137,26 @@ export default function AllCarsPage() {
         setCurrentPage(1);
     };
 
-    const homeOffers: IAllCarsPageHomeOffer[] = useMemo(
-        () => [
-            {
-                id: 1,
-                image: APP_IMAGES.OFFER1,
-                alt: t("allCarsPage.homeOffers.fordTerritoryAlt"),
-                buttonText: t("allCarsPage.homeOffers.discoverOffer"),
-                buttonTo: "/offers/ford-territory",
-            },
-            {
-                id: 2,
-                image: APP_IMAGES.OFFER1,
-                alt: t("allCarsPage.homeOffers.kiaSportageAlt"),
-                buttonText: t("allCarsPage.homeOffers.discoverOffer"),
-                buttonTo: "/offers/kia-sportage",
-            },
-            {
-                id: 3,
-                image: APP_IMAGES.OFFER1,
-                alt: t("allCarsPage.homeOffers.toyotaCamryAlt"),
-                buttonText: t("allCarsPage.homeOffers.viewDetails"),
-                buttonTo: "/offers/toyota-camry",
-            },
-        ],
-        [t],
-    );
+    const homeOffers: IHomeOfferSlide[] = useMemo(() => {
+        const slides = carsMeta?.hero_slides;
+        if (!Array.isArray(slides) || slides.length === 0) {
+            return [];
+        }
+
+        const isArabic = language === "ar";
+
+        return slides
+            .filter((slide) => slide.is_active && slide.image)
+            .map((slide, index) => ({
+                id: slide.car_id ?? index,
+                image: slide.image!,
+                alt: isArabic ? slide.title_ar : slide.title_en,
+                buttonText: isArabic ? slide.button_text_ar : slide.button_text_en,
+                buttonTo: slide.link || undefined,
+                button2Text: isArabic ? slide.button_2_text_ar : slide.button_2_text_en,
+                button2To: slide.link_2 || undefined,
+            }));
+    }, [carsMeta?.hero_slides, language]);
 
     return (
         <main>

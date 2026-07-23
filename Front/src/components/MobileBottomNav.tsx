@@ -5,7 +5,7 @@ import { useLanguageStore } from "../store/language.store";
 import { useSettingsStore } from "../store/settings.store";
 import { mobileNavItems } from "../constants/navigation";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
-import { X, Info, Phone, Newspaper, Languages, MapPin } from "lucide-react";
+import { X, Info, Phone, Newspaper, Languages, MapPin, Mail } from "lucide-react";
 
 const menuLinks = [
   { labelKey: "nav.about", to: "/about", icon: Info },
@@ -168,6 +168,24 @@ export default function MobileBottomNav() {
                 <MapPin size={20} strokeWidth={2} />
                 {t("topbar.locationValue")}
               </span>
+              {settings?.contact?.phone && (
+                <a
+                  href={`tel:${settings.contact.phone}`}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold leading-none text-[#07111F] transition hover:bg-[var(--background)]"
+                >
+                  <Phone size={20} strokeWidth={2} />
+                  {settings.contact.phone}
+                </a>
+              )}
+              {settings?.contact?.email && (
+                <a
+                  href={`mailto:${settings.contact.email}`}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold leading-none text-[#07111F] transition hover:bg-[var(--background)]"
+                >
+                  <Mail size={20} strokeWidth={2} />
+                  {settings.contact.email}
+                </a>
+              )}
               <button
                 type="button"
                 onClick={() => {

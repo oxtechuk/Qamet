@@ -5,4 +5,6 @@ export interface IHomeOfferSlide {
   alt?: string;
   buttonText?: string;
   buttonTo?: string;
+  button2Text?: string;
+  button2To?: string;
 }

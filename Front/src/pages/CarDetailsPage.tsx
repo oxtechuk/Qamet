@@ -98,8 +98,6 @@ export default function CarDetailsPage() {
       {relatedCars.length > 0 && (
         <FeaturedCarsSection
           titleBlue={t("carDetails.relatedCars.titleBlue")}
-          titleOrange={t("carDetails.relatedCars.titleOrange")}
-          description={t("carDetails.relatedCars.description")}
           buttonText={t("carDetails.relatedCars.buttonText")}
           buttonTo="/cars"
           cars={relatedCars}

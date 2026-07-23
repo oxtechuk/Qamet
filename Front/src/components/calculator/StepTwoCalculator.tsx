@@ -41,9 +41,7 @@ export default function StepTwoCalculator({
   setDownPaymentPercent,
   term,
   setTerm,
-  selectedBankId,
   personalInfo,
-  carId,
   onBack,
 }: IStepTwoCalculatorProps) {
   const { t } = useTranslation();
@@ -60,34 +58,24 @@ export default function StepTwoCalculator({
 
   useEffect(() => {
     calculateFinance({
-      car_id: carId,
+      car_price: carPrice,
       down_payment_percentage: downPaymentPercent,
       period_months: term,
-      bank_id: selectedBankId,
     })
       .then(setCalcResult)
       .catch(() => {});
-  }, [carId, downPaymentPercent, term, selectedBankId]);
+  }, [carPrice, downPaymentPercent, term]);
 
   const monthlyPayment = calcResult?.monthly_payment ?? 0;
   const totalFinance = calcResult?.total_payment ?? 0;
   const financeAmount = calcResult?.loan_amount ?? 0;
-  const annualRate = 4.9;
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
       await submitCalculatorLead({
         name: personalInfo.fullName,
-        phone: personalInfo.phone,
-        email: personalInfo.email,
-        city: personalInfo.city,
-        purpose: t("financeCalculator.step2.purpose"),
-        salary: Number(personalInfo.salary),
-        monthly_obligations: Number(personalInfo.obligations),
-        car_ids: [carId],
-        notes: personalInfo.message,
-        preferred_bank_id: selectedBankId,
+        phone_number: personalInfo.phone,
       });
       toast.success(t("financeCalculator.step2.successToast"));
     } catch {
@@ -195,7 +183,7 @@ export default function StepTwoCalculator({
           </div>
           <div className="flex justify-between text-[13px]">
             <span className="text-white/60">{t("financeCalculator.step2.annualRate")}</span>
-            <span>{annualRate}%</span>
+            <span>{calcResult?.annual_rate ? `${calcResult.annual_rate}%` : "—"}</span>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import type { CarItem, BrandInfo, FilterPrice, HomepageStat, FilterCategory } from "./home.types";
+import type { CarItem, BrandInfo, FilterPrice, HomepageStat, FilterCategory, CarSpec, CarColor } from "./home.types";
 
 export interface CarType {
   id: number;
@@ -113,8 +113,16 @@ export const DEFAULT_FILTER_VALUES: FilterValues = {
 
 export interface HeroSlide {
   link: string;
-  image: string;
-  button_text: string;
+  image: string | null;
+  car_id: number | null;
+  link_2: string | null;
+  title_ar: string;
+  title_en: string;
+  is_active: boolean;
+  button_text_ar: string;
+  button_text_en: string;
+  button_2_text_ar: string;
+  button_2_text_en: string;
 }
 
 export interface HeroAd {
@@ -126,15 +134,22 @@ export interface FeaturedOfferCar {
   id: number;
   name: string;
   slug: string;
-  main_image: string | null;
+  main_image: string;
   thumbnail: string | null;
   cash_price: number;
-  min_installment: number;
   current_price: number;
+  savings: number;
+  min_installment: number;
+  min_down_payment: number;
   type: string;
   year: string;
-  specs: Record<string, string | null>;
+  specs: CarSpec[];
+  colors: CarColor[];
+  is_featured: boolean;
+  availability_status: string;
+  highlight: string | null;
   is_current_year: boolean;
+  brand: { id: number; name: string };
 }
 
 export interface FeaturedOffer {
@@ -143,24 +158,41 @@ export interface FeaturedOffer {
   description: string;
   image: string | null;
   installment_starts_from: number;
-  cars: FeaturedOfferCar[];
+  time_remaining: string;
+  is_expired: boolean;
+  car: FeaturedOfferCar;
+}
+
+export interface FilterHighlight {
+  value: string;
+  label: string;
+  count: number;
+}
+
+export interface FilterHorsepower {
+  min: number;
+  max: number | null;
+  count: number;
 }
 
 export interface CarsMetaData {
   featured_offer: FeaturedOffer | null;
   total_cars: number;
   total_brands: number;
-  hero_badge?: string;
-  hero_title_line1?: string;
-  hero_title_line2_prefix?: string;
-  hero_title_line2_highlight?: string;
-  hero_description?: string;
+  hero: {
+    title: string;
+    subtitle: string;
+    image: string | null;
+  } | null;
   filter_brands: BrandInfo[];
   filter_types: FilterCategory[];
   filter_categories: FilterCategory[];
   filter_brand_types: any[];
   filter_years: string[];
   filter_prices: FilterPrice[];
+  filter_fuels: FilterCategory[];
+  filter_horsepowers: FilterHorsepower[];
+  filter_highlights: FilterHighlight[];
   homepage_stats: HomepageStat[];
   hero_slides: HeroSlide[];
   hero_ads: HeroAd[];

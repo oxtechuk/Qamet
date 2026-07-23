@@ -6,10 +6,9 @@ export interface IBankItem {
 }
 
 export interface ICalculateRequest {
-  car_id: number;
+  car_price: number;
   down_payment_percentage: number;
   period_months: number;
-  bank_id: number;
 }
 
 export interface ICalculateData {

@@ -137,15 +137,15 @@ export default function CarsShowcaseSection({
           </div>
 
           {totalSlides > 1 && (
-            <div className="flex items-center justify-center gap-6">
-              <SlideArrow
-                direction="next"
-                onClick={isRTL ? prevSlide : nextSlide}
-              />
-
+            <div dir="ltr" className="flex items-center justify-center gap-6">
               <SlideArrow
                 direction="prev"
                 onClick={isRTL ? nextSlide : prevSlide}
+              />
+
+              <SlideArrow
+                direction="next"
+                onClick={isRTL ? prevSlide : nextSlide}
               />
             </div>
           )}

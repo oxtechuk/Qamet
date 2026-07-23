@@ -7,14 +7,14 @@ import { useSEO } from "../utils/useSEO";
 import { getAboutPageData } from "../services/api";
 import type { IAboutData } from "../interfaces/IAboutData";
 import type { ITestimonialItem } from "../interfaces/ITestimonialItem";
-import type { IShowroomGalleryItem } from "../components/about/ShowroomGallerySection";
+import type { ShowroomGalleryItem } from "../components/about/ShowroomGallerySection";
 import CoreValuesSection from "../components/about/CoreValuesSection";
 import AboutIntroSection from "../components/about/AboutIntroSection";
 import WhyChooseUsSection from "../components/about/WhyChooseUsSection";
 import ShowroomGallerySection from "../components/about/ShowroomGallerySection";
 import TestimonialsSection from "../components/about/TestimonialsSection";
 
-const FALLBACK_GALLERY_ITEMS: IShowroomGalleryItem[] = [
+const FALLBACK_GALLERY_ITEMS: ShowroomGalleryItem[] = [
   { id: 1, src: APP_IMAGES.GALLERY_G1, alt: "سيارة داخل المعرض", type: "video", poster: APP_IMAGES.GALLERY_G1 },
   { id: 2, src: APP_IMAGES.GALLERY_G2, alt: "سيارات داخل معرض قمة نجد", type: "image" },
   { id: 3, src: APP_IMAGES.GALLERY_G3, alt: "سيارة تويوتا داخل المعرض", type: "image" },
@@ -37,13 +37,18 @@ export default function AboutPage() {
   const whyChooseUs = aboutData?.why_choose_us;
   const gallery = aboutData?.gallery;
 
-  const galleryItems: IShowroomGalleryItem[] = useMemo(() => {
+  const galleryItems: ShowroomGalleryItem[] = useMemo(() => {
     if (!gallery || !gallery.length) return FALLBACK_GALLERY_ITEMS;
-    return gallery.map((item) => ({
-      id: item.id,
-      src: getImageUrl(item.url) || "",
-      type: item.type,
-    }));
+    const mapped = gallery
+      .map((item, index) => ({
+        id: index,
+        src: getImageUrl(item.file) || "",
+        alt: item.alt_text ?? item.caption ?? "",
+        type: item.type,
+        poster: item.type === "video" ? (getImageUrl(item.thumbnail) || undefined) : undefined,
+      }))
+      .filter((item) => item.src);
+    return mapped.length ? mapped : FALLBACK_GALLERY_ITEMS;
   }, [gallery]);
 
   const testimonials: ITestimonialItem[] = useMemo(() => {

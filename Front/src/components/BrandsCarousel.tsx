@@ -75,6 +75,8 @@ export default function BrandsCarousel({
   const viewWidth = typeof window !== "undefined" ? window.innerWidth : 1440;
   const repeats = Math.max(4, Math.ceil((viewWidth * 3) / (brands.length * itemWidth)));
 
+  const isRTL = direction === "rtl";
+
   const setA: React.ReactNode[] = [];
   const setB: React.ReactNode[] = [];
   for (let i = 0; i < repeats; i++) {
@@ -105,7 +107,8 @@ export default function BrandsCarousel({
           offsetRef.current -= halfWidth;
         }
 
-        track.style.transform = `translateX(-${offsetRef.current}px)`;
+        const sign = isRTL ? 1 : -1;
+        track.style.transform = `translateX(${sign * offsetRef.current}px)`;
       }
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -115,7 +118,7 @@ export default function BrandsCarousel({
     return () => {
       cancelAnimationFrame(rafRef.current);
     };
-  }, [brands, speed]);
+  }, [brands, speed, isRTL]);
 
   return (
     <section dir={direction} className="w-full overflow-hidden">

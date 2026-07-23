@@ -138,13 +138,13 @@ export default function FeaturedCarsSection({
                      
                     </div>
                     {totalSlides > 1 && (
-                        <div className="flex items-center justify-center gap-6">
+                        <div dir="ltr" className="flex items-center justify-center gap-6">
 
                                 <SlideArrow
                                 direction="prev"
                                 onClick={isRTL ? nextSlide : prevSlide}
                                 className={
-                                    (isRTL ? !hasPrev : !hasNext)
+                                    (isRTL ? !hasNext : !hasPrev)
                                         ? "border-gray-300! bg-gray-100! text-gray-400! hover:bg-gray-100! cursor-not-allowed"
                                         : "border-[#111827]/25! bg-[#111827]/10! text-[#111827]! hover:bg-[#111827]/20!"
                                 }
@@ -153,7 +153,7 @@ export default function FeaturedCarsSection({
                                 direction="next"
                                 onClick={isRTL ? prevSlide : nextSlide}
                                 className={
-                                    (isRTL ? !hasNext : !hasPrev)
+                                    (isRTL ? !hasPrev : !hasNext)
                                         ? "border-gray-300! bg-gray-100! text-gray-400! hover:bg-gray-100! cursor-not-allowed"
                                         : "border-[#111827]/25! bg-[#111827]/10! text-[#111827]! hover:bg-[#111827]/20!"
                                 }

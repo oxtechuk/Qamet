@@ -12,7 +12,7 @@ export default function HomeOffersSection({
     interval = 5000,
     className = "",
 }: IHomeOffersSectionProps) {
-    const { i18n, t } = useTranslation();
+    const { i18n } = useTranslation();
 
     const isRTL = i18n.dir() === "rtl";
 
@@ -114,28 +114,57 @@ export default function HomeOffersSection({
                             </div>
                         ))}
 
-                        {/* CTA button above image */}
-                        {activeSlide.buttonText && (
-                            <button
-                                type="button"
-                                onClick={handleOfferClick}
-                                className={[
-                                    "absolute bottom-[8%] z-20",
-                                    isRTL ? "right-[4.5%]" : "left-[4.5%]",
-                                    "flex min-h-[48px] min-w-[150px] items-center justify-center",
-                                    "rounded-[14px]",
-                                    "bg-[var(--brand-secondary-color)] px-7",
-                                    "text-[15px] font-extrabold",
-                                    "text-[var(--brand-primary-color)]",
-                                    "shadow-[0_10px_24px_rgba(0,0,0,0.16)]",
-                                    "transition duration-300",
-                                    "hover:-translate-y-0.5 hover:brightness-105",
-                                    "sm:min-h-[54px] sm:min-w-[170px] sm:text-[17px]",
-                                ].join(" ")}
-                            >
-                                {activeSlide.buttonText}
-                            </button>
-                        )}
+                        {/* CTA buttons above image */}
+                        <div
+                            className={[
+                                "absolute bottom-[8%] z-20 flex flex-col gap-2 sm:flex-row",
+                                isRTL ? "right-[4.5%]" : "left-[4.5%]",
+                                isRTL ? "items-end" : "items-start",
+                            ].join(" ")}
+                        >
+                            {activeSlide.buttonText && (
+                                <button
+                                    type="button"
+                                    onClick={handleOfferClick}
+                                    className={[
+                                        "flex min-h-[48px] min-w-[150px] items-center justify-center",
+                                        "rounded-[14px]",
+                                        "bg-[var(--brand-secondary-color)] px-7",
+                                        "text-[15px] font-extrabold",
+                                        "text-[var(--brand-primary-color)]",
+                                        "shadow-[0_10px_24px_rgba(0,0,0,0.16)]",
+                                        "transition duration-300",
+                                        "hover:-translate-y-0.5 hover:brightness-105",
+                                        "sm:min-h-[54px] sm:min-w-[170px] sm:text-[17px]",
+                                    ].join(" ")}
+                                >
+                                    {activeSlide.buttonText}
+                                </button>
+                            )}
+
+                            {activeSlide.button2Text && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (!activeSlide.button2To) return;
+                                        window.location.href = activeSlide.button2To;
+                                    }}
+                                    className={[
+                                        "flex min-h-[48px] min-w-[150px] items-center justify-center",
+                                        "rounded-[14px]",
+                                        "bg-white px-7",
+                                        "text-[15px] font-extrabold",
+                                        "text-[var(--brand-primary-color)]",
+                                        "shadow-[0_10px_24px_rgba(0,0,0,0.16)]",
+                                        "transition duration-300",
+                                        "hover:-translate-y-0.5 hover:bg-white/95",
+                                        "sm:min-h-[54px] sm:min-w-[170px] sm:text-[17px]",
+                                    ].join(" ")}
+                                >
+                                    {activeSlide.button2Text}
+                                </button>
+                            )}
+                        </div>
 
                         {/* Navigation arrows */}
                         {totalSlides > 1 && (
@@ -147,12 +176,12 @@ export default function HomeOffersSection({
                             >
                                 <SlideArrow
                                     direction="prev"
-                                    onClick={isRTL ? previousSlide : nextSlide}
+                                    onClick={isRTL ? nextSlide : previousSlide}
                                     className="h-[46px] w-[46px] rounded-[14px] border-white/45 bg-white/20 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:bg-white/30 sm:h-[50px] sm:w-[50px]"
                                 />
                                 <SlideArrow
                                     direction="next"
-                                    onClick={isRTL ? nextSlide : previousSlide}
+                                    onClick={isRTL ? previousSlide : nextSlide}
                                     className="h-[46px] w-[46px] rounded-[14px] border-white/45 bg-white/20 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:bg-white/30 sm:h-[50px] sm:w-[50px]"
                                 />
                             </div>

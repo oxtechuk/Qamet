@@ -1,6 +1,7 @@
 export interface IAboutGalleryItem {
-  id: number;
   type: "image" | "video";
-  url: string;
-  thumb: string | null;
+  file: string;
+  thumbnail: string | null;
+  caption: string;
+  alt_text: string | null;
 }

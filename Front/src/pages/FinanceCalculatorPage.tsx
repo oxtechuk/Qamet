@@ -18,7 +18,6 @@ export default function FinanceCalculatorPage() {
   const [selectedCarId, setSelectedCarId] = useState<number>(0);
   const [downPaymentPercent, setDownPaymentPercent] = useState(30);
   const [term, setTerm] = useState(60);
-  const [selectedBankId, setSelectedBankId] = useState(2);
   const [personalInfo, setPersonalInfo] = useState<IPersonalInfo | null>(null);
 
   const selectedCar: ISelectedCar = useMemo(() => {
@@ -45,7 +44,7 @@ export default function FinanceCalculatorPage() {
     <main dir={i18n.dir()} className="min-h-screen w-full bg-[#F5F4EF]">
       <div className="w-full bg-[#021F38] px-4 py-10 text-center">
         <h1 className="text-[32px] font-extrabold text-white md:text-[38px] mb-5">
-          {t("financeCalculator.titleWhite")} {t("financeCalculator.titleOrange")}
+          {t("financeCalculator.titleWhite")}
         </h1>
         <p className="mt-1 text-[14px] text-white/60">
           {t("financeCalculator.description")}
@@ -73,10 +72,7 @@ export default function FinanceCalculatorPage() {
             setDownPaymentPercent={setDownPaymentPercent}
             term={term}
             setTerm={setTerm}
-            selectedBankId={selectedBankId}
-            setSelectedBankId={setSelectedBankId}
             personalInfo={personalInfo}
-            carId={selectedCarId}
             onBack={() => setStep(1)}
           />
         ) : null}

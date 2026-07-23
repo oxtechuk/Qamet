@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, Mail, Menu, Phone, Search, X } from "lucide-react";
+import { ChevronDown, Languages, Mail, MapPin, Menu, Phone, Search, X } from "lucide-react";
 
 import { useLanguageStore } from "../store/language.store";
 import { useSettingsStore } from "../store/settings.store";
@@ -228,7 +228,8 @@ export default function HomeHero({
                             key={`thumbnail-${animationKey}`}
                             className={[
                                 "hero-thumbnail-in absolute z-20 hidden overflow-hidden",
-                                "left-[4.3%] top-[34%]",
+                                isRTL ? "left-[4.3%]" : "right-[4.3%]",
+                                "top-[34%]",
                                 "h-[168px] w-[220px]",
                                 "rounded-[17px] border-[3px] border-white bg-black",
                                 "shadow-[0_18px_45px_rgba(0,0,0,0.28)]",
@@ -378,13 +379,13 @@ export default function HomeHero({
                     {totalSlides > 1 && (
                         <>
                             <SlideArrow
-                                direction="next"
-                                onClick={isRTL ? previousSlide : nextSlide}
+                                direction="prev"
+                                onClick={isRTL ? nextSlide : previousSlide}
                                 className="absolute bottom-[6%] left-[4.4%] z-20"
                             />
                             <SlideArrow
-                                direction="prev"
-                                onClick={isRTL ? nextSlide : previousSlide}
+                                direction="next"
+                                onClick={isRTL ? previousSlide : nextSlide}
                                 className="absolute bottom-[6%] right-[4.4%] z-20"
                             />
                         </>
@@ -430,7 +431,7 @@ export default function HomeHero({
                                         type="button"
                                         aria-label="Close"
                                         onClick={() => setCarFinderOpen(false)}
-                                        className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                                        className={`absolute top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 ${isRTL ? "left-4" : "right-4"}`}
                                     >
                                         <X size={20} />
                                     </button>
@@ -474,7 +475,7 @@ export default function HomeHero({
 
                     <aside
                         dir={direction}
-                        className="absolute right-0 bottom-0 top-0 flex w-[84vw] max-w-[390px] flex-col bg-white text-[#111827] shadow-2xl"
+                        className={`absolute bottom-0 top-0 flex w-[84vw] max-w-[390px] flex-col bg-white text-[#111827] shadow-2xl ${isRTL ? "right-0" : "left-0"}`}
                     >
                         <div className="flex items-center justify-between px-6 py-5">
                             <img
@@ -515,6 +516,29 @@ export default function HomeHero({
                                 </NavLink>
                             ))}
                         </nav>
+
+                        <div className="mx-6 h-px bg-gray-200" />
+
+                        <div className="px-5 py-4 flex flex-col gap-1">
+                            <span className="flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-semibold text-gray-600">
+                                <MapPin size={18} strokeWidth={2} className="text-[var(--brand-primary-color)]" />
+                                {t("topbar.locationValue")}
+                            </span>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const { language, setLanguage } = useLanguageStore.getState();
+                                    setLanguage(language === "en" ? "ar" : "en");
+                                    setMenuOpen(false);
+                                }}
+                                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-semibold text-gray-600 transition hover:bg-gray-100 hover:text-[#111827]"
+                            >
+                                <Languages size={18} strokeWidth={2} className="text-[var(--brand-primary-color)]" />
+                                {t("topbar.language")}
+                            </button>
+                        </div>
+
+                        <div className="mx-6 h-px bg-gray-200" />
 
                         <div className="space-y-3 px-5 pb-6">
                             {settings?.contact?.phone && (
