@@ -187,8 +187,8 @@ function SidebarContent({
   return (
     <div className="overflow-visible rounded-t-[22px] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
       <div className="flex h-[62px] items-center justify-start gap-4 rounded-t-[22px] bg-[#B1BAC1] px-6 text-white">
-        <Search size={38} strokeWidth={2.2} color="var(--brand-primary-color)" />
-        <h2 className="text-[25px] font-extrabold text-[var(--brand-primary-color)]">
+        <Search size={32} strokeWidth={2.2} color="var(--brand-primary-color)" />
+        <h2 className="text-[25px] text-[var(--brand-primary-color)]">
           {t("carsSidebarFilter.search")}
         </h2>
       </div>

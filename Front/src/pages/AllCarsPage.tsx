@@ -18,7 +18,7 @@ import { DEFAULT_FILTER_VALUES } from "../types/cars.types";
 import type { CarCardProps } from "../components/CarCard";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 9;
 
 export default function AllCarsPage() {
     const { t } = useTranslation();
