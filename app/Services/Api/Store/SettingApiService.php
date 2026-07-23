@@ -67,7 +67,7 @@ final class SettingApiService
 
         $footerText = $settings->get('footer_text', '');
 
-        $socialMedia = $settings->get('social_media', []);
+        $socialMedia = $settings->get('social_links', []);
         if (is_string($socialMedia)) {
             $socialMedia = json_decode($socialMedia, true) ?: [];
         }
