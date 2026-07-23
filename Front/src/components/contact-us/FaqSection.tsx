@@ -14,13 +14,13 @@ export default function FaqSection({ faqs }: IFaqSectionProps) {
     <section dir={i18n.dir()} className="w-full bg-[#F9F9F7] py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-start">
-          <h2 className="text-[32px] font-extrabold text-[#111827] md:text-[38px]">
+          <h2 className="text-[32px]  text-[#111827] md:text-[38px]">
             {t("contactPage.faq.titleBlack")}{" "}
             <span className="text-[var(--brand-secondary-color)]">
               {t("contactPage.faq.titleOrange")}
             </span>
           </h2>
-          <p className="mt-1 text-[14px] text-[#6B7280]">
+          <p className="mt-3 text-[14px] text-[#6B7280]">
             {t("contactPage.faq.description")}
           </p>
         </div>

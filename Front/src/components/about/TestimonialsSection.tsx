@@ -85,7 +85,7 @@ export default function TestimonialsSection({
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="mx-auto max-w-[1120px] px-4 sm:px-6 lg:px-8">
-        <h2 className="text-center text-[28px] font-extrabold text-[var(--brand-secondary-color)] sm:text-[34px]">
+        <h2 className="text-center text-[28px]  text-[var(--brand-secondary-color)] sm:text-[34px]">
           {resolvedTitle}
         </h2>
 

@@ -49,7 +49,7 @@ export default function WhyChooseUsSection({
     >
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[620px] text-center">
-          <h2 className="text-[30px] font-extrabold leading-tight text-[var(--brand-primary-color)] sm:text-[38px]">
+          <h2 className="text-[30px] leading-tight text-[var(--brand-primary-color)] sm:text-[38px]">
             <span>{resolvedTitleStart}</span>{" "}
             <span className="text-[var(--brand-secondary-color)]">
               {resolvedTitleHighlight}

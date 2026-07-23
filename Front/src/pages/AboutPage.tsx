@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useLanguageStore } from "../store/language.store";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
+import { useSettingsStore } from "../store/settings.store";
 import { useSEO } from "../utils/useSEO";
 import { getAboutPageData } from "../services/api";
 import type { IAboutData } from "../interfaces/IAboutData";
@@ -24,6 +25,7 @@ const FALLBACK_GALLERY_ITEMS: ShowroomGalleryItem[] = [
 export default function AboutPage() {
   const { t } = useTranslation();
   const language = useLanguageStore((s) => s.language);
+  const settings = useSettingsStore((s) => s.settings);
 
   useSEO(t("nav.about"), t("aboutPage.hero.description"));
 
@@ -86,7 +88,7 @@ export default function AboutPage() {
       />
 
       <ShowroomGallerySection
-        logoSrc={APP_IMAGES.LOGO}
+        logoSrc={getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO}
         items={galleryItems}
       />
 

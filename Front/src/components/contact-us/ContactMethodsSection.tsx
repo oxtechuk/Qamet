@@ -55,7 +55,7 @@ export default function ContactMethodsSection() {
         <section dir={i18n.dir()} className="w-full bg-[#FAFAF8] py-12 sm:py-16">
             <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                 <div className="text-start">
-                    <h2 className="text-[34px] font-extrabold leading-tight text-[var(--brand-secondary-color)] sm:text-[42px]">
+                    <h2 className="text-[34px] leading-tight text-[var(--brand-secondary-color)] sm:text-[42px]">
                         {t("contactPage.contactMethods.title")}
                     </h2>
                 </div>
@@ -88,7 +88,7 @@ export default function ContactMethodsSection() {
                                     <p className="text-[12px] font-medium text-[#6B7280]">
                                         {card.label}
                                     </p>
-                                    <h3 className="mt-1 truncate text-[18px] font-extrabold text-[var(--brand-primary-color)] sm:text-[20px]">
+                                    <h3 className="mt-1 truncate text-[18px] font-semibold text-[var(--brand-primary-color)] sm:text-[20px]">
                                         {card.value}
                                     </h3>
                                     <p className="mt-1 text-[13px] text-[#7B828C]">

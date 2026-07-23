@@ -42,7 +42,7 @@ export default function ShowroomGallerySection({
         >
             <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
                 {resolvedTitle && (
-                    <h2 className="mb-8 text-center text-[23px] font-extrabold text-[var(--brand-primary-color)] sm:text-[28px]">
+                    <h2 className="mb-8 text-center text-[23px] text-[var(--brand-primary-color)] sm:text-[28px]">
                         {resolvedTitle}
                     </h2>
                 )}
@@ -133,10 +133,10 @@ export default function ShowroomGallerySection({
               xl:w-[310px]
             "
                     >
-                        <LazyImg
+                        <img
                             src={logoSrc}
                             alt={logoAlt}
-                            className="max-h-[64%] max-w-[78%] object-contain"
+                            className="h-[66%] w-[76%] object-contain"
                         />
                     </div>
                 </div>
@@ -148,11 +148,7 @@ export default function ShowroomGallerySection({
                             key={item.id}
                             item={item}
                             className={[
-                                "relative overflow-hidden rounded-[10px] sm:rounded-[13px]",
-                                index === 0 ? "h-[180px] sm:h-[220px] md:h-[260px]" : "",
-                                index === 1 ? "h-[140px] sm:h-[170px] md:h-[190px]" : "",
-                                index === 2 ? "-mt-[50px] sm:-mt-[60px] md:-mt-[70px] h-[140px] sm:h-[170px] md:h-[190px]" : "",
-                                index === 3 ? "h-[180px] sm:h-[220px] md:h-[260px]" : "",
+                                "relative overflow-hidden rounded-[10px] sm:rounded-[13px] aspect-square",
                             ].join(" ")}
                         />
                     ))}
@@ -182,10 +178,10 @@ export default function ShowroomGallerySection({
               md:shadow-[0_10px_30px_rgba(2,31,56,0.18)]
             "
                     >
-                        <LazyImg
+                        <img
                             src={logoSrc}
                             alt={logoAlt}
-                            className="max-h-[64%] max-w-[78%] object-contain"
+                            className="h-[75%] w-[88%] object-contain"
                         />
                     </div>
                 </div>
