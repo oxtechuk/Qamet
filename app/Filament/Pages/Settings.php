@@ -168,6 +168,7 @@ class Settings extends Page
             'footer_text' => $this->getSetting('footer_text', ''),
             'auto_assign_bookings' => $this->getSetting('auto_assign_bookings', false),
             'site_logo' => $this->getSetting('site_logo'),
+            'site_logo_color' => $this->getSetting('site_logo_color'),
             'site_favicon' => $this->getSetting('site_favicon'),
             'breadcrumb_bg' => $this->getSetting('breadcrumb_bg'),
             'page_loader_enabled' => $this->getSetting('page_loader_enabled', true),
@@ -342,18 +343,23 @@ class Settings extends Page
                                                     ->image()
                                                     ->directory('branding')
                                                     ->visibility('public'),
+                                                Forms\Components\FileUpload::make('site_logo_color')
+                                                    ->label(__('Colored Site Logo'))
+                                                    ->image()
+                                                    ->directory('branding')
+                                                    ->visibility('public'),
                                                 Forms\Components\FileUpload::make('site_favicon')
                                                     ->label(__('Favicon'))
                                                     ->image()
                                                     ->directory('branding')
                                                     ->visibility('public'),
-                                                Forms\Components\FileUpload::make('breadcrumb_bg')
-                                                    ->label(__('Breadcrumb Background'))
-                                                    ->image()
-                                                    ->directory('branding')
-                                                    ->visibility('public')
-                                                    ->helperText(__('Background image shown on inner page headers')),
                                             ]),
+                                        Forms\Components\FileUpload::make('breadcrumb_bg')
+                                            ->label(__('Breadcrumb Background'))
+                                            ->image()
+                                            ->directory('branding')
+                                            ->visibility('public')
+                                            ->helperText(__('Background image shown on inner page headers')),
                                     ]),
                                 Section::make(__('Page Loader'))
                                     ->description(__('Loading screen shown while the page loads'))
