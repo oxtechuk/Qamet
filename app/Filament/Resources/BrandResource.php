@@ -62,10 +62,7 @@ class BrandResource extends Resource
                                 Forms\Components\FileUpload::make('logo')->label(__('Logo'))
                                     ->image()
                                     ->directory('brands/logos')
-                                    ->visibility('public')
-                                    ->imageResizeMode('contain')
-                                    ->imageResizeTargetWidth('200')
-                                    ->imageResizeTargetHeight('200'),
+                                    ->visibility('public'),
                                 Forms\Components\Toggle::make('is_active')
                                     ->label(__('Active'))
                                     ->default(true),
