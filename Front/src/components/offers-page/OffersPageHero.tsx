@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getCountdownParts, padTime } from "../../utils/countdown";
 import type { IOffersPageHeroProps } from "../../interfaces/IOffersPageHeroProps";
+import LazyImg from "../LazyImg";
 
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
@@ -133,11 +134,10 @@ export default function OffersPageHero({
 
             {/* Image */}
             <div className="relative min-h-[300px] w-full lg:w-1/2">
-              <img
+              <LazyImg
                 src={image}
                 alt={title}
                 className="absolute inset-0 h-full w-full object-cover"
-                loading="lazy"
               />
             </div>
           </div>

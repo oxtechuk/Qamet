@@ -1,5 +1,6 @@
 import type { ITestimonialItem } from "../../interfaces/ITestimonialItem";
 import RatingStars from "./RatingStars";
+import LazyImg from "../LazyImg";
 
 export default function TestimonialCard({
   testimonial,
@@ -54,11 +55,10 @@ export default function TestimonialCard({
             </p>
           </div>
 
-          <img
+          <LazyImg
             src={testimonial.avatar}
             alt={testimonial.name}
             className="h-12 w-12 rounded-full object-cover ring-4 ring-[#E8EEF5]"
-            loading="lazy"
           />
         </div>
       </div>

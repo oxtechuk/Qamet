@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { HomepageStat } from "../types/home.types";
 import Button from "./button";
+import LazyImg from "./LazyImg";
 
 interface AllCarsHeroProps {
   offerImage: string;
@@ -110,11 +111,10 @@ export default function AllCarsHero({
 
           {/* Image Side */}
           <div className="order-2 flex justify-center lg:justify-start">
-            <img
+            <LazyImg
               src={offerImage}
               alt="All cars offer"
               className="w-full max-w-[570px] rounded-[18px] object-contain"
-              loading="lazy"
             />
           </div>
         </div>

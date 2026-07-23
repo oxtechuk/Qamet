@@ -127,6 +127,10 @@
     "addressLabel": "العنوان",
     "emailLabel": "راسلنا",
     "phoneLabel": "اتصل بنا",
+    "salesPhone": "قسم المبيعات",
+    "financePhone": "قسم التمويل",
+    "aftersalesPhone": "خدمة ما بعد البيع",
+    "workingDays": "أيام العمل",
     "privacyPolicy": "سياسة الخصوصية",
     "termsAndConditions": "الشروط والأحكام"
   },
@@ -462,9 +466,9 @@
   },
   "carDetails": {
     "hero": {
-      "price": "السعر",
+      "price": "السعر الكامل نقداً",
       "originalPrice": "السعر الأصلي",
-      "installmentFrom": "تقسيط يبدأ من",
+      "installmentFrom": "القسط الشهري التقريبي",
       "saving": "وفر",
       "availableColors": "الألوان المتاحة",
       "orderNow": "اطلب الان",
@@ -500,7 +504,7 @@
       "error": "حدث خطأ ما. حاول مرة أخرى"
     },
     "relatedCars": {
-      "titleBlue": "سيارات مشابهة ",
+      "titleBlue": "سيارات مشابهة لإختيارك",
       "titleOrange": "لإختيارك",
       "description": "قارن واكتشف مجموعة مختارة من السيارات المشابهة في الفئة والمواصفات",
       "buttonText": "تصفح كافة السيارات"

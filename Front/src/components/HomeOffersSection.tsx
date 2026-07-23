@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import SlideArrow from "./SlideArrow";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 import type { IHomeOffersSectionProps } from "../interfaces/IHomeOffersSectionProps";
+import LazyImg from "./LazyImg";
 
 export type { IHomeOfferSlide as HomeOfferSlide };
 
@@ -102,10 +103,9 @@ export default function HomeOffersSection({
                                             srcSet={slide.mobileImage}
                                         />
                                     )}
-                                    <img
+                                    <LazyImg
                                         src={slide.image}
                                         alt={slide.alt ?? ""}
-                                        loading={index === 0 ? "eager" : "lazy"}
                                         className="h-full w-full object-cover"
                                     />
                                 </picture>

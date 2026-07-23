@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { GitCompare } from "lucide-react";
 import { APP_IMAGES } from "../constants/app-images";
 import Button from "./button";
+import LazyImg from "./LazyImg";
 import type { ICarCardProps } from "../interfaces/ICarCardProps";
 
 export type { ICarCardProps as CarCardProps };
@@ -36,11 +37,10 @@ export default function CarCard({
         >
             {/* Image */}
             <div className="relative h-[210px] w-full overflow-hidden bg-[#F5F5F3]">
-                <img
+                <LazyImg
                     src={image}
                     alt={`${brand} ${name}`}
                     className="h-full w-full object-cover"
-                    loading="lazy"
                 />
 
                 {/* Badge — top start */}
@@ -97,7 +97,7 @@ export default function CarCard({
                 <div className="mt-3 flex items-center justify-start gap-4 border-b border-[#EEF2F6] pb-3">
                     {fuelType && (
                         <span className="flex items-center gap-1.5 text-[13px] text-[#374151]">
-                            <img
+                            <LazyImg
                                 src={APP_IMAGES.FUEL_ICON}
                                 alt="fuel"
                                 className="h-4 w-4"
@@ -107,7 +107,7 @@ export default function CarCard({
                     )}
                     {transmission && (
                         <span className="flex items-center gap-1.5 text-[13px] text-[#374151]">
-                            <img
+                            <LazyImg
                                 src={APP_IMAGES.GEARBOX_ICON}
                                 alt="transmission"
                                 className="h-4 w-4"
@@ -117,7 +117,7 @@ export default function CarCard({
                     )}
                     {seats && (
                         <span className="flex items-center gap-1.5 text-[13px] text-[#374151]">
-                            <img
+                            <LazyImg
                                 src={APP_IMAGES.SEAT_ICON}
                                 alt="seats"
                                 className="h-4 w-4"

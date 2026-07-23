@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { CalendarDays, Clock } from "lucide-react";
 import type { IBlogDetailsHeroProps } from "../../interfaces/IBlogDetailsHeroProps";
+import LazyImg from "../LazyImg";
 
 export default function BlogDetailsHero({
     category,
@@ -40,10 +41,9 @@ export default function BlogDetailsHero({
 
                     <div className="mt-7 flex flex-wrap items-center justify-start gap-5 text-[13px] text-[#8A8F99]">
                         <div className="flex items-center justify-end gap-4">
-                            <img
+                            <LazyImg
                                 src={authorImage}
                                 alt={authorName}
-                                loading="lazy"
                                 className="
       h-[58px]
       w-[58px]

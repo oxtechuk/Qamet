@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { formatPrice } from "../../utils/format";
 import { APP_IMAGES, getImageUrl } from "../../constants/app-images";
 import type { ICompareCarCardProps } from "../../interfaces/ICompareCarCardProps";
+import LazyImg from "../LazyImg";
 
 export default function CompareCarCard({
   car,
@@ -16,11 +17,10 @@ export default function CompareCarCard({
     <div dir={i18n.dir()} className="overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-white shadow-sm">
       {/* Image */}
       <div className="relative h-[220px] w-full overflow-hidden bg-[#F5F5F3]">
-        <img
+        <LazyImg
           src={getImageUrl(car.main_image) || APP_IMAGES.CAR_PLACEHOLDER}
           alt={car.name}
           className="h-full w-full object-cover"
-          loading="lazy"
         />
 
         {/* Label badge — top end */}

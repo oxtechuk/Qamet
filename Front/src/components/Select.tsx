@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, Search } from "lucide-react";
 import type { ISelectOption, ISelectProps } from "../interfaces/ISelectProps";
@@ -74,12 +74,13 @@ function SearchableSelect({
   const { t, i18n } = useTranslation();
   const isRTL = i18n.dir() === "rtl";
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [query, setQuery] = useState("");
-  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
-  const [dropdownAbove, setDropdownAbove] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const aboveRef = useRef(false);
 
   const selectedLabel =
     options.find((o) => o.value === value)?.label ?? "";
@@ -94,40 +95,60 @@ function SearchableSelect({
     [options, query],
   );
 
+  const positionDropdown = useCallback(() => {
+    const el = dropdownRef.current;
+    const btn = buttonRef.current;
+    if (!el || !btn) return;
+
+    const rect = btn.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const dropdownHeight = 260;
+    const placeAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+    aboveRef.current = placeAbove;
+
+    el.style.position = "fixed";
+    el.style.top = `${placeAbove ? rect.top - 4 : rect.bottom + 4}px`;
+    el.style.left = `${rect.left}px`;
+    el.style.width = `${rect.width}px`;
+    el.style.zIndex = "200";
+    el.classList.toggle("mb-1", placeAbove);
+    el.classList.toggle("mt-1", !placeAbove);
+  }, []);
+
+  const handleOpen = useCallback(() => {
+    setVisible(false);
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setVisible(false);
+    setTimeout(() => {
+      setOpen(false);
+    }, 150);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     setQuery("");
-    const updatePosition = () => {
-      if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        const spaceBelow = window.innerHeight - rect.bottom;
-        const spaceAbove = rect.top;
-        const dropdownHeight = 260;
-        const placeAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+    positionDropdown();
 
-        setDropdownAbove(placeAbove);
+    const raf = requestAnimationFrame(() => {
+      setVisible(true);
+    });
 
-        setDropdownStyle({
-          position: "fixed",
-          top: placeAbove ? rect.top - 4 : rect.bottom + 4,
-          left: rect.left,
-          width: rect.width,
-          zIndex: 200,
-        });
-      }
-    };
+    window.addEventListener("scroll", positionDropdown, true);
+    window.addEventListener("resize", positionDropdown);
 
-    updatePosition();
-    window.addEventListener("scroll", updatePosition, true);
-    window.addEventListener("resize", updatePosition);
-
-    setTimeout(() => inputRef.current?.focus(), 0);
+    const focusTimer = setTimeout(() => inputRef.current?.focus(), 0);
 
     return () => {
-      window.removeEventListener("scroll", updatePosition, true);
-      window.removeEventListener("resize", updatePosition);
+      cancelAnimationFrame(raf);
+      clearTimeout(focusTimer);
+      window.removeEventListener("scroll", positionDropdown, true);
+      window.removeEventListener("resize", positionDropdown);
     };
-  }, [open]);
+  }, [open, positionDropdown]);
 
   useEffect(() => {
     if (!open) return;
@@ -136,16 +157,16 @@ function SearchableSelect({
         containerRef.current &&
         !containerRef.current.contains(e.target as Node)
       ) {
-        setOpen(false);
+        handleClose();
       }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
+  }, [open, handleClose]);
 
   const handleSelect = (val: string) => {
     onChange(val);
-    setOpen(false);
+    handleClose();
   };
 
   return (
@@ -159,7 +180,7 @@ function SearchableSelect({
       <button
         ref={buttonRef}
         type="button"
-        onClick={() => setOpen((p) => !p)}
+        onClick={() => (open ? handleClose() : handleOpen())}
         className={`w-full text-start outline-none transition ${icon ? "px-11" : "px-4"} ${className ?? ""}`}
       >
         {value && selectedLabel ? (
@@ -171,12 +192,19 @@ function SearchableSelect({
 
       <ChevronDown
         size={18}
-        className={`pointer-events-none absolute top-1/2 -translate-y-1/2 ${chevronClassName ?? (isRTL ? "right-4" : "left-4")}`}
+        className={`pointer-events-none absolute top-1/2 -translate-y-1/2 transition-transform duration-150 ease-out ${open ? "rotate-180" : ""} ${chevronClassName ?? (isRTL ? "right-4" : "left-4")}`}
         style={{ color: icon ? "#7A8AA0" : "inherit" }}
       />
 
       {open && (
-        <div style={dropdownStyle} className={`rounded-[8px] border border-[#D7E3F5] bg-white shadow-lg ${dropdownAbove ? "mb-1" : "mt-1"}`}>
+        <div
+          ref={dropdownRef}
+          className={`rounded-[8px] border border-[#D7E3F5] bg-white shadow-lg transition-all duration-150 ease-out ${
+            visible
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 -translate-y-1 scale-95 pointer-events-none"
+          }`}
+        >
           <div className="relative border-b border-[#D7E3F5]">
             <Search
               size={15}

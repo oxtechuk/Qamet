@@ -1,7 +1,10 @@
 export interface ISocialMediaItem {
-  icon: string;
-  link: string;
+  platform: string;
+  url: string;
   color: string;
+  // legacy aliases kept for compat
+  icon?: string;
+  link?: string;
 }
 
 export interface IWorkingHours {

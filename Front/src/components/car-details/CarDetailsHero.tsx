@@ -10,6 +10,7 @@ import type {
     ICarDetailsHeroProps,
 } from "../../interfaces/ICarDetailsHeroProps";
 import SlideArrow from "../SlideArrow";
+import LazyImg from "../LazyImg";
 
 export default function CarDetailsHero({
     title,
@@ -56,8 +57,23 @@ export default function CarDetailsHero({
         <section dir={i18n.dir()} className="w-full py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
+                    
+                    {/* Gallery */}
+                    <CarDetailsGallery
+                        title={title}
+                        images={currentImages}
+                        currentImage={currentImage}
+                        activeImage={activeImage}
+                        onImageSelect={setActiveImage}
+                        isShowingColorImage={isShowingColorImage}
+                        selectedColor={selectedColor}
+                        onClearColor={() => setSelectedColor(null)}
+                        viewType={viewType}
+                        onViewChange={handleViewChange}
+                    />
+                    
                     {/* Content */}
-                    <div className="order-2 lg:order-1">
+                    <div className="order-1 lg:order-2">
                         <div className="rounded-[20px] border border-[#E5E7EB] bg-white px-5 py-6 shadow-sm">
                             {/* Title */}
                             <h1
@@ -65,11 +81,10 @@ export default function CarDetailsHero({
                             >
                                 {title}
                             </h1>
-                            <p
-                                className="mt-1 text-start text-[14px] text-[#6B7280]"
-                            >
-                                {description}
-                            </p>
+                            <div
+                                className="mt-1 text-start text-[14px] leading-6 text-[#6B7280] [&_p]:mb-1 [&_ul]:list-disc [&_ul]:ps-5 [&_ol]:list-decimal [&_ol]:ps-5"
+                                dangerouslySetInnerHTML={{ __html: description }}
+                            />
 
                             {/* Cash price card */}
                             <div
@@ -174,19 +189,6 @@ export default function CarDetailsHero({
                         </div>
                     </div>
 
-                    {/* Gallery */}
-                    <CarDetailsGallery
-                        title={title}
-                        images={currentImages}
-                        currentImage={currentImage}
-                        activeImage={activeImage}
-                        onImageSelect={setActiveImage}
-                        isShowingColorImage={isShowingColorImage}
-                        selectedColor={selectedColor}
-                        onClearColor={() => setSelectedColor(null)}
-                        viewType={viewType}
-                        onViewChange={handleViewChange}
-                    />
                 </div>
             </div>
         </section>
@@ -232,7 +234,7 @@ function CarDetailsGallery({
     };
 
     return (
-        <div className="order-1 lg:order-2">
+        <div className="order-2 lg:order-1">
             {/* Tabs */}
             <div className="mb-4 grid h-[56px] grid-cols-2 gap-2 rounded-[14px] border border-[#E5E7EB] bg-white p-1.5">
                 <button
@@ -261,26 +263,40 @@ function CarDetailsGallery({
 
             {/* Main image */}
             <div className="relative overflow-hidden rounded-[18px]">
-                <img
+                <LazyImg
                     src={currentImage}
                     alt={title}
                     className="h-[360px] w-full object-cover md:h-[440px]"
-                    loading="lazy"
                 />
+
+                {/* Color tint overlay when a color is selected but has no dedicated image */}
+                {selectedColor && !isShowingColorImage && (
+                    <div
+                        className="pointer-events-none absolute inset-0 transition-all duration-300"
+                        style={{ backgroundColor: selectedColor.value, opacity: 0.18, mixBlendMode: "multiply" }}
+                    />
+                )}
+
+                {/* Color name label */}
+                {selectedColor && (
+                    <div className="absolute bottom-4 start-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-black/55 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm">
+                        <span
+                            className="h-3 w-3 shrink-0 rounded-full border border-white/40"
+                            style={{ backgroundColor: selectedColor.value }}
+                        />
+                        {selectedColor.name}
+                    </div>
+                )}
+
                 {isShowingColorImage && (
-                    <>
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-4 py-1.5 text-sm font-medium text-white">
-                            {selectedColor?.name}
-                        </div>
-                        <button
-                            type="button"
-                            onClick={onClearColor}
-                            className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/70"
-                            aria-label={t("carDetails.hero.backToGallery")}
-                        >
-                            <ArrowLeft size={16} />
-                        </button>
-                    </>
+                    <button
+                        type="button"
+                        onClick={onClearColor}
+                        className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/70"
+                        aria-label={t("carDetails.hero.backToGallery")}
+                    >
+                        <ArrowLeft size={16} />
+                    </button>
                 )}
             </div>
 
@@ -311,11 +327,10 @@ function CarDetailsGallery({
                                             : "opacity-70 hover:opacity-100"
                                     }`}
                                 >
-                                    <img
+                                    <LazyImg
                                         src={image}
                                         alt={`${title} ${index + 1}`}
                                         className="h-[64px] w-full object-cover"
-                                        loading="lazy"
                                     />
                                 </button>
                             ))}

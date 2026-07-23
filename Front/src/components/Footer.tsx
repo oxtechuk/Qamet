@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { NavLink } from "react-router-dom";
@@ -7,9 +6,9 @@ import { useSettingsStore } from "../store/settings.store";
 import { useLanguageStore } from "../store/language.store";
 import { getSocialIcon } from "../utils/social-icons";
 import { APP_IMAGES } from "../constants/app-images";
+import LazyImg from "./LazyImg";
 
 export default function Footer({
-    logoSrc,
     logoAlt = "Logo",
     quickLinks,
     socialLinks: propSocialLinks,
@@ -22,13 +21,7 @@ export default function Footer({
 
     const direction = useLanguageStore((state) => state.direction);
     const settings = useSettingsStore((state) => state.settings);
-    const [logoError, setLogoError] = useState(false);
-
-    useEffect(() => {
-        setLogoError(false);
-    }, [logoSrc]);
-
-    const resolvedLogo = !logoError ? (logoSrc || APP_IMAGES.LOGO) : APP_IMAGES.LOGO;
+    const resolvedLogo =  APP_IMAGES.LOGO_WHITE;
 
     const phone = settings?.contact?.phone ?? propPhone;
     const email = settings?.contact?.email ?? propEmail;
@@ -37,12 +30,16 @@ export default function Footer({
 
     const socialLinks = settings?.social_media?.length
         ? settings.social_media.map((social) => ({
-              name: social.icon,
-              icon: social.icon,
-              url: social.link,
+              name: social.platform ?? social.icon ?? "",
+              icon: social.platform ?? social.icon ?? "",
+              url: social.url ?? social.link ?? "",
           }))
         : propSocialLinks;
 
+    // Department phones from API
+    const salesPhone = settings?.contact?.sales_phone;
+    const financePhone = settings?.contact?.finance_phone;
+    const aftersalesPhone = settings?.contact?.aftersales_phone;
     return (
         <footer
             dir={direction}
@@ -51,12 +48,10 @@ export default function Footer({
             <div className="mx-auto max-w-[1440px] px-6 lg:px-[92px]">
                 {/* Logo */}
                 <div className="flex justify-center pb-12 pt-14 lg:pb-16 lg:pt-[72px]">
-                    <img
+                    <LazyImg
                         src={resolvedLogo}
                         alt={logoAlt}
-                        loading="lazy"
-                        onError={() => setLogoError(true)}
-                        className="w-[230px] max-w-full object-contain md:w-[280px]"
+                        className="w-[230px] max-w-full object-contain md:w-[280px] text-white!"
                     />
                 </div>
 
@@ -81,7 +76,7 @@ export default function Footer({
 
                     {/* Contact */}
                     <FooterSection title={t("footer.contactUs")}>
-                        <div className="flex flex-col items-start gap-6">
+                        <div className="flex flex-col items-start gap-5">
                             {phone && (
                                 <ContactRow
                                     label={t("footer.phoneLabel")}
@@ -90,7 +85,30 @@ export default function Footer({
                                     icon={<Phone size={19} />}
                                 />
                             )}
-
+                            {salesPhone && (
+                                <ContactRow
+                                    label={t("footer.salesPhone")}
+                                    value={salesPhone}
+                                    href={`tel:${salesPhone.replace(/\s+/g, "")}`}
+                                    icon={<Phone size={19} />}
+                                />
+                            )}
+                            {financePhone && (
+                                <ContactRow
+                                    label={t("footer.financePhone")}
+                                    value={financePhone}
+                                    href={`tel:${financePhone.replace(/\s+/g, "")}`}
+                                    icon={<Phone size={19} />}
+                                />
+                            )}
+                            {aftersalesPhone && (
+                                <ContactRow
+                                    label={t("footer.aftersalesPhone")}
+                                    value={aftersalesPhone}
+                                    href={`tel:${aftersalesPhone.replace(/\s+/g, "")}`}
+                                    icon={<Phone size={19} />}
+                                />
+                            )}
                             {email && (
                                 <ContactRow
                                     label={t("footer.emailLabel")}
@@ -99,7 +117,6 @@ export default function Footer({
                                     icon={<Mail size={19} />}
                                 />
                             )}
-
                             {address && (
                                 <ContactRow
                                     label={t("footer.addressLabel")}
@@ -107,6 +124,7 @@ export default function Footer({
                                     icon={<MapPin size={19} />}
                                 />
                             )}
+                           
                         </div>
                     </FooterSection>
 

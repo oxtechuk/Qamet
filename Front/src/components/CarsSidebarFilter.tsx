@@ -15,6 +15,7 @@ import { formatPrice } from "../utils/format";
 import type { BrandInfo } from "../types/home.types";
 import type { FilterValues } from "../types/cars.types";
 import type { ICarsSidebarFilterProps, BrandWithLogo } from "../interfaces/ICarsSidebarFilterProps";
+import LazyImg from "./LazyImg";
 
 export default function CarsSidebarFilter({
   brands: brandsProp,
@@ -337,11 +338,10 @@ function BrandButton({
     >
       <div className="flex items-center gap-4">
         {logo && (
-          <img
+          <LazyImg
             src={logo}
             alt={label}
             className="h-[34px] w-[34px] rounded-full object-cover"
-            loading="lazy"
           />
         )}
 

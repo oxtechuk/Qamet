@@ -127,6 +127,10 @@
     "addressLabel": "Address",
     "emailLabel": "Email Us",
     "phoneLabel": "Call Us",
+    "salesPhone": "Sales Dept.",
+    "financePhone": "Finance Dept.",
+    "aftersalesPhone": "After-Sales Service",
+    "workingDays": "Working Days",
     "privacyPolicy": "Privacy Policy",
     "termsAndConditions": "Terms & Conditions"
   },
@@ -463,9 +467,9 @@
   },
   "carDetails": {
     "hero": {
-      "price": "Price",
+      "price": "Full price cash",
       "originalPrice": "Original Price",
-      "installmentFrom": "Installment starts from",
+      "installmentFrom": "Approximate monthly installment",
       "saving": "You save",
       "availableColors": "Available Colors",
       "orderNow": "Order Now",

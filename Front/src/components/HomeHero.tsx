@@ -10,6 +10,7 @@ import type { IHomeHeroProps } from "../interfaces/IHomeHeroProps";
 import CarFinder from "./CarFinder";
 import BrandsCarousel from "./BrandsCarousel";
 import SlideArrow from "./SlideArrow";
+import LazyImg from "./LazyImg";
 
 const SLIDE_INTERVAL = 5000;
 
@@ -134,6 +135,7 @@ export default function HomeHero({
         { label: t("nav.home"), path: "/" },
         { label: t("nav.cars"), path: "/cars" },
         { label: t("nav.offers"), path: "/offers" },
+        { label: t("nav.orders"), path: "/orders" },
         { label: t("nav.about"), path: "/about" },
         { label: t("nav.blog"), path: "/blog" },
         { label: t("nav.contact"), path: "/contact" },
@@ -168,10 +170,9 @@ export default function HomeHero({
                                             : "pointer-events-none opacity-0",
                                     ].join(" ")}
                                 >
-                                    <img
+                                    <LazyImg
                                         src={slide.image}
                                         alt={slide.title || ""}
-                                        loading={index === 0 ? "eager" : "lazy"}
                                         className="h-full w-full object-contain"
                                     />
                                 </div>
@@ -425,7 +426,14 @@ export default function HomeHero({
                             />
 
                             {/* Panel anchored to bottom of hero frame */}
-                            <div className="absolute inset-x-0 bottom-0 z-40 overflow-hidden rounded-b-[11px]">
+                            <div
+                                className="absolute inset-x-0 bottom-0 z-40 overflow-hidden rounded-b-[11px]"
+                                style={{
+                                    background: "rgba(10, 15, 25, 0.72)",
+                                    backdropFilter: "blur(20px)",
+                                    WebkitBackdropFilter: "blur(20px)",
+                                }}
+                            >
                                 <div className="relative">
                                     <button
                                         type="button"
@@ -445,7 +453,13 @@ export default function HomeHero({
                                         onSearch={(values) => {
                                             onCarFinderSearch?.(values);
                                             setCarFinderOpen(false);
-                                            navigate("/cars");
+                                            const params = new URLSearchParams();
+                                            if (values.brandId) params.set("brands[]", values.brandId);
+                                            if (values.typeId) params.set("type", values.typeId);
+                                            if (values.categoryId) params.set("category_id", values.categoryId);
+                                            if (values.year) params.set("year", values.year);
+                                            if (values.search) params.set("q", values.search);
+                                            navigate(`/cars?${params.toString()}`);
                                         }}
                                         onReset={() => {
                                             onCarFinderReset?.();

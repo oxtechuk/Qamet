@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../store/language.store";
 import { getImageUrl, APP_IMAGES } from "../../constants/app-images";
 import type { CarItem } from "../../types/home.types";
+import LazyImg from "../LazyImg";
 
 interface ICarSelectorProps {
   searchQuery: string;
@@ -82,11 +83,10 @@ export default function CarSelector({
                     : "border-[#E5E7EB] hover:border-[#D1D5DB]",
                 ].join(" ")}
               >
-                <img
+                <LazyImg
                   src={getImageUrl(car.main_image) || APP_IMAGES.CAR_PLACEHOLDER}
                   alt={car.name}
                   className="h-[56px] w-[80px] shrink-0 rounded-[10px] object-cover"
-                  loading="lazy"
                 />
                 <div className="flex flex-1 flex-col items-start">
                   <p className="text-[12px] text-[var(--brand-secondary-color)]">

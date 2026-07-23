@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -27,6 +27,27 @@ export default function AllCarsPage() {
     const [searchParams] = useSearchParams();
     const offerId = searchParams.get("offerId");
 
+    const initialFilters = useMemo<FilterValues>(() => {
+        const brands = searchParams.get("brands[]");
+        const type = searchParams.get("type");
+        const categoryId = searchParams.get("category_id");
+        const year = searchParams.get("year");
+        const q = searchParams.get("q");
+
+        if (!brands && !type && !categoryId && !year && !q) {
+            return DEFAULT_FILTER_VALUES;
+        }
+
+        return {
+            ...DEFAULT_FILTER_VALUES,
+            brandId: brands ? Number(brands) : null,
+            type: type ?? "all",
+            categoryId: categoryId ? Number(categoryId) : null,
+            year: year ?? "",
+            search: q ?? "",
+        };
+    }, [searchParams]);
+
     const { data: homeData } = useQuery({
         queryKey: ["home-data", language],
         queryFn: getHomePageData,
@@ -39,8 +60,13 @@ export default function AllCarsPage() {
         staleTime: 5 * 60 * 1000,
     });
 
-    const [filters, setFilters] = useState<FilterValues>(DEFAULT_FILTER_VALUES);
+    const [filters, setFilters] = useState<FilterValues>(initialFilters);
     const [currentPage, setCurrentPage] = useState(1);
+
+    useEffect(() => {
+        setFilters(initialFilters);
+        setCurrentPage(1);
+    }, [initialFilters]);
 
     function buildParams(): CarsQueryParams {
         const params: CarsQueryParams = {};
@@ -50,6 +76,9 @@ export default function AllCarsPage() {
         }
         if (filters.type !== "all") {
             params.type = Number(filters.type);
+        }
+        if (filters.categoryId !== null) {
+            params.category_id = filters.categoryId;
         }
         if (filters.year) {
             params.year = filters.year;
@@ -61,7 +90,7 @@ export default function AllCarsPage() {
             params.max_price = filters.priceMax;
         }
         if (filters.search) {
-            params.search = filters.search;
+            params.q = filters.search;
         }
         if (offerId) {
             params.offer_id = Number(offerId);

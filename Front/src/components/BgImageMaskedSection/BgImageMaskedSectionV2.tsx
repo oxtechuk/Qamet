@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { IBgImageMaskedSectionV2Props } from "../../interfaces/IBgImageMaskedSectionV2Props";
+import LazyImg from "../LazyImg";
 import "./BgImageMaskedSection.css";
 
 export default function BgImageMaskedSectionV2({
@@ -23,11 +24,10 @@ export default function BgImageMaskedSectionV2({
       <div className="bg-image-masked-section__overlay" />
 
       <div className={`bg-image-masked-section__content flex flex-col items-center gap-6 ${contentClassName}`}>
-        <img
+        <LazyImg
           src={imageSrc}
           alt="compare"
           className="max-h-[400px] w-full max-w-[600px] object-contain"
-          loading="lazy"
         />
         {children}
       </div>

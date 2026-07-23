@@ -6,6 +6,7 @@ export interface ISpecItem {
 export interface IFeatureItem {
   id: number;
   name: string;
+  value?: string | null;
   icon: string;
 }
 

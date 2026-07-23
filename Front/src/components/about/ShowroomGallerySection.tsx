@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import LazyImg from "../LazyImg";
 
 export interface ShowroomGalleryItem {
     id: string | number;
@@ -131,10 +132,9 @@ export default function ShowroomGallerySection({
               xl:w-[310px]
             "
                     >
-                        <img
+                        <LazyImg
                             src={logoSrc}
                             alt={logoAlt}
-                            loading="lazy"
                             className="max-h-[64%] max-w-[78%] object-contain"
                         />
                     </div>
@@ -181,10 +181,9 @@ export default function ShowroomGallerySection({
               md:shadow-[0_10px_30px_rgba(2,31,56,0.18)]
             "
                     >
-                        <img
+                        <LazyImg
                             src={logoSrc}
                             alt={logoAlt}
-                            loading="lazy"
                             className="max-h-[64%] max-w-[78%] object-contain"
                         />
                     </div>
@@ -211,10 +210,9 @@ function GalleryCell({ item, className = "" }: GalleryCellProps) {
             {item.type === "video" ? (
                 <GalleryVideo item={item} />
             ) : (
-                <img
+                <LazyImg
                     src={item.src}
                     alt={item.alt ?? ""}
-                    loading="lazy"
                     className="
             h-full
             w-full

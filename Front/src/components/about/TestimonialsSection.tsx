@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../store/language.store";
+import LazyImg from "../LazyImg";
 
 export interface ITestimonialItem {
   id: string | number;
@@ -104,11 +105,10 @@ export default function TestimonialsSection({
 
             <div className="mt-7 flex items-start justify-start gap-4">
               {activeTestimonial.avatar ? (
-                <img
+                <LazyImg
                   src={activeTestimonial.avatar}
                   alt={activeTestimonial.name}
                   className="h-[52px] w-[52px] shrink-0 rounded-full object-cover"
-                  loading="lazy"
                 />
               ) : (
                 <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-[var(--brand-secondary-color)] text-lg font-extrabold text-[var(--brand-primary-color)]">

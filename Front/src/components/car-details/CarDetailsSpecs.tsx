@@ -1,12 +1,22 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CircleCheck } from "lucide-react";
 import type { ISpecItem, ITab, ICarDetailsSpecsProps, IFeatureItem } from "../../interfaces/ICarDetailsSpecsProps";
 
 export type { ISpecItem as SpecItem, ITab as Tab };
 
+function SpecCard({ label, value }: { label: string; value: string | null | undefined }) {
+  return (
+    <div className="flex flex-col items-start justify-center gap-1.5 rounded-[12px] border border-[#F0F0EE] bg-white px-4 py-4 shadow-sm">
+      <span className="text-[12px] text-[#9CA3AF]">{label}</span>
+      <span className="text-[16px] font-extrabold text-[#111827]">
+        {value ?? "—"}
+      </span>
+    </div>
+  );
+}
+
 export default function CarDetailsSpecs({ tabs }: ICarDetailsSpecsProps) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
 
   if (!tabs.length) return null;
@@ -18,82 +28,43 @@ export default function CarDetailsSpecs({ tabs }: ICarDetailsSpecsProps) {
       className="mx-auto w-full max-w-7xl px-4 pb-14 sm:px-6 lg:px-8"
       dir={i18n.dir()}
     >
-      <div className="mb-10 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-        <h2 className="text-2xl font-extrabold sm:text-3xl">
-          <span className="text-[var(--brand-primary-color)]">{t("carDetails.specs.titleBlue")}</span>
-          <span className="text-[var(--brand-secondary-color)]">{t("carDetails.specs.titleOrange")}</span>
-        </h2>
+      {/* White card wrapping tabs + content */}
+      <div className="overflow-hidden rounded-[20px] border border-[#F0F0EE] bg-white shadow-sm">
 
-        <div className="flex gap-1 rounded-2xl border border-gray-100 bg-white p-1.5 shadow-sm">
+        {/* Tab bar — right-aligned text tabs with underline */}
+        <div className="flex items-center justify-start gap-6 border-b border-[#F0F0EE] px-6 pt-4">
           {tabs.map((tab, i) => (
             <button
               key={i}
               type="button"
               onClick={() => setActiveTab(i)}
-              className={`rounded-xl px-5 py-2.5 text-[14px] font-bold transition ${
+              className={[
+                "pb-3 text-[15px] font-semibold transition",
                 i === activeTab
-                  ? "bg-[#FDECEA] text-[var(--brand-secondary-color)]"
-                  : "bg-transparent text-[#9ca3af]"
-              }`}
+                  ? "border-b-2 border-[var(--brand-secondary-color)] text-[#111827]"
+                  : "text-[#9CA3AF] hover:text-[#374151]",
+              ].join(" ")}
             >
               {tab.label}
             </button>
           ))}
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {currentTab.type === "specs" &&
-          (currentTab.items as ISpecItem[]).map((item, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm"
-            >
-              <span className="text-end text-sm font-bold text-[var(--brand-secondary-color)]">
-                {item.label}
-              </span>
-              <span className="text-start text-sm font-medium text-gray-600">
-                {item.value}
-              </span>
-            </div>
-          ))}
+        {/* Cards grid */}
+        <div className="grid grid-cols-3 gap-3 p-5 sm:grid-cols-4 lg:grid-cols-5">
+          {currentTab.type === "specs" &&
+            (currentTab.items as ISpecItem[]).map((item, i) => (
+              <SpecCard key={i} label={item.label} value={item.value} />
+            ))}
 
-        {currentTab.type === "safety" &&
-          (currentTab.items as (string | IFeatureItem)[]).map((item, i) => {
-            const isFeature = typeof item !== "string";
-            return (
-              <div
-                key={i}
-                className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm"
-              >
-                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-secondary-color)] text-base">
-                  {isFeature ? item.icon : <CircleCheck size={18} className="text-white" />}
-                </div>
-                <span className="flex-1 text-end text-sm font-semibold text-[#1f2937]">
-                  {isFeature ? item.name : item}
-                </span>
-              </div>
-            );
-          })}
-
-        {currentTab.type === "other" &&
-          (currentTab.items as (string | IFeatureItem)[]).map((item, i) => {
-            const isFeature = typeof item !== "string";
-            return (
-              <div
-                key={i}
-                className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm"
-                style={{ borderInlineEnd: "3px solid var(--brand-secondary-color)" }}
-              >
-                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-secondary-color)]">
-                  <CircleCheck size={18} className="text-white" />
-                </div>
-                <span className="flex-1 text-end text-sm font-semibold text-[#1f2937]">
-                  {isFeature ? item.name : item}
-                </span>
-              </div>
-            );
-          })}
+          {(currentTab.type === "safety" || currentTab.type === "other") &&
+            (currentTab.items as (string | IFeatureItem)[]).map((item, i) => {
+              if (typeof item === "string") {
+                return <SpecCard key={i} label={item} value={null} />;
+              }
+              return <SpecCard key={i} label={item.name} value={item.value ?? null} />;
+            })}
+        </div>
       </div>
     </section>
   );

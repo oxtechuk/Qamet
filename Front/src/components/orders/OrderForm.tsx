@@ -4,6 +4,7 @@ import { getImageUrl, APP_IMAGES } from "../../constants/app-images";
 import { useLanguageStore } from "../../store/language.store";
 import type { CarItem } from "../../types/home.types";
 import type { IOrderPagePaymentOption } from "../../interfaces/IOrderPagePaymentOption";
+import LazyImg from "../LazyImg";
 
 const PAYMENT_OPTIONS: IOrderPagePaymentOption[] = [
     { value: "bank", labelKey: "ordersPage.paymentBank", icon: "🏦" },
@@ -63,7 +64,7 @@ export default function OrderForm({
       >
         {selectedCar ? (
           <div className="flex w-full items-center gap-3 px-4 py-3">
-            <img
+            <LazyImg
               src={getImageUrl(selectedCar.main_image) || APP_IMAGES.CAR_PLACEHOLDER}
               alt={selectedCar.name}
               className="h-[52px] w-[72px] rounded-[8px] object-cover"

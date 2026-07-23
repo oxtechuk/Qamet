@@ -7,6 +7,7 @@ import {
 
 import type { IBlogsPageHeroProps } from "../../interfaces/IBlogsPageHeroProps";
 import { useLanguageStore } from "../../store/language.store";
+import LazyImg from "../LazyImg";
 
 export default function BlogsPageHero({
   badgeText,
@@ -33,11 +34,10 @@ export default function BlogsPageHero({
         {/* Hero */}
         <article className="relative min-h-[285px] overflow-hidden rounded-[18px] bg-[#061525] sm:min-h-[360px] lg:min-h-[430px]">
           {/* Background image */}
-          <img
+          <LazyImg
             src={featuredPost.image}
             alt={featuredPost.title}
             className="absolute inset-0 h-full w-full object-cover"
-            loading="lazy"
           />
 
           {/* Main dark overlay */}

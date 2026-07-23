@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { IOfferCardProps } from "../interfaces/IOfferCardProps";
 import Button from "./button";
+import LazyImg from "./LazyImg";
 
 export default function OfferCard({
   image,
@@ -15,7 +16,7 @@ export default function OfferCard({
       onClick={() => navigate(buttonTo)}
       className="relative h-[400px] w-full max-w-[347px] cursor-pointer overflow-hidden rounded-[16px] shadow-lg"
     >
-      <img src={image} alt={title ?? "Offer"} loading="lazy" className="h-full w-full object-cover" />
+      <LazyImg src={image} alt={title ?? "Offer"} className="h-full w-full object-cover" />
 
       {title && (
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

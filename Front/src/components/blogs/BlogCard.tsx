@@ -2,6 +2,7 @@ import { Clock } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import type { IBlogCardProps } from "../../interfaces/IBlogCardProps";
 import { useLanguageStore } from "../../store/language.store";
+import LazyImg from "../LazyImg";
 
 export default function BlogCard({
   image,
@@ -24,11 +25,10 @@ export default function BlogCard({
     >
       {/* Image */}
       <div className="relative h-[220px] w-full overflow-hidden">
-        <img
+        <LazyImg
           src={image}
           alt={title}
           className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
-          loading="lazy"
         />
         {/* Category badge — top start */}
         {category && (
@@ -62,11 +62,10 @@ export default function BlogCard({
 
         {/* Author */}
         <div className="mt-4 flex items-center justify-start gap-3 border-t border-[#F3F4F6] pt-4">
-            <img
+            <LazyImg
             src={authorImage}
             alt={authorName}
             className="h-[40px] w-[40px] rounded-full object-cover"
-            loading="lazy"
           />
           <div className="text-end">
             <p className="text-[13px] font-bold text-[#111827]">{authorName}</p>

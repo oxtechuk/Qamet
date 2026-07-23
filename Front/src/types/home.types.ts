@@ -223,4 +223,9 @@ export interface HomePageData {
     brackets: BudgetBracket[];
     cars: HomeCarItem[];
   };
+  filter_brands?: BrandInfo[];
+  filter_types?: FilterCategory[];
+  filter_categories?: FilterCategory[];
+  filter_brand_types?: FilterCategory[];
+  filter_years?: (string | { year: string })[];
 }

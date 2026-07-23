@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import type { IBlogFeaturedCardProps } from "../../interfaces/IBlogFeaturedCardProps";
+import LazyImg from "../LazyImg";
 
 export default function BlogFeaturedCard({
   image,
@@ -21,7 +22,7 @@ export default function BlogFeaturedCard({
       className="mx-auto flex max-w-5xl flex-col overflow-hidden rounded-[18px] bg-white md:flex-row"
     >
       <div className="relative min-h-[280px] md:w-1/2">
-        <img src={image} alt={title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+        <LazyImg src={image} alt={title} className="absolute inset-0 h-full w-full object-cover" />
       </div>
 
       <div className="flex flex-1 flex-col justify-center px-7 py-8 md:px-10">
@@ -43,11 +44,10 @@ export default function BlogFeaturedCard({
 
         <div className="mt-8 flex items-center justify-between gap-5">
           <div className="flex items-center gap-3">
-            <img
+            <LazyImg
               src={authorImage}
               alt={authorName}
               className="h-[48px] w-[48px] rounded-full object-cover"
-              loading="lazy"
             />
 
             <div>

@@ -1,5 +1,6 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import Badge from "./Badge";
+import LazyImg from "./LazyImg";
 import type { IHeroCardProps } from "../interfaces/IHeroCardProps";
 
 export default function HeroCard({
@@ -23,11 +24,10 @@ export default function HeroCard({
         </Badge>
       )}
 
-      <img
+      <LazyImg
         src={image}
         alt={title}
           className="w-full h-[165px] object-cover rounded-[6px]"
-          loading="lazy"
         />
 
       <div className="px-2 pt-[18px] pb-[1px] text-center">

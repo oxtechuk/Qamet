@@ -7,6 +7,7 @@ import api from "../../services/api/http";
 import type { CarItem } from "../../types/home.types";
 import type { ApiResponse } from "../../types/home.types";
 import type { ICarSelectProps } from "../../interfaces/ICarSelectProps";
+import LazyImg from "../LazyImg";
 
 export default function CarSelect({
   selectedSlug,
@@ -68,14 +69,13 @@ export default function CarSelect({
         >
           {selectedCar ? (
             <>
-              <img
+              <LazyImg
                 src={
                   getImageUrl(selectedCar.main_image) ||
                   APP_IMAGES.CAR_PLACEHOLDER
                 }
                 alt={selectedCar.name}
                 className="h-10 w-10 rounded-lg object-cover"
-                loading="lazy"
               />
               <div className="flex-1">
                 <p className="text-sm font-bold text-[#111827]">
@@ -135,13 +135,12 @@ export default function CarSelect({
                   }`}
                   dir={dir}
                 >
-                  <img
+                  <LazyImg
                     src={
                       getImageUrl(car.main_image) || APP_IMAGES.CAR_PLACEHOLDER
                     }
                     alt={car.name}
                     className="h-12 w-12 rounded-lg object-cover"
-                    loading="lazy"
                   />
                   <div className="flex-1">
                     <p className="text-sm font-bold text-[#111827]">

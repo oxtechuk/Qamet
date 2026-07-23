@@ -239,6 +239,10 @@ export default function Home() {
             <HomeHero
                 slides={heroSlides}
                 heroVideoUrl={`${import.meta.env.BASE_URL}home_video.mp4`}
+                filterBrands={((data?.filter_brand_types?.length ? data.filter_brand_types : data?.filter_brands) ?? []) as BrandInfo[]}
+                filterTypes={data?.filter_types}
+                filterCategories={data?.filter_categories}
+                filterYears={data?.filter_years}
                 onCarFinderReset={() => {}}
                 carouselBrands={(data?.brands ?? []).map((brand) => ({
                     id: brand.id,

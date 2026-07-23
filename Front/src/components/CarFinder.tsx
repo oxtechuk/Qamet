@@ -51,11 +51,8 @@ export default function CarFinder({
     return (
         <section
             dir={i18n.dir()}
-            className="w-full py-10"
-            style={{
-                backgroundColor: "#010915",
-                backgroundSize: "72px 72px",
-            }}
+            className="w-full py-5"
+            style={{ background: "transparent" }}
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h2 className="mb-8 text-center text-[28px] font-bold text-white">

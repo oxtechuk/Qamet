@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import LazyImg from "./LazyImg";
 
 interface BrandItem {
   id: string | number;
@@ -41,10 +42,9 @@ export default function BrandsCarousel({
             : "h-[86px] w-[145px] sm:h-[96px] sm:w-[170px]",
         ].join(" ")}
       >
-        <img
+        <LazyImg
           src={brand.logo}
           alt={brand.name}
-          loading="lazy"
           className={[
             "max-h-[48px] max-w-[105px] object-contain",
             "transition duration-300",

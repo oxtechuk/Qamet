@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { formatPrice } from "../../utils/format";
 import { getCountdownParts, padTime } from "../../utils/countdown";
 import type { IOfferListCardProps } from "../../interfaces/IOfferListCardProps";
+import LazyImg from "../LazyImg";
 
 export default function OfferListCard({
   image,
@@ -42,11 +43,10 @@ export default function OfferListCard({
     >
       {/* Image */}
       <div className="relative h-[210px] w-full overflow-hidden">
-        <img
+        <LazyImg
           src={image}
           alt={title}
           className="h-full w-full object-cover"
-          loading="lazy"
         />
 
         {/* Badge top-start */}
