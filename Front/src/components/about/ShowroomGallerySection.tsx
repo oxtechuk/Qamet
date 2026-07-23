@@ -20,13 +20,14 @@ interface ShowroomGallerySectionProps {
 }
 
 export default function ShowroomGallerySection({
-    title = "صور وفيديوهات من معرضنا",
+    title,
     logoSrc,
     logoAlt = "Company logo",
     items,
     className = "",
 }: ShowroomGallerySectionProps) {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const resolvedTitle = title ?? t("about.gallery.title");
 
     const galleryItems = items.slice(0, 4);
 
@@ -40,9 +41,9 @@ export default function ShowroomGallerySection({
             className={`w-full bg-[#FAFAF8] py-12 sm:py-16 lg:py-20 ${className}`}
         >
             <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
-                {title && (
+                {resolvedTitle && (
                     <h2 className="mb-8 text-center text-[23px] font-extrabold text-[var(--brand-primary-color)] sm:text-[28px]">
-                        {title}
+                        {resolvedTitle}
                     </h2>
                 )}
 

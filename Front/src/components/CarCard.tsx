@@ -6,6 +6,33 @@ import Button from "./button";
 import LazyImg from "./LazyImg";
 import type { ICarCardProps } from "../interfaces/ICarCardProps";
 
+interface HighlightResult {
+    text: string;
+    color?: string;
+}
+
+function resolveHighlight(value: unknown, locale: string): HighlightResult | undefined {
+    if (!value) return undefined;
+    if (typeof value === "string") return value ? { text: value } : undefined;
+    if (typeof value === "object" && value !== null) {
+        const obj = value as Record<string, unknown>;
+        const key = locale.startsWith("ar") ? "text_ar" : "text";
+        const text = (obj[key] ?? obj.text_ar ?? obj.text ?? "") as string;
+        if (!text) return undefined;
+        return { text, color: typeof obj.color === "string" ? obj.color : undefined };
+    }
+    return { text: String(value) };
+}
+
+function contrastTextColor(hex?: string): string {
+    if (!hex) return "var(--brand-primary-color)";
+    const raw = hex.replace("#", "");
+    const r = parseInt(raw.substring(0, 2), 16);
+    const g = parseInt(raw.substring(2, 4), 16);
+    const b = parseInt(raw.substring(4, 6), 16);
+    return (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? "#111827" : "#ffffff";
+}
+
 export type { ICarCardProps as CarCardProps };
 
 export default function CarCard({
@@ -28,6 +55,7 @@ export default function CarCard({
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const isRTL = i18n.dir() === "rtl";
+    const resolvedBadge = resolveHighlight(badgeText, i18n.language);
 
     return (
         <article
@@ -44,15 +72,21 @@ export default function CarCard({
                 />
 
                 {/* Badge — top start */}
-                {badgeText && (
+                {resolvedBadge && (
                     <div
                         className={[
                             "absolute top-3 z-10",
                             isRTL ? "right-3" : "left-3",
                         ].join(" ")}
                     >
-                        <span className="rounded-full bg-[var(--brand-secondary-color)] px-4 py-1.5 text-[13px] font-semibold text-[var(--brand-primary-color)]">
-                            {badgeText}
+                        <span
+                            className="rounded-full px-4 py-1.5 text-[13px] font-semibold"
+                            style={{
+                                backgroundColor: resolvedBadge.color ?? "var(--brand-secondary-color)",
+                                color: contrastTextColor(resolvedBadge.color),
+                            }}
+                        >
+                            {resolvedBadge.text}
                         </span>
                     </div>
                 )}
@@ -129,7 +163,7 @@ export default function CarCard({
 
                 {/* Price row */}
                 <div className="mt-auto flex items-center justify-between pt-3">
-                    <div className="text-end">
+                    <div className="text-start">
                         <p className="text-[22px] font-bold leading-none text-[#111827]">
                             {price}
                         </p>

@@ -79,12 +79,12 @@ export default function HomeHero({
     const current = slides[currentSlide];
 
     const logoSrc = !logoError
-        ? getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO
+        ? getImageUrl(settings?.logo_color ?? null) || APP_IMAGES.LOGO
         : APP_IMAGES.LOGO;
 
     useEffect(() => {
         setLogoError(false);
-    }, [settings?.logo]);
+    }, [settings?.logo_color]);
 
     const goToSlide = useCallback(
         (index: number) => {
@@ -492,10 +492,9 @@ export default function HomeHero({
                         className={`absolute bottom-0 top-0 flex w-[84vw] max-w-[390px] flex-col bg-white text-[#111827] shadow-2xl ${isRTL ? "right-0" : "left-0"}`}
                     >
                         <div className="flex items-center justify-between px-6 py-5">
-                            <img
-                                src={logoSrc}
+                            <LazyImg
+                                src={getImageUrl(settings?.logo ?? null) || APP_IMAGES.LOGO}
                                 alt="Logo"
-                                onError={() => setLogoError(true)}
                                 className="h-14 w-auto object-contain"
                             />
 
@@ -518,7 +517,7 @@ export default function HomeHero({
                                     onClick={() => setMenuOpen(false)}
                                     className={({ isActive }) =>
                                         [
-                                            "block rounded-xl px-4 py-3.5 text-right",
+                                            "block rounded-xl px-4 py-3.5 text-start",
                                             "text-[16px] font-semibold transition",
                                             isActive
                                                 ? "bg-[var(--brand-primary-color)]/10 text-[var(--brand-primary-color)]"
@@ -558,7 +557,7 @@ export default function HomeHero({
                             {settings?.contact?.phone && (
                                 <a
                                     href={`tel:${settings.contact.phone}`}
-                                    className="flex items-center justify-end gap-3 rounded-xl bg-gray-100 px-4 py-3 text-sm text-[#111827]"
+                                    className="flex items-center justify-start gap-3 rounded-xl bg-gray-100 px-4 py-3 text-sm text-[#111827]"
                                 >
                                     <span>{settings.contact.phone}</span>
                                     <Phone
@@ -571,7 +570,7 @@ export default function HomeHero({
                             {settings?.contact?.email && (
                                 <a
                                     href={`mailto:${settings.contact.email}`}
-                                    className="flex items-center justify-end gap-3 rounded-xl bg-gray-100 px-4 py-3 text-sm text-[#111827]"
+                                    className="flex items-center justify-start gap-3 rounded-xl bg-gray-100 px-4 py-3 text-sm text-[#111827]"
                                 >
                                     <span className="truncate">
                                         {settings.contact.email}
