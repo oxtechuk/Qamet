@@ -128,10 +128,10 @@ class CarResource extends Resource
                                                 ->preload()
                                                 ->searchable(),
                                         ]),
-//                                    Forms\Components\KeyValue::make('specs')->label(__('Specs'))
-//                                        ->keyLabel(__('Specification'))
-//                                        ->valueLabel(__('Value'))
-//                                        ->addActionLabel(__('Add spec')),
+                                    //                                    Forms\Components\KeyValue::make('specs')->label(__('Specs'))
+                                    //                                        ->keyLabel(__('Specification'))
+                                    //                                        ->valueLabel(__('Value'))
+                                    //                                        ->addActionLabel(__('Add spec')),
                                 ]),
                         ]),
 
@@ -195,6 +195,12 @@ class CarResource extends Resource
                                                 ])
                                                 ->default('available'),
                                         ]),
+                                    Forms\Components\Select::make('highlight_id')->label(__('Highlight'))
+                                        ->relationship('highlight', 'text_en')
+                                        ->searchable()
+                                        ->preload()
+                                        ->nullable()
+                                        ->helperText(__('Optional highlight tag for this car')),
                                 ]),
                         ]),
                 ])

@@ -52,7 +52,7 @@ class HomeCacheService extends BaseCacheService
 
     public function rememberLatestCars(): Collection
     {
-        return $this->remember('home.latest_cars', fn () => Car::with(['brand', 'images', 'activeOffers'])
+        return $this->remember('home.latest_cars', fn () => Car::with(['brand', 'images', 'activeOffers', 'highlight'])
             ->where('is_featured', true)
             ->where('is_active', true)
             ->latest()

@@ -39,6 +39,7 @@ final class CompareApiService
             'specifications',
             'features_list',
             'activeOffers',
+            'highlight',
         ])
             ->where('is_active', true);
 

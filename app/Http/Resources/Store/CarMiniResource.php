@@ -26,7 +26,12 @@ class CarMiniResource extends JsonResource
             'colors' => $this->colors,
             'is_featured' => $this->is_featured,
             'availability_status' => $this->availability_status,
-            'highlight' => $this->is_highlighted !== 'none' ? $this->is_highlighted : null,
+            'highlight' => $this->whenLoaded('highlight', fn () => [
+                'id' => $this->highlight->id,
+                'text' => $this->highlight->text_en,
+                'text_ar' => $this->highlight->text_ar,
+                'color' => $this->highlight->color,
+            ]),
             'is_current_year' => now()->format('Y') == $this->year,
             'brand' => $this->whenLoaded('brand', fn () => [
                 'id' => $this->brand?->id,

@@ -26,7 +26,7 @@ class Car extends Model
     protected $fillable = [
         'brand_id', 'category_id', 'name', 'slug', 'model', 'year', 'type',
         'color', 'colors', 'cash_price', 'min_down_payment', 'min_installment',
-        'description', 'features', 'specs', 'thumbnail', 'is_featured', 'is_active', 'is_highlighted', 'views',
+        'description', 'features', 'specs', 'thumbnail', 'is_featured', 'is_active', 'is_highlighted', 'highlight_id', 'views',
         'availability_status',
     ];
 
@@ -102,6 +102,11 @@ class Car extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(CarCategory::class, 'category_id');
+    }
+
+    public function highlight(): BelongsTo
+    {
+        return $this->belongsTo(Highlight::class);
     }
 
     public function images(): HasMany

@@ -164,7 +164,7 @@ final class HomeApiService
         $defaultCars = Car::where('is_active', true)
             ->where('cash_price', '>=', $first['min'])
             ->when($first['max'] !== null, fn ($q) => $q->where('cash_price', '<=', $first['max']))
-            ->with(['brand', 'images', 'activeOffers'])
+            ->with(['brand', 'images', 'activeOffers', 'highlight'])
             ->latest()
             ->limit(8)
             ->get();

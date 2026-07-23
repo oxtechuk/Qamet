@@ -19,7 +19,12 @@ class CarCardResource extends JsonResource
             'savings' => max(0, $this->cash_price - $this->current_price),
             'min_installment' => $this->min_installment,
             'year' => $this->year,
-            'highlight' => $this->is_highlighted !== 'none' ? $this->is_highlighted : null,
+            'highlight' => $this->whenLoaded('highlight', fn () => [
+                'id' => $this->highlight->id,
+                'text' => $this->highlight->text_en,
+                'text_ar' => $this->highlight->text_ar,
+                'color' => $this->highlight->color,
+            ]),
             'brand' => $this->whenLoaded('brand', fn () => [
                 'id' => $this->brand?->id,
                 'name' => $this->brand?->name,

@@ -22,7 +22,7 @@ final class CarApiService
 
     public function list(array $filters, int $perPage = 12): LengthAwarePaginator
     {
-        $query = Car::with(['brand', 'category', 'images', 'activeOffers'])->where('is_active', true);
+        $query = Car::with(['brand', 'category', 'images', 'activeOffers', 'highlight'])->where('is_active', true);
 
         $this->applyFilters($query, $filters);
         $this->applySorting($query, $filters['sort'] ?? 'latest');
@@ -40,6 +40,7 @@ final class CarApiService
             'features_list',
             'safety_features',
             'activeOffers',
+            'highlight',
             'offers' => fn ($q) => $q->active(),
         ])
             ->where('is_active', true);
@@ -54,7 +55,7 @@ final class CarApiService
 
         $car->increment('views');
 
-        $relatedCars = Car::with(['brand', 'category', 'images', 'activeOffers'])
+        $relatedCars = Car::with(['brand', 'category', 'images', 'activeOffers', 'highlight'])
             ->where('brand_id', $car->brand_id)
             ->where('id', '!=', $car->id)
             ->where('is_active', true)
@@ -66,7 +67,7 @@ final class CarApiService
 
     public function search(string $query): \Illuminate\Database\Eloquent\Collection
     {
-        return Car::with(['brand', 'category', 'images'])
+        return Car::with(['brand', 'category', 'images', 'highlight'])
             ->where('is_active', true)
             ->where(function ($q) use ($query) {
                 $q->where('name->ar', 'LIKE', "%{$query}%")
