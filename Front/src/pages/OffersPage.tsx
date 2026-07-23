@@ -26,8 +26,8 @@ export default function OffersPage() {
 
   const offers = useMemo(() => {
     if (!offersResponse?.data) return [];
-    return offersResponse.data.map((offer) => offerToCardProps(offer, t));
-  }, [offersResponse, t]);
+    return offersResponse.data.map((offer) => offerToCardProps(offer, t, language));
+  }, [offersResponse, t, language]);
 
   const currentPage = offersResponse?.meta.current_page ?? page;
   const totalPages = offersResponse?.meta.last_page ?? 1;

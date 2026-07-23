@@ -3,20 +3,36 @@ import type { OfferData } from "../types/offers.types";
 import type { IOfferListCardProps } from "../interfaces/IOfferListCardProps";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
 
+function resolveOfferHighlight(
+  value: OfferData["car"]["highlight"],
+  locale: string,
+): { text: string; color?: string } | undefined {
+  if (!value) return undefined;
+  if (typeof value === "string") return value ? { text: value } : undefined;
+  const key = locale.startsWith("ar") ? "text_ar" : "text";
+  const text = (value[key] ?? value.text_ar ?? value.text ?? "") as string;
+  if (!text) return undefined;
+  return { text, color: value.color };
+}
+
 export function offerToCardProps(
   offer: OfferData,
-  t: TFunction
+  t: TFunction,
+  locale: string,
 ): IOfferListCardProps {
   const car = offer.car;
   const brandName = car?.brand?.name ?? "";
   const carFullName = brandName ? `${brandName} ${car.name}` : car?.name ?? "";
 
+  const highlight = resolveOfferHighlight(car?.highlight ?? null, locale);
+
   return {
     id: offer.id,
     image: getImageUrl(offer.image) || getImageUrl(car?.main_image) || getImageUrl(car?.thumbnail) || APP_IMAGES.OFFER_PLACEHOLDER,
-    badge: offer.discount_percent
+    badge: highlight?.text || (offer.discount_percent
       ? t("offersPage.grid.card.badgeDiscount", { percent: offer.discount_percent })
-      : t("offersPage.grid.card.badgeSeasonal"),
+      : t("offersPage.grid.card.badgeSeasonal")),
+    badgeColor: highlight?.color,
     title: offer.title,
     description: offer.description,
     carName: carFullName || undefined,

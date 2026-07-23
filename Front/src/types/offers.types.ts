@@ -15,7 +15,7 @@ export interface OfferCar {
   colors: { hex: string; name: string }[];
   is_featured: boolean;
   availability_status: string;
-  highlight: string | null;
+  highlight: { id?: number; text?: string; text_ar?: string; color?: string } | null;
   is_current_year: boolean;
   brand: { id: number; name: string };
 }

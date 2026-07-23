@@ -27,18 +27,18 @@ export default function CompareSummary({
   const winnerSlug = car1Score >= car2Score ? car1Slug : car2Slug;
 
   return (
-    <section dir={i18n.dir()} className="mx-auto w-full max-w-[1200px] px-4 pb-8">
+    <section dir={i18n.dir()} className="mx-auto w-full  max-w-[1200px] px-4 pb-8">
       <div className="rounded-[20px] bg-[#021F38] px-8 py-8 text-center text-white">
         {/* Badge */}
-        <p className="mb-2 text-[13px] font-semibold text-[var(--brand-secondary-color)]">
+        <p className="mb-2 text-[13px] font-bold text-[var(--brand-secondary-color)]">
           {t("comparePage.summaryBadge")}
         </p>
 
         {/* Winner label */}
-        <p className="text-[14px] text-white/60">{t("comparePage.winnerLabel")}</p>
+        <p className="text-[14px] pb-1 text-white/60">{t("comparePage.winnerLabel")}</p>
 
         {/* Winner name */}
-        <h2 className="mt-1 text-[28px] font-extrabold text-white md:text-[34px]">
+        <h2 className="mt-1 pb-3  text-[28px] font-extrabold text-white md:text-[34px]">
           {winnerName}
         </h2>
 

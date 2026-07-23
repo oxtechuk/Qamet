@@ -46,7 +46,7 @@ export default function ContactCtaSection({
               {badgeText}
             </div>
 
-            <h2 className="text-[38px] font-bold leading-[1.4] md:text-[60px]">
+            <h2 className="text-[38px] font-semibold leading-[1.4] md:text-[40px]">
               <span className="text-white">{titleWhite} </span>
               <span className="text-[var(--brand-secondary-color)]">
                 {titleOrange}

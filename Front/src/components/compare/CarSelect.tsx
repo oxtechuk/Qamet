@@ -62,7 +62,7 @@ export default function CarSelect({
         <button
           type="button"
           onClick={() => setOpen((p) => !p)}
-          className={`flex w-full items-center gap-3 rounded-xl border bg-white px-4 py-3 text-end outline-none transition ${
+          className={`flex w-full items-center gap-3 rounded-xl border bg-white px-4 py-3 text-start outline-none transition ${
             open ? "border-[#35aee8]" : "border-gray-300"
           }`}
           dir={dir}
@@ -100,7 +100,7 @@ export default function CarSelect({
             <div className="relative border-b border-gray-100">
               <Search
                 size={15}
-                className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 text-gray-400"
+                className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-gray-400"
               />
               <input
                 ref={inputRef}
@@ -130,7 +130,7 @@ export default function CarSelect({
                     onSelect(car.slug);
                     setOpen(false);
                   }}
-                  className={`flex w-full items-center gap-3 px-4 py-3 text-end transition hover:bg-[#F0F4FF] ${
+                  className={`flex w-full items-center gap-3 px-4 py-3 text-start transition hover:bg-[#F0F4FF] ${
                     car.slug === selectedSlug ? "bg-[#F0F4FF]" : ""
                   }`}
                   dir={dir}

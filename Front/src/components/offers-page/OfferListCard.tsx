@@ -7,9 +7,19 @@ import { getCountdownParts, padTime } from "../../utils/countdown";
 import type { IOfferListCardProps } from "../../interfaces/IOfferListCardProps";
 import LazyImg from "../LazyImg";
 
+function contrastTextColor(hex?: string): string {
+    if (!hex) return "#ffffff";
+    const raw = hex.replace("#", "");
+    const r = parseInt(raw.substring(0, 2), 16);
+    const g = parseInt(raw.substring(2, 4), 16);
+    const b = parseInt(raw.substring(4, 6), 16);
+    return (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? "#111827" : "#ffffff";
+}
+
 export default function OfferListCard({
   image,
   badge,
+  badgeColor,
   title,
   description,
   carName,
@@ -51,7 +61,13 @@ export default function OfferListCard({
 
         {/* Badge top-start */}
         {badge && (
-          <div className="absolute start-3 top-3 rounded-full bg-[var(--brand-primary-color)] px-4 py-1.5 text-[12px] font-semibold text-white">
+          <div
+            className="absolute start-3 top-3 rounded-full px-4 py-1.5 text-[12px] font-semibold"
+            style={{
+              backgroundColor: badgeColor ?? "var(--brand-primary-color)",
+              color: badgeColor ? contrastTextColor(badgeColor) : "#ffffff",
+            }}
+          >
             {badge}
           </div>
         )}

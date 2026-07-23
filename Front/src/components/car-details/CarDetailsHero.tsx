@@ -62,6 +62,7 @@ export default function CarDetailsHero({
                     <CarDetailsGallery
                         title={title}
                         images={currentImages}
+                        currentImages={currentImages}
                         currentImage={currentImage}
                         activeImage={activeImage}
                         onImageSelect={setActiveImage}
@@ -77,7 +78,7 @@ export default function CarDetailsHero({
                         <div className="rounded-[20px] border border-[#E5E7EB] bg-white px-5 py-6 shadow-sm">
                             {/* Title */}
                             <h1
-                                className="text-start text-[28px] font-extrabold leading-tight text-[#111827] md:text-[36px]"
+                                className="text-start text-[28px] font-semibold leading-tight text-[#111827] md:text-[36px]"
                             >
                                 {title}
                             </h1>
@@ -156,7 +157,7 @@ export default function CarDetailsHero({
                             <div className="mt-5 flex flex-col gap-3">
                                 <a
                                     href={orderTo}
-                                    className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] font-bold text-[var(--brand-primary-color)] transition hover:opacity-90"
+                                    className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] font-semibold text-[var(--brand-primary-color)] transition hover:opacity-90"
                                 >
                                     {t("carDetails.hero.orderNow")}
                                 </a>
@@ -165,7 +166,7 @@ export default function CarDetailsHero({
                                     href={whatsappHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex h-[56px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#25D366] text-[17px] font-bold text-white! transition hover:opacity-90"
+                                    className="flex h-[56px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#25D366] text-[17px] font-semibold text-white! transition hover:opacity-90"
                                 >
                                     <SiWhatsapp size={22} />
                                     {t("carDetails.hero.whatsappContact")}
@@ -200,6 +201,7 @@ export default function CarDetailsHero({
 interface ICarDetailsGalleryProps {
     title: string;
     images: string[];
+    currentImages: string[];
     currentImage: string;
     activeImage: number;
     onImageSelect: (index: number) => void;
@@ -213,6 +215,7 @@ interface ICarDetailsGalleryProps {
 function CarDetailsGallery({
     title,
     images,
+    currentImages,
     currentImage,
     activeImage,
     onImageSelect,
@@ -240,7 +243,7 @@ function CarDetailsGallery({
                 <button
                     type="button"
                     onClick={() => onViewChange("inside")}
-                    className={`rounded-[10px] text-[16px] font-bold transition ${
+                    className={`rounded-[10px] text-[16px] font-semibold transition ${
                         viewType === "inside"
                             ? "bg-[var(--brand-secondary-color)] text-[var(--brand-primary-color)]"
                             : "text-[#5F6672] hover:bg-[#F5F5F3]"
@@ -251,7 +254,7 @@ function CarDetailsGallery({
                 <button
                     type="button"
                     onClick={() => onViewChange("outside")}
-                    className={`rounded-[10px] text-[16px] font-bold transition ${
+                    className={`rounded-[10px] text-[16px] font-semibold transition ${
                         viewType === "outside"
                             ? "bg-[var(--brand-secondary-color)] text-[var(--brand-primary-color)]"
                             : "text-[#5F6672] hover:bg-[#F5F5F3]"
@@ -312,9 +315,9 @@ function CarDetailsGallery({
                         className="h-[48px] w-[48px] rounded-[12px]! border-[#000000]! bg-[#ffffff]/50! text-[#000000]! shadow-[0_4px_12px_rgba(0,0,0,0.06)] backdrop-blur-lg transition duration-300 hover:bg-[#E4E7EB]/60!"
                     />
 
-                    {/* 4 thumbnails */}
+                    {/* Thumbnails */}
                     <div className="flex flex-1 justify-center gap-2">
-                        {images
+                        {currentImages
                             .slice(0, 4)
                             .map((image, index) => (
                                 <button

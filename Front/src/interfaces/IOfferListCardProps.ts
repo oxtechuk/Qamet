@@ -2,6 +2,7 @@ export interface IOfferListCardProps {
   id: string | number;
   image: string;
   badge?: string;
+  badgeColor?: string;
   title: string;
   description: string;
   carName?: string;

@@ -7,7 +7,7 @@ import LazyImg from "../LazyImg";
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center gap-1">
-      <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[12px] bg-[#1a2f48] text-[22px] font-extrabold text-white">
+      <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[12px] bg-[#1a2f48] text-[22px] font-semibold text-white">
         {padTime(value)}
       </div>
       <span className="text-[12px] text-white/60">{label}</span>
@@ -57,7 +57,7 @@ export default function OffersPageHero({
               </div>
 
               {/* Title */}
-              <h1 className="text-[30px] font-extrabold leading-[1.35] text-white md:text-[38px]">
+              <h1 className="text-[30px] font-bold leading-[1.35] text-white md:text-[36px]">
                 {title}
               </h1>
 
@@ -69,22 +69,6 @@ export default function OffersPageHero({
                 <p className="mt-4 text-[15px] font-bold text-[var(--brand-secondary-color)]">
                   {carLabel}
                 </p>
-              )}
-
-              {/* Discount & Price */}
-              {(discountPercent || specialPrice) && (
-                <div className="mt-4 flex items-center gap-3">
-                  {discountPercent && (
-                    <span className="rounded-full bg-red-500/10 px-3 py-1 text-[13px] font-bold text-red-400">
-                      -{discountPercent}%
-                    </span>
-                  )}
-                  {specialPrice && (
-                    <span className="text-[22px] font-extrabold text-[var(--brand-secondary-color)]">
-                      {specialPrice.toLocaleString()} {t("financeCalculator.step2.riyal")}
-                    </span>
-                  )}
-                </div>
               )}
 
               {/* Countdown */}
@@ -126,7 +110,7 @@ export default function OffersPageHero({
               {/* CTA */}
               <a
                 href={primaryButtonTo}
-                className="mt-7 flex h-[52px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[16px] font-bold text-[var(--brand-primary-color)] transition hover:opacity-90"
+                className="mt-7 flex h-[52px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[16px]  text-[var(--brand-primary-color)] transition hover:opacity-90"
               >
                 {primaryButtonText}
               </a>
