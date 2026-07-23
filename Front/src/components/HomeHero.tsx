@@ -190,12 +190,12 @@ export default function HomeHero({
                     {/* Top header */}
                     <header className="absolute inset-x-0 top-0 z-30 px-5 pt-7 sm:px-8 md:px-10 lg:px-12">
                         <div className="relative flex items-start justify-between">
-                            {/* Menu button */}
+                            {/* Menu button — hidden on mobile */}
                             <button
                                 type="button"
                                 onClick={() => setMenuOpen(true)}
                                 className={[
-                                    "flex h-[42px] min-w-[96px] items-center justify-center gap-2",
+                                    "hidden sm:flex h-[42px] min-w-[96px] items-center justify-center gap-2",
                                     "rounded-[12px] bg-white px-4",
                                     "text-[12px] font-bold text-[var(--brand-primary-color)]",
                                     "shadow-[0_8px_24px_rgba(0,0,0,0.14)]",

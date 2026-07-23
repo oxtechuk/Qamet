@@ -22,6 +22,7 @@ export const mobileNavItems: IMobileNavItem[] = [
     labelKey: "mobileNav.home",
     to: "/",
     icon: Home,
+    isCenter: true,
   },
   {
     labelKey: "mobileNav.finance",
