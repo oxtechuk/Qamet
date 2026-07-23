@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "The Year of Handicrafts";
-  src: url("/fonts/TheYearofHandicrafts-Regular.otf") format("opentype");
-  font-weight: 400;
+  font-family: "Changa";
+  src: url("/fonts/Changa-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -12,6 +12,7 @@
   --brand-primary-color: #021F38;
   --brand-primary-light-color: #2F5F8A;
   --brand-secondary-color: #DFC675;
+  --brand-gray-color: #595959;
   --barand-footer-color: #121317;
   --brand-CTA-BG-color: #0D1018;
 
@@ -37,7 +38,7 @@
   --background: #FAFAF8;
   --border: #e5e4e7;
 
-  --font-main: "The Year of Handicrafts", system-ui, sans-serif;
+  --font-main: "Changa";
 }
 
 * {

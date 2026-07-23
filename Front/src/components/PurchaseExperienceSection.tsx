@@ -68,7 +68,7 @@ export default function PurchaseExperienceSection({
                         marginRight: isRTL ? undefined : "auto",
                     }}
                 >
-                    <h2 className="text-[30px] font-extrabold leading-tight text-[var(--brand-primary-color)] sm:text-[36px] lg:text-[40px]">
+                    <h2 className="text-[30px] leading-tight text-[var(--brand-primary-color)] sm:text-[36px] lg:text-[40px]">
                         {title || t("purchaseExperience.title")}
                     </h2>
 
@@ -105,11 +105,11 @@ export default function PurchaseExperienceSection({
                                 </div>
                             </div>
 
-                            <h3 className="mt-4 text-[18px] font-extrabold text-[var(--brand-primary-color)]">
+                            <h3 className="mt-4 text-[15px] font-semibold text-[var(--brand-primary-color)]">
                                 {feature.title}
                             </h3>
 
-                            <p className="mt-3 text-[14px] leading-7 text-[#6F7175]">
+                            <p className="mt-3 text-[14px] leading-7 text-[var(--brand-gray-color)]">
                                 {feature.description}
                             </p>
                         </article>

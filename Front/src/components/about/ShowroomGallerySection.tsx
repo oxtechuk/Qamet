@@ -27,7 +27,7 @@ export default function ShowroomGallerySection({
     className = "",
 }: ShowroomGallerySectionProps) {
     const { t, i18n } = useTranslation();
-    const resolvedTitle = title ?? t("about.gallery.title");
+    const resolvedTitle = title ?? t("aboutPage.gallery.title");
 
     const galleryItems = items.slice(0, 4);
 

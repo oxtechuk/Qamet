@@ -10,12 +10,6 @@ import { useLanguageStore } from "../store/language.store";
 
 const GAP = 28;
 
-function getVisible(width: number): number {
-    if (width >= 1024) return 3;
-    if (width >= 640) return 2;
-    return 1;
-}
-
 function useDefaultRanges(t: (key: string) => string): IBudgetRange[] {
     return [
         { label: t("budgetCars.ranges.0"), value: "3000-4000" },
@@ -40,7 +34,6 @@ export default function BudgetCarsSection({
     const [mobileContainer, setMobileContainer] = useState<HTMLDivElement | null>(null);
     const [desktopContainer, setDesktopContainer] = useState<HTMLDivElement | null>(null);
     const [containerWidth, setContainerWidth] = useState(0);
-    const [visible, setVisible] = useState(() => getVisible(window.innerWidth));
 
     useEffect(() => {
         const activeEl = mobileContainer || desktopContainer;
@@ -49,7 +42,6 @@ export default function BudgetCarsSection({
         const ro = new ResizeObserver((entries) => {
             const w = entries[0]?.contentRect.width ?? 0;
             if (w > 0) setContainerWidth(w);
-            setVisible(getVisible(window.innerWidth));
         });
         ro.observe(activeEl);
 
@@ -60,20 +52,14 @@ export default function BudgetCarsSection({
         };
     }, [mobileContainer, desktopContainer]);
 
-    useEffect(() => {
-        const onResize = () => setVisible(getVisible(window.innerWidth));
-        window.addEventListener("resize", onResize);
-        return () => window.removeEventListener("resize", onResize);
-    }, []);
-
     const defaultRanges = useDefaultRanges(t);
     const resolvedRanges = ranges ?? defaultRanges;
 
     const n = cars.length;
-    // Use a fallback so cards render immediately before ResizeObserver fires
+    const CARD_WIDTH = 336;
     const effectiveWidth = containerWidth > 0 ? containerWidth : 800;
-    const cardWidth = (effectiveWidth - GAP * (visible - 1)) / visible;
-    const step = cardWidth + GAP;
+    const step = CARD_WIDTH + GAP;
+    const visible = Math.max(1, Math.floor((effectiveWidth + GAP) / step));
     const canLoop = n > visible;
 
     const track = useMemo(() => {
@@ -141,7 +127,7 @@ export default function BudgetCarsSection({
                 {/* Mobile: filters above cards */}
                 <div className="mb-6 lg:hidden">
                     <div className={isRTL ? "text-right" : "text-left"}>
-                        <h2 className="text-[30px] font-extrabold leading-[1.35] text-white">
+                        <h2 className="text-[30px]  leading-[1.35] text-white">
                             <span>{titleBlue}</span>
                         </h2>
                         <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white/70">
@@ -158,10 +144,10 @@ export default function BudgetCarsSection({
                 {/* Desktop: side-by-side layout */}
                 <div className="hidden lg:grid lg:grid-cols-[minmax(330px,0.75fr)_minmax(0,1.75fr)] lg:items-center lg:gap-16">
                     <div className={isRTL ? "text-right" : "text-left"}>
-                        <h2 className="text-[30px] font-extrabold leading-[1.35] text-white sm:text-[36px] lg:text-[38px]">
+                        <h2 className="text-[30px] font-semibold leading-[1.35] text-white sm:text-[36px] lg:text-[32px]">
                             <span>{titleBlue}</span>
                         </h2>
-                        <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white/70 sm:text-[14px]">
+                        <p className="mt-4 max-w-[430px] text-[13px] leading-7 text-white sm:text-[14px]">
                             {description}
                         </p>
                         <BudgetCarsRangeFilters
@@ -192,7 +178,7 @@ export default function BudgetCarsSection({
                                     <div
                                         key={`desktop-${car.id}-${i}`}
                                         dir={isRTL ? "rtl" : "ltr"}
-                                        style={{ width: `${cardWidth}px`, flexShrink: 0 }}
+                                        style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
                                     >
                                         <CarCard {...car} />
                                     </div>
@@ -239,7 +225,7 @@ export default function BudgetCarsSection({
                             <div
                                 key={`mobile-${car.id}-${i}`}
                                 dir={isRTL ? "rtl" : "ltr"}
-                                style={{ width: `${cardWidth}px`, flexShrink: 0 }}
+                                style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
                             >
                                 <CarCard {...car} />
                             </div>

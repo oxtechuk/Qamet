@@ -115,7 +115,7 @@ export default function CarCard({
             <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
                 {/* Name */}
                 <h3
-                    className="truncate text-start text-[20px] font-bold leading-snug text-[#111827]"
+                    className="truncate text-start text-[20px] font-semibold leading-snug text-[#111827]"
                     title={`${brand} ${name}`}
                 >
                     {brand} {name}

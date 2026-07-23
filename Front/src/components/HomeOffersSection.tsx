@@ -175,12 +175,12 @@ export default function HomeOffersSection({
                                 ].join(" ")}
                             >
                                 <SlideArrow
-                                    direction="prev"
+                                    direction={isRTL ? "next" : "prev"}
                                     onClick={isRTL ? nextSlide : previousSlide}
                                     className="h-[46px] w-[46px] rounded-[14px] border-white/45 bg-white/20 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:bg-white/30 sm:h-[50px] sm:w-[50px]"
                                 />
                                 <SlideArrow
-                                    direction="next"
+                                    direction={isRTL ? "prev" : "next"}
                                     onClick={isRTL ? previousSlide : nextSlide}
                                     className="h-[46px] w-[46px] rounded-[14px] border-white/45 bg-white/20 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:bg-white/30 sm:h-[50px] sm:w-[50px]"
                                 />

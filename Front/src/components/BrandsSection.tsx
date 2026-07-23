@@ -115,7 +115,7 @@ export default function BrandsSection({
                 {/* Header */}
                 <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                     <div className={isRTL ? "text-right" : "text-left"}>
-                        <h2 className="text-[26px] font-bold leading-tight md:text-[26px]">
+                        <h2 className="text-[26px] font-semibold leading-tight md:text-[26px]">
                             <span className="text-[var(--brand-primary-color)]">
                                 {titleBlue}
                             </span>
