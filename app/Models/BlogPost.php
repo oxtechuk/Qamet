@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\AsImageUrl;
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,7 @@ use Spatie\Translatable\HasTranslations;
 
 class BlogPost extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
     public $translatable = ['title', 'excerpt', 'content'];
 
@@ -46,6 +47,6 @@ class BlogPost extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)->whereNotNull('published_at');
+        return $query->where('is_published', true);
     }
 }

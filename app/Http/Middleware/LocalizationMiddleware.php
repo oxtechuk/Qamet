@@ -4,21 +4,25 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 class LocalizationMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session::has('applocale')) {
-            App::setLocale(Session::get('applocale'));
-        } else {
-            // Default to Arabic
-            App::setLocale('ar');
-            Session::put('applocale', 'ar');
-        }
+        // LanguageSwitch session key ('locale') takes priority — it's the actively switched locale.
+        // Fall back to 'applocale', then default to Arabic.
+        $locale = match (true) {
+            Session::has('locale') => Session::get('locale'),
+            Session::has('applocale') => Session::get('applocale'),
+            default => 'ar',
+        };
+
+        App::setLocale($locale);
+        Session::put('applocale', $locale);
+        Session::put('locale', $locale);
 
         return $next($request);
     }

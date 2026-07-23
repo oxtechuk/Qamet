@@ -10,9 +10,9 @@ return [
     |
     */
 
-    'account_sid'  => env('TWILIO_ACCOUNT_SID'),
-    'auth_token'   => env('TWILIO_AUTH_TOKEN'),
-    'from_number'  => env('TWILIO_FROM_NUMBER'),
+    'account_sid' => env('TWILIO_ACCOUNT_SID'),
+    'auth_token' => env('TWILIO_AUTH_TOKEN'),
+    'from_number' => env('TWILIO_FROM_NUMBER'),
 
     /*
     |--------------------------------------------------------------------------
@@ -20,6 +20,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'otp_length'        => 6,      // عدد أرقام الكود
-    'otp_ttl_minutes'   => 5,      // صلاحية الكود بالدقائق
+    'otp_length' => 6,      // عدد أرقام الكود
+    'otp_ttl_minutes' => 5,      // صلاحية الكود بالدقائق
 ];

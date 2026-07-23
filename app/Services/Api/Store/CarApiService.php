@@ -100,7 +100,7 @@ final class CarApiService
     public function listMeta(): array
     {
         $featuredOffer = Offer::active()
-            ->with(['cars' => fn ($q) => $q->where('is_active', true)->limit(3)])
+            ->with('car.brand')
             ->first();
 
         $totalCars = Car::where('is_active', true)->count();
@@ -120,6 +120,12 @@ final class CarApiService
 
             return $slide;
         }, $this->cache->rememberHeroSlides());
+
+        $carHeroSlides = array_map(function (array $slide): array {
+            $slide['image'] = $this->resolveImage($slide['image'] ?? null);
+
+            return $slide;
+        }, $this->cache->rememberCarHeroSlides());
 
         $heroAds = [
             [
@@ -148,6 +154,7 @@ final class CarApiService
             'homepageStats' => $homepageStats,
             'hero' => $hero,
             'heroSlides' => $heroSlides,
+            'carHeroSlides' => $carHeroSlides,
             'heroAds' => $heroAds,
         ];
     }

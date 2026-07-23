@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Booking extends Model
 {
     protected $fillable = [
-        'car_id', 'assigned_to', 'client_name', 'client_phone', 'client_email',
-        'down_payment', 'duration_years', 'interest_rate', 'monthly_installment',
-        'total_price', 'notes', 'status', 'source', 'last_contacted_at',
-        'booking_type', 'location',
+        'car_id', 'car_type', 'payment_method', 'assigned_to', 'client_name',
+        'client_phone', 'client_email', 'down_payment', 'duration_years',
+        'interest_rate', 'monthly_installment', 'total_price', 'notes', 'status',
+        'source', 'last_contacted_at', 'booking_type', 'location',
     ];
 
     protected $casts = [

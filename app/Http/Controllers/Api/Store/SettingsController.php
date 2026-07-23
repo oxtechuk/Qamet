@@ -24,6 +24,14 @@ final class SettingsController extends ApiBaseController
         );
     }
 
+    public function structured(): ApiResponse
+    {
+        return $this->respondSuccess(
+            $this->settingService->structured(),
+            'Structured settings retrieved successfully'
+        );
+    }
+
     public function getFinanceSolution(): ApiResponse
     {
         return $this->respondSuccess(

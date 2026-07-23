@@ -17,5 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call(CalculatorDefaultsSeeder::class);
         $this->call(ContactSourcesSeeder::class);
         $this->call(CarSeeder::class);
+        $this->call(AboutContentSeeder::class);
+        $this->call(HomeContentSeeder::class);
+        $this->call(BlogCategorySeeder::class);
+        $this->call(BlogPostSeeder::class);
     }
 }

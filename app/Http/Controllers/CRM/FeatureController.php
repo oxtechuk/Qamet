@@ -11,6 +11,7 @@ class FeatureController extends Controller
     public function index()
     {
         $features = Feature::latest()->paginate(20);
+
         return view('crm.features.index', compact('features'));
     }
 
@@ -45,6 +46,7 @@ class FeatureController extends Controller
     public function destroy(Feature $feature)
     {
         $feature->delete();
+
         return back()->with('success', 'تم حذف الخاصية');
     }
 }

@@ -28,31 +28,31 @@ class Task extends Model
 
     public function getPriorityLabelAttribute(): string
     {
-        return match($this->priority) {
-            'high'   => 'عالية',
+        return match ($this->priority) {
+            'high' => 'عالية',
             'medium' => 'متوسطة',
-            'low'    => 'منخفضة',
-            default  => $this->priority,
+            'low' => 'منخفضة',
+            default => $this->priority,
         };
     }
 
     public function getStatusLabelAttribute(): string
     {
-        return match($this->status) {
-            'new'         => 'جديدة',
+        return match ($this->status) {
+            'new' => 'جديدة',
             'in_progress' => 'قيد التنفيذ',
-            'done'        => 'مكتملة',
-            default       => $this->status,
+            'done' => 'مكتملة',
+            default => $this->status,
         };
     }
 
     public function getPriorityColorAttribute(): string
     {
-        return match($this->priority) {
-            'high'   => 'danger',
+        return match ($this->priority) {
+            'high' => 'danger',
             'medium' => 'warning',
-            'low'    => 'success',
-            default  => 'secondary',
+            'low' => 'success',
+            default => 'secondary',
         };
     }
 }

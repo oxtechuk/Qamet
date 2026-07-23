@@ -14,6 +14,7 @@ class ProjectDesignController extends Controller
     public function index()
     {
         $designs = ProjectDesign::query()->orderBy('sort_order')->get();
+
         return view('crm.settings.designs.index', compact('designs'));
     }
 
@@ -42,12 +43,12 @@ class ProjectDesignController extends Controller
             'top_speed' => 'nullable|string',
             'power' => 'nullable|string',
             'year' => 'nullable|string',
-            'badge_text' => 'nullable|string'
+            'badge_text' => 'nullable|string',
         ]);
 
         $data = $request->except('image');
         $data['is_featured'] = $request->boolean('is_featured');
-        
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('designs', 'public');
         }
@@ -79,7 +80,7 @@ class ProjectDesignController extends Controller
     public function update(Request $request, string $id)
     {
         $design = ProjectDesign::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'required|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5000',
@@ -92,7 +93,7 @@ class ProjectDesignController extends Controller
             'top_speed' => 'nullable|string',
             'power' => 'nullable|string',
             'year' => 'nullable|string',
-            'badge_text' => 'nullable|string'
+            'badge_text' => 'nullable|string',
         ]);
 
         $data = $request->except('image');
@@ -116,11 +117,11 @@ class ProjectDesignController extends Controller
     public function destroy(string $id)
     {
         $design = ProjectDesign::findOrFail($id);
-        
+
         if ($design->image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($design->image);
         }
-        
+
         $design->delete();
 
         return back()->with('success', __('تم حذف التصميم بنجاح'));
@@ -129,7 +130,8 @@ class ProjectDesignController extends Controller
     public function toggleFeatured(string $id)
     {
         $design = ProjectDesign::findOrFail($id);
-        $design->update(['is_featured' => !$design->is_featured]);
+        $design->update(['is_featured' => ! $design->is_featured]);
+
         return back()->with('success', __('تم تغيير حالة التصميم بنجاح'));
     }
 }

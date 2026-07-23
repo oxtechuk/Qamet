@@ -2,14 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Translatable\HasTranslations;
 
 class Feature extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
-    public $translatable = ['name'];
+    public $translatable = ['name', 'value'];
 
-    protected $fillable = ['name', 'icon'];
+    protected $fillable = ['name', 'value', 'icon'];
+
+    public function cars(): BelongsToMany
+    {
+        return $this->belongsToMany(Car::class, 'car_feature');
+    }
 }

@@ -19,7 +19,8 @@ class CarObserver
 
     public function saved(Car $car): void
     {
-        $this->homeCache->forgetHome();
+        $this->homeCache->forgetLatestCars();
+        $this->homeCache->forgetBrands();
         $this->carCache->forgetCars();
         $this->offerCache->forgetOffers();
         $this->calculatorCache->forgetCalculator();
@@ -27,7 +28,8 @@ class CarObserver
 
     public function deleted(Car $car): void
     {
-        $this->homeCache->forgetHome();
+        $this->homeCache->forgetLatestCars();
+        $this->homeCache->forgetBrands();
         $this->carCache->forgetCars();
         $this->offerCache->forgetOffers();
         $this->calculatorCache->forgetCalculator();
@@ -35,7 +37,8 @@ class CarObserver
 
     public function forceDeleted(Car $car): void
     {
-        $this->homeCache->forgetHome();
+        $this->homeCache->forgetLatestCars();
+        $this->homeCache->forgetBrands();
         $this->carCache->forgetCars();
         $this->offerCache->forgetOffers();
         $this->calculatorCache->forgetCalculator();

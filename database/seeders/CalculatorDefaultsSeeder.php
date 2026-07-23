@@ -17,7 +17,7 @@ class CalculatorDefaultsSeeder extends Seeder
         $banks = [
             ['name' => 'البنك الأهلي', 'annual_rate' => 3.5, 'sort_order' => 1],
             ['name' => 'البنك الراجحي', 'annual_rate' => 3.8, 'sort_order' => 2],
-         //   ['name' => 'البنك الأول', 'annual_rate' => 4.0, 'sort_order' => 3],
+            //   ['name' => 'البنك الأول', 'annual_rate' => 4.0, 'sort_order' => 3],
             ['name' => 'بنك الرياض', 'annual_rate' => 4.5, 'sort_order' => 4],
         ];
         foreach ($banks as $b) {

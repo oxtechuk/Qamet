@@ -4,12 +4,28 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\CarImage;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CarSeeder extends Seeder
 {
+    private const THUMBNAIL_WIDTH = 800;
+
+    private const THUMBNAIL_HEIGHT = 600;
+
+    private const GALLERY_WIDTH = 1200;
+
+    private const GALLERY_HEIGHT = 800;
+
+    private const GALLERY_COUNT = 3;
+
     public function run(): void
     {
+        Storage::disk('public')->makeDirectory('cars/thumbnails');
+        Storage::disk('public')->makeDirectory('cars/gallery');
+
         $brands = [
             [
                 'name' => ['en' => 'Toyota', 'ar' => 'تويوتا'],
@@ -266,11 +282,67 @@ class CarSeeder extends Seeder
         ];
 
         foreach ($cars as $data) {
-
-            Car::query()->updateOrCreate(
+            $car = Car::query()->updateOrCreate(
                 ['slug->en' => $data['slug']['en']],
                 $data,
             );
+
+            if ($car->thumbnail) {
+                $this->command?->info("  Skipping images for [{$car->name}] — already has thumbnail.");
+
+                continue;
+            }
+
+            $this->seedCarImages($car);
         }
+    }
+
+    private function seedCarImages(Car $car): void
+    {
+        $slug = $car->getTranslation('slug', 'en');
+
+        $thumbnailPath = $this->downloadImage(
+            "https://picsum.photos/seed/{$slug}/".self::THUMBNAIL_WIDTH.'/'.self::THUMBNAIL_HEIGHT,
+            'cars/thumbnails',
+        );
+
+        $car->update(['thumbnail' => $thumbnailPath]);
+
+        $this->command?->info("  Thumbnail saved for [{$car->name}]: {$thumbnailPath}");
+
+        for ($i = 1; $i <= self::GALLERY_COUNT; $i++) {
+            $galleryPath = $this->downloadImage(
+                "https://picsum.photos/seed/{$slug}-{$i}/".self::GALLERY_WIDTH.'/'.self::GALLERY_HEIGHT,
+                'cars/gallery',
+            );
+
+            CarImage::create([
+                'car_id' => $car->id,
+                'image_path' => $galleryPath,
+                'type' => 'general',
+                'alt' => $car->getTranslation('name', 'en').' - Image '.$i,
+                'sort_order' => $i,
+            ]);
+
+            $this->command?->info("  Gallery image {$i} saved for [{$car->name}]: {$galleryPath}");
+        }
+    }
+
+    private function downloadImage(string $url, string $directory): string
+    {
+        $contents = file_get_contents($url);
+
+        if ($contents === false) {
+            $this->command?->warn("  Failed to download: {$url}");
+
+            return '';
+        }
+
+        $filename = Str::random(40).'.webp';
+        $path = $directory.'/'.$filename;
+
+        Storage::disk('public')->put($path, $contents);
+
+        return $path;
     }
 }

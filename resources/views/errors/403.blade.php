@@ -150,7 +150,7 @@
                 <i class="bi bi-house-door-fill"></i>
                 {{ __('الصفحة الرئيسية') }}
             </a>
-            <a href="{{ route('store.about') }}" class="btn-err btn-err--ghost">
+            <a href="{{ route('store.home') }}" class="btn-err btn-err--ghost">
                 <i class="bi bi-info-circle-fill"></i>
                 {{ __('اتصل بنا') }}
             </a>

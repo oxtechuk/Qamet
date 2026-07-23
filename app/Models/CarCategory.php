@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
 class CarCategory extends Model
 {
-    use HasTranslations;
+    use HasBilingualFields, HasTranslations;
 
     public $translatable = ['name'];
 

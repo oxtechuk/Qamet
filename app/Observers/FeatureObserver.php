@@ -3,21 +3,21 @@
 namespace App\Observers;
 
 use App\Models\Feature;
-use App\Services\Cache\HomeCacheService;
+use App\Services\Cache\CarCacheService;
 
 class FeatureObserver
 {
     public function __construct(
-        private HomeCacheService $homeCache,
+        private CarCacheService $carCache,
     ) {}
 
     public function saved(Feature $feature): void
     {
-        $this->homeCache->forgetHome();
+        $this->carCache->forgetCars();
     }
 
     public function deleted(Feature $feature): void
     {
-        $this->homeCache->forgetHome();
+        $this->carCache->forgetCars();
     }
 }

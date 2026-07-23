@@ -4,8 +4,8 @@ namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\Lead;
 use App\Models\Employee;
+use App\Models\Lead;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -33,7 +33,7 @@ class SearchController extends Controller
                 'title' => $lead->client_name,
                 'subtitle' => $lead->client_phone,
                 'link' => route('crm.leads.edit', $lead->id),
-                'icon' => 'bi-person-badge'
+                'icon' => 'bi-person-badge',
             ];
         }
 
@@ -50,7 +50,7 @@ class SearchController extends Controller
                 'title' => "#{$booking->id} - {$booking->client_name}",
                 'subtitle' => $booking->car->name ?? '',
                 'link' => route('crm.bookings.show', $booking->id),
-                'icon' => 'bi-cart-check'
+                'icon' => 'bi-cart-check',
             ];
         }
 
@@ -66,7 +66,7 @@ class SearchController extends Controller
                 'title' => $employee->name,
                 'subtitle' => $employee->email,
                 'link' => '#', // No direct edit link for staff sometimes, but could link to their report
-                'icon' => 'bi-person-workspace'
+                'icon' => 'bi-person-workspace',
             ];
         }
 

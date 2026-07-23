@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Store\CalculatorOtpSendRequest;
 use App\Http\Requests\Api\Store\CalculatorOtpVerifyRequest;
 use App\Http\Resources\Store\CalculatorBankResource;
 use App\Models\CalculatorBank;
+use App\Models\Setting;
 use App\Services\Api\Store\CalculatorApiService;
 
 final class CalculatorController extends ApiBaseController
@@ -23,18 +24,23 @@ final class CalculatorController extends ApiBaseController
     {
         $banks = $this->calculatorService->banks();
 
-        return $this->respondSuccess(
-            CalculatorBankResource::collection($banks),
-        );
+        return $this->respondSuccess([
+            'banks' => CalculatorBankResource::collection($banks)->resolve(),
+            'settings' => [
+                'max_car_price' => (int) (Setting::where('key', 'max_car_price')->value('value') ?? 2500000),
+                'max_down_payment' => (int) (Setting::where('key', 'max_down_payment')->value('value') ?? 80),
+            ],
+        ]);
     }
 
     public function calculate(CalculatorCalculateRequest $request)
     {
         $result = $this->calculatorService->calculate(
-            carId: (int) $request->input('car_id'),
-            downPaymentPct: (float) $request->input('down_payment_percentage',10),
-            periodMonths: (int) $request->input('period_months',12),
-            bankId: (int) $request->input('bank_id',CalculatorBank::query()->first()->id),
+            carId: $request->input('car_id') ? (int) $request->input('car_id') : null,
+            carPrice: $request->input('car_price') ? (float) $request->input('car_price') : null,
+            downPaymentPct: (float) $request->input('down_payment_percentage', 10),
+            periodMonths: (int) $request->input('period_months', 12),
+            bankId: (int) $request->input('bank_id', CalculatorBank::query()->first()->id),
         );
 
         return $this->respondSuccess($result);

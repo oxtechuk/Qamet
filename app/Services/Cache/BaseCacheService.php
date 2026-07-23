@@ -89,6 +89,21 @@ class BaseCacheService
         }, self::TTL_LONG);
     }
 
+    public function rememberCarHeroSlides(): array
+    {
+        return $this->remember('settings.car_hero_slides', function () {
+            $setting = Setting::where('key', 'car_hero_slides')->first();
+
+            if (! $setting || empty($setting->value)) {
+                return [];
+            }
+
+            return is_array($setting->value)
+                ? $setting->value
+                : (json_decode($setting->value, true) ?: []);
+        }, self::TTL_LONG);
+    }
+
     public function forgetSettings(): void
     {
         Cache::forget('settings.all');

@@ -226,7 +226,7 @@ class GeneralSettingController extends Controller
         Setting::updateOrCreate(['key' => 'about_branches'], ['value' => $aboutBranches]);
 
         // Handle File Uploads (Only if new files are uploaded)
-        $files = ['site_logo', 'site_favicon', 'breadcrumb_bg', 'hero_video', 'hero_ad_1_image', 'hero_ad_2_image', 'page_loader_image', 'maintenance_image'];
+        $files = ['site_logo', 'site_logo_color', 'site_favicon', 'breadcrumb_bg', 'hero_video', 'hero_ad_1_image', 'hero_ad_2_image', 'page_loader_image', 'maintenance_image'];
         foreach ($files as $fileKey) {
             if ($request->hasFile($fileKey)) {
                 $path = $request->file($fileKey)->store('settings', 'public');
@@ -264,6 +264,8 @@ class GeneralSettingController extends Controller
                         'image' => $imagePath,
                         'link' => $slide['link'] ?? '',
                         'button_text' => $slide['button_text'] ?? __('اكتشف السيارات'),
+                        'link_2' => $slide['link_2'] ?? '',
+                        'button_2_text' => $slide['button_2_text'] ?? '',
                     ];
                 }
             }
