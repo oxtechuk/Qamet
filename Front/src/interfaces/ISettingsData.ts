@@ -25,6 +25,7 @@ export interface IContactInfo {
 
 export interface ISettingsData {
   logo: string;
+  logo_color: string | null;
   favicon: string;
   site_name: string;
   footer_text: string | null;

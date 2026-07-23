@@ -21,7 +21,7 @@ export default function Footer({
 
     const direction = useLanguageStore((state) => state.direction);
     const settings = useSettingsStore((state) => state.settings);
-    const resolvedLogo =  APP_IMAGES.LOGO_WHITE;
+    const resolvedLogo = settings?.logo_color || APP_IMAGES.LOGO_WHITE;
 
     const phone = settings?.contact?.phone ?? propPhone;
     const email = settings?.contact?.email ?? propEmail;
