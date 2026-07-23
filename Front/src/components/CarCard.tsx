@@ -51,11 +51,15 @@ export default function CarCard({
     compareText,
     reserveText,
     badgeText,
+    badgeColor,
 }: ICarCardProps) {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const isRTL = i18n.dir() === "rtl";
     const resolvedBadge = resolveHighlight(badgeText, i18n.language);
+    const finalBadge = resolvedBadge
+        ? { text: resolvedBadge.text, color: badgeColor ?? resolvedBadge.color }
+        : undefined;
 
     return (
         <article
@@ -72,7 +76,7 @@ export default function CarCard({
                 />
 
                 {/* Badge — top start */}
-                {resolvedBadge && (
+                {finalBadge && (
                     <div
                         className={[
                             "absolute top-3 z-10",
@@ -82,11 +86,11 @@ export default function CarCard({
                         <span
                             className="rounded-full px-4 py-1.5 text-[13px] font-semibold"
                             style={{
-                                backgroundColor: resolvedBadge.color ?? "var(--brand-secondary-color)",
-                                color: contrastTextColor(resolvedBadge.color),
+                                backgroundColor: finalBadge.color ?? "var(--brand-secondary-color)",
+                                color: contrastTextColor(finalBadge.color),
                             }}
                         >
-                            {resolvedBadge.text}
+                            {finalBadge.text}
                         </span>
                     </div>
                 )}

@@ -12,6 +12,7 @@
     "home": "Home",
     "cars": "Cars",
     "offers": "Best Offers",
+    "orders": "Order a Car",
     "about": "About Us",
     "blog": "Blog",
     "contact": "Contact Us"
@@ -42,7 +43,7 @@
     "year": "Year / Model",
     "yearPlaceholder": "Choose year",
     "searchPlaceholder": "Search by car name, brand, or model...",
-    "searchButton": "Show Results",
+    "searchButton": "Search",
     "resetButton": "Reset"
   },
   "carCard": {
@@ -61,6 +62,28 @@
     "titleOrange": "to Ease Your Financing",
     "buttonText": "All Offers"
   },
+  "purchaseExperience": {
+    "title": "A Buying Experience Unlike Any Other",
+    "description": "We are committed to making your purchase of any car a better experience from the moment of your choice until after delivery.",
+    "features": {
+      "finance": {
+        "title": "Flexible Financing Solutions",
+        "description": "Partnering with major banks and companies to offer the lowest profit margin that suits you."
+      },
+      "ownership": {
+        "title": "Done From Where You Are",
+        "description": "Quick and easy procedures to own your car with complete ease."
+      },
+      "options": {
+        "title": "Countless Options",
+        "description": "A wide range of cars to choose from that suit your needs."
+      },
+      "prices": {
+        "title": "Unmissable Prices",
+        "description": "The best market price offers, with payment options to suit every budget."
+      }
+    }
+  },
   "featuredCars": {
     "titleBlue": "Handpicked",
     "titleOrange": "for You",
@@ -69,7 +92,7 @@
     "noCars": "No cars found matching your filters."
   },
   "rootLayout": {
-    "logoAlt": "Knoz Cars",
+    "logoAlt": "Qemt Cars",
     "quickLinks": [
       {
         "label": "Home",
@@ -95,7 +118,7 @@
     "phone": "056 9988 998",
     "email": "Tese@test.com",
     "address": "Riyadh, Saudi Arabia",
-    "copyright": "All rights reserved, qemt nagd 2026 ©"
+    "copyright": "All rights reserved, qmet nagd 2026 ©"
   },
   "footer": {
     "followUs": "Follow Us",
@@ -104,6 +127,10 @@
     "addressLabel": "Address",
     "emailLabel": "Email Us",
     "phoneLabel": "Call Us",
+    "salesPhone": "Sales Dept.",
+    "financePhone": "Finance Dept.",
+    "aftersalesPhone": "After-Sales Service",
+    "workingDays": "Working Days",
     "privacyPolicy": "Privacy Policy",
     "termsAndConditions": "Terms & Conditions"
   },
@@ -170,14 +197,28 @@
     "search": "Search...",
     "noResults": "No results found"
   },
+  "contactCta": {
+    "badge": "Don't Wait Any Longer",
+    "title": "Liked an Offer? Contact Us Now",
+    "description": "Our team is ready to help you 7 days a week",
+    "phoneText": "Call Now"
+  },
   "allCarsPage": {
     "noCarsMatch": "No cars match your search",
+    "availableCars": "available cars",
     "contactBadge": "Our team is ready to help",
     "contactTitleWhite": "Do you have",
     "contactTitleOrange": "a Question?",
     "contactDescription": "Our team is ready to answer all your questions and help you choose your next car",
     "contactPhone": "Contact Us",
-    "contactWhatsapp": "WhatsApp"
+    "contactWhatsapp": "WhatsApp",
+    "homeOffers": {
+      "fordTerritoryAlt": "Ford Territory offer",
+      "kiaSportageAlt": "Kia Sportage offer",
+      "toyotaCamryAlt": "Toyota Camry offer",
+      "discoverOffer": "Discover the Offer",
+      "viewDetails": "View Details"
+    }
   },
   "allCarsFilterBar": {
     "searchPlaceholder": "Search by car name, brand, or model...",
@@ -240,6 +281,7 @@
     "menu": "Menu",
     "searchPlaceholder": "Search for a car by name, brand, or model...",
     "filter": "Filter",
+    "startsFrom": "Starts from",
     "cards": [
       {
         "title": "Eid Offers Are Still On!",
@@ -279,9 +321,11 @@
   "blogPage": {
     "readMore": "Read More",
     "hero": {
-      "badge": "Our Blog",
-      "title": "Knoz Motors <span class=\"highlight\">Blog</span>",
+         "badge": "featured blog post",
+      "title": "Qemt Motors <span class=\"highlight\">Blog</span>",
       "description": "Follow the latest car news, tips, and exclusive articles.",
+      "allCategories": "All",
+      "defaultAuthor": "Fahad Al-Qahtani",
       "featuredPost": {
         "category": "Financing Tips",
         "title": "How to Choose the Right Financing Plan for Your First Car",
@@ -314,29 +358,28 @@
       "titleWhite": "We Finance",
       "titleBlue": "Your Dreams",
       "subtitle": "And make owning your car easier than you imagine",
-      "description": "Knoz is the leading platform in Saudi Arabia for car financing and sales. We connect the best customers with the best financing terms for over 5 years."
+      "description": "Qemt is the leading platform in Saudi Arabia for car financing and sales. We connect the best customers with the best financing terms for over 5 years."
+    },
+    "intro": {
+      "titleStart": "About Qamet",
+      "titleHighlight": "Najd",
+      "description": "For years, we have been redefining the car buying experience in the Kingdom of Saudi Arabia. Not just a showroom, but a destination you trust that gives its customers the best experience."
+    },
+    "coreValues": {
+      "eyebrow": "What We Believe In",
+      "title": "Our Core Values",
+      "values": {
+        "trust": { "title": "Trust", "description": "Every promise we make is a commitment we uphold. Complete transparency in every step." },
+        "quality": { "title": "Quality", "description": "We accept nothing less than exceptional in every car we display and every service we provide." },
+        "speed": { "title": "Speed", "description": "We complete your transactions in hours, because your time is precious and should not be wasted." },
+        "care": { "title": "Care", "description": "Our customer is not a number, they are a partner with whom we build a long-term relationship." }
+      }
     },
     "stats": [
-      {
-        "value": "+1,200",
-        "label": "Funded Cars",
-        "description": "Happy Customers"
-      },
-      {
-        "value": "+500",
-        "label": "Satisfied Clients",
-        "description": "Individuals & Corporates"
-      },
-      {
-        "value": "+50",
-        "label": "Brands",
-        "description": "Most Famous Global Brands"
-      },
-      {
-        "value": "5",
-        "label": "Years Experience",
-        "description": "In Saudi Market"
-      }
+      { "value": "+1,200", "label": "Funded Cars", "description": "Happy Customers" },
+      { "value": "+500", "label": "Satisfied Clients", "description": "Individuals & Corporates" },
+      { "value": "+50", "label": "Brands", "description": "Most Famous Global Brands" },
+      { "value": "5", "label": "Years Experience", "description": "In Saudi Market" }
     ],
     "story": {
       "title": "Our story started from a gap in the market.",
@@ -348,6 +391,15 @@
       "missionText": "Empowering individuals in the region to own their own cars by providing a secure, transparent platform backed by innovative financing solutions that match their needs and aspirations.",
       "visionTitle": "Our Vision",
       "visionText": "To become the first and trusted destination for digital solutions in the automotive sector, where technology meets trust to shape the future of mobility in the Middle East."
+    },
+    "whyChooseUs": {
+      "title": "Why Choose Qamet",
+      "title1": "Najd?",
+      "description": "We offer you an exceptional car buying experience built on trust, quality, and outstanding service"
+    },
+    "gallery": {
+      "title": "Photos & Videos from Our Showroom",
+      "logoAlt": "Qamet Najd Logo"
     },
     "partners": {
       "eyebrow": "Trusted by Top Brands",
@@ -375,8 +427,7 @@
     },
     "testimonials": {
       "badge": "Our customers trust us",
-      "titleBlack": "Our Customers'",
-      "titleBlue": "Opinions",
+      "title": "Our Customers' Opinions",
       "ratingText": "4.9 out of +12,000 reviews",
       "goToTestimonial": "Go to testimonial {{number}}"
     }
@@ -384,10 +435,15 @@
   "offersPage": {
     "hero": {
       "badge": "Limited Time Offers",
-      "title": "Eid Exclusive Offer from Knoz",
+      "title": "Eid Exclusive Offer from Qemt",
       "description": "We offer you a selection of the strongest cars with financing solutions and direct discounts on the latest models for Eid.",
       "primaryButton": "Discover the Offer",
-      "secondaryButton": "Finance Calculator"
+      "secondaryButton": "Finance Calculator",
+      "countdownLabel": "Offer ends in",
+      "countdownDays": "days",
+      "countdownHours": "hours",
+      "countdownMinutes": "min",
+      "countdownSeconds": "sec"
     },
     "grid": {
       "title": "Browse Offers",
@@ -400,19 +456,26 @@
       "card": {
         "priceLabel": "Installment starts from",
         "priceUnit": "/ month",
-        "buttonText": "Discover Offer"
+        "buttonText": "Discover Offer",
+        "badgeDiscount": "{{percent}}% Discount",
+        "badgeSeasonal": "Seasonal Offer",
+        "youSave": "You save"
       },
-      "loadMore": "Show More Offers"
+      "loadMore": "Show More Offers",
+      "loading": "Loading..."
     }
   },
   "carDetails": {
     "hero": {
-      "price": "Price",
+      "price": "Full price cash",
       "originalPrice": "Original Price",
-      "installmentFrom": "Installment starts from",
+      "installmentFrom": "Approximate monthly installment",
       "saving": "You save",
       "availableColors": "Available Colors",
       "orderNow": "Order Now",
+      "whatsappContact": "Contact via WhatsApp",
+      "warrantyBadge": "Official Warranty · Delivery in 48 hours",
+      "backToGallery": "Back to gallery",
       "calculateFinance": "Calculate Financing",
       "insideView": "Inside",
       "outsideView": "Outside",
@@ -449,10 +512,17 @@
     }
   },
   "comparePage": {
+    "best": "Best",
     "compareTable": "Comparison Table",
     "compareDescription": "Detailed comparison between two cars of your choice",
     "specLabel": "Specification",
     "summaryTitle": "Comparison Summary",
+    "summaryBadge": "Comparison Result",
+    "winnerLabel": "Winner by Specs",
+    "winnerScore": "{{score}} points better",
+    "winnerScoreDetail": "({{winner}} vs {{loser}} in measured categories)",
+    "consultExpert": "Consult Our Expert",
+    "browseMore": "Browse More",
     "carOne": "Car 1",
     "carTwo": "Car 2",
     "points": "points",
@@ -527,7 +597,34 @@
         }
       ],
       "successToast": "Your message has been sent successfully. We will contact you soon.",
-      "errorToast": "An error occurred while sending. Please try again."
+      "errorToast": "An error occurred while sending. Please try again.",
+      "subjects": ["Inquiry", "Finance", "Reservation", "Complaint"],
+      "orDivider": "or",
+      "whatsappText": "Contact us via WhatsApp directly",
+      "openMap": "Open in Google Maps"
+    },
+    "contactMethods": {
+      "title": "Contact Us",
+      "whatsappLabel": "WhatsApp",
+      "whatsappValue": "Instant Chat",
+      "whatsappDescription": "Reply within minutes",
+      "phoneLabel": "Call Us",
+      "phoneDescription": "Saturday - Thursday",
+      "hoursLabel": "Working Hours",
+      "hoursDescription": "Throughout the week",
+      "morning": "AM",
+      "evening": "PM",
+      "timeFrom": "From",
+      "timeTo": "to",
+      "days": {
+        "sat": "Sat",
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri"
+      }
     },
     "faq": {
       "eyebrow": "FAQ",
@@ -537,19 +634,19 @@
       "buttonText": "Ask us now",
       "items": [
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "Applying for finance is easy and fast. Start by filling out the finance application form on the website or contact us via WhatsApp. The application usually requires a national ID, salary statement, and bank statement for the last 3 months. The application is reviewed within 24-48 business hours."
         },
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "You can choose the suitable car and send the finance application directly, and our team will contact you to complete the required information."
         },
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "Yes, we provide multiple financing solutions based on your credit status and suitable monthly budget."
         },
         {
-          "question": "How do I apply for a car finance through Knoz Car?",
+          "question": "How do I apply for a car finance through Qemt Car?",
           "answer": "After finance approval, the booking and delivery procedures are coordinated according to the available city."
         }
       ]
@@ -559,7 +656,7 @@
       "badge": "Instant Finance Calculator",
       "titleWhite": "Calculate Your",
       "titleOrange": "Installment in Seconds",
-      "description": "Enter your data once and get instant financing results from multiple accredited financing entities in the Kingdom.",
+      "description": "Calculate your monthly payment accurately and submit your application now.",
       "infoBoxes": [
         {
           "title": "Calculate your monthly payment instantly",
@@ -585,10 +682,11 @@
       },
       "step1": {
         "stepperLabel": "Your Info",
+        "personalInfoTitle": "Personal Information",
         "fullName": "Full Name",
-        "fullNamePlaceholder": "Mohammed Al-Omari",
+        "fullNamePlaceholder": "Enter your full name",
         "phone": "Phone Number",
-        "phonePlaceholder": "+966 5X XXX XXXX",
+        "phonePlaceholder": "05xxxxxxxx",
         "email": "Email",
         "emailPlaceholder": "name@example.com",
         "city": "City",
@@ -605,6 +703,10 @@
         "messagePlaceholder": "Write your inquiry here... The more details you provide, the more accurate our response will be.",
         "privacyNotice": "Your information is protected and will not be shared with any third party",
         "submitButton": "View Finance Calculator",
+        "nextButton": "Continue to Next Step",
+        "consentPrefix": "I agree to the",
+        "consentLink": "Privacy Policy",
+        "consentSuffix": "for Qamet Najd team to contact me regarding the finance request",
         "charCount": "characters"
       },
       "step2": {
@@ -612,13 +714,20 @@
         "changeData": "Change Data",
         "welcome": "Welcome",
         "title": "Car Finance Calculator",
+        "financeDetails": "Finance Details",
         "carPrice": "Car Price",
+        "riyal": "SAR",
         "monthlyPayment": "Monthly Payment",
         "summaryTitle": "Finance Summary",
         "downPayment": "Down Payment",
         "financeAmount": "Finance Amount",
-        "totalFinance": "Total Installment",
+        "totalFinance": "Total Finance",
+        "totalInterest": "Total Interest",
         "totalProfit": "Total Profit",
+        "financeTerm": "Finance Term",
+        "month": "Month",
+        "purpose": "Purchase",
+        "financingPeriod": "Financing Period",
         "approvalTime": "Expected Approval Time",
         "approvalValue": "48 Hours",
         "disclaimer": "These results are estimates and may vary depending on the financing entity's approval and final terms.",
@@ -630,10 +739,9 @@
         "downPaymentTitle": "Down Payment",
         "downPaymentPercent": "Down Payment Percentage",
         "termTitle": "Finance Period",
-        "month": "Month",
         "bankTitle": "Financing Entity",
         "bankMeta": "24h Approval · Free Fees",
-        "annualRate": "Annual Profit Rate",
+        "annualRate": "Annual Interest Rate",
         "successToast": "Finance request sent successfully",
         "errorToast": "An error occurred, please try again",
         "banksError": "Failed to load banks"
@@ -643,9 +751,9 @@
   "financeCalculator": {
     "currency": "SAR",
     "badge": "Instant Finance Calculator",
-    "titleWhite": "Calculate Your",
+    "titleWhite": "Calculate your installment",
     "titleOrange": "Installment in Seconds",
-    "description": "Enter your data once and get instant financing results from multiple accredited financing entities in the Kingdom.",
+    "description": "Calculate your monthly payment accurately and submit your application now.",
     "infoBoxes": [
       {
         "title": "Calculate your monthly payment instantly",
@@ -671,10 +779,11 @@
     },
     "step1": {
       "stepperLabel": "Your Info",
+      "personalInfoTitle": "Personal Information",
       "fullName": "Full Name",
-      "fullNamePlaceholder": "Mohammed Al-Omari",
+      "fullNamePlaceholder": "Enter your full name",
       "phone": "Phone Number",
-      "phonePlaceholder": "+966 5X XXX XXXX",
+      "phonePlaceholder": "05xxxxxxxx",
       "email": "Email",
       "emailPlaceholder": "name@example.com",
       "city": "City",
@@ -691,6 +800,10 @@
       "messagePlaceholder": "Write your inquiry here... The more details you provide, the more accurate our response will be.",
       "privacyNotice": "Your information is protected and will not be shared with any third party",
       "submitButton": "View Finance Calculator",
+      "nextButton": "Continue to Next Step",
+      "consentPrefix": "I agree to the",
+      "consentLink": "Privacy Policy",
+      "consentSuffix": "for Qamet Najd team to contact me regarding the finance request",
       "charCount": "characters"
     },
     "step2": {
@@ -698,13 +811,19 @@
       "changeData": "Change Data",
       "welcome": "Welcome",
       "title": "Car Finance Calculator",
+      "financeDetails": "Finance Details",
       "carPrice": "Car Price",
+      "riyal": "SAR",
       "monthlyPayment": "Monthly Payment",
       "summaryTitle": "Finance Summary",
       "downPayment": "Down Payment",
       "financeAmount": "Finance Amount",
-      "totalFinance": "Total Installment",
+      "totalFinance": "Total Finance",
+      "totalInterest": "Total Interest",
       "totalProfit": "Total Profit",
+      "financeTerm": "Finance Term",
+      "month": "Month",
+      "purpose": "Purchase",
       "financingPeriod": "Financing Period",
       "approvalTime": "Expected Approval Time",
       "approvalValue": "48 Hours",
@@ -717,10 +836,9 @@
       "downPaymentTitle": "Down Payment",
       "downPaymentPercent": "Down Payment Percentage",
       "termTitle": "Finance Period",
-      "month": "Month",
       "bankTitle": "Financing Entity",
       "bankMeta": "24h Approval · Free Fees",
-      "annualRate": "Annual Profit Rate",
+      "annualRate": "Annual Interest Rate",
       "successToast": "Finance request sent successfully",
       "errorToast": "An error occurred, please try again",
       "banksError": "Failed to load banks"
@@ -738,6 +856,42 @@
     "compare": "Compare Cars",
     "brands": "Brands",
     "financeCalculator": "Finance Calculator",
-    "notFound": "Page Not Found"
+    "notFound": "Page Not Found",
+    "offers": "Special Offers",
+    "orders": "Order a Car"
+  },
+  "ordersPage": {
+    "heroTitle1": "Order a",
+    "heroTitle2": "Car",
+    "heroDescription": "Choose from our showroom or tell us the car you want and we'll find it for you at the best price in the Kingdom.",
+    "selectCarTitle": "Select the Car",
+    "searchPlaceholder": "Search by car name or brand...",
+    "bestSeller": "Best Seller",
+    "exclusive": "Exclusive",
+    "yourInfoTitle": "Your Information",
+    "selectCarEmpty": "Select a car from the list",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "Your full name",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "05xxxxxxxx",
+    "carTypeLabel": "Car Type",
+    "carTypePlaceholder": "Type car name if not in the list",
+    "paymentLabel": "Preferred Payment Method",
+    "paymentBank": "Bank Finance",
+    "paymentCash": "Cash Payment",
+    "notesLabel": "Additional Notes",
+    "notesPlaceholder": "Preferred color, special requirements...",
+    "submitting": "Submitting...",
+    "submitIdle": "Select a car and enter your info",
+    "privacyNotice": "Your information is protected · We'll contact you within two hours",
+    "trustProtected": { "title": "Data Protected", "sub": "Your privacy is our priority" },
+    "trustResponse": { "title": "Reply Within 2 Hours", "sub": "During business hours" },
+    "trustPrice": { "title": "Best Price Guarantee", "sub": "We find the best deal for you" },
+    "validationError": "Please fill in your name and phone number",
+    "successToast": "Your request has been sent successfully. We'll contact you soon.",
+    "errorToast": "An error occurred. Please try again."
+  },
+  "campaignBanners": {
+    "discoverMore": "Discover More"
   }
 }

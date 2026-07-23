@@ -54,7 +54,7 @@ export interface CarItem {
   is_featured: boolean;
   is_current_year?: boolean;
   availability_status: string;
-  highlight?: string;
+  highlight?: { id: number; text: string; text_ar: string; color: string } | null;
   views: number;
   brand: BrandInfo;
   active_offers: any[];
@@ -70,7 +70,7 @@ export interface HomeCarItem {
   savings: number;
   min_installment: number;
   year: string;
-  highlight: string | null;
+  highlight: { id: number; text: string; text_ar: string; color: string } | null;
   brand: {
     id: number;
     name: string;

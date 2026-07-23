@@ -21,7 +21,7 @@ export default function CarSelector({
   selectedCar,
   onSelectCar,
 }: ICarSelectorProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const direction = useLanguageStore((s) => s.direction);
 
   const inputCls =
@@ -66,11 +66,10 @@ export default function CarSelector({
         {!searching &&
           searchResults.map((car) => {
             const isSelected = selectedCar?.id === car.id;
-            const badge = car.is_featured
-              ? t("ordersPage.bestSeller")
-              : car.is_current_year
-                ? t("ordersPage.exclusive")
-                : null;
+            const badgeText = car.highlight
+              ? (i18n.language === "ar" ? car.highlight.text_ar : car.highlight.text)
+              : null;
+            const badgeColor = car.highlight?.color ?? null;
             return (
               <button
                 key={car.id}
@@ -101,9 +100,12 @@ export default function CarSelector({
                       : "—"}
                   </p>
                 </div>
-                {badge && (
-                  <span className="mb-1 self-center rounded-full bg-[var(--brand-secondary-color)] px-2.5 py-0.5 text-[11px] font-semibold text-[var(--brand-primary-color)]">
-                    {badge}
+                {badgeText && (
+                  <span
+                    className="mb-1 self-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
+                    style={{ backgroundColor: badgeColor ?? "var(--brand-secondary-color)", color: badgeColor ? "#fff" : "var(--brand-primary-color)" }}
+                  >
+                    {badgeText}
                   </span>
                 )}
                 <div

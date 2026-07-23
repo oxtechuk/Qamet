@@ -82,6 +82,21 @@ a {
   text-decoration: none;
 }
 
+.active-nav-link {
+  position: relative;
+}
+
+.active-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--brand-secondary-color);
+  border-radius: 2px;
+}
+
 button,
 input,
 textarea,

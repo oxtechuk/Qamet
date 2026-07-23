@@ -191,7 +191,7 @@ export default function StepTwoCalculator({
           type="button"
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex h-[52px] w-full items-center justify-center rounded-full bg-[var(--brand-secondary-color)] text-[15px] font-bold text-[var(--brand-primary-color)] transition hover:opacity-90 disabled:opacity-50"
+          className="flex h-[52px] w-full items-center justify-center rounded-full bg-[var(--brand-secondary-color)] text-[15px] !font-bold text-[var(--brand-primary-color)] transition hover:opacity-90 disabled:opacity-50"
         >
           {isSubmitting ? t("financeCalculator.step2.submitting") : t("financeCalculator.step2.submitLead")}
         </button>

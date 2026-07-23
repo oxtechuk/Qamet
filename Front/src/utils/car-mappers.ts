@@ -67,7 +67,8 @@ export function mapCarToCardProps(car: CarItem): CarCardProps | null {
                 "var(--brand-secondary-color)",
             ),
             detailsTo: `/cars/${slug}`,
-            badgeText: car.highlight,
+            badgeText: car.highlight?.text_ar ?? car.highlight?.text ?? undefined,
+            badgeColor: car.highlight?.color ?? undefined,
         };
     } catch {
         return null;
@@ -122,7 +123,8 @@ export function mapRelatedCar(car: CarItem): CarCardProps | null {
                 "var(--brand-secondary-color)",
             ),
             detailsTo: `/cars/${slug}`,
-            badgeText: car.highlight,
+            badgeText: car.highlight?.text_ar ?? car.highlight?.text ?? undefined,
+            badgeColor: car.highlight?.color ?? undefined,
         };
     } catch {
         return null;

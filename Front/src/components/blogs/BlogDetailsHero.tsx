@@ -27,7 +27,6 @@ export default function BlogDetailsHero({
     bg-[var(--brand-secondary-color)]
     px-7
     text-[18px]
-    !font-extrabold
     text-[var(--brand-primary-color)]
     whitespace-nowrap
   "
@@ -35,7 +34,7 @@ export default function BlogDetailsHero({
                         {category}
                     </span>
 
-                    <h1 className="mt-5 text-[30px] font-extrabold leading-[1.6] text-[#07111F] md:text-[42px]">
+                    <h1 className="mt-5 text-[30px] font-bold leading-[1.6] text-[#07111F] md:text-[42px]">
                         {title}
                     </h1>
 
@@ -45,11 +44,11 @@ export default function BlogDetailsHero({
                                 src={authorImage}
                                 alt={authorName}
                                 className="
-      h-[58px]
-      w-[58px]
+      h-[40px]
+      w-[40px]
       rounded-full
       object-cover
-      ring-4
+      ring-2
       ring-[#DCCEFF]
       shrink-0
     "

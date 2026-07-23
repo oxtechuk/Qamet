@@ -124,7 +124,8 @@ export default function AllCarsPage() {
                 price: formatPrice(car.current_price || car.cash_price, "var(--brand-primary-color)"),
                 monthlyPrice: formatPrice(car.min_installment ?? 0, "var(--brand-secondary-color)"),
                 detailsTo: `/cars/${car.slug}`,
-                badgeText: car.highlight ?? undefined,
+                badgeText: car.highlight?.text ?? car.highlight?.text_ar ?? undefined,
+                badgeColor: car.highlight?.color ?? undefined,
             }))
             .filter(Boolean) as CarCardProps[];
     }, [carsResponse, homeData?.latest_cars?.items, homeData?.cars_by_budget?.cars]);

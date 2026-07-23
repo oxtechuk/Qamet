@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Car } from "lucide-react";
+import { Car, CreditCard } from "lucide-react";
 import { getImageUrl, APP_IMAGES } from "../../constants/app-images";
 import { useLanguageStore } from "../../store/language.store";
 import type { CarItem } from "../../types/home.types";
@@ -7,7 +7,11 @@ import type { IOrderPagePaymentOption } from "../../interfaces/IOrderPagePayment
 import LazyImg from "../LazyImg";
 
 const PAYMENT_OPTIONS: IOrderPagePaymentOption[] = [
-    { value: "bank", labelKey: "ordersPage.paymentBank", icon: "🏦" },
+    {
+      value: "bank",
+      labelKey: "ordersPage.paymentBank",
+      icon: <CreditCard size={14} />,
+    },
     { value: "cash", labelKey: "ordersPage.paymentCash", icon: "💵" },
 ];
 

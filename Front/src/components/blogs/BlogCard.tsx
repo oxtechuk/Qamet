@@ -51,12 +51,12 @@ export default function BlogCard({
         </div>
 
         {/* Title */}
-        <h3 className="mt-2 text-[18px] font-extrabold leading-snug text-[#111827]">
+        <h3 className="mt-2 text-[18px] font-extrabold leading-snug text-[#111827] line-clamp-1">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="mt-2 text-[13px] leading-7 text-[#6B7280] line-clamp-3">
+        <p className="mt-2 text-[13px] leading-7 text-[#6B7280] line-clamp-2">
           {description}
         </p>
 

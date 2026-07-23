@@ -18,4 +18,5 @@ export interface ICarCardProps {
   compareText?: string;
   reserveText?: string;
   badgeText?: string;
+  badgeColor?: string;
 }

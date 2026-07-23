@@ -750,7 +750,7 @@
   "financeCalculator": {
     "currency": "ر.س",
     "badge": "حاسبة التمويل الفورية",
-    "titleWhite": "احسب قسطك",
+    "titleWhite": "احسب التمويل",
     "titleOrange": "في ثواني فقط",
     "description": "احسب قسطك الشهري بدقة وقدّم طلبك الآن",
     "infoBoxes": [
@@ -806,7 +806,7 @@
       "charCount": "حرف"
     },
     "step2": {
-      "stepperLabel": "حاسبة التمويل",
+      "stepperLabel": "التمويل",
       "changeData": "تغيير البيانات",
       "welcome": "مرحبا بك",
       "title": "حاسبة تمويل السيارات",

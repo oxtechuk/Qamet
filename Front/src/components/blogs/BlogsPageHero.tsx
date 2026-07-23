@@ -126,7 +126,7 @@ export default function BlogsPageHero({
                   }
                   className={[
                     "min-h-[40px] rounded-full px-6",
-                    "text-[13px] font-bold transition duration-300",
+                    "text-[14px] font-bold transition duration-300",
                     isActive
                       ? "bg-[var(--brand-primary-color)] text-white shadow-md hover:bg-[var(--brand-primary-color)] hover:text-white"
                       : "bg-[#F5F5F3] text-[#5B6572] shadow-sm hover:bg-[var(--brand-primary-color)] hover:text-white",
