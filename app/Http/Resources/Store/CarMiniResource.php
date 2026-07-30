@@ -28,7 +28,7 @@ class CarMiniResource extends JsonResource
             'availability_status' => $this->availability_status,
             'highlight' => $this->whenLoaded('highlight', fn () => [
                 'id' => $this->highlight->id,
-                'text' => $this->highlight->text_en,
+                'text' => $this->highlight->{'text_'.app()->getLocale()},
                 'text_ar' => $this->highlight->text_ar,
                 'color' => $this->highlight->color,
             ]),
