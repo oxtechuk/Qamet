@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Changa";
+  src: url("/fonts/Changa-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --brand-primary-color: #021F38;
+  --brand-primary-light-color: #2F5F8A;
+  --brand-secondary-color: #DFC675;
+  --brand-gray-color: #595959;
+  --barand-footer-color: #121317;
+  --brand-CTA-BG-color: #0D1018;
+
+  --brand-primary-gradient: linear-gradient(90deg,
+      var(--brand-primary-light-color) 0%,
+      var(--brand-primary-color) 100%);
+
+  --brand-overlay-gradient: linear-gradient(270deg,
+      rgba(0, 98, 241, 0.15) 0%,
+      rgba(0, 0, 0, 0) 100%);
+
+  --contact-cta-bg-base: #041119;
+
+  --contact-cta-gradient: linear-gradient(90deg,
+      rgba(0, 98, 241, 0.2) 0%,
+      rgba(2, 58, 141, 0.59) 49%,
+      #051023 100%);
+
+  --contact-cta-bg: var(--contact-cta-gradient), var(--contact-cta-bg-base);
+
+  --contact-cta-border: rgba(0, 98, 241, 0.2);
+
+  --background: #FAFAF8;
+  --border: #e5e4e7;
+
+  --font-main: "Changa";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  font-size: 18px;
+  line-height: 145%;
+  letter-spacing: 0.18px;
+  background-color: var(--background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+button,
+input,
+textarea,
+select,
+a {
+  font-family: var(--font-main);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.active-nav-link {
+  position: relative;
+}
+
+.active-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--brand-secondary-color);
+  border-radius: 2px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+@media (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
