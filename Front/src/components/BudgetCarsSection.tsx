@@ -117,9 +117,17 @@ export default function BudgetCarsSection({
         return () => clearInterval(id);
     }, [isPaused, canLoop, next]);
 
-    if (!cars.length) return null;
-
     const translateX = isRTL ? step * idx : -(step * idx);
+
+    const isEmpty = cars.length === 0;
+
+    const emptyState = isEmpty ? (
+        <div className="flex min-h-[220px] items-center justify-center rounded-[18px] border border-white/15 bg-white/5 px-6 text-center">
+            <p className="text-[15px] font-medium text-white/70">
+                {t("budgetCars.noCars")}
+            </p>
+        </div>
+    ) : null;
 
     return (
         <section className="w-full bg-[var(--brand-primary-color)] py-14 text-white sm:py-16 lg:overflow-hidden lg:min-h-[560px] lg:py-[68px]">
@@ -162,28 +170,83 @@ export default function BudgetCarsSection({
                         onMouseEnter={() => setIsPaused(true)}
                         onMouseLeave={() => setIsPaused(false)}
                     >
-                        <div ref={setDesktopContainer} className="overflow-hidden">
-                            <div
-                                className="flex"
-                                style={{
-                                    gap: `${GAP}px`,
-                                    transform: `translateX(${translateX}px)`,
-                                    transition: animated
-                                        ? "transform 300ms ease-in-out"
-                                        : "none",
-                                }}
-                                onTransitionEnd={onTransitionEnd}
-                            >
-                                {track.map((car, i) => (
+                        {emptyState ? (
+                            emptyState
+                        ) : (
+                            <>
+                                <div ref={setDesktopContainer} className="overflow-hidden">
                                     <div
-                                        key={`desktop-${car.id}-${i}`}
-                                        dir={isRTL ? "rtl" : "ltr"}
-                                        style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
+                                        className="flex"
+                                        style={{
+                                            gap: `${GAP}px`,
+                                            transform: `translateX(${translateX}px)`,
+                                            transition: animated
+                                                ? "transform 300ms ease-in-out"
+                                                : "none",
+                                        }}
+                                        onTransitionEnd={onTransitionEnd}
                                     >
-                                        <CarCard {...car} />
+                                        {track.map((car, i) => (
+                                            <div
+                                                key={`desktop-${car.id}-${i}`}
+                                                dir={isRTL ? "rtl" : "ltr"}
+                                                style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
+                                            >
+                                                <CarCard {...car} />
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+
+                                {canLoop && (
+                                    <div dir="ltr" className="mt-10 flex items-center justify-center gap-6">
+                                        <SlideArrow
+                                            direction="prev"
+                                            onClick={isRTL ? next : prev}
+                                            className="h-[44px] w-[44px]"
+                                        />
+                                        <SlideArrow
+                                            direction="next"
+                                            onClick={isRTL ? prev : next}
+                                            className="h-[44px] w-[44px]"
+                                        />
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* Mobile: cards carousel */}
+                {emptyState ? (
+                    <div className="lg:hidden">{emptyState}</div>
+                ) : (
+                    <div
+                        ref={setMobileContainer}
+                        className="overflow-hidden lg:hidden"
+                        onMouseEnter={() => setIsPaused(true)}
+                        onMouseLeave={() => setIsPaused(false)}
+                    >
+                        <div
+                            className="flex"
+                            style={{
+                                gap: `${GAP}px`,
+                                transform: `translateX(${translateX}px)`,
+                                transition: animated
+                                    ? "transform 300ms ease-in-out"
+                                    : "none",
+                            }}
+                            onTransitionEnd={onTransitionEnd}
+                        >
+                            {track.map((car, i) => (
+                                <div
+                                    key={`mobile-${car.id}-${i}`}
+                                    dir={isRTL ? "rtl" : "ltr"}
+                                    style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
+                                >
+                                    <CarCard {...car} />
+                                </div>
+                            ))}
                         </div>
 
                         {canLoop && (
@@ -201,52 +264,7 @@ export default function BudgetCarsSection({
                             </div>
                         )}
                     </div>
-                </div>
-
-                {/* Mobile: cards carousel */}
-                <div
-                    ref={setMobileContainer}
-                    className="overflow-hidden lg:hidden"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                >
-                    <div
-                        className="flex"
-                        style={{
-                            gap: `${GAP}px`,
-                            transform: `translateX(${translateX}px)`,
-                            transition: animated
-                                ? "transform 300ms ease-in-out"
-                                : "none",
-                        }}
-                        onTransitionEnd={onTransitionEnd}
-                    >
-                        {track.map((car, i) => (
-                            <div
-                                key={`mobile-${car.id}-${i}`}
-                                dir={isRTL ? "rtl" : "ltr"}
-                                style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
-                            >
-                                <CarCard {...car} />
-                            </div>
-                        ))}
-                    </div>
-
-                    {canLoop && (
-                        <div dir="ltr" className="mt-10 flex items-center justify-center gap-6">
-                            <SlideArrow
-                                direction="prev"
-                                onClick={isRTL ? next : prev}
-                                className="h-[44px] w-[44px]"
-                            />
-                            <SlideArrow
-                                direction="next"
-                                onClick={isRTL ? prev : next}
-                                className="h-[44px] w-[44px]"
-                            />
-                        </div>
-                    )}
-                </div>
+                )}
             </div>
         </section>
     );
