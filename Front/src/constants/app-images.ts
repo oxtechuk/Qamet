@@ -1,6 +1,9 @@
 import { API_ORIGIN } from "./axios.constants";
 
-const STORAGE_PREFIX = `${API_ORIGIN}/storage/`;
+const base = import.meta.env.BASE_URL;
+const cleanBase = base.endsWith("/") ? base : `${base}/`;
+
+const STORAGE_PREFIX = API_ORIGIN ? `${API_ORIGIN}/storage/` : `${cleanBase}storage/`;
 
 export function getImageUrl(path: string | null): string {
   if (!path) return "";
@@ -9,9 +12,6 @@ export function getImageUrl(path: string | null): string {
   }
   return `${STORAGE_PREFIX}${path}`;
 }
-
-const base = import.meta.env.BASE_URL;
-const cleanBase = base.endsWith("/") ? base : `${base}/`;
 
 export const APP_IMAGES = {
   LOGO: `${cleanBase}images/logo_without_bg.svg`,

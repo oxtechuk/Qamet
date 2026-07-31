@@ -5,9 +5,13 @@ export const API_BASE_PATH = import.meta.env.VITE_API_BASE_PATH ?? "api";
 
 const isLocalDev = Boolean(API_HOST && API_HOST.trim() !== "");
 const portPart = API_PORT ? `:${API_PORT}` : "";
+
+const base = import.meta.env.BASE_URL ?? "/";
+const cleanBase = base.endsWith("/") ? base : `${base}/`;
+
 export const API_BASE_URL = isLocalDev
   ? `${API_PROTOCOL}://${API_HOST}${portPart}/${API_BASE_PATH}/`
-  : `/${API_BASE_PATH}/`;
+  : `${cleanBase}${API_BASE_PATH}/`;
 
 export const API_ORIGIN = isLocalDev
   ? `${API_PROTOCOL}://${API_HOST}${portPart}`

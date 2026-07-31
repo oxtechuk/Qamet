@@ -11,7 +11,6 @@ export default function BlogDetailsHero({
     authorImage,
     date,
     readTime,
-    image,
 }: IBlogDetailsHeroProps) {
     const { i18n } = useTranslation();
     return (

@@ -4,7 +4,6 @@ import BlogCard from "./BlogCard";
 import type { ILatestArticlesSectionProps } from "../../interfaces/ILatestArticlesSectionProps";
 
 export default function LatestArticlesSection({
-  title,
   articles,
   loadMoreText = "عرض المزيد من المقالات",
   hasMore = false,

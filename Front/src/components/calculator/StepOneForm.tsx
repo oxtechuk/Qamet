@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../store/language.store";
 import { toast } from "react-toastify";
-import type { IPersonalInfo } from "../../interfaces/IPersonalInfo";
 import type { IStepOneFormProps } from "../../interfaces/IStepOneFormProps";
 
 const inputCls =

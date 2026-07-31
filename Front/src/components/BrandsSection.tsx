@@ -1,14 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Search } from "lucide-react";
 import Button from "./button";
 import BrandCard from "./BrandCard";
 import SlideArrow from "./SlideArrow";
-import type {
-    IBrandsSectionProps,
-    IBrandCategory,
-} from "../interfaces/IBrandsSectionProps";
+import type { IBrandsSectionProps } from "../interfaces/IBrandsSectionProps";
 
 function getItemsPerPage(width: number): number {
     if (width >= 1024) return 5;
@@ -16,35 +12,15 @@ function getItemsPerPage(width: number): number {
     return 2;
 }
 
-function useDefaultCategories(t: (key: string) => string): IBrandCategory[] {
-    return [
-        { label: t("brandsSection.categories.0"), value: "all" },
-        { label: t("brandsSection.categories.1"), value: "luxury" },
-        { label: t("brandsSection.categories.2"), value: "economic" },
-        { label: t("brandsSection.categories.3"), value: "electric" },
-        { label: t("brandsSection.categories.4"), value: "suv" },
-        { label: t("brandsSection.categories.5"), value: "family" },
-    ];
-}
-
 export default function BrandsSection({
     titleBlue,
     buttonText,
     buttonTo,
     brands,
-    categories,
-    activeCategory = "all",
-    searchPlaceholder,
-    onCategoryChange,
-    onSearchChange,
 }: IBrandsSectionProps) {
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
     const navigate = useNavigate();
     const isRTL = i18n.dir() === "rtl";
-    const defaultCategories = useDefaultCategories(t);
-    const resolvedCategories = categories ?? defaultCategories;
-    const resolvedPlaceholder =
-        searchPlaceholder ?? t("brandsSection.searchPlaceholder");
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isPaused, setIsPaused] = useState(false);

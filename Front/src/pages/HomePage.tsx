@@ -17,10 +17,8 @@ import type { IBrandCardProps } from "../interfaces/IBrandCardProps";
 import type { IBudgetRange } from "../interfaces/IBudgetRange";
 import type { HeroSlide } from "../interfaces/IHomeHeroProps";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
-import type { IOfferCardProps } from "../interfaces/IOfferCardProps";
 import PurchaseExperienceSection from "../components/PurchaseExperienceSection";
 import HomeOffersSection from "../components/HomeOffersSection";
-import OffersSection from "../components/OffersSection";
 
 function mapHomeCarToCardProps(car: HomeCarItem): CarCardProps | null {
     try {
@@ -228,18 +226,7 @@ export default function Home() {
 
     const latestSection = data?.latest_cars?.section;
     const budgetSection = data?.cars_by_budget?.section;
-    const offersSection = data?.offers?.section;
 
-    const offerCards: IOfferCardProps[] = useMemo(
-        () =>
-            (data?.offers?.items ?? []).map((item) => ({
-                image: getImageUrl(item.image) || item.car.main_image || APP_IMAGES.CAR_PLACEHOLDER,
-                title: item.title,
-                buttonText: offersSection?.button_text?.trim() || t("campaignBanners.discoverMore"),
-                buttonTo: `/offers/${item.id}`,
-            })),
-        [data?.offers?.items, offersSection, t],
-    );
 
     if (isLoading) {
         return (

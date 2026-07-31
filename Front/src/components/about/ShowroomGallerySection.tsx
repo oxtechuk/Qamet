@@ -143,7 +143,7 @@ export default function ShowroomGallerySection({
 
                 {/* Mobile */}
                 <div className="relative grid grid-cols-2 gap-2 sm:gap-3 md:hidden">
-                    {galleryItems.map((item, index) => (
+                    {galleryItems.map((item) => (
                         <GalleryCell
                             key={item.id}
                             item={item}

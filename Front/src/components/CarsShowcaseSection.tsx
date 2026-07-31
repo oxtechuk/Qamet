@@ -1,42 +1,14 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  CarFront,
-  Flame,
-  Gauge,
-  Percent,
-  Sparkles,
-} from "lucide-react";
 import Button from "./button";
 import CarCard from "./CarCard";
 import SlideArrow from "./SlideArrow";
 import type { ICarsShowcaseSectionProps } from "../interfaces/ICarsShowcaseSectionProps";
-import type { IFilterItem } from "../interfaces/IFilterItem";
 
 function getItemsPerPage(width: number): number {
   if (width >= 1024) return 4;
   if (width >= 640) return 2;
   return 1;
-}
-
-function useFilters(t: (key: string) => string): IFilterItem[] {
-  return [
-    {
-      label: t("carsShowcase.filters.mostRequested"),
-      icon: <Flame size={16} />,
-      active: true,
-    },
-    {
-      label: t("carsShowcase.filters.readyToDeliver"),
-      icon: <CarFront size={16} />,
-    },
-    { label: t("carsShowcase.filters.noFinancing"), icon: <Gauge size={16} /> },
-    { label: t("carsShowcase.filters.newCars"), icon: <Sparkles size={16} /> },
-    {
-      label: t("carsShowcase.filters.discountedCars"),
-      icon: <Percent size={16} />,
-    },
-  ];
 }
 
 export default function CarsShowcaseSection({
@@ -52,7 +24,7 @@ export default function CarsShowcaseSection({
   const [itemsPerPage, setItemsPerPage] = useState(() =>
     getItemsPerPage(window.innerWidth),
   );
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.dir() === "rtl";
 
   useEffect(() => {

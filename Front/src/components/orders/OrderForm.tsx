@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Car, CreditCard } from "lucide-react";
 import { getImageUrl, APP_IMAGES } from "../../constants/app-images";
-import { useLanguageStore } from "../../store/language.store";
 import type { CarItem } from "../../types/home.types";
 import type { IOrderPagePaymentOption } from "../../interfaces/IOrderPagePaymentOption";
 import LazyImg from "../LazyImg";
@@ -47,7 +46,6 @@ export default function OrderForm({
   onSubmit,
 }: IOrderFormProps) {
   const { t } = useTranslation();
-  const direction = useLanguageStore((s) => s.direction);
 
   const inputCls =
     "h-[48px] w-full rounded-[10px] border border-[#E5E7EB] bg-white px-4 text-[14px] text-[#111827] outline-none placeholder:text-[#9CA3AF] focus:border-[var(--brand-primary-color)] focus:ring-2 focus:ring-[rgba(41,155,224,0.12)] transition";

@@ -22,8 +22,6 @@ export default function OffersPageHero({
   description,
   carLabel,
   endsAt,
-  discountPercent,
-  specialPrice,
   primaryButtonText,
   primaryButtonTo,
 }: IOffersPageHeroProps) {
