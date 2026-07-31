@@ -199,7 +199,7 @@ function SearchableSelect({
       {open && (
         <div
           ref={dropdownRef}
-          className={`rounded-[8px] border border-[#D7E3F5] bg-white shadow-lg transition-all duration-150 ease-out ${
+          className={`rounded-[8px] border border-[#D7E3F5] bg-white shadow-lg transition-[opacity,transform] duration-150 ease-out ${
             visible
               ? "opacity-100 translate-y-0 scale-100"
               : "opacity-0 -translate-y-1 scale-95 pointer-events-none"

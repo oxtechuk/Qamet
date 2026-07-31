@@ -2,16 +2,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CalendarDays, Car, Gauge, RotateCcw, Search, Tag } from "lucide-react";
 import Select from "./Select";
+import { getLocalizedName } from "../utils/localized-name";
 import type { ICarFinderProps } from "../interfaces/ICarFinderProps";
-
-function getLocalizedName(
-    name: string | Record<string, string> | undefined,
-    lang: string,
-): string {
-    if (!name) return "";
-    if (typeof name === "string") return name;
-    return name[lang] ?? name["en"] ?? "";
-}
 
 export default function CarFinder({
     onSearch,

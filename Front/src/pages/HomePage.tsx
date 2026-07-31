@@ -11,6 +11,7 @@ import { useLanguageStore } from "../store/language.store";
 import type { HomeCarItem, BrandInfo } from "../types/home.types";
 import type { CarCardProps } from "../components/CarCard";
 import { formatPrice } from "../utils/format";
+import { getLocalizedName } from "../utils/localized-name";
 import { useSEO } from "../utils/useSEO";
 import { mapCarToCardProps as mapFullCarToCardProps } from "../utils/car-mappers";
 import type { IBrandCardProps } from "../interfaces/IBrandCardProps";
@@ -51,10 +52,13 @@ function mapHomeCarToCardProps(car: HomeCarItem): CarCardProps | null {
     }
 }
 
-function mapBrandToCardProps(brand: BrandInfo): IBrandCardProps {
+function mapBrandToCardProps(
+    brand: BrandInfo,
+    language: string,
+): IBrandCardProps {
     return {
         id: brand.id,
-        name: brand.name,
+        name: getLocalizedName(brand.name, language),
         logo: getImageUrl(brand.logo) || APP_IMAGES.BRAND_PLACEHOLDER,
     };
 }
@@ -75,22 +79,6 @@ function mapBracketsToRanges(
         max: b.max,
         count: b.count,
     }));
-}
-
-function mapBannerToSlide(banner: {
-    image: string | null;
-    mobile_image: string | null;
-    url: string | null;
-    button_text: string;
-}, index: number, t: (key: string) => string): IHomeOfferSlide {
-    return {
-        id: index,
-        image: banner.image ?? "",
-        mobileImage: banner.mobile_image ?? undefined,
-        alt: "",
-        buttonText: banner.button_text || t("campaignBanners.discoverMore"),
-        buttonTo: banner.url || undefined,
-    };
 }
 
 export default function Home() {
@@ -164,10 +152,10 @@ export default function Home() {
 
     const brands = useMemo(
         () =>
-            ((brandSearch ? searchedBrands : data?.brands) ?? []).map(
-                mapBrandToCardProps,
+            ((brandSearch ? searchedBrands : data?.brands) ?? []).map((brand) =>
+                mapBrandToCardProps(brand, language),
             ),
-        [brandSearch, searchedBrands, data?.brands],
+        [brandSearch, searchedBrands, data?.brands, language],
     );
 
     const heroSlides: HeroSlide[] = useMemo(() => {
@@ -209,8 +197,16 @@ export default function Home() {
     }, [data, t]);
 
     const homeOffers: IHomeOfferSlide[] = useMemo(
-        () => (data?.campaign_banners ?? []).map((b, i) => mapBannerToSlide(b, i, t)),
-        [data?.campaign_banners, t],
+        () => [
+            {
+                id: "static-offer",
+                image: APP_IMAGES.OFFER1,
+                alt: t("allCarsPage.homeOffers.discoverOffer"),
+                buttonText: t("allCarsPage.homeOffers.discoverOffer"),
+                buttonTo: "/cars",
+            },
+        ],
+        [t],
     );
 
     const budgetRanges = useMemo(
@@ -248,7 +244,7 @@ export default function Home() {
                 onCarFinderReset={() => {}}
                 carouselBrands={(data?.brands ?? []).map((brand) => ({
                     id: brand.id,
-                    name: brand.name,
+                    name: getLocalizedName(brand.name, language),
                     logo: brand.logo
                         ? getImageUrl(brand.logo) ||
                           APP_IMAGES.BRAND_PLACEHOLDER

@@ -15,7 +15,7 @@ export default function FaqAccordion({ faq, isOpen, onToggle }: IFaqAccordionPro
         onClick={() => onToggle(faq.id)}
         className="flex w-full items-center justify-between gap-5 px-7 py-7 text-end"
       >
-        <span className="text-[19px] leading-8 text-[#07111F]">
+        <span className="text-[16px] leading-8 text-[#07111F] font-bold">
           {faq.question}
         </span>
 

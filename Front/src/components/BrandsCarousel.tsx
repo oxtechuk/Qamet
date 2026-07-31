@@ -17,7 +17,7 @@ interface BrandsCarouselProps {
 
 export default function BrandsCarousel({
   brands,
-  speed = 40,
+  speed = 55,
   showName = false,
 }: BrandsCarouselProps) {
   const { i18n } = useTranslation();

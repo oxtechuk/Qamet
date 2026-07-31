@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
 
@@ -31,9 +32,9 @@ const base = getBaseUrl();
 
 export default defineConfig({
   base: base,
-  plugins: [tailwindcss()],
+ plugins: [react(), tailwindcss()],
   server: {
-    port: 5159,
+    port: 5156,
   },
   build: {
     outDir: "../public",

@@ -46,21 +46,21 @@ export default function ContactCtaSection({
               {badgeText}
             </div>
 
-            <h2 className="text-[38px] font-semibold leading-[1.4] md:text-[40px]">
+            <h2 className="text-[32px] font-semibold leading-[1.4] md:text-[40px]">
               <span className="text-white">{titleWhite} </span>
               <span className="text-[var(--brand-secondary-color)]">
                 {titleOrange}
               </span>
             </h2>
 
-            <p className="mt-5 max-w-3xl text-[18px] leading-8 text-[#A7B3C7] md:text-[24px] md:leading-10">
+            <p className="mt-5 max-w-3xl text-[16px]! leading-8 text-[#A7B3C7] md:text-[24px] md:leading-10">
               {description}
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
               <a
                 href={phoneHref}
-                className="flex h-[56px] min-w-[155px] items-center justify-center gap-2 rounded-[10px] bg-[var(--brand-secondary-color)] px-8 text-[22px] font-medium text-white! transition hover:opacity-90"
+                className="flex h-[56px] min-w-[155px] items-center justify-center gap-2 rounded-[10px] bg-[var(--brand-secondary-color)] px-8 text-[22px] text-white! transition hover:opacity-90"
               >
                 {phoneText}
               </a>
@@ -69,7 +69,7 @@ export default function ContactCtaSection({
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-[56px] min-w-[155px] items-center justify-center gap-2 rounded-[10px] bg-[#25D366] px-8 text-[22px] font-medium text-white! transition hover:opacity-90"
+                className="flex h-[56px] min-w-[155px] items-center justify-center gap-2 rounded-[10px] bg-[#25D366] px-8 text-[22px] text-white! transition hover:opacity-90"
               >
                 {whatsappText}
                 <SiWhatsapp size={24} color="#fff" />

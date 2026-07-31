@@ -56,9 +56,9 @@ export default function PurchaseExperienceSection({
     return (
         <section
             dir={direction}
-            className="w-full bg-[#F7F7F5]"
+            className="w-full "
         >
-            <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 pb-20 sm:px-6 lg:px-8">
                 {/* Heading */}
                 <div
                     className="lg:max-w-[520px]"

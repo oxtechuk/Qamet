@@ -73,7 +73,7 @@ export default function HomeOffersSection({
     return (
         <section
             dir={i18n.dir()}
-            className={`w-full py-4 sm:py-6 my-[50px] ${className}`}
+            className={`w-full py-4 sm:py-6 mb-[60px] ${className}`}
         >
             <div className="mx-auto max-w-[1440px] px-3 sm:px-5 lg:px-8">
                 <div

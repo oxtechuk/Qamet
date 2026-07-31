@@ -3,7 +3,7 @@ import { useSettingsStore } from "../store/settings.store";
 
 export function useSEO(title: string, description?: string, image?: string, url?: string): void {
   const settings = useSettingsStore((s) => s.settings);
-  const siteName = settings?.site_name || "Knoz";
+  const siteName = settings?.site_name || "Qmet";
 
   useEffect(() => {
     document.title = `${siteName} | ${title}`;

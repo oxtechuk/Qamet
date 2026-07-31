@@ -133,7 +133,7 @@ export default function ShowroomGallerySection({
               xl:w-[310px]
             "
                     >
-                        <img
+                        <LazyImg
                             src={logoSrc}
                             alt={logoAlt}
                             className="h-[66%] w-[76%] object-contain"
@@ -178,7 +178,7 @@ export default function ShowroomGallerySection({
               md:shadow-[0_10px_30px_rgba(2,31,56,0.18)]
             "
                     >
-                        <img
+                        <LazyImg
                             src={logoSrc}
                             alt={logoAlt}
                             className="h-[75%] w-[88%] object-contain"

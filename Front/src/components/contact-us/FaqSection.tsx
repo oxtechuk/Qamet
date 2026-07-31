@@ -20,7 +20,7 @@ export default function FaqSection({ faqs }: IFaqSectionProps) {
               {t("contactPage.faq.titleOrange")}
             </span>
           </h2>
-          <p className="mt-3 text-[14px] text-[#6B7280]">
+          <p className="mt-3 text-[14px] pt-3 text-[#6B7280]">
             {t("contactPage.faq.description")}
           </p>
         </div>

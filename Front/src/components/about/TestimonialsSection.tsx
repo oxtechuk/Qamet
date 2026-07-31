@@ -99,7 +99,7 @@ export default function TestimonialsSection({
               "sm:px-10 sm:py-10 lg:px-14",
             ].join(" ")}
           >
-            <blockquote className="text-start text-[23px] font-extrabold leading-[1.6] sm:text-[29px] lg:text-[32px]">
+            <blockquote className="text-start text-[23px] font-extrabold leading-[1.6] sm:text-[29px] lg:text-[29px]">
               {activeTestimonial.quote}
             </blockquote>
 
@@ -117,7 +117,7 @@ export default function TestimonialsSection({
               )}
 
               <div className="text-start">
-                <h3 className="text-[16px] font-extrabold sm:text-[18px]">
+                <h3 className="text-[16px] font-bold sm:text-[18px]">
                   {activeTestimonial.name}
                 </h3>
 

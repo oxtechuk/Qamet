@@ -39,9 +39,9 @@ export default function CarDetailsSpecs({ tabs }: ICarDetailsSpecsProps) {
               type="button"
               onClick={() => setActiveTab(i)}
               className={[
-                "pb-3 text-[15px] font-semibold transition",
+                "pb-3 text-[14px] !font-semibold transition",
                 i === activeTab
-                  ? "border-b-2 border-[var(--brand-secondary-color)] text-[#111827]"
+                  ? "border-b-2 border-[var(--brand-secondary-color)] text-[#111827] "
                   : "text-[#9CA3AF] hover:text-[#374151]",
               ].join(" ")}
             >

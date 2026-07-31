@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getBrands } from "../services/api";
 import { useLanguageStore } from "../store/language.store";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
+import { getLocalizedName } from "../utils/localized-name";
 import type { IBrandCardProps } from "../interfaces/IBrandCardProps";
 import type { IUseBrandsReturn } from "../interfaces/IUseBrandsReturn";
 
@@ -24,17 +25,17 @@ export function useBrands(): IUseBrandsReturn {
       const q = search.trim().toLowerCase();
       list = list.filter(
         (b) =>
-          b.name.toLowerCase().includes(q) ||
+          getLocalizedName(b.name, language).toLowerCase().includes(q) ||
           b.slug?.toLowerCase().includes(q),
       );
     }
     return list.map((b) => ({
       id: b.id,
-      name: b.name,
+      name: getLocalizedName(b.name, language),
       logo: getImageUrl(b.logo) || APP_IMAGES.BRAND_PLACEHOLDER,
       onClick: () => navigate(`/cars?brands=${b.id}`),
     }));
-  }, [brands, search, navigate]);
+  }, [brands, search, navigate, language]);
 
   return { brandCards, search, setSearch, isLoading };
 }

@@ -213,7 +213,7 @@ export default function HomeHero({
                                 aria-label={t("nav.home")}
                                 className="absolute left-1/2 top-0 -translate-x-1/2"
                             >
-                                <img
+                                <LazyImg
                                     src={logoSrc}
                                     alt="Logo"
                                     onError={() => setLogoError(true)}

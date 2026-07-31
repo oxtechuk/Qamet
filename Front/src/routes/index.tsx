@@ -1,19 +1,27 @@
+import { lazy, Suspense } from "react";
+import type { ReactNode } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import RootLayout from "../pages/RootLayout";
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
-import AllCarsPage from "../pages/AllCarsPage";
-import CarDetailsPage from "../pages/CarDetailsPage";
-import ComparePage from "../pages/ComparePage";
-import OffersPage from "../pages/OffersPage";
-import AboutPage from "../pages/AboutPage";
-import BlogsPage from "../pages/BlogsPage";
-import BlogDetailsPage from "../pages/BlogDetailsPage";
-import ContactPage from "../pages/ContactPage";
-import FinanceCalculatorPage from "../pages/FinanceCalculatorPage";
-import BrandsPage from "../pages/BrandsPage";
-import OrdersPage from "../pages/OrdersPage";
+import LoadingSpinner from "../components/LoadingSpinner";
+
+const AllCarsPage = lazy(() => import("../pages/AllCarsPage"));
+const CarDetailsPage = lazy(() => import("../pages/CarDetailsPage"));
+const ComparePage = lazy(() => import("../pages/ComparePage"));
+const OffersPage = lazy(() => import("../pages/OffersPage"));
+const AboutPage = lazy(() => import("../pages/AboutPage"));
+const BlogsPage = lazy(() => import("../pages/BlogsPage"));
+const BlogDetailsPage = lazy(() => import("../pages/BlogDetailsPage"));
+const ContactPage = lazy(() => import("../pages/ContactPage"));
+const FinanceCalculatorPage = lazy(() => import("../pages/FinanceCalculatorPage"));
+const BrandsPage = lazy(() => import("../pages/BrandsPage"));
+const OrdersPage = lazy(() => import("../pages/OrdersPage"));
+
+const withSuspense = (element: ReactNode) => (
+  <Suspense fallback={<LoadingSpinner />}>{element}</Suspense>
+);
 
 export const router = createBrowserRouter([
   {
@@ -25,37 +33,37 @@ export const router = createBrowserRouter([
         index: true,
         Component: HomePage,
       },
-      { path: "/cars", element: <AllCarsPage /> },
-      { path: "/cars/:slug", element: <CarDetailsPage /> },
-      { path: "/compare", element: <ComparePage /> },
-      { path: "/offers", element: <OffersPage /> },
+      { path: "/cars", element: withSuspense(<AllCarsPage />) },
+      { path: "/cars/:slug", element: withSuspense(<CarDetailsPage />) },
+      { path: "/compare", element: withSuspense(<ComparePage />) },
+      { path: "/offers", element: withSuspense(<OffersPage />) },
       {
         path: "/about",
-        element: <AboutPage />,
+        element: withSuspense(<AboutPage />),
       },
       {
         path: "/blog",
-        element: <BlogsPage />,
+        element: withSuspense(<BlogsPage />),
       },
       {
         path: "/blog/:slug",
-        element: <BlogDetailsPage />,
+        element: withSuspense(<BlogDetailsPage />),
       },
       {
         path: "/contact",
-        element: <ContactPage />,
+        element: withSuspense(<ContactPage />),
       },
       {
         path: "/finance-calculator",
-        element: <FinanceCalculatorPage />,
+        element: withSuspense(<FinanceCalculatorPage />),
       },
       {
         path: "/brands",
-        element: <BrandsPage />,
+        element: withSuspense(<BrandsPage />),
       },
       {
         path: "/orders",
-        element: <OrdersPage />,
+        element: withSuspense(<OrdersPage />),
       },
       {
         path: "*",

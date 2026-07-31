@@ -124,7 +124,7 @@ export default function OfferListCard({
 
           <NavLink
             to={buttonTo}
-            className="flex h-[44px] min-w-[100px] items-center justify-center rounded-[16px] bg-[var(--brand-primary-color)] px-5 text-[14px] font-bold text-white! transition hover:opacity-90"
+            className="flex h-[44px] min-w-[100px] items-center justify-center rounded-[16px] bg-[var(--brand-primary-color)] px-5 text-[14px]  text-white! transition hover:opacity-90"
           >
             {buttonText}
           </NavLink>

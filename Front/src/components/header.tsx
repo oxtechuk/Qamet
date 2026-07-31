@@ -53,7 +53,11 @@ export default function Header({
           </nav>
 
           {/* CTA Button */}
-          <Button to={ctaPath} bgColor="bg-[var(--brand-secondary-color)] text-white!">
+          <Button
+            to={ctaPath}
+            bgColor="bg-[var(--brand-secondary-color)]"
+            textColor="text-[var(--brand-primary-color)]!"
+          >
             {ctaText}
           </Button>
         </div>

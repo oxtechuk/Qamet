@@ -1,6 +1,6 @@
 export interface ICalculatorLeadRequest {
   name: string;
-  phone_number: string;
+  phone: string;
 }
 
 export interface ICalculatorLeadResponse {

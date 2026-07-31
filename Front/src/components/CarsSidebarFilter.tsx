@@ -345,7 +345,7 @@ function BrandButton({
           />
         )}
 
-        <span className="max-w-[120px] truncate text-[22px] font-bold text-[#111827]">{label}</span>
+        <span className="max-w-[120px] truncate text-[22px] text-[#111827]">{label}</span>
       </div>
 
       <span className="flex h-[36px] min-w-[52px] items-center justify-center rounded-full bg-[#FFF0EC] px-4 text-[16px] font-extrabold text-[var(--brand-secondary-color)]">
@@ -381,7 +381,7 @@ function PriceFilterSection({
           className="text-[var(--brand-primary-color)]"
         />
 
-        <h3 className="text-[26px] font-extrabold text-[var(--brand-primary-color)]">
+        <h3 className="text-[26px] text-[var(--brand-primary-color)]">
           {t("carsSidebarFilter.priceRange")}
         </h3>
       </div>
@@ -429,11 +429,11 @@ function RangeControl({
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
-        <span className="text-[16px] font-bold text-[var(--brand-primary-color)]">
+        <span className="text-[16px] text-[var(--brand-primary-color)]">
           {label}
         </span>
 
-        <div className="flex items-center gap-2 text-[17px] font-extrabold text-[var(--brand-primary-color)]">
+        <div className="flex items-center gap-2 text-[17px]  text-[var(--brand-primary-color)]">
           <Pencil size={19} />
           <span>{displayValue}</span>
         </div>
@@ -470,7 +470,7 @@ function FilterSelect({
 
   return (
     <div>
-      <label className="mb-4 block text-start text-[24px] font-extrabold text-[var(--brand-primary-color)]">
+      <label className="mb-4 block text-start text-[24px] text-[var(--brand-primary-color)]">
         {label}
       </label>
 

@@ -157,7 +157,7 @@ export default function CarDetailsHero({
                             <div className="mt-5 flex flex-col gap-3">
                                 <a
                                     href={orderTo}
-                                    className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] font-semibold text-[var(--brand-primary-color)] transition hover:opacity-90"
+                                    className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] text-[var(--brand-primary-color)] transition hover:opacity-90"
                                 >
                                     {t("carDetails.hero.orderNow")}
                                 </a>
@@ -166,7 +166,7 @@ export default function CarDetailsHero({
                                     href={whatsappHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex h-[56px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#25D366] text-[17px] font-semibold text-white! transition hover:opacity-90"
+                                    className="flex h-[56px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#25D366] text-[17px] text-white! transition hover:opacity-90"
                                 >
                                     <SiWhatsapp size={22} />
                                     {t("carDetails.hero.whatsappContact")}

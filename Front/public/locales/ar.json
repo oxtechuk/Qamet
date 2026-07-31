@@ -453,7 +453,7 @@
         "models2026": "موديلات 2026"
       },
       "card": {
-        "priceLabel": "يبدأ القسط من",
+        "priceLabel": "خصم يصل إلى",
         "priceUnit": "/ شهر",
         "buttonText": "اكتشف العرض",
         "badgeDiscount": "خصم {{percent}}%",
@@ -518,6 +518,9 @@
     "summaryTitle": "ملخص المقارنة",
     "summaryBadge": "نتيجة المقارنة",
     "winnerLabel": "الفائز بالمواصفات",
+    "tieLabel": "تعادل",
+    "tieScore": "{{score}} نقطة لكل سيارة",
+    "tieScoreDetail": "(تعادل في الفئات المقاسة)",
     "winnerScore": "{{score}} نقطة أفضل",
     "winnerScoreDetail": "({{winner}} مقابل {{loser}} في الفئات المقاسة)",
     "consultExpert": "استشر خبيرنا",
@@ -827,7 +830,7 @@
       "approvalTime": "وقت الموافقة المتوقع",
       "approvalValue": "48 ساعة",
       "disclaimer": "هذه النتائج تقديرية وقد تختلف حسب موافقة جهة التمويل والشروط النهائية.",
-      "submitLead": "تقديم طلب التمويل الآن",
+      "submitLead": "تقديم طلب التمويل",
       "submitting": "جارٍ الإرسال...",
       "talkToAdvisor": "تحدث مع مستشار تمويل",
       "selectedCar": "السيارة المختارة",

@@ -120,9 +120,9 @@ export default function CarCard({
                 {/* Name */}
                 <h3
                     className="truncate text-start text-[20px] font-semibold leading-snug text-[#111827]"
-                    title={`${brand} ${name}`}
+                    title={`${name}`}
                 >
-                    {brand} {name}
+                    {name}
                 </h3>
 
                 {/* Year · Type */}

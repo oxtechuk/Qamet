@@ -93,7 +93,7 @@ export default function FeaturedCarsSection({
             return (
                 <section
                     dir={i18n.dir()}
-                    className={`relative w-full overflow-hidden py-14 bg-[#F5F5F3] ${className}`}
+                    className={`relative w-full overflow-hidden py-14 ${className}`}
                 >
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex min-h-[200px] items-center justify-center">
@@ -111,7 +111,7 @@ export default function FeaturedCarsSection({
     return (
         <section
             dir={i18n.dir()}
-            className={`relative w-full overflow-hidden py-14 bg-[#F5F5F3] ${className}`}
+            className={`relative w-full overflow-hidden py-14 ${className}`}
             style={
                 backgroundImage
                     ? {
