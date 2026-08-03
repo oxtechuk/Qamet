@@ -229,6 +229,7 @@
     "titleOrange": "Your Budget",
     "description": "Choose your next car from a wide selection of the latest models, and enjoy flexible financing solutions designed specifically to fit your budget in all cities of the kingdom.",
     "buttonText": "Browse All Cars",
+    "noCars": "No cars found matching your filters.",
     "ranges": [
       "3,000 - 4,000 SAR",
       "4,000 - 6,000 SAR",
@@ -519,6 +520,9 @@
     "summaryTitle": "Comparison Summary",
     "summaryBadge": "Comparison Result",
     "winnerLabel": "Winner by Specs",
+    "tieLabel": "Tie",
+    "tieScore": "{{score}} points each",
+    "tieScoreDetail": "(equal in measured categories)",
     "winnerScore": "{{score}} points better",
     "winnerScoreDetail": "({{winner}} vs {{loser}} in measured categories)",
     "consultExpert": "Consult Our Expert",

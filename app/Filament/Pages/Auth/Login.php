@@ -23,13 +23,23 @@ class Login extends BaseLogin
 
     protected function getCredentialsFromFormData(array $data): array
     {
-        $user = \App\Models\Employee::where('email', $data['email'])
-            ->orWhere('username', $data['email'])
+        $loginInput = trim($data['email'] ?? '');
+
+        $user = \App\Models\Employee::query()
+            ->where('email', $loginInput)
+            ->orWhere('username', $loginInput)
             ->first();
 
+        if (! $user) {
+            return [
+                'email' => $loginInput,
+                'password' => $data['password'] ?? '',
+            ];
+        }
+
         return [
-            'id' => $user?->id,
-            'password' => $data['password'],
+            'id' => $user->id,
+            'password' => $data['password'] ?? '',
         ];
     }
 }
