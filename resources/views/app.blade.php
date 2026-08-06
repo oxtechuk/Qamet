@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Qemt Najd</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
