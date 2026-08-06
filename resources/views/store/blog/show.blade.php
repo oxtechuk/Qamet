@@ -1,5 +1,5 @@
 @extends('store.layouts.app')
-@section('title', $post->title . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'GR Motors')) : ($globalSettings['site_name'] ?? 'GR Motors')))
+@section('title', $post->title . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'Qemt Najd')) : ($globalSettings['site_name'] ?? 'Qemt Najd')))
 @section('meta_description', Str::limit($post->excerpt ?: strip_tags($post->content), 150))
 
 @section('content')

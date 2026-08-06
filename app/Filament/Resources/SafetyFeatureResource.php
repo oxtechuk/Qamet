@@ -17,16 +17,16 @@ class SafetyFeatureResource extends Resource
 {
     protected static ?string $model = SafetyFeature::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 13;
+    protected static ?int $navigationSort = 9;
 
     public static function getModelLabel(): string
     {

@@ -17,16 +17,16 @@ class FeatureResource extends Resource
 {
     protected static ?string $model = Feature::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-sparkles';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 12;
+    protected static ?int $navigationSort = 7;
 
     public static function getModelLabel(): string
     {

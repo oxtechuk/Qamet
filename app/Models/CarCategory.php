@@ -13,13 +13,23 @@ class CarCategory extends Model
 
     public $translatable = ['name'];
 
-    protected $fillable = ['name', 'slug', 'sort_order', 'is_active'];
+    protected $fillable = ['name', 'name_ar', 'name_en', 'slug', 'sort_order', 'is_active'];
 
     protected function casts(): array
     {
         return [
             'is_active' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $model) {
+            if (empty($model->slug)) {
+                $name = $model->name_en ?: ($model->name_ar ?: 'category');
+                $model->slug = \Illuminate\Support\Str::slug($name) ?: ('cat-'.uniqid());
+            }
+        });
     }
 
     public function cars(): HasMany

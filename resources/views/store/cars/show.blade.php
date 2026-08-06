@@ -1,6 +1,6 @@
 @extends('store.layouts.app')
 
-@section('title', $car->name . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'GR Motors')) : ($globalSettings['site_name'] ?? 'GR Motors')))
+@section('title', $car->name . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'Qemt Najd')) : ($globalSettings['site_name'] ?? 'Qemt Najd')))
 
 @section('css'){{-- product page styles are in store.css --}}@endsection
   @section('content')
@@ -123,15 +123,15 @@
       <!-- RIGHT: Gallery -->
       <div class="product__gallery">
         <div class="product__gallery-main">
-          <img src="{{ $car->thumbnail ? asset('storage/' . $car->thumbnail) : asset('assets/images/placeholder-car.jpg') }}" alt="{{ $car->name }}" class="product__gallery-img" id="mainGalleryImg" />
+          <img src="{{ $car->thumbnail ?: asset('assets/images/placeholder-car.jpg') }}" alt="{{ $car->name }}" class="product__gallery-img" id="mainGalleryImg" />
           <span class="product__gallery-counter" id="galleryCounter">1/{{ $car->images->count() + 1 }}</span>
           <button class="product__gallery-nav product__gallery-nav--prev" id="galleryPrev">‹</button>
           <button class="product__gallery-nav product__gallery-nav--next" id="galleryNext">›</button>
         </div>
         <div class="product__gallery-thumbs">
-            <img src="{{ $car->thumbnail ? asset('storage/' . $car->thumbnail) : asset('assets/images/placeholder-car.jpg') }}" alt="" loading="lazy" class="product__gallery-thumb product__gallery-thumb--active" onclick="updateMainImg(this.src, 1)" />
+            <img src="{{ $car->thumbnail ?: asset('assets/images/placeholder-car.jpg') }}" alt="" loading="lazy" class="product__gallery-thumb product__gallery-thumb--active" onclick="updateMainImg(this.src, 1)" />
             @foreach($car->images as $index => $img)
-                <img src="{{ asset('storage/' . $img->image_path) }}" alt="" class="product__gallery-thumb" loading="lazy" onclick="updateMainImg(this.src, {{ $index + 2 }})" />
+                <img src="{{ $img->image_path }}" alt="" class="product__gallery-thumb" loading="lazy" onclick="updateMainImg(this.src, {{ $index + 2 }})" />
             @endforeach
         </div>
       </div>
@@ -153,13 +153,13 @@
         <h2 class="photos__title">{{ __('صور للسيارة من الخارج') }}</h2>
         <div class="photos__grid">
           <div class="photos__main">
-            <img src="{{ asset('storage/' . $exteriorImages->first()->image_path) }}" loading="lazy" alt="{{ __('خارج') }}" id="extMainImg" />
+            <img src="{{ $exteriorImages->first()->image_path }}" loading="lazy" alt="{{ __('خارج') }}" id="extMainImg" />
             <button class="photos__nav photos__nav--prev" onclick="prevExt()">‹</button>
             <button class="photos__nav photos__nav--next" onclick="nextExt()">›</button>
           </div>
           <div class="photos__thumbs">
             @foreach($exteriorImages as $index => $img)
-              <img src="{{ asset('storage/' . $img->image_path) }}" alt="" loading="lazy" onclick="setExtImg({{ $index }})" />
+              <img src="{{ $img->image_path }}" alt="" loading="lazy" onclick="setExtImg({{ $index }})" />
             @endforeach
           </div>
         </div>
@@ -171,13 +171,13 @@
         <h2 class="photos__title">{{ __('صور للسيارة من الداخل') }}</h2>
         <div class="photos__grid">
           <div class="photos__main">
-            <img src="{{ asset('storage/' . $interiorImages->first()->image_path) }}" loading="lazy" alt="{{ __('داخل') }}" id="intMainImg" />
+            <img src="{{ $interiorImages->first()->image_path }}" loading="lazy" alt="{{ __('داخل') }}" id="intMainImg" />
             <button class="photos__nav photos__nav--prev" onclick="prevInt()">‹</button>
             <button class="photos__nav photos__nav--next" onclick="nextInt()">›</button>
           </div>
           <div class="photos__thumbs">
             @foreach($interiorImages as $index => $img)
-              <img src="{{ asset('storage/' . $img->image_path) }}" alt="" loading="lazy" onclick="setIntImg({{ $index }})" />
+              <img src="{{ $img->image_path }}" alt="" loading="lazy" onclick="setIntImg({{ $index }})" />
             @endforeach
           </div>
         </div>
@@ -191,7 +191,7 @@
   <section class="specs">
     <div class="specs__container">
       <div class="specs__visual">
-        <img src="{{ $car->thumbnail ? asset('storage/' . $car->thumbnail) : asset('assets/images/placeholder-car.jpg') }}" loading="lazy" alt="{{ __('مواصفات') }}" class="specs__img" />
+        <img src="{{ $car->thumbnail ?: asset('assets/images/placeholder-car.jpg') }}" loading="lazy" alt="{{ __('مواصفات') }}" class="specs__img" />
       </div>
     
       <div class="specs__data">

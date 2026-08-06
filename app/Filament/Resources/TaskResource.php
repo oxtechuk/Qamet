@@ -7,7 +7,6 @@ use App\Models\Task;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -17,16 +16,16 @@ class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-check-badge';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Team');
+        return 'الفريق';
     }
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function getModelLabel(): string
     {
@@ -44,32 +43,46 @@ class TaskResource extends Resource
             ->schema([
                 Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('title')->label(__('Title'))
+                        Forms\Components\TextInput::make('title')
+                            ->label(__('Title'))
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\MarkdownEditor::make('description'),
-                        Grid::make(3)
-                            ->schema([
-                                Forms\Components\Select::make('priority')->label(__('Priority'))
-                                    ->options([
-                                        'high' => __('High'),
-                                        'medium' => __('Medium'),
-                                        'low' => __('Low'),
-                                    ])
-                                    ->required(),
-                                Forms\Components\Select::make('status')->label(__('Status'))
-                                    ->options([
-                                        'new' => __('New'),
-                                        'in_progress' => __('In Progress'),
-                                        'done' => __('Done'),
-                                    ])
-                                    ->required(),
-                                Forms\Components\Select::make('assigned_to')->label(__('Assigned To'))
-                                    ->relationship('assignedTo', 'name')
-                                    ->searchable()
-                                    ->preload(),
-                            ]),
-                        Forms\Components\DatePicker::make('due_date')->label(__('Due Date')),
+                        Forms\Components\Select::make('booking_id')
+                            ->label(__('Linked Order / Booking'))
+                            ->relationship('booking', 'id')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => "#{$record->id} - {$record->client_name} (".($record->car?->name ?? 'طلب').')')
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\DatePicker::make('due_date')
+                            ->label(__('Due Date / Follow-up Date'))
+                            ->default(now()->today())
+                            ->required(),
+                        Forms\Components\Select::make('priority')
+                            ->label(__('Priority'))
+                            ->options([
+                                'high' => __('High'),
+                                'medium' => __('Medium'),
+                                'low' => __('Low'),
+                            ])
+                            ->default('medium')
+                            ->required(),
+                        Forms\Components\Select::make('status')
+                            ->label(__('Status'))
+                            ->options([
+                                'new' => __('New'),
+                                'in_progress' => __('In Progress'),
+                                'done' => __('Done'),
+                            ])
+                            ->default('new')
+                            ->required(),
+                        Forms\Components\Select::make('assigned_to')
+                            ->label(__('Assigned To'))
+                            ->relationship('assignedTo', 'name')
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Textarea::make('description')
+                            ->label(__('Description'))
+                            ->rows(3),
                     ]),
             ]);
     }
@@ -78,12 +91,21 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->label(__('Title'))
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('Title'))
                     ->searchable()
                     ->sortable()
                     ->limit(40),
 
-                Tables\Columns\BadgeColumn::make('priority')->label(__('Priority'))
+                Tables\Columns\TextColumn::make('booking.client_name')
+                    ->label(__('Linked Order'))
+                    ->formatStateUsing(fn ($state, $record) => $record->booking ? "#{$record->booking_id} - {$state}" : '-')
+                    ->searchable()
+                    ->badge()
+                    ->color('info'),
+
+                Tables\Columns\BadgeColumn::make('priority')
+                    ->label(__('Priority'))
                     ->colors([
                         'danger' => 'high',
                         'warning' => 'medium',
@@ -91,7 +113,8 @@ class TaskResource extends Resource
                     ])
                     ->sortable(),
 
-                Tables\Columns\BadgeColumn::make('status')->label(__('Status'))
+                Tables\Columns\BadgeColumn::make('status')
+                    ->label(__('Status'))
                     ->colors([
                         'primary' => 'new',
                         'warning' => 'in_progress',
@@ -103,7 +126,8 @@ class TaskResource extends Resource
                     ->badge()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('due_date')->label(__('Due Date'))
+                Tables\Columns\TextColumn::make('due_date')
+                    ->label(__('Due Date'))
                     ->date()
                     ->sortable()
                     ->color(fn ($record) => $record->due_date && $record->due_date->isPast() && $record->status !== 'done' ? 'danger' : null),
@@ -115,7 +139,7 @@ class TaskResource extends Resource
                     ->relationship('assignedTo', 'name'),
             ])
             ->actions([
-                Actions\EditAction::make(),
+                Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
                 Actions\DeleteAction::make(),
             ])
             ->bulkActions([
@@ -128,7 +152,7 @@ class TaskResource extends Resource
                         ->action(fn ($records) => $records->each->update(['status' => 'done'])),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('due_date', 'asc');
     }
 
     public static function getRelations(): array
@@ -140,8 +164,6 @@ class TaskResource extends Resource
     {
         return [
             'index' => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('/create'),
-            'edit' => Pages\EditTask::route('/{record}/edit'),
         ];
     }
 }

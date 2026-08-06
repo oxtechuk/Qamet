@@ -22,7 +22,7 @@ use Filament\Support\Exceptions\Halt;
 
 class Settings extends Page
 {
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public function getTitle(): string
     {
@@ -36,10 +36,10 @@ class Settings extends Page
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Settings');
+        return 'الإعدادات والتحليلات';
     }
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     protected string $view = 'filament.pages.settings';
 
@@ -419,6 +419,7 @@ class Settings extends Page
                                             ->schema([
                                                 Section::make(__('Hero Slides'))
                                                     ->description(__('Carousel banners displayed at the top of the homepage. Link a car to auto-fill its price, or leave blank for a manual title.'))
+                                                    ->collapsed()
                                                     ->schema([
                                                         Forms\Components\Repeater::make('hero_slides')
                                                             ->label(__('Slides'))
@@ -468,10 +469,12 @@ class Settings extends Page
                                                             ])
                                                             ->addActionLabel(__('Add Slide'))
                                                             ->reorderable()
-                                                            ->collapsible(),
+                                                            ->collapsible()
+                                                            ->collapsed(),
                                                     ]),
                                                 Section::make(__('Why Choose Us'))
                                                     ->description(__('Icon + text cards shown below the hero'))
+                                                    ->collapsed()
                                                     ->schema([
                                                         Forms\Components\Repeater::make('home_why_us')
                                                             ->label(__('Items'))
@@ -553,6 +556,7 @@ class Settings extends Page
                                                     ]),
                                                 Section::make(__('Cars By Budget'))
                                                     ->description(__('Price-bracket chips shown in the budget section'))
+                                                    ->collapsed()
                                                     ->schema([
                                                         Forms\Components\Repeater::make('home_budget_brackets')
                                                             ->label(__('Brackets'))
@@ -583,6 +587,7 @@ class Settings extends Page
                                                     ]),
                                                 Section::make(__('Stats'))
                                                     ->description(__('Statistics counters displayed on homepage'))
+                                                    ->collapsed()
                                                     ->schema([
                                                         Forms\Components\Repeater::make('homepage_stats')
                                                             ->label(__('Stats'))

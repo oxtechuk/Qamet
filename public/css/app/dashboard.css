@@ -1,103 +1,382 @@
-/* ─── GR Motors Dashboard – Modern Automotive Theme ─── */
+/* ─── Qemt Najd Dashboard – 100% Exact HubSpot-Style Theme ─── */
 
 :root {
-    --dashboard-card-radius: 1rem;
-    --dashboard-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
-    --dashboard-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+    --primary-color: #dfc674;
+    --primary-color-rgb: 223, 198, 116;
+    --primary-color-hover: #c9a227;
+    
+    /* Dark Charcoal Base Colors (Matching HubSpot Screenshots) */
+    --dark-topbar: #1e2025;
+    --dark-sidebar: #17181c;
+    --dark-dropdown: #22252b;
+    --dark-pill-active: rgba(255, 255, 255, 0.14);
+    
+    /* Light UI Content Elements */
+    --light-bg: #f8fafc;
+    --white: #ffffff;
+    --border-light: #e2e8f0;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    
+    --dashboard-card-radius: 14px;
+    --dashboard-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --dashboard-shadow-hover: 0 10px 25px rgba(18, 19, 24, 0.08);
 }
 
-/* ── Sidebar polish (brand gold on warm charcoal, matching the Qemt Najd storefront) ── */
+/* ==========================================================================
+   1. General Content Background & Headings
+   ========================================================================== */
+.fi-body, .fi-main, body, main {
+    background-color: var(--light-bg) !important;
+}
+
+.fi-header-heading, h1, .fi-header-title, .fi-page-heading {
+    color: var(--text-dark) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.fi-header-subheading, p.text-gray-500, .fi-section-header-description {
+    color: var(--text-muted) !important;
+}
+
+/* ==========================================================================
+   2. Dark Topbar (Exact Match to Screenshots)
+   ========================================================================== */
+.fi-topbar {
+    background: var(--dark-topbar) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.fi-topbar nav, .fi-topbar-header {
+    background: transparent !important;
+}
+
+.fi-topbar-item-btn, .fi-topbar-btn, .fi-topbar svg {
+    color: #cbd5e1 !important;
+}
+
+.fi-topbar-item-btn:hover, .fi-topbar-btn:hover {
+    background: rgba(var(--primary-color-rgb), 0.15) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Pill-shaped Search Input ("Find or Ask") */
+.fi-global-search-field {
+    max-width: 32rem !important;
+}
+
+.fi-global-search-field input {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid transparent !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    padding-inline-start: 2.75rem !important;
+    height: 2.5rem !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.fi-global-search-field input::placeholder {
+    color: #94a3b8 !important;
+    font-size: 0.875rem !important;
+}
+
+.fi-global-search-field input:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 12px rgba(var(--primary-color-rgb), 0.3) !important;
+}
+
+.fi-global-search-field svg {
+    color: #94a3b8 !important;
+    transition: color 0.25s ease !important;
+    margin-inline-start: 0.5rem !important;
+}
+
+.fi-global-search-field input:focus + svg {
+    color: var(--primary-color) !important;
+}
+
+.fi-topbar .fi-logo img {
+    max-height: 2.2rem !important;
+    width: auto !important;
+    object-fit: contain !important;
+}
+
+/* ==========================================================================
+   3. Dark Sidebar Container & Header
+   ========================================================================== */
 .fi-sidebar {
-    background: linear-gradient(180deg, #171310 0%, #211a13 100%) !important;
-}
-
-.fi-sidebar-item a {
-    border-radius: 0.5rem;
-    margin: 0 0.5rem;
-    transition: all 0.15s ease;
-}
-
-.fi-sidebar-item a:hover {
-    background: rgba(201, 162, 39, 0.08) !important;
-}
-
-.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
-    background: rgba(201, 162, 39, 0.16) !important;
-    border-left: 3px solid #c9a227;
-}
-
-.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
-    color: #c9a227 !important;
+    background: var(--dark-sidebar) !important;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25) !important;
 }
 
 .fi-sidebar-header {
-    border-bottom: 1px solid rgba(201, 162, 39, 0.12);
-    padding-bottom: 0.75rem;
+    background: var(--dark-sidebar) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-/* ── Topbar ── */
-.fi-topbar {
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+.fi-sidebar-header img {
+    max-height: 2.2rem !important;
+    object-fit: contain !important;
 }
 
-/* ── Stat cards ── */
-.fi-stats-overview-stat {
-    border-radius: var(--dashboard-card-radius) !important;
-    box-shadow: var(--dashboard-shadow) !important;
+/* ==========================================================================
+   4. Floating Dark Flyout Popup Dropdowns (Image 2 - Collapsed Dock Mode)
+   ========================================================================== */
+/* Filament Dropdown Container when sidebar is collapsed */
+.fi-dropdown-panel {
+    background-color: var(--dark-dropdown) !important;
+    border: 1px solid rgba(var(--primary-color-rgb), 0.25) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(var(--primary-color-rgb), 0.1) !important;
+    padding: 0.5rem !important;
+    min-width: 13rem !important;
+}
+
+/* Header inside Flyout Popup */
+.fi-dropdown-header {
+    color: #94a3b8 !important;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 0.5rem 0.75rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    margin-bottom: 0.25rem !important;
+}
+
+/* Item Links inside Flyout Popup */
+.fi-dropdown-list-item {
+    color: #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
     transition: all 0.2s ease !important;
-    border: 1px solid rgba(0, 0, 0, 0.04) !important;
-    overflow: hidden !important;
+}
+
+.fi-dropdown-list-item:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.12) !important;
+    color: var(--primary-color) !important;
+}
+
+.fi-dropdown-list-item[class*="fi-active"] {
+    background-color: rgba(var(--primary-color-rgb), 0.18) !important;
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   5. Expanded Sidebar Items & Rounded Pill Highlights (Image 3)
+   ========================================================================== */
+.fi-sidebar-group-btn {
+    color: #cbd5e1 !important;
+    border-radius: 8px !important;
+    margin: 0.25rem 0.5rem !important;
+    padding: 0.5rem 0.75rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.fi-sidebar-group-btn:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.fi-sidebar-group-btn .fi-sidebar-group-label {
+    color: inherit !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+}
+
+.fi-sidebar-group-btn svg {
+    color: #94a3b8 !important;
+}
+
+.fi-sidebar-group:hover .fi-sidebar-group-btn svg {
+    color: #ffffff !important;
+}
+
+/* Active Group Pill Highlight (Image 3) */
+.fi-sidebar-group.fi-active > .fi-sidebar-group-btn {
+    background: var(--dark-pill-active) !important;
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+}
+
+.fi-sidebar-group.fi-active > .fi-sidebar-group-btn svg {
+    color: var(--primary-color) !important;
+}
+
+.fi-sidebar-group.fi-active > .fi-sidebar-group-btn .fi-sidebar-group-label {
+    color: var(--primary-color) !important;
+}
+
+/* Individual Navigation Items inside Expanded Groups */
+.fi-sidebar-item {
+    margin: 0.2rem 0 !important;
+}
+
+.fi-sidebar-item a, .fi-sidebar-item-btn {
+    border-radius: 8px !important;
+    margin: 0 0.5rem !important;
+    padding: 0.45rem 0.75rem !important;
+    transition: all 0.2s ease !important;
+    color: #cbd5e1 !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
     position: relative !important;
 }
 
-.fi-stats-overview-stat:hover {
+.fi-sidebar-item a:hover, .fi-sidebar-item-btn:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.fi-sidebar-item a:hover .fi-sidebar-item-icon {
+    color: #ffffff !important;
+}
+
+/* Active Item Style */
+.fi-sidebar-item.fi-active a, 
+.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+    background: rgba(var(--primary-color-rgb), 0.15) !important;
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    color: var(--primary-color) !important;
+}
+
+/* Vertical Gold Pill Bar on Active Link */
+.fi-sidebar-item.fi-active a::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0.4rem !important;
+    bottom: 0.4rem !important;
+    width: 3px !important;
+    background-color: var(--primary-color) !important;
+    border-radius: 9999px !important;
+}
+
+[dir="ltr"] .fi-sidebar-item.fi-active a::before {
+    left: 0 !important;
+}
+
+[dir="rtl"] .fi-sidebar-item.fi-active a::before {
+    right: 0 !important;
+}
+
+/* ==========================================================================
+   6. Cards, Tables & Summary Sections (HubSpot Light Content Aesthetics)
+   ========================================================================== */
+.fi-wi-stats-overview-stat-card,
+.fi-stats-overview-stat,
+.fi-section,
+.fi-card,
+.fi-wi-widget,
+.fi-ta-ctn,
+.fi-ta-content,
+.fi-chart-widget,
+.fi-ta-widget,
+div.bg-white {
+    background-color: var(--white) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--dashboard-card-radius) !important;
+    box-shadow: var(--dashboard-shadow) !important;
+    color: var(--text-dark) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.fi-stats-overview-stat:hover, 
+.fi-chart-widget:hover, 
+.fi-ta-widget:hover,
+.quick-action-card:hover {
     transform: translateY(-2px) !important;
     box-shadow: var(--dashboard-shadow-hover) !important;
+    border-color: rgba(var(--primary-color-rgb), 0.3) !important;
 }
 
-.fi-stats-overview-stat .fi-stat-widget {
-    padding: 1.25rem !important;
+/* Compact Stat Overview Cards */
+.fi-wi-stats-overview-stat-card,
+.fi-stats-overview-stat {
+    padding: 0.75rem 1rem !important;
 }
 
-.fi-stats-overview-stat .fi-stat-widget dt {
+.fi-wi-stats-overview-stat-card .text-3xl,
+.fi-stats-overview-stat .text-3xl,
+.fi-stats-overview-stat-value {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+}
+
+.fi-wi-stats-overview-stat-card .text-sm,
+.fi-stats-overview-stat .text-sm {
     font-size: 0.75rem !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    color: #64748b !important;
 }
 
-.fi-stats-overview-stat .fi-stat-widget dd {
-    font-size: 1.75rem !important;
+.fi-section-header, .fi-widget-header {
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding-bottom: 0.75rem !important;
+}
+
+/* Tables Headers */
+.fi-ta-header-cell, th.fi-ta-header-cell {
+    background-color: var(--light-bg) !important;
+    color: #334155 !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
-    margin-top: 0.25rem !important;
+    border-bottom: 1px solid var(--border-light) !important;
 }
 
-.fi-stats-overview-stat .fi-stat-widget .fi-stat-description {
-    font-size: 0.8125rem !important;
-    color: #94a3b8 !important;
-    margin-top: 0.25rem !important;
+.fi-ta-cell, td.fi-ta-cell {
+    color: #334155 !important;
 }
 
-/* 💎 Color-coded gradient accents per stat */
-.fi-stats-overview-stat[style*="--c-50"] {
-    position: relative;
+.fi-ta-row:hover {
+    background-color: #f1f5f9 !important;
 }
 
-.fi-stats-overview-stat::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    border-radius: var(--dashboard-card-radius) var(--dashboard-card-radius) 0 0;
+.fi-ta-cell a, .fi-ta-cell-value a {
+    color: var(--primary-color-hover) !important;
+    font-weight: 600 !important;
+    transition: color 0.2s ease !important;
 }
 
-/* ── Quick actions grid ── */
+.fi-ta-cell a:hover, .fi-ta-cell-value a:hover {
+    color: var(--primary-color) !important;
+    text-decoration: underline !important;
+}
+
+/* Primary Buttons */
+.fi-btn-primary, button.fi-btn-primary {
+    background: linear-gradient(135deg, var(--dark-sidebar) 0%, #20232c 100%) !important;
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+    border: 1px solid rgba(var(--primary-color-rgb), 0.4) !important;
+    box-shadow: 0 4px 12px rgba(18, 19, 24, 0.15) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.fi-btn-primary:hover, button.fi-btn-primary:hover {
+    background: var(--primary-color) !important;
+    color: var(--dark-sidebar) !important;
+    box-shadow: 0 6px 15px rgba(var(--primary-color-rgb), 0.3) !important;
+}
+
+/* Badges */
+.fi-badge {
+    font-weight: 700 !important;
+    padding: 0.2rem 0.625rem !important;
+    border-radius: 6px !important;
+}
+
+/* ==========================================================================
+   7. Quick Actions Grid
+   ========================================================================== */
 .quick-actions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -113,19 +392,13 @@
     gap: 0.5rem;
     padding: 1.25rem 1rem;
     border-radius: var(--dashboard-card-radius);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: #fff;
+    border: 1px solid var(--border-light);
+    background: var(--white);
     box-shadow: var(--dashboard-shadow);
     transition: all 0.2s ease;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-}
-
-.quick-action-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--dashboard-shadow-hover);
-    border-color: rgba(99, 102, 241, 0.2);
 }
 
 .quick-action-card .quick-action-icon {
@@ -142,74 +415,41 @@
     font-size: 0.8125rem;
     font-weight: 600;
     text-align: center;
-    color: #1e293b;
+    color: var(--text-dark);
 }
 
-/* ── Chart cards ── */
-.fi-chart-widget {
-    border-radius: var(--dashboard-card-radius) !important;
-    box-shadow: var(--dashboard-shadow) !important;
-    border: 1px solid rgba(0, 0, 0, 0.04) !important;
-    transition: box-shadow 0.2s ease !important;
+[dir="rtl"] .quick-action-card {
+    text-align: center;
 }
 
-.fi-chart-widget:hover {
-    box-shadow: var(--dashboard-shadow-hover) !important;
-}
-
-.fi-chart-widget .fi-chart-widget-heading {
-    font-size: 0.9375rem !important;
-    font-weight: 700 !important;
-    color: #0f172a !important;
-    padding: 1.25rem 1.25rem 0 !important;
-}
-
-/* ── Table widgets ── */
-.fi-ta-widget {
-    border-radius: var(--dashboard-card-radius) !important;
-    box-shadow: var(--dashboard-shadow) !important;
-    border: 1px solid rgba(0, 0, 0, 0.04) !important;
-}
-
-.fi-ta-widget .fi-ta-widget-heading {
-    font-size: 0.9375rem !important;
-    font-weight: 700 !important;
-    color: #0f172a !important;
-    padding: 1.25rem 1.25rem 0 !important;
-}
-
-/* ── Badge polish ── */
-.fi-badge {
-    font-weight: 600 !important;
-    letter-spacing: 0.01em !important;
-    padding: 0.125rem 0.625rem !important;
-    border-radius: 0.375rem !important;
-}
-
-/* ── Page heading ── */
-.fi-page-heading {
-    font-weight: 800 !important;
-    font-size: 1.5rem !important;
-    letter-spacing: -0.02em !important;
-    color: #0f172a !important;
-}
-
-/* ── Widget spacing ── */
-.fi-widget {
-    margin-bottom: 1.25rem !important;
-}
-
-/* ── Light background ── */
-.fi-body {
-    background: #f8fafc !important;
-}
-
-/* ── Responsive tweaks ── */
-@media (max-width: 768px) {
+/* ==========================================================================
+   8. Responsive Tweaks
+   ========================================================================== */
+@media (max-width: 1023px) {
     .quick-actions-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    .fi-stats-overview-stat .fi-stat-widget dd {
-        font-size: 1.25rem !important;
-    }
+}
+
+/* ==========================================================================
+   9. Full-Width Layout & Form Container Fix (Eliminates Side Blank Space)
+   ========================================================================== */
+.fi-main,
+.fi-main-ctn,
+.fi-page,
+.fi-content,
+main,
+main > div,
+.fi-resource-page,
+.fi-resource-create-record-page,
+.fi-resource-edit-record-page {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Ensure Form Section Cards and Inputs stretch full width */
+.fi-form,
+.fi-form > div {
+    width: 100% !important;
+    max-width: 100% !important;
 }

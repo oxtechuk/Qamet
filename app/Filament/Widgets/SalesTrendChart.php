@@ -27,15 +27,22 @@ class SalesTrendChart extends ChartWidget
     protected function getData(): array
     {
         $currentMonth = (int) now()->format('n');
+        $driver = DB::connection()->getDriverName();
+        $monthExpr = $driver === 'sqlite'
+            ? "CAST(strftime('%m', created_at) AS INTEGER)"
+            : 'MONTH(created_at)';
+        $yearExpr = $driver === 'sqlite'
+            ? "CAST(strftime('%Y', created_at) AS INTEGER)"
+            : 'YEAR(created_at)';
 
         $sales = Booking::select(
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('YEAR(created_at) as year'),
+            DB::raw("{$monthExpr} as month"),
+            DB::raw("{$yearExpr} as year"),
             DB::raw("SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as completed"),
             DB::raw('COUNT(*) as total')
         )
             ->whereYear('created_at', now()->year)
-            ->groupBy('year', 'month')
+            ->groupBy(DB::raw($yearExpr), DB::raw($monthExpr))
             ->orderBy('month')
             ->get()
             ->keyBy('month');

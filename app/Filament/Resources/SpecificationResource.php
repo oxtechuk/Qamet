@@ -17,16 +17,16 @@ class SpecificationResource extends Resource
 {
     protected static ?string $model = Specification::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-list-bullet';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 11;
+    protected static ?int $navigationSort = 8;
 
     public static function getModelLabel(): string
     {

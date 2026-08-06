@@ -9,12 +9,17 @@ class Task extends Model
 {
     protected $fillable = [
         'title', 'description', 'status', 'priority',
-        'assigned_to', 'due_date', 'created_by',
+        'assigned_to', 'due_date', 'created_by', 'booking_id',
     ];
 
     protected $casts = [
         'due_date' => 'date',
     ];
+
+    public function booking(): BelongsTo
+    {
+        return $this->belongsTo(Booking::class);
+    }
 
     public function assignedTo(): BelongsTo
     {

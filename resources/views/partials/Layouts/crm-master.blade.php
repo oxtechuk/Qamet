@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'لوحة التحكم | GR Motors')</title>
+    <title>@yield('title', 'لوحة التحكم | Qemt Najd')</title>
 
     {{-- Preconnect & DNS-Prefetch for Speed --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">

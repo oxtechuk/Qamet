@@ -1,6 +1,6 @@
 @extends('store.layouts.app')
-@section('title', __('حجز سيارة') . ($car ? ' — ' . $car->name : '') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'GR Motors')) : ($globalSettings['site_name'] ?? 'GR Motors')))
-@section('meta_description', __('احجز سيارتك المفضلة الآن مع GR Motors. نموذج حجز سريع وآمن مع حاسبة تقسيط فورية.'))
+@section('title', __('حجز سيارة') . ($car ? ' — ' . $car->name : '') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'Qemt Najd')) : ($globalSettings['site_name'] ?? 'Qemt Najd')))
+@section('meta_description', __('احجز سيارتك المفضلة الآن مع Qemt Najd. نموذج حجز سريع وآمن مع حاسبة تقسيط فورية.'))
 
 @section('content')
 
@@ -488,7 +488,7 @@
 @section('js')
 <script>
 // ═══════════════════════════════════════════════════════════
-//  GR Motors — Booking Page Calculator
+//  Qemt Najd — Booking Page Calculator
 // ═══════════════════════════════════════════════════════════
 const INTEREST_RATE  = 4.0;  // % سنوياً
 let currentCarPrice  = {{ $car ? $car->cash_price : 0 }};

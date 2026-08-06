@@ -1,6 +1,6 @@
 @extends('store.layouts.app')
 
-@section('title', __('معرض السيارات') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'GR Motors')) : ($globalSettings['site_name'] ?? 'GR Motors')))
+@section('title', __('معرض السيارات') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'Qemt Najd')) : ($globalSettings['site_name'] ?? 'Qemt Najd')))
 
 @section('css')
 <style>
@@ -997,7 +997,7 @@
                   @if($car->year)
                     <span class="car-card__year">{{ $car->year }}</span>
                   @endif
-                  <img loading="lazy" class="car-card__image" src="{{ $car->thumbnail ? asset('storage/' . $car->thumbnail) : asset('assets/images/placeholder-car.jpg') }}" alt="{{ $car->name }}" />
+                  <img loading="lazy" class="car-card__image" src="{{ $car->thumbnail ?: asset('assets/images/placeholder-car.jpg') }}" alt="{{ $car->name }}" />
                 </div>
                 <div class="car-card__body">
                   <h3 class="car-card__title">{{ $car->name }}</h3>

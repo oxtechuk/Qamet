@@ -15,12 +15,22 @@ class Brand extends Model
 
     public $translatable = ['name'];
 
-    protected $fillable = ['name', 'slug', 'logo', 'is_active', 'brand_type_id'];
+    protected $fillable = ['name', 'name_ar', 'name_en', 'slug', 'logo', 'is_active', 'brand_type_id'];
 
     protected $casts = [
         'is_active' => 'boolean',
         'logo' => AsImageUrl::class,
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $model) {
+            if (empty($model->slug)) {
+                $name = $model->name_en ?: ($model->name_ar ?: 'brand');
+                $model->slug = \Illuminate\Support\Str::slug($name) ?: ('brand-'.uniqid());
+            }
+        });
+    }
 
     public function cars(): HasMany
     {

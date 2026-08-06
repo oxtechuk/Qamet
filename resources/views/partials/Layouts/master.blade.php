@@ -1,10 +1,10 @@
 ﻿<html lang="{{ App::getLocale() }}" dir="{{ App::getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <meta charset="utf-8" />
-<title>@yield('title', ' | Grand GR Motors')</title>
+<title>@yield('title', ' | Grand Qemt Najd')</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta content="GR Motors CRM" name="description" />
-<meta content="GR Motors" name="author" />
+<meta content="Qemt Najd CRM" name="description" />
+<meta content="Qemt Najd" name="author" />
 
 <!-- layout setup -->
 <script type="module" src="{{ asset('assets/js/layout-setup.js') }}"></script>

@@ -9,8 +9,6 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,16 +17,16 @@ class BookingResource extends Resource
 {
     protected static ?string $model = Booking::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static string|\BackedEnum|null $navigationIcon = null;
+
+    protected static ?int $navigationSort = 1;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Sales & Customers');
+        return 'الطلبات';
     }
 
     protected static ?string $recordTitleAttribute = 'client_name';
-
-    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {
@@ -43,122 +41,116 @@ class BookingResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->schema([
-                Tabs::make(__('Booking'))
-                    ->tabs([
-                        Tab::make(__('Client Info'))
+                // Left/Main Column: Client Info & Car Pricing (2/3 Width)
+                Grid::make(1)
+                    ->columnSpan(2)
+                    ->schema([
+                        Section::make(__('Client Info'))
                             ->icon('heroicon-o-user')
                             ->schema([
-                                Section::make()
+                                Grid::make(2)
                                     ->schema([
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\TextInput::make('client_name')->label(__('Client Name'))
-                                                    ->required()
-                                                    ->maxLength(255),
-                                                Forms\Components\TextInput::make('client_phone')->label(__('Client Phone'))
-                                                    ->tel()
-                                                    ->required()
-                                                    ->maxLength(20),
-                                            ]),
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\TextInput::make('client_email')->label(__('Client Email'))
-                                                    ->email()
-                                                    ->maxLength(255),
-                                                Forms\Components\Select::make('booking_type')->label(__('Booking Type'))
-                                                    ->options([
-                                                        'test_drive' => __('Test Drive'),
-                                                        'booking' => __('Booking'),
-                                                        'loan' => __('Loan Request'),
-                                                    ])
-                                                    ->required(),
-                                            ]),
+                                        Forms\Components\TextInput::make('client_name')->label(__('Client Name'))
+                                            ->required()
+                                            ->maxLength(255),
+                                        Forms\Components\TextInput::make('client_phone')->label(__('Client Phone'))
+                                            ->tel()
+                                            ->required()
+                                            ->maxLength(20),
+                                    ]),
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('client_email')->label(__('Client Email'))
+                                            ->email()
+                                            ->maxLength(255),
+                                        Forms\Components\Select::make('booking_type')->label(__('Booking Type'))
+                                            ->options([
+                                                'test_drive' => __('Test Drive'),
+                                                'booking' => __('Booking'),
+                                                'loan' => __('Loan Request'),
+                                            ])
+                                            ->required(),
                                     ]),
                             ]),
-                        Tab::make(__('Car & Pricing'))
+
+                        Section::make(__('Car & Pricing'))
                             ->icon('heroicon-o-truck')
                             ->schema([
-                                Section::make()
+                                Grid::make(2)
                                     ->schema([
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\Select::make('car_id')->label(__('Car'))
-                                                    ->relationship('car', 'name')
-                                                    ->searchable()
-                                                    ->preload(),
-                                                Forms\Components\TextInput::make('car_type')->label(__('Car Type'))
-                                                    ->placeholder(__('e.g. Toyota Camry 2025'))
-                                                    ->helperText(__('Required if no car is selected from inventory.')),
-                                            ]),
-                                        Grid::make(3)
-                                            ->schema([
-                                                Forms\Components\TextInput::make('total_price')->label(__('Total Price'))
-                                                    ->numeric()
-                                                    ->prefix(__('SAR')),
-                                                Forms\Components\TextInput::make('down_payment')->label(__('Down Payment'))
-                                                    ->numeric()
-                                                    ->prefix(__('SAR')),
-                                                Forms\Components\TextInput::make('monthly_installment')->label(__('Monthly Installment'))
-                                                    ->numeric()
-                                                    ->prefix(__('SAR')),
-                                            ]),
-                                        Grid::make(3)
-                                            ->schema([
-                                                Forms\Components\TextInput::make('duration_years')->label(__('Duration Years'))
-                                                    ->numeric()
-                                                    ->suffix(__('years')),
-                                                Forms\Components\Select::make('payment_method')->label(__('Payment Method'))
-                                                    ->options([
-                                                        'cash' => __('Cash'),
-                                                        'bank' => __('Bank Financing'),
-                                                    ]),
+                                        Forms\Components\Select::make('car_id')->label(__('Car'))
+                                            ->relationship('car', 'name')
+                                            ->searchable()
+                                            ->preload(),
+                                        Forms\Components\TextInput::make('car_type')->label(__('Car Type'))
+                                            ->placeholder(__('e.g. Toyota Camry 2025'))
+                                            ->helperText(__('Required if no car is selected from inventory.')),
+                                    ]),
+                                Grid::make(3)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('total_price')->label(__('Total Price'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                        Forms\Components\TextInput::make('down_payment')->label(__('Down Payment'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                        Forms\Components\TextInput::make('monthly_installment')->label(__('Monthly Installment'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                    ]),
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('duration_years')->label(__('Duration Years'))
+                                            ->numeric()
+                                            ->suffix(__('years')),
+                                        Forms\Components\Select::make('payment_method')->label(__('Payment Method'))
+                                            ->options([
+                                                'cash' => __('Cash'),
+                                                'bank' => __('Bank Financing'),
                                             ]),
                                     ]),
                             ]),
-                        Tab::make(__('Status & Assignment'))
+                    ]),
+
+                // Right/Side Column: Status & Assignment (1/3 Width)
+                Grid::make(1)
+                    ->columnSpan(1)
+                    ->schema([
+                        Section::make(__('Status & Assignment'))
                             ->icon('heroicon-o-flag')
                             ->schema([
-                                Section::make()
-                                    ->schema([
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\Select::make('status')->label(__('Status'))
-                                                    ->options([
-                                                        'new' => __('New'),
-                                                        'contacted' => __('Contacted'),
-                                                        'interested' => __('Interested'),
-                                                        'negotiation' => __('Negotiation'),
-                                                        'sold' => __('Sold'),
-                                                        'rejected' => __('Rejected'),
-                                                        'cancelled' => __('Cancelled'),
-                                                    ])
-                                                    ->required(),
-                                                Forms\Components\Select::make('assigned_to')->label(__('Assigned To'))
-                                                    ->relationship('assignedTo', 'name')
-                                                    ->searchable()
-                                                    ->preload(),
-                                            ]),
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\Select::make('source')->label(__('Source'))
-                                                    ->options([
-                                                        'website' => __('Website'),
-                                                        'whatsapp' => __('WhatsApp'),
-                                                        'referral' => __('Referral'),
-                                                        'instagram' => __('Instagram'),
-                                                        'facebook' => __('Facebook'),
-                                                        'showroom' => __('Showroom'),
-                                                        'other' => __('Other'),
-                                                    ])
-                                                    ->searchable(),
-                                                Forms\Components\Textarea::make('notes')->label(__('Notes'))
-                                                    ->columnSpanFull(),
-                                            ]),
-                                    ]),
+                                Forms\Components\Select::make('status')->label(__('Status'))
+                                    ->options([
+                                        'new' => __('New'),
+                                        'contacted' => __('Contacted'),
+                                        'interested' => __('Interested'),
+                                        'negotiation' => __('Negotiation'),
+                                        'sold' => __('Sold'),
+                                        'rejected' => __('Rejected'),
+                                        'cancelled' => __('Cancelled'),
+                                    ])
+                                    ->required(),
+                                Forms\Components\Select::make('assigned_to')->label(__('Assigned To'))
+                                    ->relationship('assignedTo', 'name')
+                                    ->searchable()
+                                    ->preload(),
+                                Forms\Components\Select::make('source')->label(__('Source'))
+                                    ->options([
+                                        'website' => __('Website'),
+                                        'whatsapp' => __('WhatsApp'),
+                                        'referral' => __('Referral'),
+                                        'instagram' => __('Instagram'),
+                                        'facebook' => __('Facebook'),
+                                        'showroom' => __('Showroom'),
+                                        'other' => __('Other'),
+                                    ])
+                                    ->searchable(),
+                                Forms\Components\Textarea::make('notes')->label(__('Notes'))
+                                    ->rows(4),
                             ]),
-                    ])
-                    ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -255,7 +247,115 @@ class BookingResource extends Resource
                     }),
             ])
             ->actions([
-                Actions\ViewAction::make(),
+                Actions\ViewAction::make()
+                    ->slideOver()
+                    ->modalWidth('3xl')
+                    ->form([
+                        Section::make(__('Client & Order Details'))
+                            ->schema([
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('client_name')->label(__('Client Name'))->disabled(),
+                                    Forms\Components\TextInput::make('client_phone')->label(__('Client Phone'))->disabled(),
+                                    Forms\Components\TextInput::make('client_email')->label(__('Client Email'))->disabled(),
+                                ]),
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('car_type')->label(__('Car / Model'))->disabled(),
+                                    Forms\Components\TextInput::make('booking_type')->label(__('Booking Type'))->disabled(),
+                                    Forms\Components\TextInput::make('total_price')->label(__('Total Price'))->prefix('SAR')->disabled(),
+                                ]),
+                                Grid::make(2)->schema([
+                                    Forms\Components\TextInput::make('status')->label(__('Status'))->disabled(),
+                                    Forms\Components\TextInput::make('assignedTo.name')->label(__('Assigned To'))->disabled(),
+                                ]),
+                                Forms\Components\Textarea::make('notes')->label(__('Notes'))->disabled(),
+                            ]),
+                        Section::make(__('Linked Follow-up Tasks'))
+                            ->icon('heroicon-o-clipboard-document-check')
+                            ->schema([
+                                Forms\Components\Placeholder::make('tasks_list')
+                                    ->label('')
+                                    ->content(function (Booking $record) {
+                                        $tasks = $record->tasks()->with('assignedTo')->get();
+                                        if ($tasks->isEmpty()) {
+                                            return new \Illuminate\Support\HtmlString('<div class="p-4 text-center text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-lg">'.__('No tasks created for this booking yet.').'</div>');
+                                        }
+                                        $html = '<div class="overflow-x-auto"><table class="w-full text-sm text-right border-collapse border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">';
+                                        $html .= '<thead class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200"><tr>';
+                                        $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Title').'</th>';
+                                        $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Due Date').'</th>';
+                                        $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Priority').'</th>';
+                                        $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Status').'</th>';
+                                        $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Assigned To').'</th>';
+                                        $html .= '</tr></thead><tbody>';
+                                        foreach ($tasks as $task) {
+                                            $html .= '<tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-semibold">'.htmlspecialchars($task->title).'</td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-mono text-amber-600 dark:text-amber-400">'.($task->due_date ? $task->due_date->format('Y-m-d') : '-').'</td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">'.htmlspecialchars($task->priority_label).'</span></td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">'.htmlspecialchars($task->status_label).'</span></td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 text-gray-500">'.htmlspecialchars($task->assignedTo?->name ?? '-').'</td>';
+                                            $html .= '</tr>';
+                                        }
+                                        $html .= '</tbody></table></div>';
+
+                                        return new \Illuminate\Support\HtmlString($html);
+                                    }),
+                            ]),
+                    ]),
+                Actions\Action::make('create_task')
+                    ->label(__('Follow-up Task'))
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->color('warning')
+                    ->slideOver()
+                    ->modalWidth('xl')
+                    ->form([
+                        Forms\Components\TextInput::make('title')
+                            ->label(__('Task Title'))
+                            ->default(fn (Booking $record) => "متابعة طلب حجز #{$record->id} - {$record->client_name}")
+                            ->required(),
+                        Forms\Components\DatePicker::make('due_date')
+                            ->label(__('Due Date / Follow-up Date'))
+                            ->default(now()->today())
+                            ->required(),
+                        Forms\Components\Select::make('priority')
+                            ->label(__('Priority'))
+                            ->options([
+                                'high' => __('High'),
+                                'medium' => __('Medium'),
+                                'low' => __('Low'),
+                            ])
+                            ->default('medium')
+                            ->required(),
+                        Forms\Components\Select::make('status')
+                            ->label(__('Status'))
+                            ->options([
+                                'new' => __('New'),
+                                'in_progress' => __('In Progress'),
+                                'done' => __('Done'),
+                            ])
+                            ->default('new')
+                            ->required(),
+                        Forms\Components\Select::make('assigned_to')
+                            ->label(__('Assigned To'))
+                            ->relationship('assignedTo', 'name')
+                            ->default(fn (Booking $record) => $record->assigned_to)
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Textarea::make('description')
+                            ->label(__('Description'))
+                            ->rows(3),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        \App\Models\Task::create([
+                            'booking_id' => $record->id,
+                            'title' => $data['title'],
+                            'due_date' => $data['due_date'],
+                            'priority' => $data['priority'],
+                            'status' => $data['status'],
+                            'assigned_to' => $data['assigned_to'] ?? null,
+                            'description' => $data['description'] ?? null,
+                        ]);
+                    }),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])

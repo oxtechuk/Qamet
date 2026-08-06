@@ -18,16 +18,16 @@ class GalleryItemResource extends Resource
 {
     protected static ?string $model = GalleryItem::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-photo';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'alt_text';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 5;
 
     public static function getModelLabel(): string
     {

@@ -1,5 +1,5 @@
 @extends('partials.Layouts.crm-master')
-@section('title', __('إضافة سيارة جديدة') . ' | GR Motors')
+@section('title', __('إضافة سيارة جديدة') . ' | Qemt Najd')
 
 @section('content')
 <div class="container-fluid" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">

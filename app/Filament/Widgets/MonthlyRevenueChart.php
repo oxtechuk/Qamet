@@ -26,14 +26,22 @@ class MonthlyRevenueChart extends ChartWidget
 
     protected function getData(): array
     {
+        $driver = DB::connection()->getDriverName();
+        $monthExpr = $driver === 'sqlite'
+            ? "CAST(strftime('%m', created_at) AS INTEGER)"
+            : 'MONTH(created_at)';
+        $yearExpr = $driver === 'sqlite'
+            ? "CAST(strftime('%Y', created_at) AS INTEGER)"
+            : 'YEAR(created_at)';
+
         $revenue = Booking::where('status', 'sold')
             ->select(
-                DB::raw('MONTH(created_at) as month'),
-                DB::raw('YEAR(created_at) as year'),
+                DB::raw("{$monthExpr} as month"),
+                DB::raw("{$yearExpr} as year"),
                 DB::raw('SUM(total_price) as total')
             )
             ->whereYear('created_at', now()->year)
-            ->groupBy('year', 'month')
+            ->groupBy(DB::raw($yearExpr), DB::raw($monthExpr))
             ->orderBy('month')
             ->pluck('total', 'month')
             ->toArray();

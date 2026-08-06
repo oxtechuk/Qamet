@@ -17,16 +17,16 @@ class PartnerResource extends Resource
 {
     protected static ?string $model = Partner::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-hand-thumb-up';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 6;
 
     public static function getModelLabel(): string
     {

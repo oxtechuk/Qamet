@@ -1,5 +1,5 @@
 @extends('store.layouts.app')
-@section('title', __('الرئيسية') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'GR Motors')) : ($globalSettings['site_name'] ?? 'GR Motors')))
+@section('title', __('الرئيسية') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'Qemt Najd')) : ($globalSettings['site_name'] ?? 'Qemt Najd')))
 @section('meta_description', __('اكتشف مجموعتنا الحصرية من أفخم السيارات في العالم. نقدم لك تجربة قيادة لا تُنسى مع أرقى الموديلات والخدمات المتميزة.  '))
 
 @section('css')

@@ -1,7 +1,7 @@
 @php
     $logo = \App\Models\Setting::where('key', 'site_logo')->first()?->value;
     $siteName = \App\Models\Setting::where('key', 'site_name')->first()?->value;
-    $siteNameText = is_array($siteName) ? ($siteName[app()->getLocale()] ?? ($siteName['ar'] ?? 'GR Motors')) : ($siteName ?? 'GR Motors');
+    $siteNameText = is_array($siteName) ? ($siteName[app()->getLocale()] ?? ($siteName['ar'] ?? 'Qemt Najd')) : ($siteName ?? 'Qemt Najd');
     $currentUser = auth()->guard('employee')->user();
     $r = request()->route()?->getName() ?? '';
 

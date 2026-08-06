@@ -17,16 +17,16 @@ class WhyChooseUsItemResource extends Resource
 {
     protected static ?string $model = WhyChooseUsItem::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-check-badge';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 8;
 
     public static function getModelLabel(): string
     {

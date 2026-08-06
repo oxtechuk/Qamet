@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class Reports extends Page
 {
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-chart-pie';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public function getTitle(): string
     {
@@ -24,10 +24,10 @@ class Reports extends Page
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Settings');
+        return 'الإعدادات والتحليلات';
     }
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     protected string $view = 'filament.pages.reports';
 

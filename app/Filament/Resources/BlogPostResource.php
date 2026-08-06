@@ -18,16 +18,16 @@ class BlogPostResource extends Resource
 {
     protected static ?string $model = BlogPost::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-newspaper';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {
@@ -57,7 +57,7 @@ class BlogPostResource extends Resource
                             ]),
                         Tab::make(__('Meta'))
                             ->schema([
-                                Forms\Components\FileUpload::make('thumbnail')->label(__('Featured Image'))->image()->directory('blog'),
+                                Forms\Components\FileUpload::make('thumbnail')->label(__('Featured Image'))->image()->disk('public')->directory('blog')->visibility('public'),
                                 Forms\Components\Select::make('categories')->label(__('Categories'))
                                     ->relationship('categories', 'name')
                                     ->multiple()

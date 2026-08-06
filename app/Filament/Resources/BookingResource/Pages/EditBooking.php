@@ -10,6 +10,11 @@ class EditBooking extends EditRecord
 {
     protected static string $resource = BookingResource::class;
 
+    public function getMaxWidth(): string
+    {
+        return 'full';
+    }
+
     protected function getHeaderActions(): array
     {
         return [

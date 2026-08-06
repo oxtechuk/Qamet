@@ -17,16 +17,16 @@ class ContactSourceResource extends Resource
 {
     protected static ?string $model = ContactSource::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-signal';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Sales & Customers');
+        return 'العملاء';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {
@@ -60,7 +60,7 @@ class ContactSourceResource extends Resource
                 Tables\Columns\TextColumn::make('sort_order')->label(__('Sort Order'))->numeric()->sortable(),
             ])
             ->filters([Tables\Filters\TernaryFilter::make('is_active')])
-            ->actions([Actions\EditAction::make(), Actions\DeleteAction::make()])
+            ->actions([Actions\EditAction::make()->slideOver()->modalWidth('xl'), Actions\DeleteAction::make()])
             ->bulkActions([Actions\BulkActionGroup::make([Actions\DeleteBulkAction::make()])])
             ->defaultSort('sort_order');
     }

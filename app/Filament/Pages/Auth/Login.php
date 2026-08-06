@@ -38,7 +38,7 @@ class Login extends BaseLogin
         }
 
         return [
-            'id' => $user->id,
+            'email' => $user->email,
             'password' => $data['password'] ?? '',
         ];
     }

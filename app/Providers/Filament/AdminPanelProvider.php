@@ -52,7 +52,7 @@ class AdminPanelProvider extends PanelProvider
             ->authGuard('employee')
             ->authPasswordBroker('employees')
             ->colors([
-                'primary' => Color::hex('#c9a227'),
+                'primary' => Color::hex('#dfc674'),
                 'gray' => Color::Zinc,
                 'danger' => Color::Rose,
                 'warning' => Color::Amber,
@@ -60,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
                 'info' => Color::Cyan,
             ])
             ->font('Inter')
-            ->brandName('GR Motors')
+            ->brandName('Qemt Njet')
             ->favicon(function (): string {
                 $favicon = Setting::where('key', 'site_favicon')->value('value');
 
@@ -74,6 +74,20 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2.5rem')
             ->sidebarCollapsibleOnDesktop()
             ->sidebarWidth('16rem')
+            ->navigationGroups([
+                \Filament\Navigation\NavigationGroup::make('الطلبات')
+                    ->icon('heroicon-o-shopping-cart'),
+                \Filament\Navigation\NavigationGroup::make('العملاء')
+                    ->icon('heroicon-o-users'),
+                \Filament\Navigation\NavigationGroup::make('الكتالوج')
+                    ->icon('heroicon-o-rectangle-stack'),
+                \Filament\Navigation\NavigationGroup::make('الفريق')
+                    ->icon('heroicon-o-user-group'),
+                \Filament\Navigation\NavigationGroup::make('المحتوى')
+                    ->icon('heroicon-o-document-text'),
+                \Filament\Navigation\NavigationGroup::make('الإعدادات والتحليلات')
+                    ->icon('heroicon-o-cog-6-tooth'),
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -100,28 +114,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook('panels::head.end', function (): string {
                 $dir = app()->isLocale('ar') ? 'rtl' : 'ltr';
+                $cssUrl = asset('css/filament/dashboard.css');
 
-                return "<script>document.documentElement.setAttribute('dir', '{$dir}')</script>";
-            })
-            ->renderHook('panels::styles.after', function (): string {
-                return <<<'CSS'
-                <style>
-                    [dir="rtl"] .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
-                        border-left: none !important;
-                        border-right: 3px solid #c9a227 !important;
-                    }
-                    [dir="rtl"] .fi-stats-overview-stat::before {
-                        left: auto !important;
-                        right: 0 !important;
-                    }
-                    [dir="rtl"] .quick-action-card {
-                        text-align: center;
-                    }
-                    [dir="rtl"] .fi-sidebar {
-                        background: linear-gradient(180deg, #171310 0%, #211a13 100%) !important;
-                    }
-                </style>
-                CSS;
+                return "<script>document.documentElement.setAttribute('dir', '{$dir}')</script><link rel=\"stylesheet\" href=\"{$cssUrl}?v=".time().'">';
             });
     }
 }

@@ -17,16 +17,16 @@ class CoreValueResource extends Resource
 {
     protected static ?string $model = CoreValue::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-heart';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 7;
 
     public static function getModelLabel(): string
     {

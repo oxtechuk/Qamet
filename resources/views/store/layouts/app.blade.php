@@ -15,13 +15,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
-        $siteName = $globalSettings['site_name'] ?? 'GR Motors';
+        $siteName = $globalSettings['site_name'] ?? 'Qemt Najd';
         if (is_array($siteName)) {
-            $siteName = $siteName[App::getLocale()] ?? ($siteName['ar'] ?? 'GR Motors');
+            $siteName = $siteName[App::getLocale()] ?? ($siteName['ar'] ?? 'Qemt Najd');
         }
     @endphp
     <title>@yield('title', $siteName)</title>
-    <meta name="description" content="@yield('meta_description', __('GR Motors - معرض سيارات فاخر'))">
+    <meta name="description" content="@yield('meta_description', __('Qemt Najd - معرض سيارات فاخر'))">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,12 +117,12 @@
 
                 {{-- Navigation Links --}}
                 <div class="sidebar-links">
-                    <a href="{{ route('store.home') }}" class="{{ request()->routeIs('store.home') ? 'active' : '' }}">{{ __('الرئيسية') }}</a>
-                    <a href="{{ route('store.cars.index') }}" class="{{ request()->routeIs('store.cars.index') ? 'active' : '' }}">{{ __('السيارات') }}</a>
-                    <a href="{{ route('store.offers.index') }}" class="{{ request()->routeIs('store.offers.index') ? 'active' : '' }}">{{ __('الإعلانات') }}</a>
-                    <a href="{{ route('store.about') }}" class="{{ request()->routeIs('store.about') ? 'active' : '' }}">{{ __('من نحن') }}</a>
-                    <a href="{{ route('store.blog.index') }}" class="{{ request()->routeIs('store.blog.index') ? 'active' : '' }}">{{ __('المقالات') }}</a>
-                    <a href="{{ route('store.calculator') }}" class="{{ request()->routeIs('store.calculator') ? 'active' : '' }} text-primary fw-bold">{{ __('الحاسبة') }}</a>
+                    <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}" class="{{ request()->routeIs('store.home') ? 'active' : '' }}">{{ __('الرئيسية') }}</a>
+                    <a href="{{ Route::has('store.cars.index') ? route('store.cars.index') : url('/cars') }}" class="{{ request()->routeIs('store.cars.*') ? 'active' : '' }}">{{ __('السيارات') }}</a>
+                    <a href="{{ Route::has('store.offers.index') ? route('store.offers.index') : url('/offers') }}" class="{{ request()->routeIs('store.offers.*') ? 'active' : '' }}">{{ __('الإعلانات') }}</a>
+                    <a href="{{ Route::has('store.about') ? route('store.about') : url('/about') }}" class="{{ request()->routeIs('store.about') ? 'active' : '' }}">{{ __('من نحن') }}</a>
+                    <a href="{{ Route::has('store.blog.index') ? route('store.blog.index') : url('/blog') }}" class="{{ request()->routeIs('store.blog.*') ? 'active' : '' }}">{{ __('المقالات') }}</a>
+                    <a href="{{ Route::has('store.calculator') ? route('store.calculator') : url('/calculator') }}" class="{{ request()->routeIs('store.calculator') ? 'active' : '' }} text-primary fw-bold">{{ __('الحاسبة') }}</a>
                 </div>
 
                 {{-- Sidebar Footer: Language & Social --}}
@@ -214,7 +214,7 @@
             btn.innerHTML = '<span style="opacity:0.7">{{ __("جاري الإرسال...") }}</span>';
 
             try {
-                const res = await fetch('{{ route("store.newsletter.subscribe") }}', {
+                const res = await fetch('{{ Route::has("store.newsletter.subscribe") ? route("store.newsletter.subscribe") : "#" }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -358,7 +358,7 @@
                     <a href="#">{{ __('الشروط والأحكام') }}</a>
                 </div>
                 <div class="fb-copy">
-                    &copy; {{ date('Y') }} GR Motors. {{ __('جميع الحقوق محفوظة.') }}
+                    &copy; {{ date('Y') }} Qemt Najd. {{ __('جميع الحقوق محفوظة.') }}
                 </div>
             </div>
         </div>

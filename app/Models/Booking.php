@@ -97,6 +97,11 @@ class Booking extends Model
         return $this->hasMany(BookingDocument::class)->latest();
     }
 
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class)->latest();
+    }
+
     public function getStatusLabelAttribute(): string
     {
         return self::STATUSES[$this->status]['label'] ?? $this->status;

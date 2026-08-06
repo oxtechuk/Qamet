@@ -17,16 +17,16 @@ class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 6;
 
     public static function getModelLabel(): string
     {
@@ -86,6 +86,7 @@ class OfferResource extends Resource
                             ->schema([
                                 Forms\Components\FileUpload::make('image')->label(__('Image'))
                                     ->image()
+                                    ->disk('public')
                                     ->directory('offers')
                                     ->visibility('public'),
                                 Forms\Components\Toggle::make('is_active')

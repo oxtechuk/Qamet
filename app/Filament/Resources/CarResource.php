@@ -9,8 +9,6 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Wizard;
-use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,16 +17,16 @@ class CarResource extends Resource
 {
     protected static ?string $model = Car::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-truck';
+    protected static string|\BackedEnum|null $navigationIcon = null;
+
+    protected static ?int $navigationSort = 1;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
-
-    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {
@@ -43,168 +41,200 @@ class CarResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->schema([
-                Wizard::make([
-                    Step::make(__('Basic Information'))
-                        ->icon('heroicon-o-information-circle')
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    Grid::make(2)
-                                        ->schema([
-                                            Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')
-                                                ->required()
-                                                ->maxLength(255),
-                                            Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')
-                                                ->required()
-                                                ->maxLength(255),
-                                            Forms\Components\TextInput::make('model')->label(__('Model'))
-                                                ->maxLength(255),
-                                        ]),
-                                    Grid::make(3)
-                                        ->schema([
-                                            Forms\Components\Select::make('brand_id')->label(__('Brand'))
-                                                ->relationship('brand', 'name')
-                                                ->required()
-                                                ->searchable()
-                                                ->preload(),
-                                            Forms\Components\Select::make('car_category_id')->label(__('Car Category'))
-                                                ->relationship('category', 'name')
-                                                ->searchable()
-                                                ->preload(),
-                                            Forms\Components\TextInput::make('year')->label(__('Year'))
-                                                ->numeric()
-                                                ->minValue(1990)
-                                                ->maxValue(now()->year + 1),
-                                        ]),
-                                    Forms\Components\RichEditor::make('description_ar')->label(__('Description').' ('.__('Arabic').')')
-                                        ->columnSpanFull(),
-                                    Forms\Components\RichEditor::make('description_en')->label(__('Description').' ('.__('English').')')
-                                        ->columnSpanFull(),
-                                ]),
-                        ]),
+                // Left/Main Column: Basic Info, Pricing, Specs, Description (2/3 Width)
+                Grid::make(1)
+                    ->columnSpan(2)
+                    ->schema([
+                        Section::make(__('Basic Information'))
+                            ->icon('heroicon-o-information-circle')
+                            ->schema([
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')
+                                            ->required()
+                                            ->maxLength(255),
+                                        Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')
+                                            ->required()
+                                            ->maxLength(255),
+                                        Forms\Components\TextInput::make('model')->label(__('Model'))
+                                            ->maxLength(255),
+                                    ]),
+                                Grid::make(3)
+                                    ->schema([
+                                        Forms\Components\Select::make('brand_id')->label(__('Brand'))
+                                            ->relationship('brand', 'name')
+                                            ->required()
+                                            ->searchable()
+                                            ->preload()
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('name_ar')
+                                                    ->label(__('Name').' ('.__('Arabic').')')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('name_en')
+                                                    ->label(__('Name').' ('.__('English').')')
+                                                    ->required(),
+                                            ]),
+                                        Forms\Components\Select::make('car_category_id')->label(__('Car Category'))
+                                            ->relationship('category', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('name_ar')
+                                                    ->label(__('Name').' ('.__('Arabic').')')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('name_en')
+                                                    ->label(__('Name').' ('.__('English').')')
+                                                    ->required(),
+                                            ]),
+                                        Forms\Components\TextInput::make('year')->label(__('Year'))
+                                            ->numeric()
+                                            ->minValue(1990)
+                                            ->maxValue(now()->year + 1),
+                                    ]),
+                            ]),
 
-                    Step::make(__('Pricing'))
-                        ->icon('heroicon-o-currency-dollar')
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    Grid::make(3)
-                                        ->schema([
-                                            Forms\Components\TextInput::make('cash_price')->label(__('Cash Price'))
-                                                ->numeric()
-                                                ->prefix(__('SAR'))
-                                                ->required(),
-                                            Forms\Components\TextInput::make('min_down_payment')->label(__('Min Down Payment'))
-                                                ->numeric()
-                                                ->prefix(__('SAR')),
-                                            Forms\Components\TextInput::make('min_installment')->label(__('Min Installment'))
-                                                ->numeric()
-                                                ->prefix(__('SAR/month')),
-                                        ]),
-                                ]),
-                        ]),
+                        Section::make(__('Pricing'))
+                            ->icon('heroicon-o-currency-dollar')
+                            ->schema([
+                                Grid::make(3)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('cash_price')->label(__('Cash Price'))
+                                            ->numeric()
+                                            ->prefix(__('SAR'))
+                                            ->required(),
+                                        Forms\Components\TextInput::make('min_down_payment')->label(__('Min Down Payment'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                        Forms\Components\TextInput::make('min_installment')->label(__('Min Installment'))
+                                            ->numeric()
+                                            ->prefix(__('SAR/month')),
+                                    ]),
+                            ]),
 
-                    Step::make(__('Specifications'))
-                        ->icon('heroicon-o-list-bullet')
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    Grid::make(3)
-                                        ->schema([
-                                            Forms\Components\Select::make('specifications')->label(__('Specifications'))
-                                                ->relationship('specifications', 'name')
-                                                ->multiple()
-                                                ->preload()
-                                                ->searchable(),
-                                            Forms\Components\Select::make('features')->label(__('Features'))
-                                                ->relationship('features_list', 'name')
-                                                ->multiple()
-                                                ->preload()
-                                                ->searchable(),
-                                            Forms\Components\Select::make('safetyFeatures')->label(__('SafetyFeatures'))
-                                                ->relationship('safety_features', 'name')
-                                                ->multiple()
-                                                ->preload()
-                                                ->searchable(),
-                                        ]),
-                                    //                                    Forms\Components\KeyValue::make('specs')->label(__('Specs'))
-                                    //                                        ->keyLabel(__('Specification'))
-                                    //                                        ->valueLabel(__('Value'))
-                                    //                                        ->addActionLabel(__('Add spec')),
-                                ]),
-                        ]),
+                        Section::make(__('Specifications & Features'))
+                            ->icon('heroicon-o-list-bullet')
+                            ->schema([
+                                Grid::make(3)
+                                    ->schema([
+                                        Forms\Components\Select::make('specifications')->label(__('Specifications'))
+                                            ->relationship('specifications', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable()
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('name_ar')
+                                                    ->label(__('Name').' ('.__('Arabic').')')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('name_en')
+                                                    ->label(__('Name').' ('.__('English').')')
+                                                    ->required(),
+                                            ]),
+                                        Forms\Components\Select::make('features')->label(__('Features'))
+                                            ->relationship('features_list', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable()
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('name_ar')
+                                                    ->label(__('Name').' ('.__('Arabic').')')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('name_en')
+                                                    ->label(__('Name').' ('.__('English').')')
+                                                    ->required(),
+                                            ]),
+                                        Forms\Components\Select::make('safetyFeatures')->label(__('SafetyFeatures'))
+                                            ->relationship('safety_features', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable()
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('name_ar')
+                                                    ->label(__('Name').' ('.__('Arabic').')')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('name_en')
+                                                    ->label(__('Name').' ('.__('English').')')
+                                                    ->required(),
+                                            ]),
+                                    ]),
+                            ]),
 
-                    Step::make(__('Media & Colors'))
-                        ->icon('heroicon-o-photo')
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    Forms\Components\FileUpload::make('thumbnail')->label(__('Thumbnail'))
-                                        ->image()
-                                        ->directory('cars/thumbnails')
-                                        ->visibility('public'),
-                                    Forms\Components\FileUpload::make('exterior_images')->label(__('Exterior Images'))
-                                        ->multiple()
-                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
-                                        ->maxSize(5120)
-                                        ->directory('cars/exterior')
-                                        ->visibility('public'),
-                                    Forms\Components\FileUpload::make('interior_images')->label(__('Interior Images'))
-                                        ->multiple()
-                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
-                                        ->maxSize(5120)
-                                        ->directory('cars/interior')
-                                        ->visibility('public'),
-                                    Forms\Components\Repeater::make('colors')->label(__('Colors'))
-                                        ->schema([
-                                            Grid::make(3)
-                                                ->schema([
-                                                    Forms\Components\TextInput::make('name')
-                                                        ->required(),
-                                                    Forms\Components\ColorPicker::make('hex')->label(__('Hex'))
-                                                        ->required(),
-                                                    Forms\Components\FileUpload::make('image')->label(__('Image'))
-                                                        ->image()
-                                                        ->directory('cars/colors')
-                                                        ->visibility('public'),
-                                                ]),
-                                        ])
-                                        ->addActionLabel(__('Add Color')),
-                                ]),
-                        ]),
+                        Section::make(__('Descriptions'))
+                            ->collapsible()
+                            ->schema([
+                                Forms\Components\RichEditor::make('description_ar')->label(__('Description').' ('.__('Arabic').')')
+                                    ->columnSpanFull(),
+                                Forms\Components\RichEditor::make('description_en')->label(__('Description').' ('.__('English').')')
+                                    ->columnSpanFull(),
+                            ]),
+                    ]),
 
-                    Step::make(__('Settings'))
-                        ->icon('heroicon-o-cog-6-tooth')
-                        ->schema([
-                            Section::make()
-                                ->schema([
-                                    Grid::make(3)
-                                        ->schema([
-                                            Forms\Components\Toggle::make('is_featured')
-                                                ->label(__('Featured Car')),
-                                            Forms\Components\Toggle::make('is_active')
-                                                ->label(__('Active'))
-                                                ->default(true),
-                                            Forms\Components\Select::make('availability_status')->label(__('Availability Status'))
-                                                ->options([
-                                                    'available' => __('Available'),
-                                                    'sold' => __('Sold'),
-                                                    'reserved' => __('Reserved'),
-                                                    'coming_soon' => __('Coming Soon'),
-                                                ])
-                                                ->default('available'),
-                                        ]),
-                                    Forms\Components\Select::make('highlight_id')->label(__('Highlight'))
-                                        ->relationship('highlight', 'text_en')
-                                        ->searchable()
-                                        ->preload()
-                                        ->nullable()
-                                        ->helperText(__('Optional highlight tag for this car')),
-                                ]),
-                        ]),
-                ])
-                    ->columnSpanFull(),
+                // Right/Side Column: Settings & Media (1/3 Width)
+                Grid::make(1)
+                    ->columnSpan(1)
+                    ->schema([
+                        Section::make(__('Settings'))
+                            ->icon('heroicon-o-cog-6-tooth')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_active')
+                                    ->label(__('Active'))
+                                    ->default(true),
+                                Forms\Components\Toggle::make('is_featured')
+                                    ->label(__('Featured Car')),
+                                Forms\Components\Select::make('availability_status')->label(__('Availability Status'))
+                                    ->options([
+                                        'available' => __('Available'),
+                                        'sold' => __('Sold'),
+                                        'reserved' => __('Reserved'),
+                                        'coming_soon' => __('Coming Soon'),
+                                    ])
+                                    ->default('available'),
+                                Forms\Components\Select::make('highlight_id')->label(__('Highlight'))
+                                    ->relationship('highlight', 'text_en')
+                                    ->searchable()
+                                    ->preload()
+                                    ->nullable()
+                                    ->helperText(__('Optional highlight tag for this car')),
+                            ]),
+
+                        Section::make(__('Media & Colors'))
+                            ->icon('heroicon-o-photo')
+                            ->schema([
+                                Forms\Components\FileUpload::make('thumbnail')->label(__('Thumbnail'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('cars/thumbnails')
+                                    ->visibility('public'),
+                                Forms\Components\FileUpload::make('exterior_images')->label(__('Exterior Images'))
+                                    ->multiple()
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                    ->maxSize(5120)
+                                    ->disk('public')
+                                    ->directory('cars/exterior')
+                                    ->visibility('public'),
+                                Forms\Components\FileUpload::make('interior_images')->label(__('Interior Images'))
+                                    ->multiple()
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                    ->maxSize(5120)
+                                    ->disk('public')
+                                    ->directory('cars/interior')
+                                    ->visibility('public'),
+                                Forms\Components\Repeater::make('colors')->label(__('Colors'))
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+                                        Forms\Components\ColorPicker::make('hex')->label(__('Hex'))
+                                            ->required(),
+                                        Forms\Components\FileUpload::make('image')->label(__('Image'))
+                                            ->image()
+                                            ->disk('public')
+                                            ->directory('cars/colors')
+                                            ->visibility('public'),
+                                    ])
+                                    ->addActionLabel(__('Add Color')),
+                            ]),
+                    ]),
             ]);
     }
 

@@ -537,18 +537,6 @@ main>div,
     max-width: 100% !important;
 }
 
-.fi-sidebar-item-label {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: var(--text-sm);
-    line-height: var(--tw-leading, var(--text-sm--line-height));
-    --tw-font-weight: var(--font-weight-medium);
-    font-weight: var(--font-weight-medium);
-    color: oklch(0.63 0 0) ! IMPORTANT;
-    flex: 1;
-    overflow: hidden;
-}
-
 /* ==========================================================================
    10. Compact Settings Page Layout (Zero Wasted Whitespace)
    ========================================================================== */

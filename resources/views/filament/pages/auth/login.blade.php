@@ -6,7 +6,7 @@
                 <i class="bi bi-shield-lock-fill"></i>
                 {{ __('نظام الإدارة الآمن | قمة نجد') }}
             </div>
-            <a href="{{ route('store.home') }}" style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#94a3b8'">
+            <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}" style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;" onmouseover="this.style.color='#dfc674'" onmouseout="this.style.color='#94a3b8'">
                 <i class="bi bi-globe"></i>
                 {{ __('المتجر') }}
             </a>
@@ -48,7 +48,11 @@
         <div class="form-content-wrapper">
             <div class="logo-section">
                 <div class="logo-img-wrapper">
-                    <img src="{{ asset('images/logo_without_bg.png') }}" alt="قمة نجد Logo" style="max-height: 70px; width: auto; filter: drop-shadow(0 4px 12px rgba(41, 155, 224, 0.2));">
+                    @php
+                        $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value');
+                        $logoUrl = $siteLogo ? asset('storage/' . $siteLogo) : asset('images/logo_without_bg.png');
+                    @endphp
+                    <img src="{{ $logoUrl }}" alt="قمة نجد Logo" style="max-height: 75px; width: auto; filter: drop-shadow(0 4px 16px rgba(223, 198, 116, 0.35));">
                 </div>
                 <div class="logo-badge">
                     <i class="bi bi-shield-fill-check"></i>
@@ -66,7 +70,7 @@
         </div>
 
         <div class="footer-text">
-            &copy; {{ date('Y') }} <a href="{{ route('store.home') }}">قمة نجد</a> Dashboard. All rights reserved.
+            &copy; {{ date('Y') }} <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}">قمة نجد</a> Dashboard. All rights reserved.
         </div>
     </div>
 

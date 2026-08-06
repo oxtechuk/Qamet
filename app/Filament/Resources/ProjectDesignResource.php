@@ -17,16 +17,16 @@ class ProjectDesignResource extends Resource
 {
     protected static ?string $model = ProjectDesign::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-photo';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 9;
 
     public static function getModelLabel(): string
     {

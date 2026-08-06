@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Language" content="{{ App::getLocale() }}">
-    <title>{{ __('تسجيل الدخول | GR Motors') }}</title>
+    <title>{{ __('تسجيل الدخول | Qemt Najd') }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -415,7 +415,7 @@
         </div>
 
         <div class="footer-copy">
-            &copy; {{ date('Y') }} GR Motors. {{ __('جميع الحقوق محفوظة') }}
+            &copy; {{ date('Y') }} Qemt Najd. {{ __('جميع الحقوق محفوظة') }}
         </div>
     </div>
 

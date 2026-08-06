@@ -1,5 +1,5 @@
 /* ============================================
-   GR Motors - Store Frontend
+   Qemt Najd - Store Frontend
    Design System from Figma
    OX TECH.UK / oxtech.uk
    ============================================ */
@@ -3352,7 +3352,7 @@ body {
 }
 
 /* =============================================
-   GR MOTORS – PRODUCT DETAIL STYLES
+   Qemt Najd – PRODUCT DETAIL STYLES
    ============================================= */
 
 /* ---------- BUTTONS (Specific to this page if different from layout) ---------- */
@@ -3524,8 +3524,7 @@ body {
   transform: scale(1.15);
 }
 
-.product__color--active {
-}
+.product__color--active {}
 
 .product__actions {
   display: flex;

@@ -1,6 +1,6 @@
 @extends('store.layouts.app')
 
-@section('title', __('من نحن') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'GR Motors')) : ($globalSettings['site_name'] ?? 'GR Motors')))
+@section('title', __('من نحن') . ' | ' . (is_array($globalSettings['site_name'] ?? null) ? ($globalSettings['site_name'][App::getLocale()] ?? ($globalSettings['site_name']['ar'] ?? 'Qemt Najd')) : ($globalSettings['site_name'] ?? 'Qemt Najd')))
 
 @section('breadcrumb-title', __('من نحن'))
 
@@ -96,7 +96,7 @@
             
             @if($index == 4)
               <div class="gallery__item gallery__item--logo">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="GR Motors" class="gallery__logo" />
+                <img src="{{ asset('assets/images/logo.png') }}" alt="Qemt Najd" class="gallery__logo" />
               </div>
             @endif
 
@@ -114,7 +114,7 @@
             
             @if($index == 4)
               <div class="gallery__item gallery__item--logo">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="GR Motors" class="gallery__logo" />
+                <img src="{{ asset('assets/images/logo.png') }}" alt="Qemt Najd" class="gallery__logo" />
               </div>
             @endif
 
@@ -131,7 +131,7 @@
         {{-- Fallback if less than 5 cars --}}
         @if($bentoCars->count() < 4)
            <div class="gallery__item gallery__item--logo">
-              <img src="{{ asset('assets/images/logo.png') }}" alt="GR Motors" class="gallery__logo" />
+              <img src="{{ asset('assets/images/logo.png') }}" alt="Qemt Najd" class="gallery__logo" />
             </div>
         @endif
       </div>
@@ -194,7 +194,7 @@
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="{{ __('موقع GR Motors') }}"
+          title="{{ __('موقع Qemt Najd') }}"
           class="contact__map-iframe"
         ></iframe>
       </div>

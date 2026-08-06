@@ -17,16 +17,16 @@ class CalculatorBankResource extends Resource
 {
     protected static ?string $model = CalculatorBank::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-building-library';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Sales & Customers');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 11;
 
     public static function getModelLabel(): string
     {

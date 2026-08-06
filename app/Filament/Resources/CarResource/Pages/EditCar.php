@@ -11,6 +11,11 @@ class EditCar extends EditRecord
 {
     protected static string $resource = CarResource::class;
 
+    public function getMaxWidth(): string
+    {
+        return 'full';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -38,6 +43,10 @@ class EditCar extends EditRecord
         $car->images()->where('type', $type)->delete();
 
         foreach (array_values($paths) as $index => $path) {
+            if (! is_string($path) || empty($path)) {
+                continue;
+            }
+
             $car->images()->create([
                 'image_path' => $path,
                 'type' => $type,

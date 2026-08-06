@@ -17,16 +17,16 @@ class TestimonialResource extends Resource
 {
     protected static ?string $model = Testimonial::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Content');
+        return 'المحتوى';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public static function getModelLabel(): string
     {
@@ -49,8 +49,8 @@ class TestimonialResource extends Resource
                     Forms\Components\TextInput::make('title_en')->label(__('Title').' ('.__('English').')')->maxLength(255),
                 ]),
                 Grid::make(2)->schema([
-                    Forms\Components\FileUpload::make('image')->label(__('Image'))->image()->directory('testimonials')->visibility('public'),
-                    Forms\Components\FileUpload::make('review_image')->label(__('Review Image'))->image()->directory('testimonials/reviews'),
+                    Forms\Components\FileUpload::make('image')->label(__('Image'))->image()->disk('public')->directory('testimonials')->visibility('public'),
+                    Forms\Components\FileUpload::make('review_image')->label(__('Review Image'))->image()->disk('public')->directory('testimonials/reviews')->visibility('public'),
                 ]),
                 Forms\Components\Textarea::make('content_ar')->label(__('Content').' ('.__('Arabic').')')->columnSpanFull(),
                 Forms\Components\Textarea::make('content_en')->label(__('Content').' ('.__('English').')')->columnSpanFull(),
@@ -74,7 +74,7 @@ class TestimonialResource extends Resource
                 Tables\Columns\IconColumn::make('is_visible')->label(__('Visible'))->boolean()->sortable(),
             ])
             ->filters([Tables\Filters\TernaryFilter::make('is_visible')])
-            ->actions([Actions\EditAction::make(), Actions\DeleteAction::make()])
+            ->actions([Actions\EditAction::make()->slideOver()->modalWidth('xl'), Actions\DeleteAction::make()])
             ->bulkActions([Actions\BulkActionGroup::make([Actions\DeleteBulkAction::make()])])
             ->defaultSort('sort_order');
     }

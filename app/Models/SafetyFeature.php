@@ -13,7 +13,7 @@ class SafetyFeature extends Model
 
     public $translatable = ['name', 'value'];
 
-    protected $fillable = ['name', 'value', 'icon'];
+    protected $fillable = ['name', 'name_ar', 'name_en', 'value', 'icon'];
 
     public function cars(): BelongsToMany
     {

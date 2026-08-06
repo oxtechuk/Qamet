@@ -8,6 +8,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
+// Newsletter subscription endpoint
+Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request) {
+    $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+        'email' => 'required|email|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => __('يرجى إدخال بريد إلكتروني صحيح'),
+        ], 422);
+    }
+
+    \App\Models\NewsletterSubscriber::firstOrCreate(['email' => $request->email]);
+
+    return response()->json([
+        'success' => true,
+        'message' => __('تم الاشتراك بنجاح في النشرة البريدية!'),
+    ]);
+})->name('store.newsletter.subscribe');
+
 // =============================================
 //  React Single Page Application (SPA)
 // =============================================
@@ -17,7 +38,7 @@ Route::get('/', function () {
 
 Route::get('/{any}', function () {
     return response()->file(public_path('index.html'));
-})->where('any', '^(?!admin|api|store-api|storage).*$')->middleware('maintenance');
+})->where('any', '^(?!.*(admin|api|store-api|storage)).*$')->middleware('maintenance');
 
 // =============================================
 //  Redirects & Fallback

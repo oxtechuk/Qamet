@@ -17,16 +17,16 @@ class CalculatorLeadResource extends Resource
 {
     protected static ?string $model = CalculatorLead::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-calculator';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Sales & Customers');
+        return 'الطلبات';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {

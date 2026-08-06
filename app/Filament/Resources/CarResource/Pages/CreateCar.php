@@ -10,6 +10,11 @@ class CreateCar extends CreateRecord
 {
     protected static string $resource = CarResource::class;
 
+    public function getMaxWidth(): string
+    {
+        return 'full';
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $name = $data['name_en'] ?? '';
@@ -23,7 +28,7 @@ class CreateCar extends CreateRecord
         return $data;
     }
 
-    protected function afterSave(): void
+    protected function afterCreate(): void
     {
         $this->syncCarImages($this->record, $this->data['exterior_images'] ?? [], 'exterior');
         $this->syncCarImages($this->record, $this->data['interior_images'] ?? [], 'interior');
@@ -34,6 +39,10 @@ class CreateCar extends CreateRecord
         $car->images()->where('type', $type)->delete();
 
         foreach (array_values($paths) as $index => $path) {
+            if (! is_string($path) || empty($path)) {
+                continue;
+            }
+
             $car->images()->create([
                 'image_path' => $path,
                 'type' => $type,

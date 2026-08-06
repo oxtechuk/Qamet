@@ -22,6 +22,8 @@ class Dashboard extends BaseDashboard
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-home';
 
+    protected static ?int $navigationSort = 0;
+
     public function getWidgets(): array
     {
         return [

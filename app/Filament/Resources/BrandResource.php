@@ -17,16 +17,16 @@ class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-building-office-2';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     public static function getModelLabel(): string
     {
@@ -61,6 +61,7 @@ class BrandResource extends Resource
                             ->schema([
                                 Forms\Components\FileUpload::make('logo')->label(__('Logo'))
                                     ->image()
+                                    ->disk('public')
                                     ->directory('brands/logos')
                                     ->visibility('public'),
                                 Forms\Components\Toggle::make('is_active')
@@ -103,7 +104,7 @@ class BrandResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_active'),
             ])
             ->actions([
-                Actions\EditAction::make(),
+                Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
                 Actions\DeleteAction::make(),
             ])
             ->bulkActions([

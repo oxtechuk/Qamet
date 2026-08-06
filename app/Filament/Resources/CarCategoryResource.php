@@ -17,16 +17,16 @@ class CarCategoryResource extends Resource
 {
     protected static ?string $model = CarCategory::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-folder';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Catalog');
+        return 'الكتالوج';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 9;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {
@@ -65,7 +65,7 @@ class CarCategoryResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')->label(__('Active'))->boolean()->sortable(),
             ])
             ->filters([Tables\Filters\TernaryFilter::make('is_active')])
-            ->actions([Actions\EditAction::make(), Actions\DeleteAction::make()])
+            ->actions([Actions\EditAction::make()->slideOver()->modalWidth('xl'), Actions\DeleteAction::make()])
             ->bulkActions([Actions\BulkActionGroup::make([Actions\DeleteBulkAction::make()])])
             ->defaultSort('sort_order');
     }

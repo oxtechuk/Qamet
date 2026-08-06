@@ -7,7 +7,6 @@ use App\Models\Employee;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -18,11 +17,11 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-user-circle';
+    protected static string|\BackedEnum|null $navigationIcon = null;
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Team');
+        return 'الفريق';
     }
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -45,54 +44,50 @@ class EmployeeResource extends Resource
             ->schema([
                 Section::make()
                     ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                Forms\Components\TextInput::make('name')->label(__('Name'))
-                                    ->required()
-                                    ->maxLength(255),
-                                Forms\Components\TextInput::make('username')->label(__('Username'))
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true),
-                            ]),
-                        Grid::make(2)
-                            ->schema([
-                                Forms\Components\TextInput::make('email')->label(__('Email'))
-                                    ->email()
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true),
-                                Forms\Components\TextInput::make('phone')->label(__('Phone'))
-                                    ->tel()
-                                    ->maxLength(20),
-                            ]),
-                        Grid::make(2)
-                            ->schema([
-                                Forms\Components\Select::make('roles')->label(__('Role'))
-                                    ->relationship('roles', 'name')
-                                    ->multiple()
-                                    ->preload()
-                                    ->searchable(),
-                                Forms\Components\FileUpload::make('avatar')->label(__('Avatar'))
-                                    ->image()
-                                    ->directory('employees/avatars')
-                                    ->visibility('public')
-                                    ->imageResizeMode('cover')
-                                    ->imageCropAspectRatio('1:1')
-                                    ->imageResizeTargetWidth('150')
-                                    ->imageResizeTargetHeight('150'),
-                            ]),
-                        Grid::make(2)
-                            ->schema([
-                                Forms\Components\TextInput::make('password')->label(__('Password'))
-                                    ->password()
-                                    ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
-                                    ->dehydrated(fn ($state) => filled($state))
-                                    ->required(fn (string $operation): bool => $operation === 'create')
-                                    ->maxLength(255),
-                                Forms\Components\Toggle::make('is_active')
-                                    ->label(__('Active'))
-                                    ->default(true),
-                            ]),
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('Name'))
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('username')
+                            ->label(__('Username'))
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                        Forms\Components\TextInput::make('email')
+                            ->label(__('Email'))
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                        Forms\Components\TextInput::make('phone')
+                            ->label(__('Phone'))
+                            ->tel()
+                            ->maxLength(20),
+                        Forms\Components\Select::make('roles')
+                            ->label(__('Role'))
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+                        Forms\Components\FileUpload::make('avatar')
+                            ->label(__('Avatar'))
+                            ->image()
+                            ->disk('public')
+                            ->directory('employees/avatars')
+                            ->visibility('public')
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('1:1')
+                            ->imageResizeTargetWidth('150')
+                            ->imageResizeTargetHeight('150'),
+                        Forms\Components\TextInput::make('password')
+                            ->label(__('Password'))
+                            ->password()
+                            ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->maxLength(255),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label(__('Active'))
+                            ->default(true),
                     ]),
             ]);
     }
@@ -143,7 +138,7 @@ class EmployeeResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_active'),
             ])
             ->actions([
-                Actions\EditAction::make(),
+                Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
                 Actions\DeleteAction::make(),
             ])
             ->bulkActions([
@@ -163,8 +158,6 @@ class EmployeeResource extends Resource
     {
         return [
             'index' => Pages\ListEmployees::route('/'),
-            'create' => Pages\CreateEmployee::route('/create'),
-            'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
 }
