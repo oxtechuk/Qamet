@@ -43,9 +43,35 @@ class Reports extends Page
 
     public function mount(): void
     {
-        // Default date range: current month
         $this->filters['date_from'] = now()->startOfMonth()->toDateString();
         $this->filters['date_to'] = now()->endOfMonth()->toDateString();
+    }
+
+    public function setQuickFilter(string $period): void
+    {
+        match ($period) {
+            'today' => [
+                $this->filters['date_from'] = now()->toDateString(),
+                $this->filters['date_to'] = now()->toDateString(),
+            ],
+            'week' => [
+                $this->filters['date_from'] = now()->startOfWeek()->toDateString(),
+                $this->filters['date_to'] = now()->endOfWeek()->toDateString(),
+            ],
+            'month' => [
+                $this->filters['date_from'] = now()->startOfMonth()->toDateString(),
+                $this->filters['date_to'] = now()->endOfMonth()->toDateString(),
+            ],
+            'quarter' => [
+                $this->filters['date_from'] = now()->startOfQuarter()->toDateString(),
+                $this->filters['date_to'] = now()->endOfQuarter()->toDateString(),
+            ],
+            'year' => [
+                $this->filters['date_from'] = now()->startOfYear()->toDateString(),
+                $this->filters['date_to'] = now()->endOfYear()->toDateString(),
+            ],
+            default => null,
+        };
     }
 
     protected function applyFilters($query)
@@ -71,14 +97,101 @@ class Reports extends Page
         $query = Booking::query();
         $query = $this->applyFilters($query);
 
+        $total = (clone $query)->count();
+        $sold = (clone $query)->where('status', 'sold')->count();
+        $revenue = (clone $query)->where('status', 'sold')->sum('total_price');
+        $downPayments = (clone $query)->whereNotNull('down_payment')->sum('down_payment');
+        $avgDown = (clone $query)->whereNotNull('down_payment')->avg('down_payment') ?? 0;
+        $avgMonthly = (clone $query)->whereNotNull('monthly_installment')->avg('monthly_installment') ?? 0;
+        $avgDuration = (clone $query)->whereNotNull('duration_years')->avg('duration_years') ?? 0;
+
+        // Previous period for comparison
+        $prev = $this->getPreviousPeriodBookings();
+
         return [
-            'total_bookings' => (clone $query)->count(),
-            'sold_count' => (clone $query)->where('status', 'sold')->count(),
-            'total_revenue' => (clone $query)->where('status', 'sold')->sum('total_price'),
-            'total_down_payments' => (clone $query)->whereNotNull('down_payment')->sum('down_payment'),
-            'avg_down_payment' => (clone $query)->whereNotNull('down_payment')->avg('down_payment') ?? 0,
-            'avg_monthly' => (clone $query)->whereNotNull('monthly_installment')->avg('monthly_installment') ?? 0,
-            'avg_duration' => (clone $query)->whereNotNull('duration_years')->avg('duration_years') ?? 0,
+            'total_bookings' => $total,
+            'sold_count' => $sold,
+            'total_revenue' => $revenue,
+            'total_down_payments' => $downPayments,
+            'avg_down_payment' => $avgDown,
+            'avg_monthly' => $avgMonthly,
+            'avg_duration' => $avgDuration,
+            'prev_total' => $prev['total'],
+            'prev_sold' => $prev['sold'],
+            'prev_revenue' => $prev['revenue'],
+        ];
+    }
+
+    protected function getPreviousPeriodBookings(): array
+    {
+        $from = $this->filters['date_from'];
+        $to = $this->filters['date_to'];
+
+        if (! $from || ! $to) {
+            return ['total' => 0, 'sold' => 0, 'revenue' => 0];
+        }
+
+        $fromDate = \Carbon\Carbon::parse($from);
+        $toDate = \Carbon\Carbon::parse($to);
+        $diff = $fromDate->diffInDays($toDate) + 1;
+
+        $prevFrom = $fromDate->copy()->subDays($diff)->toDateString();
+        $prevTo = $fromDate->copy()->subDay()->toDateString();
+
+        $query = Booking::query()
+            ->whereDate('created_at', '>=', $prevFrom)
+            ->whereDate('created_at', '<=', $prevTo);
+
+        return [
+            'total' => (clone $query)->count(),
+            'sold' => (clone $query)->where('status', 'sold')->count(),
+            'revenue' => (clone $query)->where('status', 'sold')->sum('total_price'),
+        ];
+    }
+
+    public function getBookingStatusBreakdown(): array
+    {
+        $query = Booking::query();
+        $query = $this->applyFilters($query);
+
+        $statuses = array_keys(Booking::STATUSES);
+        $result = [];
+
+        foreach ($statuses as $status) {
+            $result[$status] = (clone $query)->where('status', $status)->count();
+        }
+
+        return $result;
+    }
+
+    public function getKpiBar(): array
+    {
+        $query = Booking::query();
+        $query = $this->applyFilters($query);
+        $totalBookings = (clone $query)->count();
+        $soldCount = (clone $query)->where('status', 'sold')->count();
+
+        $leadsQuery = Lead::query();
+        if ($this->filters['date_from']) {
+            $leadsQuery->whereDate('created_at', '>=', $this->filters['date_from']);
+        }
+        if ($this->filters['date_to']) {
+            $leadsQuery->whereDate('created_at', '<=', $this->filters['date_to']);
+        }
+        $totalLeads = (clone $leadsQuery)->count();
+        $newLeads = (clone $leadsQuery)->where('status', 'new')->count();
+
+        $convRate = $totalLeads > 0 ? round(($soldCount / $totalLeads) * 100, 1) : 0;
+
+        $revenue = (clone $query)->where('status', 'sold')->sum('total_price');
+
+        return [
+            'total_bookings' => $totalBookings,
+            'sold_count' => $soldCount,
+            'total_revenue' => $revenue,
+            'total_leads' => $totalLeads,
+            'new_leads' => $newLeads,
+            'conv_rate' => $convRate,
         ];
     }
 
@@ -129,7 +242,7 @@ class Reports extends Page
             $query->where('id', $this->filters['employee_id']);
         }
 
-        return $query->get()->toArray();
+        return $query->orderByDesc('sold_bookings')->get()->toArray();
     }
 
     public function getSourcePerformance(): array
@@ -153,6 +266,53 @@ class Reports extends Page
         }
 
         return $query->get()->toArray();
+    }
+
+    public function getLeadsStats(): array
+    {
+        $query = Lead::query();
+
+        if ($this->filters['date_from']) {
+            $query->whereDate('created_at', '>=', $this->filters['date_from']);
+        }
+        if ($this->filters['date_to']) {
+            $query->whereDate('created_at', '<=', $this->filters['date_to']);
+        }
+        if ($this->filters['employee_id']) {
+            $query->where('assigned_to', $this->filters['employee_id']);
+        }
+        if ($this->filters['car_id']) {
+            $query->where('car_id', $this->filters['car_id']);
+        }
+
+        $statuses = array_keys(Lead::STATUSES);
+        $result = ['total' => (clone $query)->count()];
+
+        foreach ($statuses as $status) {
+            $result[$status] = (clone $query)->where('status', $status)->count();
+        }
+
+        return $result;
+    }
+
+    public function getLeadsPipeline(): array
+    {
+        $query = Lead::query()->latest()->with(['car.brand', 'employee', 'contactSource']);
+
+        if ($this->filters['date_from']) {
+            $query->whereDate('created_at', '>=', $this->filters['date_from']);
+        }
+        if ($this->filters['date_to']) {
+            $query->whereDate('created_at', '<=', $this->filters['date_to']);
+        }
+        if ($this->filters['employee_id']) {
+            $query->where('assigned_to', $this->filters['employee_id']);
+        }
+        if ($this->filters['car_id']) {
+            $query->where('car_id', $this->filters['car_id']);
+        }
+
+        return $query->limit(15)->get()->toArray();
     }
 
     public function getDetailedBookings(): array

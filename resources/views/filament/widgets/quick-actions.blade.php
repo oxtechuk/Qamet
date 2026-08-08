@@ -26,7 +26,7 @@
                 <span class="quick-action-label">{{ __('New Order') }}</span>
             </a>
 
-            <a href="{{ route('filament.admin.resources.leads.create') }}" class="quick-action-card">
+            <a href="{{ route('filament.admin.resources.leads.index') }}" class="quick-action-card">
                 <div class="quick-action-icon" style="background: #f5f3ff; color: #a855f7;">
                     <x-filament::icon icon="heroicon-m-users" class="w-5 h-5" />
                 </div>
@@ -40,7 +40,7 @@
                 <span class="quick-action-label">{{ __('Create Offer') }}</span>
             </a>
 
-            <a href="{{ route('filament.admin.resources.employees.create') }}" class="quick-action-card">
+            <a href="{{ route('filament.admin.resources.employees.index') }}" class="quick-action-card">
                 <div class="quick-action-icon" style="background: #ecfeff; color: #06b6d4;">
                     <x-filament::icon icon="heroicon-m-building-storefront" class="w-5 h-5" />
                 </div>

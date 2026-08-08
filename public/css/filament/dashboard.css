@@ -190,11 +190,40 @@ header.fi-topbar,
 .fi-sidebar-header {
     background: var(--dark-sidebar) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.75rem 1rem !important;
+    height: 5.5rem !important;
+}
+
+.fi-sidebar-header a,
+.fi-sidebar-header .fi-logo {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    text-align: center !important;
 }
 
 .fi-sidebar-header img {
-    max-height: 2.2rem !important;
+    height: 4.2rem !important;
+    max-height: 4.8rem !important;
+    width: auto !important;
     object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    transition: transform 0.2s ease-in-out !important;
+}
+
+.fi-sidebar-header img:hover {
+    transform: scale(1.03) !important;
+}
+
+.fi-sidebar-header button,
+.fi-sidebar-header .fi-sidebar-collapse-button {
+    margin: 0 !important;
 }
 
 /* ==========================================================================
@@ -560,4 +589,16 @@ main>div,
     padding: 0.75rem !important;
     margin-bottom: 0.5rem !important;
     border-radius: 10px !important;
+}
+
+/* ==========================================================================
+   11. Prevent duplicate logo in topbar on desktop/tablet
+   ========================================================================== */
+@media (min-width: 768px) {
+
+    .fi-topbar .fi-logo,
+    .fi-topbar-header-brand,
+    .fi-topbar-start .fi-logo {
+        display: none !important;
+    }
 }

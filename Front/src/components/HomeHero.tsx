@@ -81,7 +81,7 @@ export default function HomeHero({
     const [carFinderOpen, setCarFinderOpen] = useState(false);
 
     const totalSlides = slides.length;
-    const current = slides[currentSlide];
+    const current = (slides && slides.length > 0) ? slides[currentSlide] : null;
 
     const logoSrc = !logoError
         ? getImageUrl(settings?.logo_color ?? null) || APP_IMAGES.LOGO
@@ -144,7 +144,9 @@ export default function HomeHero({
         { label: t("nav.contact"), path: "/contact" },
     ];
 
-    if (!current || totalSlides === 0) {
+    const hasVideo = !!(getYoutubeId(heroVideoYoutube) || heroVideoUrl);
+
+    if (totalSlides === 0 && !hasVideo) {
         return null;
     }
 
@@ -251,74 +253,76 @@ export default function HomeHero({
 
 
                     {/* Hero text */}
-                    <div
-                        className={[
-                            "absolute z-20",
-                            "inset-x-5 top-1/2 -translate-y-1/2",
-                            "sm:inset-x-8",
-                            "md:w-[38%] md:inset-x-auto",
-                            isRTL
-                                ? "md:right-[5%] lg:right-[6.5%]"
-                                : "md:left-[5%] lg:left-[6.5%]",
-                        ].join(" ")}
-                    >
+                    {current && (
                         <div
                             className={[
-                                "hero-content-in",
-                                "text-start flex flex-col items-start",
-                                "md:text-start md:items-start",
+                                "absolute z-20",
+                                "inset-x-5 top-1/2 -translate-y-1/2",
+                                "sm:inset-x-8",
+                                "md:w-[38%] md:inset-x-auto",
+                                isRTL
+                                    ? "md:right-[5%] lg:right-[6.5%]"
+                                    : "md:left-[5%] lg:left-[6.5%]",
                             ].join(" ")}
                         >
-                            {current.title && (
-                                <h1 className="text-[28px] font-extrabold leading-[1.35] text-white sm:text-[34px] md:text-[31px] lg:text-[36px]">
-                                    {current.title}
-                                </h1>
-                            )}
-
-                            {current.subtitle && (
-                                <p className="mb-2 text-[13px] font-medium text-white/85 sm:text-[14px]">
-                                    {current.subtitle}
-                                </p>
-                            )}
-
                             <div
                                 className={[
-                                    "mt-5 flex flex-col justify-center items-center gap-3",
-                                    "sm:flex-row",
+                                    "hero-content-in",
+                                    "text-start flex flex-col items-start",
+                                    "md:text-start md:items-start",
                                 ].join(" ")}
                             >
-                                {current.buttonText && (
-                                    <NavLink
-                                        to={current.buttonLink || "/cars"}
-                                        className={[
-                                            "flex min-h-[42px] min-w-[120px] items-center justify-center",
-                                            "rounded-[10px] bg-[var(--brand-secondary-color)] px-6",
-                                            "text-[13px] font-bold text-[var(--brand-primary-color)]",
-                                            "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-                                            "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
-                                        ].join(" ")}
-                                    >
-                                        {current.buttonText}
-                                    </NavLink>
+                                {current.title && (
+                                    <h1 className="text-[28px] font-extrabold leading-[1.35] text-white sm:text-[34px] md:text-[31px] lg:text-[36px]">
+                                        {current.title}
+                                    </h1>
                                 )}
 
-                                {current.button2Text && (
-                                    <NavLink
-                                        to={current.button2Link || "/finance-calculator"}
-                                        className={[
-                                            "flex min-h-[42px] min-w-[120px] items-center justify-center",
-                                            "rounded-[10px] bg-white px-6",
-                                            "text-[13px] font-bold text-[var(--brand-primary-color)]",
-                                            "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-                                            "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
-                                        ].join(" ")}
-                                    >
-                                        {current.button2Text}
-                                    </NavLink>
+                                {current.subtitle && (
+                                    <p className="mb-2 text-[13px] font-medium text-white/85 sm:text-[14px]">
+                                        {current.subtitle}
+                                    </p>
                                 )}
+
+                                <div
+                                    className={[
+                                        "mt-5 flex flex-col justify-center items-center gap-3",
+                                        "sm:flex-row",
+                                    ].join(" ")}
+                                >
+                                    {current.buttonText && (
+                                        <NavLink
+                                            to={current.buttonLink || "/cars"}
+                                            className={[
+                                                "flex min-h-[42px] min-w-[120px] items-center justify-center",
+                                                "rounded-[10px] bg-[var(--brand-secondary-color)] px-6",
+                                                "text-[13px] font-bold text-[var(--brand-primary-color)]",
+                                                "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                                                "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
+                                            ].join(" ")}
+                                        >
+                                            {current.buttonText}
+                                        </NavLink>
+                                    )}
+
+                                    {current.button2Text && (
+                                        <NavLink
+                                            to={current.button2Link || "/finance-calculator"}
+                                            className={[
+                                                "flex min-h-[42px] min-w-[120px] items-center justify-center",
+                                                "rounded-[10px] bg-white px-6",
+                                                "text-[13px] font-bold text-[var(--brand-primary-color)]",
+                                                "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                                                "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
+                                            ].join(" ")}
+                                        >
+                                            {current.button2Text}
+                                        </NavLink>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Search bar */}
                     <div className="absolute inset-x-4 bottom-[18%] z-20 sm:inset-x-8 md:bottom-[19%]">

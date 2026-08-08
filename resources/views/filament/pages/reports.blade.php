@@ -1,409 +1,674 @@
 <x-filament-panels::page>
-    <!-- Custom styling for premium look -->
-    <style>
-        .report-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 246, 248, 0.9) 100%);
-            border: 1px solid rgba(223, 198, 116, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .dark .report-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border: 1px solid rgba(223, 198, 116, 0.15);
-        }
-        .report-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(223, 198, 116, 0.12);
-            border-color: rgba(223, 198, 116, 0.5);
-        }
-        .progress-bar-fill {
-            transition: width 0.8s ease-in-out;
-        }
-        .tab-btn {
-            position: relative;
-            transition: all 0.2s ease;
-        }
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background-color: #dfc674;
-            border-radius: 9999px;
-        }
-    </style>
+<style>
+    .rpt-kpi-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 1024px) { .rpt-kpi-bar { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px)  { .rpt-kpi-bar { grid-template-columns: repeat(2, 1fr); } }
 
-    <!-- Filters Section -->
-    <x-filament::section class="mb-2">
-        <x-slot name="heading">
-            <div class="flex items-center gap-2">
-                <x-filament::icon alias="panels::pages.dashboard.navigation-item" icon="heroicon-m-funnel" class="h-5 w-5 text-gray-500" />
-                <span>{{ __('فلاتر التقارير والتحليلات') }}</span>
+    .rpt-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 1024px) { .rpt-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .rpt-stats-grid { grid-template-columns: 1fr; } }
+
+    .rpt-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    @media (max-width: 900px)  { .rpt-two-col { grid-template-columns: 1fr; } }
+
+    .rpt-three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 1024px) { .rpt-three-col { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .rpt-three-col { grid-template-columns: 1fr; } }
+
+    .rpt-emp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 1024px) { .rpt-emp-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .rpt-emp-grid { grid-template-columns: 1fr; } }
+
+    .rpt-source-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 1024px) { .rpt-source-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .rpt-source-grid { grid-template-columns: 1fr; } }
+
+    .rpt-kpi-card {
+        border-radius: 0.875rem;
+        padding: 0.875rem 1rem;
+        display: flex; flex-direction: column; gap: 0.25rem;
+        border: 1px solid;
+    }
+    .rpt-stat-card {
+        border-radius: 1rem;
+        padding: 1.25rem;
+        display: flex; flex-direction: column; gap: 0.375rem;
+        border: 1px solid;
+    }
+    .rpt-trend-up   { color: #10b981; font-size: 0.72rem; font-weight: 600; }
+    .rpt-trend-down { color: #ef4444; font-size: 0.72rem; font-weight: 600; }
+    .rpt-trend-flat { color: #6b7280; font-size: 0.72rem; font-weight: 600; }
+
+    .rpt-badge {
+        display: inline-flex; align-items: center;
+        padding: 2px 10px; border-radius: 999px;
+        font-size: 0.7rem; font-weight: 700; white-space: nowrap;
+    }
+    .rpt-progress-track {
+        width: 100%; background: rgba(100,116,139,0.18);
+        border-radius: 999px; overflow: hidden; height: 7px;
+    }
+    .rpt-progress-fill { height: 7px; border-radius: 999px; transition: width 0.9s cubic-bezier(.4,0,.2,1); }
+
+    .rpt-section {
+        background: rgb(var(--fi-color-gray-50) / 1);
+        border: 1px solid rgb(var(--fi-color-gray-200) / 1);
+        border-radius: 1rem;
+        padding: 1.25rem;
+    }
+    .dark .rpt-section {
+        background: rgb(var(--fi-color-gray-900) / 0.5);
+        border-color: rgb(var(--fi-color-gray-800) / 1);
+    }
+    .rpt-section-title {
+        font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
+        text-transform: uppercase; color: #6b7280;
+        display: flex; align-items: center; gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(100,116,139,0.15);
+    }
+    .rpt-table { width: 100%; font-size: 0.82rem; border-collapse: collapse; }
+    .rpt-table th {
+        padding: 0.6rem 0.875rem; text-align: right;
+        font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: 0.04em; color: #9ca3af;
+        border-bottom: 1px solid rgba(100,116,139,0.15);
+        white-space: nowrap;
+    }
+    .rpt-table td {
+        padding: 0.75rem 0.875rem; vertical-align: middle;
+        border-bottom: 1px solid rgba(100,116,139,0.08);
+    }
+    .rpt-table tr:last-child td { border-bottom: none; }
+    .rpt-table tbody tr:hover { background: rgba(100,116,139,0.05); }
+    .rpt-avatar {
+        width: 2rem; height: 2rem; border-radius: 50%;
+        display: flex; align-items: center; justify-center: center;
+        font-size: 0.7rem; font-weight: 800;
+        flex-shrink: 0;
+    }
+    .rpt-pipeline-bar {
+        display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) { .rpt-pipeline-bar { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 480px) { .rpt-pipeline-bar { grid-template-columns: repeat(2, 1fr); } }
+
+    .rpt-quick-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .rpt-quick-btn {
+        padding: 0.3rem 0.75rem; border-radius: 0.5rem; font-size: 0.72rem; font-weight: 600;
+        background: rgba(100,116,139,0.1); color: #6b7280; cursor: pointer;
+        border: 1px solid transparent; transition: all 0.15s;
+    }
+    .rpt-quick-btn:hover { background: rgba(var(--primary-500), 0.12); color: rgb(var(--primary-600)); }
+    .rpt-rank-gold   { background: #fef3c7; color: #92400e; }
+    .rpt-rank-silver { background: #f1f5f9; color: #475569; }
+    .rpt-rank-bronze { background: #fef3c7; color: #78350f; }
+    .dark .rpt-rank-gold   { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .dark .rpt-rank-silver { background: rgba(100,116,139,0.15); color: #94a3b8; }
+    .dark .rpt-rank-bronze { background: rgba(180,83,9,0.15); color: #f97316; }
+</style>
+
+@php
+    $kpi        = $this->getKpiBar();
+    $prevStats  = null;
+@endphp
+
+{{-- ===== FILTER BAR ===== --}}
+<div class="rpt-section mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div class="rpt-section-title" style="margin-bottom:0; border-bottom:none; padding-bottom:0;">
+            <x-filament::icon icon="heroicon-m-funnel" class="h-4 w-4" />
+            {{ __('فلاتر التقرير') }}
+        </div>
+        {{-- Quick filters --}}
+        <div class="rpt-quick-btns">
+            <button type="button" wire:click="setQuickFilter('today')"   class="rpt-quick-btn">اليوم</button>
+            <button type="button" wire:click="setQuickFilter('week')"    class="rpt-quick-btn">هذا الأسبوع</button>
+            <button type="button" wire:click="setQuickFilter('month')"   class="rpt-quick-btn">هذا الشهر</button>
+            <button type="button" wire:click="setQuickFilter('quarter')" class="rpt-quick-btn">هذا الربع</button>
+            <button type="button" wire:click="setQuickFilter('year')"    class="rpt-quick-btn">هذه السنة</button>
+        </div>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(4,1fr); gap: 1rem;">
+        <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-500">{{ __('من تاريخ') }}</label>
+            <x-filament::input.wrapper>
+                <x-filament::input type="date" wire:model.live="filters.date_from" />
+            </x-filament::input.wrapper>
+        </div>
+        <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-500">{{ __('إلى تاريخ') }}</label>
+            <x-filament::input.wrapper>
+                <x-filament::input type="date" wire:model.live="filters.date_to" />
+            </x-filament::input.wrapper>
+        </div>
+        <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-500">{{ __('الموظف') }}</label>
+            <x-filament::input.wrapper>
+                <x-filament::input.select wire:model.live="filters.employee_id">
+                    <option value="">{{ __('جميع الموظفين') }}</option>
+                    @foreach($this->getFilterEmployees() as $id => $name)
+                        <option value="{{ $id }}">{{ $name }}</option>
+                    @endforeach
+                </x-filament::input.select>
+            </x-filament::input.wrapper>
+        </div>
+        <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-500">{{ __('السيارة') }}</label>
+            <x-filament::input.wrapper>
+                <x-filament::input.select wire:model.live="filters.car_id">
+                    <option value="">{{ __('جميع السيارات') }}</option>
+                    @foreach($this->getFilterCars() as $id => $name)
+                        <option value="{{ $id }}">{{ $name }}</option>
+                    @endforeach
+                </x-filament::input.select>
+            </x-filament::input.wrapper>
+        </div>
+    </div>
+</div>
+
+{{-- ===== KPI BAR ===== --}}
+<div class="rpt-kpi-bar">
+    {{-- Total Bookings --}}
+    <div class="rpt-kpi-card" style="background:rgba(99,102,241,0.06); border-color:rgba(99,102,241,0.18);">
+        <span style="font-size:0.7rem;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:0.04em;">إجمالي الحجوزات</span>
+        <span style="font-size:1.6rem;font-weight:900;color:#4f46e5;line-height:1.1;">{{ number_format($kpi['total_bookings']) }}</span>
+        <span style="font-size:0.7rem;color:#a5b4fc;">طلب في الفترة المحددة</span>
+    </div>
+    {{-- Sold --}}
+    <div class="rpt-kpi-card" style="background:rgba(16,185,129,0.06); border-color:rgba(16,185,129,0.18);">
+        <span style="font-size:0.7rem;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:0.04em;">مبيعات ناجحة</span>
+        <span style="font-size:1.6rem;font-weight:900;color:#10b981;line-height:1.1;">{{ number_format($kpi['sold_count']) }}</span>
+        <span style="font-size:0.7rem;color:#6ee7b7;">صفقة مكتملة بنجاح</span>
+    </div>
+    {{-- Revenue --}}
+    <div class="rpt-kpi-card" style="background:rgba(245,158,11,0.06); border-color:rgba(245,158,11,0.2);">
+        <span style="font-size:0.7rem;font-weight:700;color:#d97706;text-transform:uppercase;letter-spacing:0.04em;">إجمالي الإيرادات</span>
+        <span style="font-size:1.25rem;font-weight:900;color:#f59e0b;line-height:1.1;">{{ number_format($kpi['total_revenue'], 0) }} <span style="font-size:0.7rem">ريال</span></span>
+        <span style="font-size:0.7rem;color:#fcd34d;">من المبيعات المنجزة</span>
+    </div>
+    {{-- Total Leads --}}
+    <div class="rpt-kpi-card" style="background:rgba(168,85,247,0.06); border-color:rgba(168,85,247,0.18);">
+        <span style="font-size:0.7rem;font-weight:700;color:#9333ea;text-transform:uppercase;letter-spacing:0.04em;">العملاء المحتملون</span>
+        <span style="font-size:1.6rem;font-weight:900;color:#a855f7;line-height:1.1;">{{ number_format($kpi['total_leads']) }}</span>
+        <span style="font-size:0.7rem;color:#d8b4fe;">{{ $kpi['new_leads'] }} جديد غير معالج</span>
+    </div>
+    {{-- Conversion --}}
+    <div class="rpt-kpi-card" style="background:rgba(20,184,166,0.06); border-color:rgba(20,184,166,0.18);">
+        <span style="font-size:0.7rem;font-weight:700;color:#0d9488;text-transform:uppercase;letter-spacing:0.04em;">معدل التحويل</span>
+        <span style="font-size:1.6rem;font-weight:900;color:#14b8a6;line-height:1.1;">{{ $kpi['conv_rate'] }}%</span>
+        <span style="font-size:0.7rem;color:#5eead4;">من Lead إلى بيعة ناجحة</span>
+    </div>
+</div>
+
+{{-- ===== TABS ===== --}}
+<x-filament::tabs class="mb-5">
+    <x-filament::tabs.item wire:click="changeTab('overview')"      :active="$activeTab==='overview'"      icon="heroicon-m-presentation-chart-bar">نظرة عامة</x-filament::tabs.item>
+    <x-filament::tabs.item wire:click="changeTab('sales_details')" :active="$activeTab==='sales_details'" icon="heroicon-m-document-text">تفاصيل المبيعات</x-filament::tabs.item>
+    <x-filament::tabs.item wire:click="changeTab('leads')"         :active="$activeTab==='leads'"         icon="heroicon-m-user-plus">العملاء المحتملون</x-filament::tabs.item>
+    <x-filament::tabs.item wire:click="changeTab('employees')"     :active="$activeTab==='employees'"     icon="heroicon-m-user-group">أداء فريق العمل</x-filament::tabs.item>
+    <x-filament::tabs.item wire:click="changeTab('sources')"       :active="$activeTab==='sources'"       icon="heroicon-m-arrow-trending-up">مصادر العملاء</x-filament::tabs.item>
+</x-filament::tabs>
+
+{{-- ===================== OVERVIEW TAB ===================== --}}
+@if($activeTab === 'overview')
+    @php
+        $stats = $this->getFinancialStats();
+        $totalB  = $stats['total_bookings'];
+        $soldB   = $stats['sold_count'];
+        $convB   = $totalB > 0 ? round(($soldB / $totalB) * 100, 1) : 0;
+        $prevT   = $stats['prev_total'];
+        $prevS   = $stats['prev_sold'];
+        $prevR   = $stats['prev_revenue'];
+        function trendIcon($curr, $prev) {
+            if ($prev == 0 && $curr > 0) return ['↑', 'up', '+100%'];
+            if ($prev == 0) return ['–', 'flat', '0%'];
+            $pct = round((($curr - $prev) / $prev) * 100, 1);
+            return $pct > 0 ? ['↑', 'up', "+{$pct}%"] : ($pct < 0 ? ['↓', 'down', "{$pct}%"] : ['–', 'flat', '0%']);
+        }
+        [$iconT, $dirT, $pctT] = trendIcon($totalB, $prevT);
+        [$iconS, $dirS, $pctS] = trendIcon($soldB,  $prevS);
+        [$iconR, $dirR, $pctR] = trendIcon($stats['total_revenue'], $prevR);
+        $statusBreak = $this->getBookingStatusBreakdown();
+    @endphp
+
+    {{-- Stat Cards --}}
+    <div class="rpt-stats-grid">
+        {{-- Total Bookings --}}
+        <div class="rpt-stat-card" style="background:rgba(99,102,241,0.05);border-color:rgba(99,102,241,0.15);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:0.75rem;font-weight:700;color:#6b7280;">إجمالي الحجوزات</span>
+                <div style="padding:0.4rem;background:rgba(99,102,241,0.12);border-radius:0.5rem;">
+                    <x-filament::icon icon="heroicon-m-list-bullet" class="h-4 w-4" style="color:#6366f1" />
+                </div>
             </div>
-        </x-slot>
+            <div style="font-size:2.25rem;font-weight:900;color:#4f46e5;line-height:1.1;margin-top:0.25rem;">{{ number_format($totalB) }}</div>
+            <div class="rpt-trend-{{ $dirT }}">{{ $iconT }} {{ $pctT }} عن الفترة السابقة</div>
+            <div style="font-size:0.7rem;color:#9ca3af;margin-top:0.125rem;">جميع الطلبات والحجوزات</div>
+        </div>
 
-        <form wire:submit.prevent="updatedFilters" class="mt-2">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Date From -->
-                <div>
-                    <label class="block text-xs font-semibold mb-1 text-gray-600 dark:text-gray-400">{{ __('تاريخ البداية (From)') }}</label>
-                    <input type="date" wire:model.live="filters.date_from" class="fi-input block w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 text-sm focus:border-primary-500 focus:ring-primary-500">
-                </div>
-
-                <!-- Date To -->
-                <div>
-                    <label class="block text-xs font-semibold mb-1 text-gray-600 dark:text-gray-400">{{ __('تاريخ النهاية (To)') }}</label>
-                    <input type="date" wire:model.live="filters.date_to" class="fi-input block w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 text-sm focus:border-primary-500 focus:ring-primary-500">
-                </div>
-
-                <!-- Employee Filter -->
-                <div>
-                    <label class="block text-xs font-semibold mb-1 text-gray-600 dark:text-gray-400">{{ __('فلترة بالموظف') }}</label>
-                    <select wire:model.live="filters.employee_id" class="fi-select block w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 text-sm focus:border-primary-500 focus:ring-primary-500">
-                        <option value="">{{ __('جميع الموظفين') }}</option>
-                        @foreach($this->getFilterEmployees() as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Car Filter -->
-                <div>
-                    <label class="block text-xs font-semibold mb-1 text-gray-600 dark:text-gray-400">{{ __('فلترة بالسيارة') }}</label>
-                    <select wire:model.live="filters.car_id" class="fi-select block w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 text-sm focus:border-primary-500 focus:ring-primary-500">
-                        <option value="">{{ __('جميع السيارات') }}</option>
-                        @foreach($this->getFilterCars() as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
-                        @endforeach
-                    </select>
+        {{-- Sold --}}
+        <div class="rpt-stat-card" style="background:rgba(16,185,129,0.05);border-color:rgba(16,185,129,0.15);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:0.75rem;font-weight:700;color:#6b7280;">المبيعات الناجحة</span>
+                <div style="padding:0.4rem;background:rgba(16,185,129,0.12);border-radius:0.5rem;">
+                    <x-filament::icon icon="heroicon-m-check-badge" class="h-4 w-4" style="color:#10b981" />
                 </div>
             </div>
-        </form>
-    </x-filament::section>
+            <div style="font-size:2.25rem;font-weight:900;color:#10b981;line-height:1.1;margin-top:0.25rem;">{{ number_format($soldB) }}</div>
+            <div class="rpt-trend-{{ $dirS }}">{{ $iconS }} {{ $pctS }} عن الفترة السابقة</div>
+            <div style="font-size:0.7rem;color:#10b981;margin-top:0.125rem;font-weight:600;">معدل نجاح {{ $convB }}%</div>
+        </div>
 
-    <!-- Tab Bar -->
-    <div class="flex border-b border-gray-200 dark:border-gray-800 gap-6 mb-4 overflow-x-auto">
-        <button wire:click="changeTab('overview')" class="tab-btn py-3 text-sm font-bold flex items-center gap-2 {{ $activeTab === 'overview' ? 'active text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400' }}">
-            <x-filament::icon icon="heroicon-m-presentation-chart-bar" class="h-4 w-4" />
-            {{ __('نظرة عامة') }}
-        </button>
-        <button wire:click="changeTab('sales_details')" class="tab-btn py-3 text-sm font-bold flex items-center gap-2 {{ $activeTab === 'sales_details' ? 'active text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400' }}">
-            <x-filament::icon icon="heroicon-m-document-text" class="h-4 w-4" />
-            {{ __('تفاصيل المبيعات') }}
-        </button>
-        <button wire:click="changeTab('employees')" class="tab-btn py-3 text-sm font-bold flex items-center gap-2 {{ $activeTab === 'employees' ? 'active text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400' }}">
-            <x-filament::icon icon="heroicon-m-user-group" class="h-4 w-4" />
-            {{ __('أداء فريق العمل') }}
-        </button>
-        <button wire:click="changeTab('sources')" class="tab-btn py-3 text-sm font-bold flex items-center gap-2 {{ $activeTab === 'sources' ? 'active text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-400' }}">
-            <x-filament::icon icon="heroicon-m-arrow-trending-up" class="h-4 w-4" />
-            {{ __('مصادر العملاء') }}
-        </button>
+        {{-- Revenue --}}
+        <div class="rpt-stat-card" style="background:rgba(245,158,11,0.05);border-color:rgba(245,158,11,0.15);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:0.75rem;font-weight:700;color:#6b7280;">إجمالي قيمة المبيعات</span>
+                <div style="padding:0.4rem;background:rgba(245,158,11,0.12);border-radius:0.5rem;">
+                    <x-filament::icon icon="heroicon-m-banknotes" class="h-4 w-4" style="color:#f59e0b" />
+                </div>
+            </div>
+            <div style="font-size:1.6rem;font-weight:900;color:#f59e0b;line-height:1.1;margin-top:0.25rem;">{{ number_format($stats['total_revenue'], 0) }} <span style="font-size:0.75rem;font-weight:700;">ريال</span></div>
+            <div class="rpt-trend-{{ $dirR }}">{{ $iconR }} {{ $pctR }} عن الفترة السابقة</div>
+            <div style="font-size:0.7rem;color:#9ca3af;margin-top:0.125rem;">السيارات المباعة واستلام قيمتها</div>
+        </div>
+
+        {{-- Down Payments --}}
+        <div class="rpt-stat-card" style="background:rgba(59,130,246,0.05);border-color:rgba(59,130,246,0.15);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:0.75rem;font-weight:700;color:#6b7280;">إجمالي الدفعات المقدمة</span>
+                <div style="padding:0.4rem;background:rgba(59,130,246,0.12);border-radius:0.5rem;">
+                    <x-filament::icon icon="heroicon-m-credit-card" class="h-4 w-4" style="color:#3b82f6" />
+                </div>
+            </div>
+            <div style="font-size:1.6rem;font-weight:900;color:#3b82f6;line-height:1.1;margin-top:0.25rem;">{{ number_format($stats['total_down_payments'], 0) }} <span style="font-size:0.75rem;font-weight:700;">ريال</span></div>
+            <div style="font-size:0.7rem;color:#9ca3af;margin-top:0.5rem;">الدفعات المقدمة المحصلة</div>
+        </div>
     </div>
 
-    <!-- Active Tab Content -->
-    @if($activeTab === 'overview')
-        <!-- 1. OVERVIEW TAB -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <!-- Total Bookings -->
-            <div class="report-card p-6 rounded-2xl shadow-sm flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400">{{ __('إجمالي الحجوزات') }}</span>
-                        <div class="p-2 bg-primary-50 dark:bg-primary-950/30 rounded-xl text-primary-600">
-                            <x-filament::icon icon="heroicon-m-list-bullet" class="h-5 w-5" />
-                        </div>
+    {{-- Booking Status Breakdown --}}
+    <div class="rpt-section mb-6">
+        <div class="rpt-section-title">
+            <x-filament::icon icon="heroicon-m-chart-pie" class="h-4 w-4" />
+            توزيع الطلبات حسب الحالة
+        </div>
+        @php
+            $statusColors = [
+                'new'       => ['bg'=>'rgba(99,102,241,0.1)','text'=>'#6366f1','bar'=>'#6366f1'],
+                'contacted' => ['bg'=>'rgba(6,182,212,0.1)', 'text'=>'#06b6d4','bar'=>'#06b6d4'],
+                'interested'=> ['bg'=>'rgba(245,158,11,0.1)','text'=>'#f59e0b','bar'=>'#f59e0b'],
+                'rejected'  => ['bg'=>'rgba(239,68,68,0.1)', 'text'=>'#ef4444','bar'=>'#ef4444'],
+                'sold'      => ['bg'=>'rgba(16,185,129,0.1)','text'=>'#10b981','bar'=>'#10b981'],
+            ];
+            $maxStatus = max(array_values($statusBreak) ?: [1]);
+        @endphp
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.75rem;">
+            @foreach(\App\Models\Booking::STATUSES as $key => $cfg)
+                @php $count = $statusBreak[$key] ?? 0; $pct = $maxStatus > 0 ? round($count/$maxStatus*100) : 0; $c = $statusColors[$key] ?? ['bg'=>'rgba(100,116,139,0.1)','text'=>'#6b7280','bar'=>'#6b7280']; @endphp
+                <div style="background:{{ $c['bg'] }};border-radius:0.75rem;padding:0.875rem;text-align:center;">
+                    <div style="font-size:1.6rem;font-weight:900;color:{{ $c['text'] }};line-height:1.1;">{{ $count }}</div>
+                    <div style="font-size:0.7rem;font-weight:700;color:{{ $c['text'] }};margin:0.25rem 0;">{{ $cfg['label'] }}</div>
+                    <div class="rpt-progress-track" style="margin-top:0.5rem;">
+                        <div class="rpt-progress-fill" style="width:{{ $pct }}%;background:{{ $c['bar'] }};"></div>
                     </div>
-                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white">{{ number_format($this->getFinancialStats()['total_bookings']) }}</div>
                 </div>
-                <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">{{ __('كل الطلبات المكتملة وغير المكتملة') }}</div>
-            </div>
+            @endforeach
+        </div>
+    </div>
 
-            <!-- Completed Sales -->
-            <div class="report-card p-6 rounded-2xl shadow-sm flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400">{{ __('المبيعات الناجحة') }}</span>
-                        <div class="p-2 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl text-emerald-600">
-                            <x-filament::icon icon="heroicon-m-check-badge" class="h-5 w-5" />
-                        </div>
-                    </div>
-                    <div class="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">{{ number_format($this->getFinancialStats()['sold_count']) }}</div>
-                </div>
-                <div class="text-xs text-emerald-500 mt-2 font-medium">
-                    @php 
-                        $total = $this->getFinancialStats()['total_bookings'];
-                        $sold = $this->getFinancialStats()['sold_count'];
-                        $conv = $total > 0 ? round(($sold / $total) * 100, 1) : 0;
-                    @endphp
-                    {{ __('معدل نجاح:') }} {{ $conv }}%
-                </div>
+    {{-- Bottom 2 cols --}}
+    <div class="rpt-two-col">
+        {{-- Installment Analytics --}}
+        <div class="rpt-section">
+            <div class="rpt-section-title">
+                <x-filament::icon icon="heroicon-m-calculator" class="h-4 w-4" />
+                تحليل التقسيط والتمويل
             </div>
-
-            <!-- Total Revenue -->
-            <div class="report-card p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+            @php
+                $maxAvg = max($stats['avg_down_payment'], $stats['avg_monthly'], 1);
+            @endphp
+            <div style="display:flex;flex-direction:column;gap:1rem;">
                 <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400">{{ __('إجمالي قيمة المبيعات') }}</span>
-                        <div class="p-2 bg-yellow-50 dark:bg-yellow-950/30 rounded-xl text-yellow-600">
-                            <x-filament::icon icon="heroicon-m-banknotes" class="h-5 w-5" />
-                        </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                        <span style="font-size:0.82rem;color:#6b7280;">متوسط الدفعة الأولى</span>
+                        <span style="font-size:0.9rem;font-weight:800;color:var(--fi-color-gray-900, #111);">{{ number_format($stats['avg_down_payment'],0) }} <small>ريال</small></span>
                     </div>
-                    <div class="text-3xl font-extrabold text-primary-600 dark:text-primary-400">{{ number_format($this->getFinancialStats()['total_revenue'], 0) }} <span class="text-sm font-bold">{{ __('SAR') }}</span></div>
+                    <div class="rpt-progress-track"><div class="rpt-progress-fill" style="width:{{ min(100,round($stats['avg_down_payment']/$maxAvg*100)) }}%;background:#6366f1;"></div></div>
                 </div>
-                <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">{{ __('السيارات التي تم بيعها واستلام قيمتها') }}</div>
-            </div>
-
-            <!-- Down Payments -->
-            <div class="report-card p-6 rounded-2xl shadow-sm flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400">{{ __('إجمالي الدفعات المقدمة') }}</span>
-                        <div class="p-2 bg-blue-50 dark:bg-blue-950/30 rounded-xl text-blue-600">
-                            <x-filament::icon icon="heroicon-m-credit-card" class="h-5 w-5" />
-                        </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                        <span style="font-size:0.82rem;color:#6b7280;">متوسط القسط الشهري</span>
+                        <span style="font-size:0.9rem;font-weight:800;">{{ number_format($stats['avg_monthly'],0) }} <small>ريال</small></span>
                     </div>
-                    <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400">{{ number_format($this->getFinancialStats()['total_down_payments'], 0) }} <span class="text-sm font-bold">{{ __('SAR') }}</span></div>
+                    <div class="rpt-progress-track"><div class="rpt-progress-fill" style="width:{{ min(100,round($stats['avg_monthly']/$maxAvg*100)) }}%;background:#10b981;"></div></div>
                 </div>
-                <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">{{ __('الدفعات المقدمة المحصلة') }}</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(100,116,139,0.07);border-radius:0.625rem;">
+                    <span style="font-size:0.82rem;color:#6b7280;">متوسط فترة التمويل</span>
+                    <span style="font-size:1rem;font-weight:800;color:#f59e0b;">{{ number_format($stats['avg_duration'],1) }} <small>سنوات</small></span>
+                </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <!-- Installment Analytics -->
-            <x-filament::section class="report-card">
-                <x-slot name="heading">
-                    <div class="flex items-center gap-2">
-                        <x-filament::icon icon="heroicon-m-calculator" class="h-5 w-5 text-gray-500" />
-                        <span>{{ __('تحليل عمليات التقسيط والتمويل') }}</span>
-                    </div>
-                </x-slot>
-                
-                <div class="space-y-4 mt-4">
-                    <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-                        <span class="text-gray-600 dark:text-gray-400">{{ __('متوسط الدفعة الأولى (Avg Down Payment)') }}</span>
-                        <span class="font-bold text-gray-900 dark:text-white">{{ number_format($this->getFinancialStats()['avg_down_payment'], 0) }} {{ __('SAR') }}</span>
-                    </div>
-                    <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-                        <span class="text-gray-600 dark:text-gray-400">{{ __('متوسط القسط الشهري (Avg Installment)') }}</span>
-                        <span class="font-bold text-gray-900 dark:text-white">{{ number_format($this->getFinancialStats()['avg_monthly'], 0) }} {{ __('SAR') }}</span>
-                    </div>
-                    <div class="flex justify-between items-center py-2">
-                        <span class="text-gray-600 dark:text-gray-400">{{ __('متوسط فترة التمويل بالسنوات') }}</span>
-                        <span class="font-bold text-gray-900 dark:text-white">{{ number_format($this->getFinancialStats()['avg_duration'], 1) }} {{ __('سنوات') }}</span>
-                    </div>
-                </div>
-            </x-filament::section>
-
-            <!-- Top Requested Cars -->
-            <x-filament::section class="report-card">
-                <x-slot name="heading">
-                    <div class="flex items-center gap-2">
-                        <x-filament::icon icon="heroicon-m-truck" class="h-5 w-5 text-gray-500" />
-                        <span>{{ __('السيارات الأكثر طلباً ومبيعاً') }}</span>
-                    </div>
-                </x-slot>
-                
-                <ul class="divide-y divide-gray-100 dark:divide-gray-800 mt-2">
-                    @forelse($this->getTopCars() as $index => $car)
-                        <li class="py-3 flex justify-between items-center">
-                            <div class="flex items-center gap-3">
-                                <span class="font-bold text-xs px-2 py-1 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">#{{ $index + 1 }}</span>
-                                <div>
-                                    <span class="font-bold text-gray-900 dark:text-white">{{ $car['car']['name'] ?? __('N/A') }}</span>
-                                    <span class="text-xs text-gray-400 dark:text-gray-500 block">{{ $car['car']['brand']['name'] ?? '' }}</span>
-                                </div>
-                            </div>
-                            <span class="font-bold text-primary-600 dark:text-primary-400">{{ $car['total'] }} {{ __('بيعة') }}</span>
-                        </li>
-                    @empty
-                        <li class="py-6 text-center text-gray-400">{{ __('لا توجد بيانات كافية حالياً') }}</li>
-                    @endforelse
-                </ul>
-            </x-filament::section>
-        </div>
-
-    @elseif($activeTab === 'sales_details')
-        <!-- 2. SALES DETAILS TAB -->
-        <x-filament::section class="report-card">
-            <x-slot name="heading">
-                <div class="flex items-center justify-between w-full">
-                    <div class="flex items-center gap-2">
-                        <x-filament::icon icon="heroicon-m-table-cells" class="h-5 w-5 text-gray-500" />
-                        <span>{{ __('جدول تفاصيل المبيعات والحجوزات الأخيرة') }}</span>
-                    </div>
-                </div>
-            </x-slot>
-
-            <div class="overflow-x-auto mt-4">
-                <table class="w-full text-sm text-right border-collapse">
-                    <thead>
-                        <tr class="border-b border-gray-200 dark:border-gray-800 text-gray-500">
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('العميل') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('السيارة') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('السعر الإجمالي') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('المسؤول') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('طريقة الدفع') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('الدفعة الأولى / القسط') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase text-center">{{ __('الحالة') }}</th>
-                            <th class="py-3 px-4 font-bold text-xs uppercase">{{ __('التاريخ') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                        @forelse($this->getDetailedBookings() as $booking)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-900/50 transition">
-                                <td class="py-3 px-4">
-                                    <div class="font-bold text-gray-900 dark:text-white">{{ $booking['client_name'] }}</div>
-                                    <div class="text-xs text-gray-400 dark:text-gray-500">{{ $booking['client_phone'] }}</div>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <div class="font-semibold">{{ $booking['car']['name'] ?? __('N/A') }}</div>
-                                    <div class="text-xs text-gray-400">{{ $booking['car']['brand']['name'] ?? '' }}</div>
-                                </td>
-                                <td class="py-3 px-4 font-bold text-gray-900 dark:text-white">
-                                    {{ number_format($booking['total_price'], 0) }} {{ __('SAR') }}
-                                </td>
-                                <td class="py-3 px-4 text-gray-600 dark:text-gray-400">
-                                    {{ $booking['employee']['name'] ?? __('غير معين') }}
-                                </td>
-                                <td class="py-3 px-4">
-                                    <span class="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 font-medium">
-                                        {{ $booking['payment_method'] === 'cash' ? __('كاش') : __('تقسيط / تمويل') }}
-                                    </span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    @if($booking['payment_method'] === 'finance' || $booking['down_payment'] > 0)
-                                        <div class="text-xs text-gray-700 dark:text-gray-300">
-                                            {{ __('مقدم:') }} {{ number_format($booking['down_payment'], 0) }} {{ __('SAR') }}
-                                        </div>
-                                        @if($booking['monthly_installment'] > 0)
-                                            <div class="text-xs text-primary-600 dark:text-primary-400 font-bold">
-                                                {{ __('قسط:') }} {{ number_format($booking['monthly_installment'], 0) }} {{ __('SAR') }} / {{ $booking['duration_years'] }} {{ __('سنة') }}
-                                            </div>
-                                        @endif
-                                    @else
-                                        <span class="text-xs text-gray-400">{{ __('سداد كامل المبلغ') }}</span>
-                                    @endif
-                                </td>
-                                <td class="py-3 px-4 text-center">
-                                    @php 
-                                        $statusConfig = \App\Models\Booking::STATUSES[$booking['status']] ?? ['label' => $booking['status'], 'color' => 'gray'];
-                                        $badgeColorClass = match($statusConfig['color']) {
-                                            'success' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
-                                            'primary' => 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300',
-                                            'info' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300',
-                                            'warning' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300',
-                                            'danger' => 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300',
-                                            default => 'bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-300',
-                                        };
-                                    @endphp
-                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full {{ $badgeColorClass }}">
-                                        {{ $statusConfig['label'] }}
-                                    </span>
-                                </td>
-                                <td class="py-3 px-4 text-xs text-gray-400">
-                                    {{ \Carbon\Carbon::parse($booking['created_at'])->format('Y-m-d H:i') }}
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="8" class="py-8 text-center text-gray-400">
-                                    {{ __('لا توجد حجوزات تطابق الفلاتر المحددة') }}
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        {{-- Top Cars --}}
+        <div class="rpt-section">
+            <div class="rpt-section-title">
+                <x-filament::icon icon="heroicon-m-truck" class="h-4 w-4" />
+                السيارات الأكثر مبيعاً
             </div>
-        </x-filament::section>
-
-    @elseif($activeTab === 'employees')
-        <!-- 3. EMPLOYEES TAB -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @forelse($this->getEmployeePerformance() as $emp)
-                <div class="report-card p-6 rounded-2xl shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="h-10 w-10 rounded-full bg-primary-100 dark:bg-primary-950 flex items-center justify-center text-primary-600 font-bold">
-                                {{ mb_substr($emp['name'], 0, 2) }}
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 dark:text-white">{{ $emp['name'] }}</h4>
-                                <span class="text-xs text-gray-400">{{ $emp['email'] }}</span>
+            @php $topCars = $this->getTopCars(); $maxCar = collect($topCars)->max('total') ?: 1; @endphp
+            <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                @forelse($topCars as $i => $car)
+                    @php $barPct = round($car['total']/$maxCar*100); @endphp
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span style="font-size:0.65rem;font-weight:800;min-width:1.5rem;text-align:center;padding:0.2rem 0.4rem;border-radius:0.4rem;background:{{ $i===0?'rgba(245,158,11,0.15)':($i===1?'rgba(148,163,184,0.15)':($i===2?'rgba(180,83,9,0.12)':'rgba(100,116,139,0.08)')) }};color:{{ $i===0?'#d97706':($i===1?'#64748b':($i===2?'#c2410c':'#9ca3af')) }};">#{{ $i+1 }}</span>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-size:0.78rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $car['car']['name'] ?? 'N/A' }}</div>
+                            <div class="rpt-progress-track" style="margin-top:0.3rem;height:5px;">
+                                <div class="rpt-progress-fill" style="width:{{ $barPct }}%;height:5px;background:{{ $i===0?'#f59e0b':($i===1?'#94a3b8':'#6366f1') }};"></div>
                             </div>
                         </div>
+                        <span style="font-size:0.75rem;font-weight:800;color:#6366f1;white-space:nowrap;">{{ $car['total'] }} بيعة</span>
+                    </div>
+                @empty
+                    <div style="text-align:center;padding:2rem;color:#9ca3af;font-size:0.82rem;">لا توجد بيانات كافية</div>
+                @endforelse
+            </div>
+        </div>
+    </div>
 
-                        <!-- Stats Grid -->
-                        <div class="grid grid-cols-2 gap-4 py-3 bg-gray-50 dark:bg-gray-900/40 rounded-xl px-4 mb-4">
-                            <div>
-                                <span class="text-xs text-gray-400 block">{{ __('إجمالي الحالات') }}</span>
-                                <span class="text-lg font-bold">{{ $emp['total_bookings'] }}</span>
-                            </div>
-                            <div>
-                                <span class="text-xs text-gray-400 block text-emerald-600">{{ __('ناجحة (تم البيع)') }}</span>
-                                <span class="text-lg font-bold text-emerald-600">{{ $emp['sold_bookings'] }}</span>
-                            </div>
-                        </div>
-
-                        <!-- Conversion Progress -->
-                        @php 
-                            $rate = ($emp['total_bookings'] ?? 0) > 0 ? round(($emp['sold_bookings'] ?? 0) / $emp['total_bookings'] * 100) : 0;
-                            $progressColor = $rate >= 50 ? 'bg-emerald-500' : ($rate >= 25 ? 'bg-yellow-500' : 'bg-red-500');
+{{-- ===================== SALES DETAILS TAB ===================== --}}
+@elseif($activeTab === 'sales_details')
+    <div class="rpt-section">
+        <div class="rpt-section-title">
+            <x-filament::icon icon="heroicon-m-table-cells" class="h-4 w-4" />
+            جدول تفاصيل المبيعات والحجوزات
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="rpt-table">
+                <thead>
+                    <tr>
+                        <th>العميل</th>
+                        <th>السيارة</th>
+                        <th>السعر الإجمالي</th>
+                        <th>المسؤول</th>
+                        <th>طريقة الدفع</th>
+                        <th>الدفعة / القسط</th>
+                        <th style="text-align:center;">الحالة</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($this->getDetailedBookings() as $booking)
+                        @php
+                            $statusCfg = \App\Models\Booking::STATUSES[$booking['status']] ?? ['label'=>$booking['status'],'color'=>'gray'];
+                            $badgeCls = match($statusCfg['color']) {
+                                'success' => 'background:rgba(16,185,129,0.12);color:#059669;',
+                                'primary' => 'background:rgba(99,102,241,0.12);color:#4f46e5;',
+                                'info'    => 'background:rgba(6,182,212,0.12);color:#0891b2;',
+                                'warning' => 'background:rgba(245,158,11,0.12);color:#d97706;',
+                                'danger'  => 'background:rgba(239,68,68,0.12);color:#dc2626;',
+                                default   => 'background:rgba(100,116,139,0.12);color:#6b7280;',
+                            };
+                            $initials = mb_substr($booking['client_name'] ?? '?', 0, 2);
                         @endphp
-                        <div class="mb-2">
-                            <div class="flex justify-between text-xs font-semibold mb-1">
-                                <span>{{ __('معدل نجاح إغلاق الصفقات') }}</span>
-                                <span>{{ $rate }}%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
-                                <div class="progress-bar-fill {{ $progressColor }} h-2 rounded-full" style="width: {{ $rate }}%"></div>
-                            </div>
-                        </div>
+                        <tr>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:0.625rem;">
+                                    <div class="rpt-avatar" style="background:rgba(99,102,241,0.1);color:#4f46e5;">{{ $initials }}</div>
+                                    <div>
+                                        <div style="font-weight:700;font-size:0.82rem;">{{ $booking['client_name'] }}</div>
+                                        <div style="font-size:0.7rem;color:#9ca3af;">{{ $booking['client_phone'] }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600;font-size:0.82rem;">{{ $booking['car']['name'] ?? 'N/A' }}</div>
+                                <div style="font-size:0.7rem;color:#9ca3af;">{{ $booking['car']['brand']['name'] ?? '' }}</div>
+                            </td>
+                            <td style="font-weight:800;white-space:nowrap;">{{ number_format($booking['total_price'],0) }} <span style="font-size:0.7rem;font-weight:600;">ريال</span></td>
+                            <td style="font-size:0.8rem;color:#6b7280;">{{ $booking['employee']['name'] ?? 'غير معين' }}</td>
+                            <td>
+                                <span class="rpt-badge" style="{{ $booking['payment_method']==='cash'?'background:rgba(16,185,129,0.1);color:#059669;':'background:rgba(99,102,241,0.1);color:#4f46e5;' }}">
+                                    {{ $booking['payment_method']==='cash' ? 'كاش' : 'تقسيط' }}
+                                </span>
+                            </td>
+                            <td>
+                                @if($booking['payment_method']==='finance' || ($booking['down_payment']??0) > 0)
+                                    <div style="font-size:0.72rem;color:#6b7280;">مقدم: <strong>{{ number_format($booking['down_payment'],0) }}</strong> ريال</div>
+                                    @if(($booking['monthly_installment']??0) > 0)
+                                        <div style="font-size:0.72rem;color:#6366f1;font-weight:700;">قسط: {{ number_format($booking['monthly_installment'],0) }} / {{ $booking['duration_years'] }} سنة</div>
+                                    @endif
+                                @else
+                                    <span style="font-size:0.72rem;color:#9ca3af;">سداد كامل</span>
+                                @endif
+                            </td>
+                            <td style="text-align:center;">
+                                <span class="rpt-badge" style="{{ $badgeCls }}">{{ $statusCfg['label'] }}</span>
+                            </td>
+                            <td style="font-size:0.72rem;color:#9ca3af;white-space:nowrap;">{{ \Carbon\Carbon::parse($booking['created_at'])->format('Y-m-d') }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="8" style="text-align:center;padding:3rem;color:#9ca3af;">لا توجد حجوزات تطابق الفلاتر المحددة</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{{-- ===================== LEADS PIPELINE TAB ===================== --}}
+@elseif($activeTab === 'leads')
+    @php
+        $leadsStats = $this->getLeadsStats();
+        $leadsStatuses = \App\Models\Lead::STATUSES;
+        $leadsColors = [
+            'new'        => ['bg'=>'rgba(99,102,241,0.1)', 'text'=>'#4f46e5', 'bar'=>'#6366f1'],
+            'contacted'  => ['bg'=>'rgba(6,182,212,0.1)',  'text'=>'#0891b2', 'bar'=>'#06b6d4'],
+            'interested' => ['bg'=>'rgba(245,158,11,0.1)', 'text'=>'#d97706', 'bar'=>'#f59e0b'],
+            'negotiation'=> ['bg'=>'rgba(168,85,247,0.1)', 'text'=>'#7c3aed', 'bar'=>'#a855f7'],
+            'converted'  => ['bg'=>'rgba(16,185,129,0.1)', 'text'=>'#059669', 'bar'=>'#10b981'],
+            'lost'       => ['bg'=>'rgba(239,68,68,0.1)',  'text'=>'#dc2626', 'bar'=>'#ef4444'],
+        ];
+        $totalLeads = $leadsStats['total'] ?? 0;
+    @endphp
+
+    {{-- Pipeline Status Cards --}}
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.75rem;margin-bottom:1.5rem;">
+        @foreach($leadsStatuses as $key => $cfg)
+            @php $count = $leadsStats[$key] ?? 0; $pct = $totalLeads > 0 ? round($count/$totalLeads*100,1) : 0; $c = $leadsColors[$key]; @endphp
+            <div style="background:{{ $c['bg'] }};border-radius:0.875rem;padding:1rem;text-align:center;border:1px solid {{ $c['bar'] }}22;">
+                <div style="font-size:1.8rem;font-weight:900;color:{{ $c['text'] }};line-height:1.1;">{{ $count }}</div>
+                <div style="font-size:0.7rem;font-weight:700;color:{{ $c['text'] }};margin-top:0.2rem;">{{ $cfg['label'] }}</div>
+                <div style="font-size:0.65rem;color:#9ca3af;margin-top:0.2rem;">{{ $pct }}%</div>
+                <div class="rpt-progress-track" style="margin-top:0.5rem;">
+                    <div class="rpt-progress-fill" style="width:{{ $pct }}%;background:{{ $c['bar'] }};"></div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    {{-- Leads Table --}}
+    <div class="rpt-section">
+        <div class="rpt-section-title">
+            <x-filament::icon icon="heroicon-m-users" class="h-4 w-4" />
+            آخر العملاء المحتملين ({{ $totalLeads }} إجمالاً)
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="rpt-table">
+                <thead>
+                    <tr>
+                        <th>العميل</th>
+                        <th>مصدر التواصل</th>
+                        <th>السيارة المهتم بها</th>
+                        <th>الموظف المسؤول</th>
+                        <th style="text-align:center;">الحالة</th>
+                        <th>تاريخ البداية</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($this->getLeadsPipeline() as $lead)
+                        @php
+                            $lCfg = \App\Models\Lead::STATUSES[$lead['status']] ?? ['label'=>$lead['status'],'color'=>'gray'];
+                            $lBadge = match($lCfg['color']) {
+                                'success'   => 'background:rgba(16,185,129,0.12);color:#059669;',
+                                'primary'   => 'background:rgba(99,102,241,0.12);color:#4f46e5;',
+                                'info'      => 'background:rgba(6,182,212,0.12);color:#0891b2;',
+                                'warning'   => 'background:rgba(245,158,11,0.12);color:#d97706;',
+                                'secondary' => 'background:rgba(168,85,247,0.12);color:#7c3aed;',
+                                'danger'    => 'background:rgba(239,68,68,0.12);color:#dc2626;',
+                                default     => 'background:rgba(100,116,139,0.12);color:#6b7280;',
+                            };
+                            $lInit = mb_substr($lead['client_name'] ?? '?', 0, 2);
+                        @endphp
+                        <tr>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:0.625rem;">
+                                    <div class="rpt-avatar" style="background:rgba(168,85,247,0.1);color:#7c3aed;">{{ $lInit }}</div>
+                                    <div>
+                                        <div style="font-weight:700;font-size:0.82rem;">{{ $lead['client_name'] }}</div>
+                                        <div style="font-size:0.7rem;color:#9ca3af;">{{ $lead['client_phone'] }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="font-size:0.78rem;color:#6b7280;">{{ $lead['contact_source']['name'] ?? '—' }}</td>
+                            <td>
+                                @if($lead['car'])
+                                    <div style="font-size:0.78rem;font-weight:600;">{{ $lead['car']['name'] ?? '—' }}</div>
+                                    <div style="font-size:0.7rem;color:#9ca3af;">{{ $lead['car']['brand']['name'] ?? '' }}</div>
+                                @else
+                                    <span style="color:#9ca3af;font-size:0.78rem;">غير محدد</span>
+                                @endif
+                            </td>
+                            <td style="font-size:0.78rem;color:#6b7280;">{{ $lead['employee']['name'] ?? 'غير معين' }}</td>
+                            <td style="text-align:center;">
+                                <span class="rpt-badge" style="{{ $lBadge }}">{{ $lCfg['label'] }}</span>
+                            </td>
+                            <td style="font-size:0.72rem;color:#9ca3af;white-space:nowrap;">{{ $lead['started_at'] ?? '—' }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" style="text-align:center;padding:3rem;color:#9ca3af;">لا توجد بيانات عملاء محتملين</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{{-- ===================== EMPLOYEES TAB ===================== --}}
+@elseif($activeTab === 'employees')
+    @php $employees = $this->getEmployeePerformance(); @endphp
+    <div class="rpt-emp-grid">
+        @forelse($employees as $rank => $emp)
+            @php
+                $rate = ($emp['total_bookings'] ?? 0) > 0 ? round(($emp['sold_bookings'] ?? 0) / $emp['total_bookings'] * 100) : 0;
+                $barColor = $rate >= 60 ? '#10b981' : ($rate >= 30 ? '#f59e0b' : '#ef4444');
+                $rankStyle = $rank===0 ? 'rpt-rank-gold' : ($rank===1 ? 'rpt-rank-silver' : ($rank===2 ? 'rpt-rank-bronze' : ''));
+            @endphp
+            <div class="rpt-section" style="position:relative;">
+                {{-- Rank Badge --}}
+                <div style="position:absolute;top:0.875rem;left:0.875rem;">
+                    <span class="rpt-badge {{ $rankStyle }}" style="{{ !$rankStyle?'background:rgba(100,116,139,0.08);color:#9ca3af;':'' }}">
+                        {{ $rank===0?'🥇 الأول':($rank===1?'🥈 الثاني':($rank===2?'🥉 الثالث':'#'.($rank+1))) }}
+                    </span>
+                </div>
+
+                {{-- Employee Info --}}
+                <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-top:1.5rem;">
+                    <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(99,102,241,0.12);color:#4f46e5;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;flex-shrink:0;">
+                        {{ mb_substr($emp['name'],0,2) }}
+                    </div>
+                    <div>
+                        <div style="font-weight:800;font-size:0.9rem;">{{ $emp['name'] }}</div>
+                        <div style="font-size:0.7rem;color:#9ca3af;">{{ $emp['email'] }}</div>
                     </div>
                 </div>
-            @empty
-                <div class="col-span-full report-card p-8 text-center text-gray-400 rounded-2xl">
-                    {{ __('لا يوجد موظفون في قاعدة البيانات حالياً') }}
+
+                {{-- Stats --}}
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+                    <div style="background:rgba(100,116,139,0.07);border-radius:0.625rem;padding:0.75rem;text-align:center;">
+                        <div style="font-size:1.4rem;font-weight:900;">{{ $emp['total_bookings'] }}</div>
+                        <div style="font-size:0.68rem;color:#9ca3af;margin-top:0.1rem;">إجمالي الحالات</div>
+                    </div>
+                    <div style="background:rgba(16,185,129,0.07);border-radius:0.625rem;padding:0.75rem;text-align:center;">
+                        <div style="font-size:1.4rem;font-weight:900;color:#10b981;">{{ $emp['sold_bookings'] }}</div>
+                        <div style="font-size:0.68rem;color:#6ee7b7;margin-top:0.1rem;">مبيعات ناجحة</div>
+                    </div>
                 </div>
-            @endforelse
+
+                {{-- Progress --}}
+                <div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.72rem;font-weight:700;margin-bottom:0.375rem;">
+                        <span style="color:#6b7280;">معدل الإغلاق</span>
+                        <span style="color:{{ $barColor }};">{{ $rate }}%</span>
+                    </div>
+                    <div class="rpt-progress-track">
+                        <div class="rpt-progress-fill" style="width:{{ $rate }}%;background:{{ $barColor }};"></div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="rpt-section" style="grid-column:1/-1;text-align:center;padding:3rem;color:#9ca3af;">لا يوجد موظفون</div>
+        @endforelse
+    </div>
+
+{{-- ===================== SOURCES TAB ===================== --}}
+@elseif($activeTab === 'sources')
+    @php
+        $sources = $this->getSourcePerformance();
+        $grandTotal = collect($sources)->sum('total_leads');
+        $sourceIcons = ['واتساب'=>'💬','إنستقرام'=>'📸','تويتر'=>'🐦','يوتيوب'=>'▶️','جوجل'=>'🔍','فيسبوك'=>'👍','سناب شات'=>'👻'];
+    @endphp
+
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:1.5rem;align-items:start;">
+        {{-- Summary Card --}}
+        <div class="rpt-section">
+            <div class="rpt-section-title">
+                <x-filament::icon icon="heroicon-m-globe-alt" class="h-4 w-4" />
+                ملخص المصادر
+            </div>
+            <div style="text-align:center;padding:1rem 0;">
+                <div style="font-size:3rem;font-weight:900;color:#6366f1;">{{ number_format($grandTotal) }}</div>
+                <div style="font-size:0.82rem;color:#9ca3af;margin-top:0.25rem;">إجمالي العملاء المحتملين</div>
+            </div>
+            <div style="font-size:0.75rem;color:#6b7280;text-align:center;padding:0.75rem;background:rgba(100,116,139,0.07);border-radius:0.625rem;">
+                {{ count($sources) }} قناة استقطاب مختلفة
+            </div>
         </div>
 
-    @elseif($activeTab === 'sources')
-        <!-- 4. SOURCES TAB -->
-        <x-filament::section class="report-card">
-            <x-slot name="heading">
-                <div class="flex items-center gap-2">
-                    <x-filament::icon icon="heroicon-m-globe-alt" class="h-5 w-5 text-gray-500" />
-                    <span>{{ __('توزيع العملاء والمهتمين حسب قنوات الاستقطاب') }}</span>
-                </div>
-            </x-slot>
-
-            <div class="space-y-6 mt-6">
-                @php
-                    $sources = $this->getSourcePerformance();
-                    $grandTotalLeads = collect($sources)->sum('total_leads');
-                @endphp
-                
-                @forelse($sources as $source)
-                    @php 
-                        $percentage = $grandTotalLeads > 0 ? round(($source['total_leads'] / $grandTotalLeads) * 100, 1) : 0;
+        {{-- Sources Breakdown --}}
+        <div class="rpt-section">
+            <div class="rpt-section-title">
+                <x-filament::icon icon="heroicon-m-bars-3-bottom-right" class="h-4 w-4" />
+                توزيع العملاء حسب القناة
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                @forelse($sources as $i => $source)
+                    @php
+                        $pct = $grandTotal > 0 ? round($source['total_leads']/$grandTotal*100,1) : 0;
+                        $srcName = $source['contact_source']['name'] ?? 'طلب من المتجر';
+                        $emoji = '';
+                        foreach($sourceIcons as $k=>$v) { if(str_contains($srcName,$k)){$emoji=$v;break;} }
+                        $barColors = ['#6366f1','#10b981','#f59e0b','#06b6d4','#a855f7','#ef4444','#f97316','#84cc16'];
+                        $barColor = $barColors[$i % count($barColors)];
                     @endphp
                     <div>
-                        <div class="flex justify-between items-center text-sm font-semibold mb-1">
-                            <span class="text-gray-800 dark:text-gray-300">{{ $source['contact_source']['name'] ?? __('طلب حجز من المتجر') }}</span>
-                            <span class="text-primary-600 dark:text-primary-400">{{ $source['total_leads'] }} {{ __('عميل') }} ({{ $percentage }}%)</span>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+                            <span style="font-size:0.82rem;font-weight:600;">{{ $emoji }} {{ $srcName }}</span>
+                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                <span style="font-size:0.82rem;font-weight:800;color:{{ $barColor }};">{{ $source['total_leads'] }}</span>
+                                <span style="font-size:0.7rem;color:#9ca3af;">({{ $pct }}%)</span>
+                            </div>
                         </div>
-                        <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-3">
-                            <div class="progress-bar-fill bg-primary-500 h-3 rounded-full" style="width: {{ $percentage }}%"></div>
+                        <div class="rpt-progress-track" style="height:9px;">
+                            <div class="rpt-progress-fill" style="width:{{ $pct }}%;background:{{ $barColor }};height:9px;"></div>
                         </div>
                     </div>
                 @empty
-                    <div class="py-8 text-center text-gray-400">
-                        {{ __('لا توجد بيانات قنوات استقطاب مسجلة للفترة المحددة') }}
-                    </div>
+                    <div style="text-align:center;padding:2rem;color:#9ca3af;">لا توجد بيانات مصادر</div>
                 @endforelse
             </div>
-        </x-filament::section>
-    @endif
+        </div>
+    </div>
+@endif
+
 </x-filament-panels::page>

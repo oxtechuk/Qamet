@@ -305,7 +305,7 @@ class CarResource extends Resource
                 ExportAction::make()
                     ->label(__('Export to Excel'))
                     ->color('success'),
-                Tables\Actions\Action::make('import')
+                Actions\Action::make('import')
                     ->label(__('Import from Excel'))
                     ->icon('heroicon-o-arrow-up-tray')
                     ->color('warning')

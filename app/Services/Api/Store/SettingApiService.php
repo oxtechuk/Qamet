@@ -93,6 +93,8 @@ final class SettingApiService
                 'days' => $settings->get('working_days', ['sat', 'sun', 'mon', 'tue', 'wed', 'thu']),
             ],
             'social_media' => $socialMedia,
+            'hero_video' => $this->resolveUrl($settings->get('hero_video')),
+            'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale) ?? '',
         ];
     }
 
@@ -113,7 +115,7 @@ final class SettingApiService
                 'footer_text' => $settings->get('footer_text', ''),
                 'breadcrumb_bg' => $this->resolveUrl($settings->get('breadcrumb_bg')),
                 'hero_video' => $this->resolveUrl($settings->get('hero_video')),
-                'hero_video_youtube' => $settings->get('hero_video_youtube', ''),
+                'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale) ?? '',
                 'page_loader' => [
                     'enabled' => (bool) $settings->get('page_loader_enabled', false),
                     'image' => $this->resolveUrl($settings->get('page_loader_image')),
