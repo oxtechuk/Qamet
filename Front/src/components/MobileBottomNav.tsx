@@ -50,7 +50,7 @@ export default function MobileBottomNav() {
                 <NavLink
                   key={item.to}
                   to={item.to}
-                  className="relative -top-4 flex flex-col items-center"
+                  className="relative -top-2 flex flex-col items-center"
                 >
                   <div className="flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[var(--brand-primary-color)] shadow-[0_6px_20px_rgba(0,0,0,0.28)]">
                     <Icon size={24} strokeWidth={2} className="text-white" />
@@ -116,11 +116,9 @@ export default function MobileBottomNav() {
 
       {/* Sidebar drawer */}
       <div
-        className={`fixed top-0 bottom-0 z-[70] w-[75vw] max-w-[320px] bg-white shadow-2xl transition-transform duration-300 md:hidden ${
-          isRTL ? "right-0" : "left-0"
-        } ${
-          sidebarOpen ? "translate-x-0" : isRTL ? "translate-x-full" : "-translate-x-full"
-        }`}
+        className={`fixed top-0 bottom-0 z-[70] w-[75vw] max-w-[320px] bg-white shadow-2xl transition-transform duration-300 md:hidden ${isRTL ? "right-0" : "left-0"
+          } ${sidebarOpen ? "translate-x-0" : isRTL ? "translate-x-full" : "-translate-x-full"
+          }`}
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between px-5 pt-5 pb-3">
@@ -144,9 +142,8 @@ export default function MobileBottomNav() {
                     key={link.to}
                     to={link.to}
                     onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold transition ${
-                      isActive ? "bg-[var(--brand-primary-color)]/10 text-[var(--brand-primary-color)]" : "text-[#07111F] hover:bg-gray-50"
-                    }`}
+                    className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold transition ${isActive ? "bg-[var(--brand-primary-color)]/10 text-[var(--brand-primary-color)]" : "text-[#07111F] hover:bg-gray-50"
+                      }`}
                   >
                     <LinkIcon size={20} strokeWidth={2} />
                     {t(link.labelKey)}

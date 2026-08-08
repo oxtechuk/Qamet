@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, Languages, Mail, MapPin, Menu, Phone, Search, X } from "lucide-react";
@@ -77,11 +77,8 @@ export default function HomeHero({
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [animationKey, setAnimationKey] = useState(0);
     const [logoError, setLogoError] = useState(false);
     const [carFinderOpen, setCarFinderOpen] = useState(false);
-
-    const videoRef = useRef<HTMLVideoElement | null>(null);
 
     const totalSlides = slides.length;
     const current = slides[currentSlide];
@@ -127,9 +124,7 @@ export default function HomeHero({
         return () => window.clearInterval(intervalId);
     }, [nextSlide, totalSlides]);
 
-    useEffect(() => {
-        setAnimationKey((previous) => previous + 1);
-    }, [currentSlide]);
+
 
     useEffect(() => {
         document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -163,36 +158,58 @@ export default function HomeHero({
             >
                 {/* Main framed hero — grows to fill remaining height above the brands strip */}
                 <div className="relative min-h-0 flex-1 overflow-hidden rounded-t-[16px] border-[5px] border-white bg-black mx-2 mt-2">
-                    {/* Background slider */}
+                    {/* Background slider / video */}
                     <div className="absolute inset-0">
-                        {slides.map((slide, index) => {
-                            const isActive = index === currentSlide;
+                        {getYoutubeId(heroVideoYoutube) ? (
+                            <div className="absolute inset-0 overflow-hidden pointer-events-none bg-black">
+                                <iframe
+                                    src={`https://www.youtube.com/embed/${getYoutubeId(heroVideoYoutube)}?autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(heroVideoYoutube)}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1`}
+                                    title="YouTube Hero Video Background"
+                                    frameBorder="0"
+                                    allow="autoplay; encrypted-media"
+                                    className="absolute left-1/2 top-1/2 h-[56.25vw] min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 w-[177.77vh] object-cover pointer-events-none scale-[1.35]"
+                                />
+                            </div>
+                        ) : heroVideoUrl ? (
+                            <video
+                                src={heroVideoUrl}
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                className="absolute inset-0 h-full w-full object-cover"
+                            />
+                        ) : (
+                            slides.map((slide, index) => {
+                                const isActive = index === currentSlide;
 
-                            return (
-                                <div
-                                    key={slide.id}
-                                    className={[
-                                        "absolute inset-0 transition-opacity duration-1000 ease-in-out",
-                                        isActive
-                                            ? "opacity-100"
-                                            : "pointer-events-none opacity-0",
-                                    ].join(" ")}
-                                >
-                                    <LazyImg
-                                        src={slide.image}
-                                        alt={slide.title || ""}
-                                        className="h-full w-full object-contain"
-                                    />
-                                </div>
-                            );
-                        })}
+                                return (
+                                    <div
+                                        key={slide.id}
+                                        className={[
+                                            "absolute inset-0 transition-opacity duration-1000 ease-in-out",
+                                            isActive
+                                                ? "opacity-100"
+                                                : "pointer-events-none opacity-0",
+                                        ].join(" ")}
+                                    >
+                                        <LazyImg
+                                            src={slide.image}
+                                            alt={slide.title || ""}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    </div>
+                                );
+                            })
+                        )}
 
                         {/* Overlay matching reference */}
-                        <div className="absolute inset-0 bg-black/25" />
+                        <div className="absolute inset-0 bg-black/35" />
 
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-black/45 rtl:bg-gradient-to-l" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/55 rtl:bg-gradient-to-l" />
 
-                        <div className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-black/45 to-transparent" />
+                        <div className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-black/55 to-transparent" />
                     </div>
 
                     {/* Top header */}
@@ -231,42 +248,7 @@ export default function HomeHero({
                         </div>
                     </header>
 
-                    {/* Thumbnail card — always shows the hero video */}
-                    {(heroVideoUrl || getYoutubeId(heroVideoYoutube)) ? (
-                        <div
-                            key={`thumbnail-${animationKey}`}
-                            className={[
-                                "hero-thumbnail-in absolute z-20 hidden overflow-hidden",
-                                isRTL ? "left-[4.3%]" : "right-[4.3%]",
-                                "top-[34%]",
-                                "h-[168px] w-[220px]",
-                                "rounded-[17px] border-[3px] border-white bg-black",
-                                "shadow-[0_18px_45px_rgba(0,0,0,0.28)]",
-                                "md:block lg:h-[170px] lg:w-[220px]",
-                            ].join(" ")}
-                        >
-                            {getYoutubeId(heroVideoYoutube) ? (
-                                <iframe
-                                    src={`https://www.youtube.com/embed/${getYoutubeId(heroVideoYoutube)}?autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(heroVideoYoutube)}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1`}
-                                    title="YouTube Hero Video"
-                                    frameBorder="0"
-                                    allow="autoplay; encrypted-media"
-                                    className="h-full w-full object-cover pointer-events-none scale-[1.35]"
-                                />
-                            ) : (
-                                <video
-                                    ref={videoRef}
-                                    src={heroVideoUrl}
-                                    autoPlay
-                                    muted
-                                    loop
-                                    playsInline
-                                    preload="metadata"
-                                    className="h-full w-full object-cover"
-                                />
-                            )}
-                        </div>
-                    ) : null}
+
 
                     {/* Hero text */}
                     <div

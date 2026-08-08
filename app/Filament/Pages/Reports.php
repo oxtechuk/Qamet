@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Booking;
+use App\Models\Car;
 use App\Models\Employee;
 use App\Models\Lead;
 use Filament\Pages\Page;

@@ -71,7 +71,7 @@ class AdminPanelProvider extends PanelProvider
                 $logoUrl = $logo ? asset('storage/'.$logo) : asset('images/logo_without_bg_white.svg');
 
                 return new \Illuminate\Support\HtmlString('
-                    <img src="' . $logoUrl . '" 
+                    <img src="'.$logoUrl.'" 
                          alt="Qemt Njet" 
                          style="height: 48px; max-height: 75px; width: auto; filter: drop-shadow(0 4px 16px rgba(223, 198, 116, 0.35)); transition: all 0.3s;" 
                          class="hover:scale-105" />
