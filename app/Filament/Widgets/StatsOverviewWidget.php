@@ -65,7 +65,7 @@ class StatsOverviewWidget extends BaseWidget
                     ->descriptionIcon('heroicon-m-users')
                     ->color('primary'),
 
-                Stat::make(__('Active Team'), Employee::where('status', 'active')->count())
+                Stat::make(__('Active Team'), Employee::where('is_active', true)->count())
                     ->description(__('Sales & Support staff'))
                     ->descriptionIcon('heroicon-m-user-group')
                     ->color('secondary'),
