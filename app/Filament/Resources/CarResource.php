@@ -12,6 +12,9 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class CarResource extends Resource
 {
@@ -298,6 +301,125 @@ class CarResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_featured')
                     ->label(__('Featured')),
             ])
+            ->headerActions([
+                ExportAction::make()
+                    ->label(__('Export to Excel'))
+                    ->color('success'),
+                Tables\Actions\Action::make('import')
+                    ->label(__('Import from Excel'))
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->color('warning')
+                    ->form([
+                        Forms\Components\FileUpload::make('file')
+                            ->label(__('Excel or CSV File'))
+                            ->required()
+                            ->disk('local')
+                            ->directory('imports')
+                            ->acceptedFileTypes([
+                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                'application/vnd.ms-excel',
+                                'text/csv',
+                            ]),
+                    ])
+                    ->action(function (array $data) {
+                        $filePath = Storage::disk('local')->path($data['file']);
+                        $sheets = \Maatwebsite\Excel\Facades\Excel::toArray(new class {}, $filePath);
+                        $rows = $sheets[0] ?? [];
+
+                        if (count($rows) <= 1) {
+                            \Filament\Notifications\Notification::make()
+                                ->title(__('File is empty or invalid'))
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
+                        $headers = array_map(fn ($h) => strtolower(trim($h)), $rows[0]);
+
+                        $importedCount = 0;
+                        foreach (array_slice($rows, 1) as $row) {
+                            $dataRow = array_combine($headers, array_pad($row, count($headers), null));
+                            if (! $dataRow || (empty($dataRow['name_ar']) && empty($dataRow['name_en']))) {
+                                continue;
+                            }
+
+                            // Find or create Brand
+                            $brandId = null;
+                            if (! empty($dataRow['brand'])) {
+                                $brand = \App\Models\Brand::where('name_ar', $dataRow['brand'])
+                                    ->orWhere('name_en', $dataRow['brand'])
+                                    ->first();
+                                if (! $brand) {
+                                    $brand = \App\Models\Brand::create([
+                                        'name_ar' => $dataRow['brand'],
+                                        'name_en' => $dataRow['brand'],
+                                        'slug' => \Illuminate\Support\Str::slug($dataRow['brand']) ?: 'brand-'.time(),
+                                    ]);
+                                }
+                                $brandId = $brand->id;
+                            }
+
+                            // Find or create Type
+                            $typeId = null;
+                            if (! empty($dataRow['type'])) {
+                                $type = \App\Models\CarType::where('name_ar', $dataRow['type'])
+                                    ->orWhere('name_en', $dataRow['type'])
+                                    ->first();
+                                if (! $type) {
+                                    $type = \App\Models\CarType::create([
+                                        'name_ar' => $dataRow['type'],
+                                        'name_en' => $dataRow['type'],
+                                        'slug' => \Illuminate\Support\Str::slug($dataRow['type']) ?: 'type-'.time(),
+                                    ]);
+                                }
+                                $typeId = $type->id;
+                            }
+
+                            // Find or create Category
+                            $categoryId = null;
+                            if (! empty($dataRow['category'])) {
+                                $category = \App\Models\CarCategory::where('name_ar', $dataRow['category'])
+                                    ->orWhere('name_en', $dataRow['category'])
+                                    ->first();
+                                if (! $category) {
+                                    $category = \App\Models\CarCategory::create([
+                                        'name_ar' => $dataRow['category'],
+                                        'name_en' => $dataRow['category'],
+                                        'slug' => \Illuminate\Support\Str::slug($dataRow['category']) ?: 'category-'.time(),
+                                    ]);
+                                }
+                                $categoryId = $category->id;
+                            }
+
+                            $nameAr = $dataRow['name_ar'] ?? $dataRow['name_en'] ?? '';
+                            $nameEn = $dataRow['name_en'] ?? $dataRow['name_ar'] ?? '';
+
+                            \App\Models\Car::create([
+                                'name_ar' => $nameAr,
+                                'name_en' => $nameEn,
+                                'slug' => \Illuminate\Support\Str::slug($nameEn) ?: 'car-'.time().'-'.rand(100, 999),
+                                'brand_id' => $brandId,
+                                'car_type_id' => $typeId,
+                                'car_category_id' => $categoryId,
+                                'year' => (int) ($dataRow['year'] ?? now()->year),
+                                'cash_price' => (float) ($dataRow['cash_price'] ?? 0),
+                                'min_down_payment' => (float) ($dataRow['min_down_payment'] ?? 0),
+                                'min_installment' => (float) ($dataRow['min_installment'] ?? 0),
+                                'is_active' => filter_var($dataRow['is_active'] ?? true, FILTER_VALIDATE_BOOLEAN),
+                                'is_featured' => filter_var($dataRow['is_featured'] ?? false, FILTER_VALIDATE_BOOLEAN),
+                                'availability_status' => $dataRow['availability_status'] ?? 'available',
+                            ]);
+                            $importedCount++;
+                        }
+
+                        \Filament\Notifications\Notification::make()
+                            ->title(__('Imported successfully'))
+                            ->description(__('Imported :count cars successfully.', ['count' => $importedCount]))
+                            ->success()
+                            ->send();
+                    }),
+            ])
             ->actions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -306,6 +428,9 @@ class CarResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->label(__('Export Selected to Excel'))
+                        ->color('success'),
                 ]),
             ])
             ->groups([

@@ -67,8 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 return $favicon ? asset('storage/'.$favicon) : asset('images/favicon.ico');
             })
             ->brandLogo(function (): \Illuminate\Contracts\Support\Htmlable {
-                $logo = Setting::where('key', 'site_logo')->value('value');
-                $logoUrl = $logo ? asset('storage/'.$logo) : asset('images/logo_without_bg_white.svg');
+                $logoUrl = asset('images/logo_without_bg_white.svg');
 
                 return new \Illuminate\Support\HtmlString('
                     <img src="'.$logoUrl.'" 
