@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class SalesTrendChart extends ChartWidget
 {
+    protected static bool $isLazy = true;
+
     protected static ?int $sort = 4;
 
     public function getHeading(): ?string

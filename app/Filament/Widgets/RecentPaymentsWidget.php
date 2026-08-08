@@ -10,6 +10,8 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class RecentPaymentsWidget extends BaseWidget
 {
+    protected static bool $isLazy = true;
+
     protected static ?int $sort = 9;
 
     public function getHeading(): ?string

@@ -66,12 +66,18 @@ class AdminPanelProvider extends PanelProvider
 
                 return $favicon ? asset('storage/'.$favicon) : asset('images/favicon.ico');
             })
-            ->brandLogo(function (): string {
+            ->brandLogo(function (): \Illuminate\Contracts\Support\Htmlable {
                 $logo = Setting::where('key', 'site_logo')->value('value');
+                $logoUrl = $logo ? asset('storage/'.$logo) : asset('images/logo_without_bg_white.svg');
 
-                return $logo ? asset('storage/'.$logo) : asset('images/logo.png');
+                return new \Illuminate\Support\HtmlString('
+                    <img src="' . $logoUrl . '" 
+                         alt="Qemt Njet" 
+                         style="height: 48px; max-height: 75px; width: auto; filter: drop-shadow(0 4px 16px rgba(223, 198, 116, 0.35)); transition: all 0.3s;" 
+                         class="hover:scale-105" />
+                ');
             })
-            ->brandLogoHeight('2.5rem')
+            ->brandLogoHeight('3.2rem')
             ->sidebarCollapsibleOnDesktop()
             ->sidebarWidth('16rem')
             ->navigationGroups([

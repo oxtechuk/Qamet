@@ -8,6 +8,7 @@ import BudgetCarsSection from "../components/BudgetCarsSection";
 import BrandsSection from "../components/BrandsSection";
 import { getHomePageData, getCars, getBrands } from "../services/api";
 import { useLanguageStore } from "../store/language.store";
+import { useSettingsStore } from "../store/settings.store";
 import type { HomeCarItem, BrandInfo } from "../types/home.types";
 import type { CarCardProps } from "../components/CarCard";
 import { formatPrice } from "../utils/format";
@@ -85,6 +86,7 @@ export default function Home() {
     const { t } = useTranslation();
     useSEO(t("nav.home"), t("hero.description"));
     const language = useLanguageStore((s) => s.language);
+    const settings = useSettingsStore((s) => s.settings);
     const [activeBudgetRange, setActiveBudgetRange] = useState<string | null>(
         null,
     );
@@ -236,7 +238,8 @@ export default function Home() {
         <>
             <HomeHero
                 slides={heroSlides}
-                heroVideoUrl={`${import.meta.env.BASE_URL}home_video.mp4`}
+                heroVideoUrl={settings?.hero_video || undefined}
+                heroVideoYoutube={settings?.hero_video_youtube || undefined}
                 filterBrands={((data?.filter_brand_types?.length ? data.filter_brand_types : data?.filter_brands) ?? []) as BrandInfo[]}
                 filterTypes={data?.filter_types}
                 filterCategories={data?.filter_categories}

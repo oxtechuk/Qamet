@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class MonthlyRevenueChart extends ChartWidget
 {
+    protected static bool $isLazy = true;
+
     protected static ?int $sort = 3;
 
     public function getHeading(): ?string

@@ -48,9 +48,17 @@ const HERO_ANIMATIONS = `
   }
 `;
 
+function getYoutubeId(url?: string): string | null {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+}
+
 export default function HomeHero({
     slides,
     heroVideoUrl,
+    heroVideoYoutube,
     filterBrands,
     filterTypes,
     filterCategories,
@@ -224,7 +232,7 @@ export default function HomeHero({
                     </header>
 
                     {/* Thumbnail card — always shows the hero video */}
-                    {heroVideoUrl ? (
+                    {(heroVideoUrl || getYoutubeId(heroVideoYoutube)) ? (
                         <div
                             key={`thumbnail-${animationKey}`}
                             className={[
@@ -237,16 +245,26 @@ export default function HomeHero({
                                 "md:block lg:h-[170px] lg:w-[220px]",
                             ].join(" ")}
                         >
-                            <video
-                                ref={videoRef}
-                                src={heroVideoUrl}
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                preload="metadata"
-                                className="h-full w-full object-cover"
-                            />
+                            {getYoutubeId(heroVideoYoutube) ? (
+                                <iframe
+                                    src={`https://www.youtube.com/embed/${getYoutubeId(heroVideoYoutube)}?autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(heroVideoYoutube)}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1`}
+                                    title="YouTube Hero Video"
+                                    frameBorder="0"
+                                    allow="autoplay; encrypted-media"
+                                    className="h-full w-full object-cover pointer-events-none scale-[1.35]"
+                                />
+                            ) : (
+                                <video
+                                    ref={videoRef}
+                                    src={heroVideoUrl}
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    preload="metadata"
+                                    className="h-full w-full object-cover"
+                                />
+                            )}
                         </div>
                     ) : null}
 

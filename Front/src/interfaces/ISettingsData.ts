@@ -32,4 +32,6 @@ export interface ISettingsData {
   contact: IContactInfo;
   working_hours: IWorkingHours;
   social_media: ISocialMediaItem[];
+  hero_video?: string | null;
+  hero_video_youtube?: string | null;
 }

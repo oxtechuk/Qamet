@@ -134,14 +134,14 @@ export function mapRelatedCar(car: CarItem): CarCardProps | null {
 export function buildTabs(car: CarDetails, t: (key: string) => string): ITab[] {
     return [
         {
-            label: t("carDetails.specs.tab.features"),
-            type: "other",
-            items: car.features_list ?? [],
-        },
-        {
             label: t("carDetails.specs.tab.specifications"),
             type: "other",
             items: car.specifications ?? [],
+        },
+        {
+            label: t("carDetails.specs.tab.features"),
+            type: "other",
+            items: car.features_list ?? [],
         },
         {
             label: t("carDetails.specs.tab.security"),

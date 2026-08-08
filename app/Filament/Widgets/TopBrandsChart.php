@@ -7,6 +7,8 @@ use Filament\Widgets\ChartWidget;
 
 class TopBrandsChart extends ChartWidget
 {
+    protected static bool $isLazy = true;
+
     protected static ?int $sort = 5;
 
     public function getHeading(): ?string

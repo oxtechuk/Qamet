@@ -171,6 +171,8 @@ class Settings extends Page
             'site_logo_color' => $this->getSetting('site_logo_color'),
             'site_favicon' => $this->getSetting('site_favicon'),
             'breadcrumb_bg' => $this->getSetting('breadcrumb_bg'),
+            'hero_video' => $this->getSetting('hero_video'),
+            'hero_video_youtube' => $this->getSetting('hero_video_youtube', ''),
             'page_loader_enabled' => $this->getSetting('page_loader_enabled', true),
             'page_loader_image' => $this->getSetting('page_loader_image'),
             'promo_popup_enabled' => $this->getSetting('promo_popup_enabled', false),
@@ -360,6 +362,21 @@ class Settings extends Page
                                             ->directory('branding')
                                             ->visibility('public')
                                             ->helperText(__('Background image shown on inner page headers')),
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\FileUpload::make('hero_video')
+                                                    ->label(__('Hero Video (MP4)'))
+                                                    ->acceptedFileTypes(['video/mp4', 'video/quicktime'])
+                                                    ->maxSize(20480)
+                                                    ->directory('branding/videos')
+                                                    ->visibility('public')
+                                                    ->helperText(__('An MP4 video file to show in the hero thumbnail (max 20MB)')),
+                                                Forms\Components\TextInput::make('hero_video_youtube')
+                                                    ->label(__('Hero Video YouTube URL'))
+                                                    ->url()
+                                                    ->placeholder('https://www.youtube.com/watch?v=...')
+                                                    ->helperText(__('Or paste a YouTube video link to show in the hero thumbnail')),
+                                            ]),
                                     ]),
                                 Section::make(__('Page Loader'))
                                     ->description(__('Loading screen shown while the page loads'))
@@ -406,6 +423,43 @@ class Settings extends Page
                                                     ->label(__('Button Text'))
                                                     ->maxLength(255)
                                                     ->default(__('Browse Offers')),
+                                            ]),
+                                    ]),
+                                Section::make(__('Localization'))
+                                    ->schema([
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\Select::make('currency')
+                                                    ->label(__('Currency'))
+                                                    ->options([
+                                                        'SAR' => __('SAR - Saudi Riyal'),
+                                                        'AED' => __('AED - UAE Dirham'),
+                                                        'USD' => __('USD - US Dollar'),
+                                                        'EUR' => __('EUR - Euro'),
+                                                    ])
+                                                    ->helperText(__('Default currency for all prices')),
+                                                Forms\Components\Select::make('locale')
+                                                    ->label(__('Default Language'))
+                                                    ->options([
+                                                        'ar' => __('Arabic'),
+                                                        'en' => __('English'),
+                                                    ])
+                                                    ->helperText(__('Default language for the storefront')),
+                                            ]),
+                                    ]),
+                                Section::make(__('Maintenance'))
+                                    ->schema([
+                                        Forms\Components\Toggle::make('maintenance_mode')
+                                            ->label(__('Enable Maintenance Mode'))
+                                            ->helperText(__('When enabled, only admins can access the site.')),
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\Textarea::make('maintenance_message_ar')
+                                                    ->label(__('Maintenance Message').' ('.__('Arabic').')')
+                                                    ->helperText(__('Message displayed to visitors during maintenance.')),
+                                                Forms\Components\Textarea::make('maintenance_message_en')
+                                                    ->label(__('Maintenance Message').' ('.__('English').')')
+                                                    ->helperText(__('Message displayed to visitors during maintenance.')),
                                             ]),
                                     ]),
                             ]),
@@ -948,28 +1002,6 @@ class Settings extends Page
                                         Tab::make(__('Cars'))
                                             ->icon('heroicon-m-truck')
                                             ->schema([
-                                                Section::make(__('Cars Page Hero'))
-                                                    ->schema([
-                                                        //                                                        Grid::make(2)
-                                                        //                                                            ->schema([
-                                                        //                                                                Forms\Components\TextInput::make('cars_hero_title_ar')
-                                                        //                                                                    ->label(__('Title').' ('.__('Arabic').')'),
-                                                        //                                                                Forms\Components\TextInput::make('cars_hero_title_en')
-                                                        //                                                                    ->label(__('Title').' ('.__('English').')'),
-                                                        //                                                            ]),
-                                                        //                                                        Grid::make(2)
-                                                        //                                                            ->schema([
-                                                        //                                                                Forms\Components\Textarea::make('cars_hero_subtitle_ar')
-                                                        //                                                                    ->label(__('Subtitle').' ('.__('Arabic').')'),
-                                                        //                                                                Forms\Components\Textarea::make('cars_hero_subtitle_en')
-                                                        //                                                                    ->label(__('Subtitle').' ('.__('English').')'),
-                                                        //                                                            ]),
-                                                        //                                                        Forms\Components\FileUpload::make('cars_hero_image')
-                                                        //                                                            ->label(__('Hero Image'))
-                                                        //                                                            ->image()
-                                                        //                                                            ->directory('heroes/cars')
-                                                        //                                                            ->visibility('public'),
-                                                    ]),
                                                 Section::make(__('Car Hero Slides'))
                                                     ->description(__('Carousel banners displayed at the top of the cars page'))
                                                     ->schema([
@@ -1076,6 +1108,42 @@ class Settings extends Page
                                                             ->directory('heroes/offers')
                                                             ->visibility('public'),
                                                     ]),
+                                                Section::make(__('Offer Hero Slides'))
+                                                    ->description(__('Image slider displayed at the top of the offers page.'))
+                                                    ->schema([
+                                                        Forms\Components\Repeater::make('offer_hero_slides')
+                                                            ->label(__('Slides'))
+                                                            ->schema([
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\FileUpload::make('image')
+                                                                            ->label(__('Image'))
+                                                                            ->image()
+                                                                            ->directory('slides/offers')
+                                                                            ->visibility('public')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('link')
+                                                                            ->label(__('Link URL'))
+                                                                            ->url(),
+                                                                    ]),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('title_ar')
+                                                                            ->label(__('Title').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('title_en')
+                                                                            ->label(__('Title').' ('.__('English').')'),
+                                                                    ]),
+                                                                Grid::make(2)
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('button_text_ar')
+                                                                            ->label(__('Button Text').' ('.__('Arabic').')'),
+                                                                        Forms\Components\TextInput::make('button_text_en')
+                                                                            ->label(__('Button Text').' ('.__('English').')'),
+                                                                    ]),
+                                                            ])
+                                                            ->addActionLabel(__('Add Slide'))
+                                                            ->collapsible(),
+                                                    ]),
                                             ]),
                                         Tab::make(__('Contact'))
                                             ->icon('heroicon-m-phone')
@@ -1131,8 +1199,8 @@ class Settings extends Page
                                             ]),
                                     ]),
                             ]),
-                        Tab::make(__('SEO & Analytics'))
-                            ->icon('heroicon-m-chart-bar')
+                        Tab::make(__('Advanced'))
+                            ->icon('heroicon-m-cog')
                             ->schema([
                                 Section::make(__('SEO'))
                                     ->schema([
@@ -1161,7 +1229,7 @@ class Settings extends Page
                                             ->label(__('Facebook Pixel ID'))
                                             ->helperText(__('Numeric ID from Facebook Events Manager')),
                                     ]),
-                                Section::make(__('Contact'))
+                                Section::make(__('Contact Integration'))
                                     ->schema([
                                         Forms\Components\TextInput::make('whatsapp_number')
                                             ->label(__('WhatsApp Number'))
@@ -1169,10 +1237,6 @@ class Settings extends Page
                                             ->placeholder(__('e.g. +966501234567'))
                                             ->helperText(__('Used for WhatsApp confirmation messages')),
                                     ]),
-                            ]),
-                        Tab::make(__('Calculator'))
-                            ->icon('heroicon-m-calculator')
-                            ->schema([
                                 Section::make(__('Calculator Limits'))
                                     ->description(__('Configure maximum values for the installment calculator'))
                                     ->schema([
@@ -1192,92 +1256,6 @@ class Settings extends Page
                                                     ->maxValue(100)
                                                     ->required()
                                                     ->helperText(__('Maximum down payment percentage allowed.')),
-                                            ]),
-                                    ]),
-                            ]),
-                        Tab::make(__('Offers Slider'))
-                            ->icon('heroicon-m-photo')
-                            ->schema([
-
-                                Section::make(__('Offer Hero Slides'))
-                                    ->description(__('Image slider displayed at the top of the offers page.'))
-                                    ->schema([
-                                        Forms\Components\Repeater::make('offer_hero_slides')
-                                            ->label(__('Slides'))
-                                            ->schema([
-                                                Grid::make(2)
-                                                    ->schema([
-                                                        Forms\Components\FileUpload::make('image')
-                                                            ->label(__('Image'))
-                                                            ->image()
-                                                            ->directory('slides/offers')
-                                                            ->visibility('public')
-                                                            ->required(),
-                                                        Forms\Components\TextInput::make('link')
-                                                            ->label(__('Link URL'))
-                                                            ->url(),
-                                                    ]),
-                                                Grid::make(2)
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('title_ar')
-                                                            ->label(__('Title').' ('.__('Arabic').')'),
-                                                        Forms\Components\TextInput::make('title_en')
-                                                            ->label(__('Title').' ('.__('English').')'),
-                                                    ]),
-                                                Grid::make(2)
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('button_text_ar')
-                                                            ->label(__('Button Text').' ('.__('Arabic').')'),
-                                                        Forms\Components\TextInput::make('button_text_en')
-                                                            ->label(__('Button Text').' ('.__('English').')'),
-                                                    ]),
-                                            ])
-                                            ->addActionLabel(__('Add Slide'))
-                                            ->collapsible(),
-                                    ]),
-                            ]),
-                        Tab::make(__('Maintenance'))
-                            ->icon('heroicon-m-wrench-screwdriver')
-                            ->schema([
-                                Section::make()
-                                    ->schema([
-                                        Forms\Components\Toggle::make('maintenance_mode')
-                                            ->label(__('Enable Maintenance Mode'))
-                                            ->helperText(__('When enabled, only admins can access the site.')),
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\Textarea::make('maintenance_message_ar')
-                                                    ->label(__('Maintenance Message').' ('.__('Arabic').')')
-                                                    ->helperText(__('Message displayed to visitors during maintenance.')),
-                                                Forms\Components\Textarea::make('maintenance_message_en')
-                                                    ->label(__('Maintenance Message').' ('.__('English').')')
-                                                    ->helperText(__('Message displayed to visitors during maintenance.')),
-                                            ]),
-                                    ]),
-                            ]),
-                        Tab::make(__('Localization'))
-                            ->icon('heroicon-m-language')
-                            ->schema([
-                                Section::make()
-                                    ->schema([
-                                        Grid::make(2)
-                                            ->schema([
-                                                Forms\Components\Select::make('currency')
-                                                    ->label(__('Currency'))
-                                                    ->options([
-                                                        'SAR' => __('SAR - Saudi Riyal'),
-                                                        'AED' => __('AED - UAE Dirham'),
-                                                        'USD' => __('USD - US Dollar'),
-                                                        'EUR' => __('EUR - Euro'),
-                                                    ])
-                                                    ->helperText(__('Default currency for all prices')),
-                                                Forms\Components\Select::make('locale')
-                                                    ->label(__('Default Language'))
-                                                    ->options([
-                                                        'ar' => __('Arabic'),
-                                                        'en' => __('English'),
-                                                    ])
-                                                    ->helperText(__('Default language for the storefront')),
                                             ]),
                                     ]),
                             ]),
