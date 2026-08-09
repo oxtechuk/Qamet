@@ -30,6 +30,24 @@ class BlogPost extends Model
         'thumbnail' => AsImageUrl::class,
     ];
 
+    protected static function booted(): void
+    {
+        static::saving(function (self $model) {
+            if (empty($model->slug)) {
+                $title = $model->title_en ?: ($model->title_ar ?: 'post');
+                if (is_array($title)) {
+                    $title = $title['en'] ?? ($title['ar'] ?? 'post');
+                }
+                $slug = \Illuminate\Support\Str::slug((string) $title);
+                if (empty($slug)) {
+                    $slug = preg_replace('/[^\p{L}\p{N}]+/u', '-', (string) $title);
+                    $slug = trim((string) preg_replace('/-+/', '-', (string) $slug), '-');
+                }
+                $model->slug = $slug ?: ('post-'.uniqid());
+            }
+        });
+    }
+
     public function getReadingTimeAttribute(): int
     {
         return max(1, (int) ceil(mb_strlen(strip_tags($this->content ?? '')) / 1000));

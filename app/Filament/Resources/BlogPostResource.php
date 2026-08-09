@@ -49,7 +49,7 @@ class BlogPostResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('title_ar')->label(__('Title').' ('.__('Arabic').')')->required()->maxLength(255),
                                 Forms\Components\TextInput::make('title_en')->label(__('Title').' ('.__('English').')')->required()->maxLength(255),
-                                Forms\Components\TextInput::make('slug')->label(__('Slug'))->maxLength(255)->unique(ignoreRecord: true),
+                                Forms\Components\TextInput::make('slug')->label(__('Slug'))->placeholder(__('Auto-generated if left empty'))->maxLength(255)->unique(ignoreRecord: true),
                                 Forms\Components\RichEditor::make('content_ar')->label(__('Content').' ('.__('Arabic').')')->required()->columnSpanFull(),
                                 Forms\Components\RichEditor::make('content_en')->label(__('Content').' ('.__('English').')')->required()->columnSpanFull(),
                                 Forms\Components\Textarea::make('excerpt_ar')->label(__('Excerpt').' ('.__('Arabic').')')->columnSpanFull(),
