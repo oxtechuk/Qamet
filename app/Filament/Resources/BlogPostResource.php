@@ -80,7 +80,12 @@ class BlogPostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->label(__('Title'))->searchable()->sortable()->limit(40),
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('Title'))
+                    ->formatStateUsing(fn ($state) => is_array($state) ? ($state[app()->getLocale()] ?? $state['ar'] ?? $state['en'] ?? (reset($state) ?: '')) : (string) $state)
+                    ->searchable()
+                    ->sortable()
+                    ->limit(40),
                 Tables\Columns\TextColumn::make('categories.name')->label(__('Categories'))->badge()->sortable(),
                 Tables\Columns\TextColumn::make('employee.name')->label(__('Author'))->badge()->sortable(),
                 Tables\Columns\IconColumn::make('is_published')->label(__('Published'))->boolean()->sortable(),

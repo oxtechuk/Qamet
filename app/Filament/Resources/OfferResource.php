@@ -105,6 +105,7 @@ class OfferResource extends Resource
                     ->circular()
                     ->defaultImageUrl(fn () => asset('images/placeholder-offer.jpg')),
                 Tables\Columns\TextColumn::make('title')->label(__('Title'))
+                    ->formatStateUsing(fn ($state) => is_array($state) ? ($state[app()->getLocale()] ?? $state['ar'] ?? $state['en'] ?? (reset($state) ?: '')) : (string) $state)
                     ->searchable()
                     ->sortable()
                     ->limit(30),

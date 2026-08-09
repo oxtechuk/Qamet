@@ -62,7 +62,12 @@ class FaqResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('question')->label(__('Question'))->searchable()->limit(50)->sortable(),
+                Tables\Columns\TextColumn::make('question')
+                    ->label(__('Question'))
+                    ->formatStateUsing(fn ($state) => is_array($state) ? ($state[app()->getLocale()] ?? $state['ar'] ?? $state['en'] ?? (reset($state) ?: '')) : (string) $state)
+                    ->searchable()
+                    ->limit(50)
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_visible')->label(__('Visible'))->boolean()->sortable(),
                 Tables\Columns\TextColumn::make('sort_order')->label(__('Sort Order'))->numeric()->sortable(),
             ])
