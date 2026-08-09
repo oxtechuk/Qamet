@@ -291,12 +291,16 @@ class BookingResource extends Resource
                                         $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Assigned To').'</th>';
                                         $html .= '</tr></thead><tbody>';
                                         foreach ($tasks as $task) {
+                                            $taskTitle = is_array($task->title) ? ($task->title['ar'] ?? $task->title['en'] ?? '-') : (string) ($task->title ?? '-');
+                                            $priorityLabel = is_array($task->priority_label) ? ($task->priority_label['ar'] ?? $task->priority_label['en'] ?? '-') : (string) ($task->priority_label ?? '-');
+                                            $statusLabel = is_array($task->status_label) ? ($task->status_label['ar'] ?? $task->status_label['en'] ?? '-') : (string) ($task->status_label ?? '-');
+                                            $assignedName = is_array($task->assignedTo?->name) ? ($task->assignedTo->name['ar'] ?? $task->assignedTo->name['en'] ?? '-') : (string) ($task->assignedTo?->name ?? '-');
                                             $html .= '<tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-semibold">'.htmlspecialchars($task->title).'</td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-semibold">'.htmlspecialchars($taskTitle).'</td>';
                                             $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-mono text-amber-600 dark:text-amber-400">'.($task->due_date ? $task->due_date->format('Y-m-d') : '-').'</td>';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">'.htmlspecialchars($task->priority_label).'</span></td>';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">'.htmlspecialchars($task->status_label).'</span></td>';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 text-gray-500">'.htmlspecialchars($task->assignedTo?->name ?? '-').'</td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">'.htmlspecialchars($priorityLabel).'</span></td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">'.htmlspecialchars($statusLabel).'</span></td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 text-gray-500">'.htmlspecialchars($assignedName).'</td>';
                                             $html .= '</tr>';
                                         }
                                         $html .= '</tbody></table></div>';

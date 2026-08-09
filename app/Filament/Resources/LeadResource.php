@@ -201,11 +201,14 @@ class LeadResource extends Resource
                                         $html .= '<th class="p-3 border border-gray-200 dark:border-gray-700">'.__('Date').'</th>';
                                         $html .= '</tr></thead><tbody>';
                                         foreach ($orders as $order) {
+                                            $carName = is_array($order->car?->name) ? ($order->car->name['ar'] ?? $order->car->name['en'] ?? '-') : (string) ($order->car?->name ?? '-');
+                                            $bookingType = is_array($order->booking_type) ? ($order->booking_type['ar'] ?? $order->booking_type['en'] ?? '-') : (string) ($order->booking_type ?? '-');
+                                            $status = is_array($order->status) ? ($order->status['ar'] ?? $order->status['en'] ?? '-') : (string) ($order->status ?? '-');
                                             $html .= '<tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">';
                                             $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-mono font-bold text-primary-600">#'.$order->id.'</td>';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-semibold">'.htmlspecialchars($order->car?->name ?? '-').'</td>';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700">'.htmlspecialchars($order->booking_type ?? '-').'</td>';
-                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">'.htmlspecialchars($order->status ?? '-').'</span></td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 font-semibold">'.htmlspecialchars($carName).'</td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700">'.htmlspecialchars($bookingType).'</td>';
+                                            $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700"><span class="px-2 py-1 text-xs font-bold rounded bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">'.htmlspecialchars($status).'</span></td>';
                                             $html .= '<td class="p-3 border border-gray-200 dark:border-gray-700 text-gray-500">'.($order->created_at ? $order->created_at->format('Y-m-d H:i') : '-').'</td>';
                                             $html .= '</tr>';
                                         }
