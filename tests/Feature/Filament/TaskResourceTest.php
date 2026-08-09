@@ -3,7 +3,6 @@
 namespace Tests\Feature\Filament;
 
 use App\Models\Employee;
-use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,7 +12,19 @@ class TaskResourceTest extends TestCase
 
     public function test_tasks_page_loads_successfully(): void
     {
-        $employee = Employee::factory()->create();
+        $this->seed(\Database\Seeders\PermissionSeeder::class);
+
+        $employee = Employee::create([
+            'name' => 'Test Admin',
+            'username' => 'testadmin',
+            'email' => 'admin@test.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+            'is_active' => true,
+        ]);
+        $employee->assignRole('admin');
+
+        config(['app.env' => 'local']);
 
         $response = $this->actingAs($employee, 'employee')
             ->get('/admin/tasks');

@@ -152,13 +152,13 @@ class TaskResource extends Resource
                     ->relationship('assignedTo', 'name'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
-                Tables\Actions\DeleteAction::make(),
+                Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('markDone')
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\Action::make('markDone')
                         ->label(__('Mark as Done'))
                         ->icon('heroicon-m-check-circle')
                         ->color('success')
