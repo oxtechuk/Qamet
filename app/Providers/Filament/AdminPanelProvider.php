@@ -22,6 +22,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -48,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->spa()
             ->login(Login::class)
             ->authGuard('employee')
             ->authPasswordBroker('employees')
@@ -62,12 +64,16 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->brandName('Qemt Njet')
             ->favicon(function (): string {
-                $favicon = Setting::where('key', 'site_favicon')->value('value');
+                $favicon = Cache::remember('site_favicon', 3600, function () {
+                    return Setting::where('key', 'site_favicon')->value('value') ?? '';
+                });
 
                 return $favicon ? asset('storage/'.$favicon) : asset('images/favicon.ico');
             })
             ->brandLogo(function (): \Illuminate\Contracts\Support\Htmlable {
-                $logo = Setting::where('key', 'site_logo')->value('value');
+                $logo = Cache::remember('site_logo', 3600, function () {
+                    return Setting::where('key', 'site_logo')->value('value') ?? '';
+                });
                 $logoUrl = $logo ? asset('storage/'.$logo) : asset('images/logo_without_bg_white.svg');
 
                 return new \Illuminate\Support\HtmlString('
@@ -118,8 +124,10 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook('panels::head.end', function (): string {
                 $dir = app()->isLocale('ar') ? 'rtl' : 'ltr';
                 $cssUrl = asset('css/filament/dashboard.css');
+                $cssPath = resource_path('css/filament/dashboard.css');
+                $version = file_exists($cssPath) ? filemtime($cssPath) : '1.0';
 
-                return "<script>document.documentElement.setAttribute('dir', '{$dir}')</script><link rel=\"stylesheet\" href=\"{$cssUrl}?v=".time().'">';
+                return "<script>document.documentElement.setAttribute('dir', '{$dir}')</script><link rel=\"stylesheet\" href=\"{$cssUrl}?v={$version}\">";
             });
     }
 }

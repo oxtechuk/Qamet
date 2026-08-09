@@ -41,8 +41,10 @@ class LeadResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->schema([
                 Section::make()
+                    ->columns(1)
                     ->schema([
                         Forms\Components\TextInput::make('client_name')
                             ->label(__('Client Name'))

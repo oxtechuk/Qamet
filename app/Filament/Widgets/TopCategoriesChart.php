@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\CarCategory;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Cache;
 
 class TopCategoriesChart extends ChartWidget
 {
@@ -27,26 +28,28 @@ class TopCategoriesChart extends ChartWidget
 
     protected function getData(): array
     {
-        $categories = CarCategory::withCount('cars')
-            ->orderByDesc('cars_count')
-            ->limit(6)
-            ->get();
+        return Cache::remember('dashboard_top_categories_chart', 600, function () {
+            $categories = CarCategory::withCount('cars')
+                ->orderByDesc('cars_count')
+                ->limit(6)
+                ->get();
 
-        $colors = ['#6366f1', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#f97316'];
+            $colors = ['#6366f1', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#f97316'];
 
-        return [
-            'datasets' => [
-                [
-                    'label' => __('Cars'),
-                    'data' => $categories->pluck('cars_count')->toArray(),
-                    'backgroundColor' => array_slice($colors, 0, $categories->count()),
-                    'borderRadius' => 6,
-                    'borderSkipped' => false,
-                    'barThickness' => 24,
+            return [
+                'datasets' => [
+                    [
+                        'label' => __('Cars'),
+                        'data' => $categories->pluck('cars_count')->toArray(),
+                        'backgroundColor' => array_slice($colors, 0, $categories->count()),
+                        'borderRadius' => 6,
+                        'borderSkipped' => false,
+                        'barThickness' => 24,
+                    ],
                 ],
-            ],
-            'labels' => $categories->pluck('name')->toArray(),
-        ];
+                'labels' => $categories->pluck('name')->toArray(),
+            ];
+        });
     }
 
     protected function getType(): string

@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Brand;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Cache;
 
 class TopBrandsChart extends ChartWidget
 {
@@ -27,25 +28,27 @@ class TopBrandsChart extends ChartWidget
 
     protected function getData(): array
     {
-        $brands = Brand::withCount('cars')
-            ->orderByDesc('cars_count')
-            ->limit(6)
-            ->get();
+        return Cache::remember('dashboard_top_brands_chart', 600, function () {
+            $brands = Brand::withCount('cars')
+                ->orderByDesc('cars_count')
+                ->limit(6)
+                ->get();
 
-        $colors = ['#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e'];
+            $colors = ['#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e'];
 
-        return [
-            'datasets' => [
-                [
-                    'data' => $brands->pluck('cars_count')->toArray(),
-                    'backgroundColor' => array_slice($colors, 0, $brands->count()),
-                    'borderWidth' => 3,
-                    'borderColor' => '#fff',
-                    'hoverOffset' => 8,
+            return [
+                'datasets' => [
+                    [
+                        'data' => $brands->pluck('cars_count')->toArray(),
+                        'backgroundColor' => array_slice($colors, 0, $brands->count()),
+                        'borderWidth' => 3,
+                        'borderColor' => '#fff',
+                        'hoverOffset' => 8,
+                    ],
                 ],
-            ],
-            'labels' => $brands->pluck('name')->toArray(),
-        ];
+                'labels' => $brands->pluck('name')->toArray(),
+            ];
+        });
     }
 
     protected function getType(): string

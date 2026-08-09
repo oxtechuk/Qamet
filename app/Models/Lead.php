@@ -29,6 +29,15 @@ class Lead extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::creating(function (Lead $lead) {
+            if (empty($lead->started_at)) {
+                $lead->started_at = now();
+            }
+        });
+    }
+
     public const STATUSES = [
         'new' => ['label' => 'جديد', 'color' => 'primary'],
         'contacted' => ['label' => 'تم التواصل', 'color' => 'info'],

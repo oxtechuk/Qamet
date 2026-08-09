@@ -133,19 +133,32 @@ class TaskResource extends Resource
                     ->color(fn ($record) => $record->due_date && $record->due_date->isPast() && $record->status !== 'done' ? 'danger' : null),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('priority'),
-                Tables\Filters\SelectFilter::make('status'),
+                Tables\Filters\SelectFilter::make('priority')
+                    ->label(__('Priority'))
+                    ->options([
+                        'high' => __('High'),
+                        'medium' => __('Medium'),
+                        'low' => __('Low'),
+                    ]),
+                Tables\Filters\SelectFilter::make('status')
+                    ->label(__('Status'))
+                    ->options([
+                        'new' => __('New'),
+                        'in_progress' => __('In Progress'),
+                        'done' => __('Done'),
+                    ]),
                 Tables\Filters\SelectFilter::make('assigned_to')
+                    ->label(__('Assigned To'))
                     ->relationship('assignedTo', 'name'),
             ])
             ->actions([
-                Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
-                Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->slideOver()->modalWidth('2xl'),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Actions\BulkActionGroup::make([
-                    Actions\DeleteBulkAction::make(),
-                    Actions\BulkAction::make('markDone')
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('markDone')
                         ->label(__('Mark as Done'))
                         ->icon('heroicon-m-check-circle')
                         ->color('success')

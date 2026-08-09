@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Booking;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SalesTrendChart extends ChartWidget
@@ -28,57 +29,59 @@ class SalesTrendChart extends ChartWidget
 
     protected function getData(): array
     {
-        $currentMonth = (int) now()->format('n');
-        $driver = DB::connection()->getDriverName();
-        $monthExpr = $driver === 'sqlite'
-            ? "CAST(strftime('%m', created_at) AS INTEGER)"
-            : 'MONTH(created_at)';
-        $yearExpr = $driver === 'sqlite'
-            ? "CAST(strftime('%Y', created_at) AS INTEGER)"
-            : 'YEAR(created_at)';
+        return Cache::remember('dashboard_sales_trend_chart', 600, function () {
+            $currentMonth = (int) now()->format('n');
+            $driver = DB::connection()->getDriverName();
+            $monthExpr = $driver === 'sqlite'
+                ? "CAST(strftime('%m', created_at) AS INTEGER)"
+                : 'MONTH(created_at)';
+            $yearExpr = $driver === 'sqlite'
+                ? "CAST(strftime('%Y', created_at) AS INTEGER)"
+                : 'YEAR(created_at)';
 
-        $sales = Booking::select(
-            DB::raw("{$monthExpr} as month"),
-            DB::raw("{$yearExpr} as year"),
-            DB::raw("SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as completed"),
-            DB::raw('COUNT(*) as total')
-        )
-            ->whereYear('created_at', now()->year)
-            ->groupBy(DB::raw($yearExpr), DB::raw($monthExpr))
-            ->orderBy('month')
-            ->get()
-            ->keyBy('month');
+            $sales = Booking::select(
+                DB::raw("{$monthExpr} as month"),
+                DB::raw("{$yearExpr} as year"),
+                DB::raw("SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as completed"),
+                DB::raw('COUNT(*) as total')
+            )
+                ->whereYear('created_at', now()->year)
+                ->groupBy(DB::raw($yearExpr), DB::raw($monthExpr))
+                ->orderBy('month')
+                ->get()
+                ->keyBy('month');
 
-        $months = collect(range(1, $currentMonth))->map(function ($month) use ($sales) {
-            $data = $sales->get($month);
+            $months = collect(range(1, $currentMonth))->map(function ($month) use ($sales) {
+                $data = $sales->get($month);
+
+                return [
+                    'completed' => $data ? $data->completed : 0,
+                    'total' => $data ? $data->total : 0,
+                ];
+            });
 
             return [
-                'completed' => $data ? $data->completed : 0,
-                'total' => $data ? $data->total : 0,
+                'datasets' => [
+                    [
+                        'label' => __('Completed'),
+                        'data' => $months->pluck('completed')->toArray(),
+                        'backgroundColor' => 'rgba(16, 185, 129, 0.85)',
+                        'borderRadius' => 6,
+                        'borderSkipped' => false,
+                    ],
+                    [
+                        'label' => __('Total Orders'),
+                        'data' => $months->pluck('total')->toArray(),
+                        'backgroundColor' => 'rgba(99, 102, 241, 0.6)',
+                        'borderRadius' => 6,
+                        'borderSkipped' => false,
+                    ],
+                ],
+                'labels' => collect(range(1, $currentMonth))->map(function ($m) {
+                    return date('M', mktime(0, 0, 0, $m, 1));
+                })->toArray(),
             ];
         });
-
-        return [
-            'datasets' => [
-                [
-                    'label' => __('Completed'),
-                    'data' => $months->pluck('completed')->toArray(),
-                    'backgroundColor' => 'rgba(16, 185, 129, 0.85)',
-                    'borderRadius' => 6,
-                    'borderSkipped' => false,
-                ],
-                [
-                    'label' => __('Total Orders'),
-                    'data' => $months->pluck('total')->toArray(),
-                    'backgroundColor' => 'rgba(99, 102, 241, 0.6)',
-                    'borderRadius' => 6,
-                    'borderSkipped' => false,
-                ],
-            ],
-            'labels' => collect(range(1, $currentMonth))->map(function ($m) {
-                return date('M', mktime(0, 0, 0, $m, 1));
-            })->toArray(),
-        ];
     }
 
     protected function getType(): string
