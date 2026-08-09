@@ -40,31 +40,35 @@ class CalculatorLeadResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->schema([
-            Section::make()->schema([
-                Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('name')->label(__('Name'))->required()->maxLength(255),
-                    Forms\Components\TextInput::make('phone')->label(__('Phone'))->tel()->required()->maxLength(20),
-                ]),
-                Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('email')->label(__('Email'))->email(),
-                    Forms\Components\TextInput::make('city')->label(__('City')),
-                ]),
-                Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('salary')->label(__('Salary'))->numeric()->prefix(__('SAR')),
-                    Forms\Components\TextInput::make('monthly_obligations')->label(__('Monthly Obligations'))->numeric()->prefix(__('SAR')),
-                ]),
-                Grid::make(2)->schema([
-                    Forms\Components\Select::make('preferred_bank_id')->label(__('Preferred Bank'))->relationship('preferredBank', 'name')->searchable()->preload()->nullable(),
-                    Forms\Components\Select::make('car_ids')->label(__('Cars'))->relationship('cars', 'name')->multiple()->searchable()->preload()->nullable(),
-                ]),
-                Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('car_price')->label(__('Car Price'))->numeric()->prefix(__('SAR')),
-                    Forms\Components\Textarea::make('notes')->label(__('Notes'))->rows(3),
-                ]),
-                Forms\Components\KeyValue::make('details')->label(__('Details'))->keyLabel(__('Field'))->valueLabel(__('Value')),
-            ]),
-        ]);
+        return $schema
+            ->columns(1)
+            ->schema([
+                Section::make()
+                    ->columnSpanFull()
+                    ->schema([
+                        Grid::make(2)->schema([
+                            Forms\Components\TextInput::make('name')->label(__('Name'))->required()->maxLength(255),
+                            Forms\Components\TextInput::make('phone')->label(__('Phone'))->tel()->required()->maxLength(20),
+                        ]),
+                        Grid::make(2)->schema([
+                            Forms\Components\TextInput::make('email')->label(__('Email'))->email(),
+                            Forms\Components\TextInput::make('city')->label(__('City')),
+                        ]),
+                        Grid::make(2)->schema([
+                            Forms\Components\TextInput::make('salary')->label(__('Salary'))->numeric()->prefix(__('SAR')),
+                            Forms\Components\TextInput::make('monthly_obligations')->label(__('Monthly Obligations'))->numeric()->prefix(__('SAR')),
+                        ]),
+                        Grid::make(2)->schema([
+                            Forms\Components\Select::make('preferred_bank_id')->label(__('Preferred Bank'))->relationship('preferredBank', 'name')->searchable()->preload()->nullable(),
+                            Forms\Components\Select::make('car_ids')->label(__('Cars'))->options(fn () => \App\Models\Car::query()->pluck('name', 'id')->toArray())->multiple()->searchable()->preload()->nullable(),
+                        ]),
+                        Grid::make(2)->schema([
+                            Forms\Components\TextInput::make('car_price')->label(__('Car Price'))->numeric()->prefix(__('SAR')),
+                            Forms\Components\Textarea::make('notes')->label(__('Notes'))->rows(3),
+                        ]),
+                        Forms\Components\KeyValue::make('details')->label(__('Details'))->keyLabel(__('Field'))->valueLabel(__('Value')),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

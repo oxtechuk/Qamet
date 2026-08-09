@@ -201,20 +201,23 @@ class BookingResource extends Resource
                     ->money('SAR')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('assignedTo.name')
+                Tables\Columns\SelectColumn::make('assigned_to')
                     ->label(__('Assigned'))
-                    ->badge()
+                    ->options(fn () => \App\Models\Employee::query()->pluck('name', 'id')->toArray())
                     ->sortable(),
 
-                Tables\Columns\BadgeColumn::make('status')->label(__('Status'))
-                    ->colors([
-                        'primary' => 'new',
-                        'info' => 'contacted',
-                        'warning' => fn ($state): bool => in_array($state, ['interested', 'negotiation'], true),
-                        'success' => 'sold',
-                        'danger' => 'rejected',
-                        'gray' => 'cancelled',
-                    ]),
+                Tables\Columns\SelectColumn::make('status')
+                    ->label(__('Status'))
+                    ->options([
+                        'new' => __('New'),
+                        'contacted' => __('Contacted'),
+                        'interested' => __('Interested'),
+                        'negotiation' => __('Negotiation'),
+                        'sold' => __('Sold'),
+                        'rejected' => __('Rejected'),
+                        'cancelled' => __('Cancelled'),
+                    ])
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('Date'))
@@ -302,10 +305,51 @@ class BookingResource extends Resource
                                     }),
                             ]),
                     ]),
+                Actions\Action::make('assign_employee')
+                    ->label(__('إسناد موظف'))
+                    ->icon('heroicon-o-user-plus')
+                    ->color('info')
+                    ->slideOver()
+                    ->modalWidth('md')
+                    ->form([
+                        Forms\Components\Select::make('assigned_to')
+                            ->label(__('الموظف المسند إليه'))
+                            ->options(fn () => \App\Models\Employee::query()->pluck('name', 'id')->toArray())
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        $record->update(['assigned_to' => $data['assigned_to']]);
+                    }),
+                Actions\Action::make('change_status')
+                    ->label(__('تغيير الحالة'))
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('warning')
+                    ->slideOver()
+                    ->modalWidth('md')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->label(__('الحالة'))
+                            ->options([
+                                'new' => __('New'),
+                                'contacted' => __('Contacted'),
+                                'interested' => __('Interested'),
+                                'negotiation' => __('Negotiation'),
+                                'sold' => __('Sold'),
+                                'rejected' => __('Rejected'),
+                                'cancelled' => __('Cancelled'),
+                            ])
+                            ->default(fn (Booking $record) => $record->status)
+                            ->required(),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        $record->update(['status' => $data['status']]);
+                    }),
                 Actions\Action::make('create_task')
                     ->label(__('Follow-up Task'))
                     ->icon('heroicon-o-clipboard-document-check')
-                    ->color('warning')
+                    ->color('secondary')
                     ->slideOver()
                     ->modalWidth('xl')
                     ->form([
@@ -362,6 +406,38 @@ class BookingResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    Actions\BulkAction::make('bulk_assign')
+                        ->label(__('إسناد المحددة لموظف'))
+                        ->icon('heroicon-o-user-plus')
+                        ->color('info')
+                        ->form([
+                            Forms\Components\Select::make('assigned_to')
+                                ->label(__('الموظف المسند إليه'))
+                                ->options(fn () => \App\Models\Employee::query()->pluck('name', 'id')->toArray())
+                                ->searchable()
+                                ->preload()
+                                ->required(),
+                        ])
+                        ->action(fn ($records, array $data) => $records->each->update(['assigned_to' => $data['assigned_to']])),
+                    Actions\BulkAction::make('bulk_change_status')
+                        ->label(__('تغيير حالة المحددة'))
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning')
+                        ->form([
+                            Forms\Components\Select::make('status')
+                                ->label(__('الحالة الجديده'))
+                                ->options([
+                                    'new' => __('New'),
+                                    'contacted' => __('Contacted'),
+                                    'interested' => __('Interested'),
+                                    'negotiation' => __('Negotiation'),
+                                    'sold' => __('Sold'),
+                                    'rejected' => __('Rejected'),
+                                    'cancelled' => __('Cancelled'),
+                                ])
+                                ->required(),
+                        ])
+                        ->action(fn ($records, array $data) => $records->each->update(['status' => $data['status']])),
                     Actions\BulkAction::make('markAsSold')
                         ->label(__('Mark as Sold'))
                         ->icon('heroicon-m-check-circle')
@@ -369,12 +445,7 @@ class BookingResource extends Resource
                         ->action(fn ($records) => $records->each->update(['status' => 'sold'])),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc')
-            ->contentGrid([
-                'default' => 1,
-                'md' => 2,
-                'xl' => 3,
-            ]);
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
