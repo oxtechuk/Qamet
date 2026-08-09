@@ -104,22 +104,38 @@ class TaskResource extends Resource
                     ->badge()
                     ->color('info'),
 
-                Tables\Columns\BadgeColumn::make('priority')
+                Tables\Columns\TextColumn::make('priority')
                     ->label(__('Priority'))
-                    ->colors([
-                        'danger' => 'high',
-                        'warning' => 'medium',
-                        'success' => 'low',
-                    ])
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'high' => __('High'),
+                        'medium' => __('Medium'),
+                        'low' => __('Low'),
+                        default => $state ?? '-',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'high' => 'danger',
+                        'medium' => 'warning',
+                        'low' => 'success',
+                        default => 'gray',
+                    })
                     ->sortable(),
 
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label(__('Status'))
-                    ->colors([
-                        'primary' => 'new',
-                        'warning' => 'in_progress',
-                        'success' => 'done',
-                    ]),
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'new' => __('New'),
+                        'in_progress' => __('In Progress'),
+                        'done' => __('Done'),
+                        default => $state ?? '-',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'new' => 'primary',
+                        'in_progress' => 'warning',
+                        'done' => 'success',
+                        default => 'gray',
+                    }),
 
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->label(__('Assigned'))
