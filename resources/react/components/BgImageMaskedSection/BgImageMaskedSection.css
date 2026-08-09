@@ -1,0 +1,110 @@
+.bg-image-masked-section {
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: ellipse(100% 100% at 50% 50%);
+  margin-top: 1px;
+  padding-top: 1px;
+}
+
+.bg-image-masked-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  border-radius: 0 0 50% 50%;
+  background: var(--background);
+  z-index: 0;
+}
+
+.bg-image-masked-section::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  height: 100px;
+  border-radius: 50% 50% 0 0;
+  background: var(--background);
+  z-index: 10;
+}
+
+.bg-image-masked-section__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-overlay-gradient);
+  z-index: 1;
+}
+
+.bg-image-masked-section__content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .bg-image-masked-section {
+    min-height: 500px;
+    margin-top: 1px;
+    padding-top: 80px;
+  }
+
+  .bg-image-masked-section::before,
+  .bg-image-masked-section::after {
+    height: 80px;
+  }
+
+  .bg-image-masked-section::after {
+    bottom: -40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bg-image-masked-section {
+    min-height: 400px;
+    margin-top: 1px;
+    padding-top: 60px;
+  }
+
+  .bg-image-masked-section__content {
+    padding: 0 1rem;
+  }
+
+  .bg-image-masked-section::before,
+  .bg-image-masked-section::after {
+    height: 60px;
+  }
+
+  .bg-image-masked-section::after {
+    bottom: -30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bg-image-masked-section {
+    min-height: 300px;
+    margin-top: 1px;
+    padding-top: 50px;
+  }
+
+  .bg-image-masked-section::before,
+  .bg-image-masked-section::after {
+    height: 50px;
+  }
+
+  .bg-image-masked-section::after {
+    bottom: -25px;
+  }
+}

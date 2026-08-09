@@ -21,6 +21,7 @@ import type { HeroSlide } from "../interfaces/IHomeHeroProps";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 import PurchaseExperienceSection from "../components/PurchaseExperienceSection";
 import HomeOffersSection from "../components/HomeOffersSection";
+import HomePageSkeleton from "../components/HomePageSkeleton";
 
 function mapHomeCarToCardProps(car: HomeCarItem): CarCardProps | null {
     try {
@@ -45,7 +46,8 @@ function mapHomeCarToCardProps(car: HomeCarItem): CarCardProps | null {
                 "var(--brand-secondary-color)",
             ),
             detailsTo: `/cars/${slug}`,
-            badgeText: car.highlight?.text ?? car.highlight?.text_ar ?? undefined,
+            badgeText:
+                car.highlight?.text ?? car.highlight?.text_ar ?? undefined,
             badgeColor: car.highlight?.color ?? undefined,
         };
     } catch {
@@ -170,13 +172,15 @@ export default function Home() {
                     ? getImageUrl(slide.image) || APP_IMAGES.LOGO
                     : APP_IMAGES.LOGO,
                 title: slide.car ? slide.car.name : slide.title,
-                subtitle: slide.car
-                    ? (
-                        <>
-                            {t("hero.startsFrom")} {formatPrice(slide.car.min_installment, "var(--brand-secondary-color)")}
-                        </>
-                    )
-                    : undefined,
+                subtitle: slide.car ? (
+                    <>
+                        {t("hero.startsFrom")}{" "}
+                        {formatPrice(
+                            slide.car.min_installment,
+                            "var(--brand-secondary-color)",
+                        )}
+                    </>
+                ) : undefined,
                 buttonText: slide.button_text,
                 buttonLink: slide.button_link,
                 button2Text: slide.button_2_text,
@@ -225,13 +229,8 @@ export default function Home() {
     const latestSection = data?.latest_cars?.section;
     const budgetSection = data?.cars_by_budget?.section;
 
-
     if (isLoading) {
-        return (
-            <div className="flex min-h-[400px] items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-[var(--brand-primary-color)] border-t-transparent" />
-            </div>
-        );
+        return <HomePageSkeleton />;
     }
 
     return (
@@ -240,7 +239,11 @@ export default function Home() {
                 slides={heroSlides}
                 heroVideoUrl={settings?.hero_video || undefined}
                 heroVideoYoutube={settings?.hero_video_youtube || undefined}
-                filterBrands={((data?.filter_brand_types?.length ? data.filter_brand_types : data?.filter_brands) ?? []) as BrandInfo[]}
+                filterBrands={
+                    ((data?.filter_brand_types?.length
+                        ? data.filter_brand_types
+                        : data?.filter_brands) ?? []) as BrandInfo[]
+                }
                 filterTypes={data?.filter_types}
                 filterCategories={data?.filter_categories}
                 filterYears={data?.filter_years}
@@ -281,7 +284,6 @@ export default function Home() {
                 titleBlue={
                     budgetSection?.title?.trim() || t("budgetCars.titleBlue")
                 }
-            
                 description={
                     budgetSection?.description?.trim() ||
                     t("budgetCars.description")

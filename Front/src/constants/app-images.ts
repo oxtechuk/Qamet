@@ -8,6 +8,14 @@ const STORAGE_PREFIX = API_ORIGIN ? `${API_ORIGIN}/storage/` : `${cleanBase}stor
 export function getImageUrl(path: string | null): string {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) {
+    try {
+      const url = new URL(path);
+      if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+        return url.pathname;
+      }
+    } catch {
+      // Fallthrough
+    }
     return path.replace(/([^:]\/)\//g, "$1");
   }
   return `${STORAGE_PREFIX}${path}`;

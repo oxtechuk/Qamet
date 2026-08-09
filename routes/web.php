@@ -33,11 +33,11 @@ Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request
 //  React Single Page Application (SPA)
 // =============================================
 Route::get('/', function () {
-    return response()->file(public_path('index.html'));
+    return view('app');
 })->name('store.home')->middleware('maintenance');
 
 Route::get('/{any}', function () {
-    return response()->file(public_path('index.html'));
+    return view('app');
 })->where('any', '^(?!.*(admin|api|store-api|storage)).*$')->middleware('maintenance');
 
 // =============================================

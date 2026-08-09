@@ -16,7 +16,7 @@ export default function OffersPage() {
   const language = useLanguageStore((s) => s.language);
   const [page, setPage] = useState(1);
 
-  const { data: offersResponse } = useQuery({
+  const { data: offersResponse, isPending } = useQuery({
     queryKey: ["offers", language, page],
     queryFn: () => getOffers(page, 12),
   });
@@ -28,6 +28,10 @@ export default function OffersPage() {
     if (!offersResponse?.data) return [];
     return offersResponse.data.map((offer) => offerToCardProps(offer, t, language));
   }, [offersResponse, t, language]);
+
+  if (isPending) {
+    return <OffersPageSkeleton />;
+  }
 
   const currentPage = offersResponse?.meta.current_page ?? page;
   const totalPages = offersResponse?.meta.last_page ?? 1;

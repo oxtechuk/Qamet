@@ -99,7 +99,7 @@ export default function AllCarsPage() {
         return params;
     }
 
-    const { data: carsResponse } = useQuery({
+    const { data: carsResponse, isPending: carsPending } = useQuery({
         queryKey: ["cars-data", language, filters, currentPage, offerId],
         queryFn: () => getCars(buildParams()),
         staleTime: 5 * 60 * 1000,
@@ -187,6 +187,10 @@ export default function AllCarsPage() {
                 button2To: slide.link_2 || undefined,
             }));
     }, [carsMeta?.hero_slides, language]);
+
+    if (carsPending) {
+        return <AllCarsPageSkeleton />;
+    }
 
     return (
         <main>

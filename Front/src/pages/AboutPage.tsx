@@ -29,7 +29,7 @@ export default function AboutPage() {
 
   useSEO(t("nav.about"), t("aboutPage.hero.description"));
 
-  const { data: aboutData } = useQuery<IAboutData>({
+  const { data: aboutData, isLoading } = useQuery<IAboutData>({
     queryKey: ["about", language],
     queryFn: getAboutPageData,
   });
@@ -65,6 +65,10 @@ export default function AboutPage() {
       rating: item.rating,
     }));
   }, [aboutData]);
+
+  if (isLoading) {
+    return <AboutPageSkeleton />;
+  }
 
   return (
     <>
