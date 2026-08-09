@@ -7,6 +7,7 @@ use App\Models\Task;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -49,7 +50,7 @@ class TaskResource extends Resource
                             ->label(__('Title'))
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Grid::make(2)
+                        Grid::make(2)
                             ->schema([
                                 Forms\Components\Select::make('booking_id')
                                     ->label(__('Linked Order / Booking'))
@@ -62,7 +63,7 @@ class TaskResource extends Resource
                                     ->default(now()->today())
                                     ->required(),
                             ]),
-                        Forms\Components\Grid::make(3)
+                        Grid::make(3)
                             ->schema([
                                 Forms\Components\Select::make('priority')
                                     ->label(__('Priority'))
