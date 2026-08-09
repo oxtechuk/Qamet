@@ -5,6 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Qemt Najd</title>
+    <link rel="preload" as="image" href="/images/home_hero.webp" fetchpriority="high" />
     @if (file_exists(public_path('hot')))
         @viteReactRefresh
         @vite('resources/react/main.tsx')
