@@ -40,18 +40,22 @@ class FaqResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->schema([
-            Section::make()->schema([
-                Forms\Components\Textarea::make('question_ar')->label(__('Question').' ('.__('Arabic').')')->required(),
-                Forms\Components\Textarea::make('question_en')->label(__('Question').' ('.__('English').')')->required(),
-                Forms\Components\RichEditor::make('answer_ar')->label(__('Answer').' ('.__('Arabic').')')->required(),
-                Forms\Components\RichEditor::make('answer_en')->label(__('Answer').' ('.__('English').')')->required(),
-                Grid::make(3)->schema([
-                    Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
-                    Forms\Components\Toggle::make('is_visible')->label(__('Visible'))->default(true),
-                ]),
-            ]),
-        ]);
+        return $schema
+            ->columns(1)
+            ->schema([
+                Section::make()
+                    ->columnSpanFull()
+                    ->schema([
+                        Forms\Components\Textarea::make('question_ar')->label(__('Question').' ('.__('Arabic').')')->required(),
+                        Forms\Components\Textarea::make('question_en')->label(__('Question').' ('.__('English').')')->required(),
+                        Forms\Components\RichEditor::make('answer_ar')->label(__('Answer').' ('.__('Arabic').')')->required(),
+                        Forms\Components\RichEditor::make('answer_en')->label(__('Answer').' ('.__('English').')')->required(),
+                        Grid::make(3)->schema([
+                            Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
+                            Forms\Components\Toggle::make('is_visible')->label(__('Visible'))->default(true),
+                        ]),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

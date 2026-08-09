@@ -40,46 +40,54 @@ class TaskResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->schema([
                 Section::make()
+                    ->columnSpanFull()
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->label(__('Title'))
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Select::make('booking_id')
-                            ->label(__('Linked Order / Booking'))
-                            ->relationship('booking', 'id')
-                            ->getOptionLabelFromRecordUsing(fn ($record) => "#{$record->id} - {$record->client_name} (".($record->car?->name ?? 'طلب').')')
-                            ->searchable()
-                            ->preload(),
-                        Forms\Components\DatePicker::make('due_date')
-                            ->label(__('Due Date / Follow-up Date'))
-                            ->default(now()->today())
-                            ->required(),
-                        Forms\Components\Select::make('priority')
-                            ->label(__('Priority'))
-                            ->options([
-                                'high' => __('High'),
-                                'medium' => __('Medium'),
-                                'low' => __('Low'),
-                            ])
-                            ->default('medium')
-                            ->required(),
-                        Forms\Components\Select::make('status')
-                            ->label(__('Status'))
-                            ->options([
-                                'new' => __('New'),
-                                'in_progress' => __('In Progress'),
-                                'done' => __('Done'),
-                            ])
-                            ->default('new')
-                            ->required(),
-                        Forms\Components\Select::make('assigned_to')
-                            ->label(__('Assigned To'))
-                            ->relationship('assignedTo', 'name')
-                            ->searchable()
-                            ->preload(),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\Select::make('booking_id')
+                                    ->label(__('Linked Order / Booking'))
+                                    ->relationship('booking', 'id')
+                                    ->getOptionLabelFromRecordUsing(fn ($record) => "#{$record->id} - {$record->client_name} (".($record->car?->name ?? 'طلب').')')
+                                    ->searchable()
+                                    ->preload(),
+                                Forms\Components\DatePicker::make('due_date')
+                                    ->label(__('Due Date / Follow-up Date'))
+                                    ->default(now()->today())
+                                    ->required(),
+                            ]),
+                        Forms\Components\Grid::make(3)
+                            ->schema([
+                                Forms\Components\Select::make('priority')
+                                    ->label(__('Priority'))
+                                    ->options([
+                                        'high' => __('High'),
+                                        'medium' => __('Medium'),
+                                        'low' => __('Low'),
+                                    ])
+                                    ->default('medium')
+                                    ->required(),
+                                Forms\Components\Select::make('status')
+                                    ->label(__('Status'))
+                                    ->options([
+                                        'new' => __('New'),
+                                        'in_progress' => __('In Progress'),
+                                        'done' => __('Done'),
+                                    ])
+                                    ->default('new')
+                                    ->required(),
+                                Forms\Components\Select::make('assigned_to')
+                                    ->label(__('Assigned To'))
+                                    ->relationship('assignedTo', 'name')
+                                    ->searchable()
+                                    ->preload(),
+                            ]),
                         Forms\Components\Textarea::make('description')
                             ->label(__('Description'))
                             ->rows(3),

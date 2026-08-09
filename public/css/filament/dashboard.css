@@ -592,7 +592,34 @@ main>div,
 }
 
 /* ==========================================================================
-   11. Prevent duplicate logo in topbar on desktop/tablet
+   11. Modal & Slide-Over Layout Fix (Full-Width Forms & Elimination of Blank Whitespace)
+   ========================================================================== */
+.fi-modal-window,
+.fi-modal-slide-over-window,
+[role="dialog"] {
+    overflow-y: auto !important;
+}
+
+.fi-modal .fi-form > .grid,
+.fi-modal-window .fi-form > .grid,
+.fi-modal-content .fi-form > .grid,
+.fi-modal .fi-form > div,
+.fi-modal-window .fi-form > div {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    width: 100% !important;
+}
+
+.fi-modal .fi-section,
+.fi-modal-window .fi-section,
+.fi-modal-content .fi-section,
+.fi-modal-window section.fi-section {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* ==========================================================================
+   12. Prevent duplicate logo in topbar on desktop/tablet
    ========================================================================== */
 @media (min-width: 768px) {
 

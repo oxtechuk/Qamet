@@ -68,7 +68,7 @@ class AdminPanelProvider extends PanelProvider
                     return Setting::where('key', 'site_favicon')->value('value') ?? '';
                 });
 
-                return $favicon ? asset('storage/'.$favicon) : asset('images/favicon.ico');
+                return $favicon ? asset('storage/'.$favicon) : asset('favicon.svg');
             })
             ->brandLogo(function (): \Illuminate\Contracts\Support\Htmlable {
                 $logo = Cache::remember('site_logo', 3600, function () {

@@ -40,18 +40,22 @@ class CarTypeResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->schema([
-            Section::make()->schema([
-                Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
-                    Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
-                ]),
-                Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
-                    Forms\Components\Toggle::make('is_active')->label(__('Active'))->default(true),
-                ]),
-            ]),
-        ]);
+        return $schema
+            ->columns(1)
+            ->schema([
+                Section::make()
+                    ->columnSpanFull()
+                    ->schema([
+                        Grid::make(2)->schema([
+                            Forms\Components\TextInput::make('name_ar')->label(__('Name').' ('.__('Arabic').')')->required()->maxLength(255),
+                            Forms\Components\TextInput::make('name_en')->label(__('Name').' ('.__('English').')')->required()->maxLength(255),
+                        ]),
+                        Grid::make(2)->schema([
+                            Forms\Components\TextInput::make('sort_order')->label(__('Sort Order'))->numeric()->default(0),
+                            Forms\Components\Toggle::make('is_active')->label(__('Active'))->default(true),
+                        ]),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

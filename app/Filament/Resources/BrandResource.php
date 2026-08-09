@@ -41,8 +41,10 @@ class BrandResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->schema([
                 Section::make()
+                    ->columnSpanFull()
                     ->schema([
                         Grid::make(2)
                             ->schema([
