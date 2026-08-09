@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useCarSearch } from "../hooks/useCarSearch";
 import { submitBooking } from "../services/api";
+import { getCarBySlug, searchCars } from "../services/api/cars.service";
 import { useSEO } from "../utils/useSEO";
 import { CarSelector, OrderForm, TrustBadges } from "../components/orders";
 
 export default function OrdersPage() {
     const { i18n, t } = useTranslation();
+    const [searchParams] = useSearchParams();
+    const carIdParam = searchParams.get("car") || searchParams.get("car_id");
+    const carSlugParam = searchParams.get("slug") || searchParams.get("car_slug");
+
     useSEO(
         t("pageTitles.orders"),
         t("ordersPage.heroDescription"),
@@ -17,6 +23,38 @@ export default function OrdersPage() {
     const [searchOpen] = useState(true);
     const { searchQuery, setSearchQuery, searchResults, searching } =
         useCarSearch(searchOpen);
+
+    // Auto-select car from URL parameters (e.g. /orders?car=123 or /orders?slug=bmw-x3)
+    useEffect(() => {
+        if (selectedCar) return;
+
+        if (carSlugParam) {
+            getCarBySlug(carSlugParam)
+                .then((carDetails) => {
+                    if (carDetails) {
+                        setSelectedCar({
+                            id: carDetails.id,
+                            name: carDetails.name,
+                            year: carDetails.year,
+                            current_price: carDetails.current_price,
+                            cash_price: carDetails.cash_price,
+                            main_image: carDetails.main_image,
+                            brand: carDetails.brand ? { name: carDetails.brand.name } : undefined,
+                        } as any);
+                    }
+                })
+                .catch(() => {});
+        } else if (carIdParam) {
+            searchCars(carIdParam)
+                .then((results) => {
+                    const match = results.find((c) => String(c.id) === String(carIdParam)) || results[0];
+                    if (match) {
+                        setSelectedCar(match);
+                    }
+                })
+                .catch(() => {});
+        }
+    }, [carIdParam, carSlugParam, selectedCar]);
 
     const [fullName, setFullName] = useState("");
     const [phone, setPhone] = useState("");

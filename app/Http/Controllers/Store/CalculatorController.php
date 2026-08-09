@@ -121,9 +121,15 @@ class CalculatorController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'car_id' => 'nullable|exists:cars,id',
+            'car_id' => 'nullable|integer',
+            'car_ids' => 'nullable|array',
             'details' => 'nullable|array',
         ]);
+
+        if (isset($validated['car_id']) && ! isset($validated['car_ids'])) {
+            $validated['car_ids'] = [$validated['car_id']];
+        }
+        unset($validated['car_id']);
 
         $lead = CalculatorLead::create($validated);
 

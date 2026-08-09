@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
@@ -155,12 +156,12 @@ export default function CarDetailsHero({
 
                             {/* CTA buttons */}
                             <div className="mt-5 flex flex-col gap-3">
-                                <a
-                                    href={orderTo}
+                                <Link
+                                    to={orderTo}
                                     className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] text-[var(--brand-primary-color)] transition hover:opacity-90"
                                 >
                                     {t("carDetails.hero.orderNow")}
-                                </a>
+                                </Link>
 
                                 <a
                                     href={whatsappHref}

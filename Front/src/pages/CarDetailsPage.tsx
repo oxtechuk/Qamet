@@ -90,7 +90,7 @@ export default function CarDetailsPage() {
         monthlyInstallment={car.min_installment}
         savingAmount={saving > 0 ? saving : undefined}
         colors={(car.colors ?? []).map((c) => ({ name: c.name, value: c.hex, image: c.image }))}
-        orderTo="/contact"
+        orderTo={`/orders?car=${car.id}&slug=${car.slug}`}
         financeTo="/finance-calculator"
       />
       <CarDetailsSpecs tabs={tabs} />

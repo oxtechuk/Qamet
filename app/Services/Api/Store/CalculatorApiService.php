@@ -14,17 +14,23 @@ final class CalculatorApiService
     public function saveLead(array $data): CalculatorLead
     {
         $carIds = $data['car_ids'] ?? [];
-        $primaryCarId = $carIds[0] ?? null;
 
         return CalculatorLead::create([
             'name' => $data['name'],
             'phone' => $data['phone'],
-            'car_id' => $primaryCarId,
+            'email' => $data['email'] ?? null,
+            'city' => $data['city'] ?? null,
+            'salary' => isset($data['salary']) ? (float) $data['salary'] : null,
+            'monthly_obligations' => isset($data['monthly_obligations']) ? (float) $data['monthly_obligations'] : null,
+            'preferred_bank_id' => $data['preferred_bank_id'] ?? null,
+            'car_ids' => $carIds,
+            'car_price' => isset($data['car_price']) ? (float) $data['car_price'] : null,
+            'notes' => $data['notes'] ?? null,
             'details' => [
-                'email' => $data['email'],
-                'city' => $data['city'],
-                'salary' => $data['salary'],
-                'monthly_obligations' => $data['monthly_obligations'],
+                'email' => $data['email'] ?? null,
+                'city' => $data['city'] ?? null,
+                'salary' => $data['salary'] ?? null,
+                'monthly_obligations' => $data['monthly_obligations'] ?? null,
                 'preferred_bank_id' => $data['preferred_bank_id'] ?? null,
                 'car_ids' => $carIds,
                 'notes' => $data['notes'] ?? null,
