@@ -6,20 +6,30 @@ trait HasBilingualFields
 {
     public function getAttribute($key)
     {
-        if (str_ends_with($key, '_ar')) {
-            $field = substr($key, 0, -3);
-            if (in_array($field, $this->translatable ?? [])) {
-                return $this->getTranslation($field, 'ar');
+        if (is_string($key)) {
+            if (str_ends_with($key, '_ar')) {
+                $field = substr($key, 0, -3);
+                if (in_array($field, $this->translatable ?? [])) {
+                    return $this->getTranslation($field, 'ar');
+                }
             }
-        }
-        if (str_ends_with($key, '_en')) {
-            $field = substr($key, 0, -3);
-            if (in_array($field, $this->translatable ?? [])) {
-                return $this->getTranslation($field, 'en');
+            if (str_ends_with($key, '_en')) {
+                $field = substr($key, 0, -3);
+                if (in_array($field, $this->translatable ?? [])) {
+                    return $this->getTranslation($field, 'en');
+                }
             }
         }
 
-        return parent::getAttribute($key);
+        $value = parent::getAttribute($key);
+
+        if (is_array($value) && is_string($key) && in_array($key, $this->translatable ?? [])) {
+            $locale = app()->getLocale();
+
+            return $value[$locale] ?? $value['ar'] ?? $value['en'] ?? (reset($value) ?: '');
+        }
+
+        return $value;
     }
 
     public function fill(array $attributes)
