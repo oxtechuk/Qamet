@@ -9,7 +9,7 @@ import BrandsSection from "../components/BrandsSection";
 import { getHomePageData, getCars, getBrands } from "../services/api";
 import { useLanguageStore } from "../store/language.store";
 import { useSettingsStore } from "../store/settings.store";
-import type { HomeCarItem, BrandInfo } from "../types/home.types";
+import type { HomeCarItem, HomeOfferItem, BrandInfo } from "../types/home.types";
 import type { CarCardProps } from "../components/CarCard";
 import { formatPrice } from "../utils/format";
 import { getLocalizedName } from "../utils/localized-name";
@@ -18,9 +18,7 @@ import { mapCarToCardProps as mapFullCarToCardProps } from "../utils/car-mappers
 import type { IBrandCardProps } from "../interfaces/IBrandCardProps";
 import type { IBudgetRange } from "../interfaces/IBudgetRange";
 import type { HeroSlide } from "../interfaces/IHomeHeroProps";
-import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 import PurchaseExperienceSection from "../components/PurchaseExperienceSection";
-import HomeOffersSection from "../components/HomeOffersSection";
 import HomePageSkeleton from "../components/skeletons/HomePageSkeleton";
 
 function mapHomeCarToCardProps(car: HomeCarItem): CarCardProps | null {
@@ -64,6 +62,35 @@ function mapBrandToCardProps(
         name: getLocalizedName(brand.name, language),
         logo: getImageUrl(brand.logo) || APP_IMAGES.BRAND_PLACEHOLDER,
     };
+}
+
+function mapOfferToCardProps(offer: HomeOfferItem): CarCardProps | null {
+    try {
+        const slug = offer.car?.slug?.trim();
+        if (!slug) return null;
+        return {
+            id: offer.id,
+            image:
+                getImageUrl(offer.image) ||
+                getImageUrl(offer.car?.main_image) ||
+                APP_IMAGES.CAR_PLACEHOLDER,
+            brand: offer.car.brand?.name ?? "",
+            name: offer.car.name ?? "",
+            year: "",
+            price: formatPrice(
+                offer.car.cash_price ?? 0,
+                "var(--brand-primary-color)",
+            ),
+            monthlyPrice: formatPrice(
+                offer.installment_starts_from ?? 0,
+                "var(--brand-secondary-color)",
+            ),
+            detailsTo: `/cars/${slug}`,
+            badgeText: offer.title || undefined,
+        };
+    } catch {
+        return null;
+    }
 }
 
 function mapBracketsToRanges(
@@ -223,17 +250,13 @@ export default function Home() {
         };
     }, [data?.hero_slides]);
 
-    const homeOffers: IHomeOfferSlide[] = useMemo(
-        () => [
-            {
-                id: "static-offer",
-                image: APP_IMAGES.OFFER1,
-                alt: t("allCarsPage.homeOffers.discoverOffer"),
-                buttonText: t("allCarsPage.homeOffers.discoverOffer"),
-                buttonTo: "/cars",
-            },
-        ],
-        [t],
+    const offerCars = useMemo(
+        () =>
+            (data?.offers?.items ?? [])
+                .filter((item) => !item.is_expired)
+                .map(mapOfferToCardProps)
+                .filter(Boolean) as CarCardProps[],
+        [data?.offers?.items],
     );
 
     const budgetRanges = useMemo(
@@ -248,6 +271,7 @@ export default function Home() {
     }, [budgetRanges, activeBudgetRange]);
 
     const latestSection = data?.latest_cars?.section;
+    const offersSection = data?.offers?.section;
     const budgetSection = data?.cars_by_budget?.section;
 
     if (isLoading) {
@@ -293,11 +317,18 @@ export default function Home() {
 
             <PurchaseExperienceSection />
 
-            {homeOffers.length > 0 && (
-                <HomeOffersSection
-                    slides={homeOffers}
-                    autoPlay
-                    interval={5000}
+            {offerCars.length > 0 && (
+                <FeaturedCarsSection
+                    titleBlue={
+                        offersSection?.title?.trim() ||
+                        t("allCarsPage.homeOffers.alsoFromOurOffers")
+                    }
+                    buttonText={
+                        offersSection?.button_text?.trim() ||
+                        t("featuredCars.buttonText")
+                    }
+                    buttonTo="/offers"
+                    cars={offerCars}
                 />
             )}
 

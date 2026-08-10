@@ -105,9 +105,9 @@ export interface HomeOfferItem {
   id: number;
   title: string;
   description: string;
-  image: string;
+  image: string | null;
   installment_starts_from: number;
-  time_remaining: string;
+  time_remaining: string | null;
   is_expired: boolean;
   car: {
     id: number;
