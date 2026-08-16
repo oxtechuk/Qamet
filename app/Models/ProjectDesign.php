@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\AsImageUrl;
+
 use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -17,6 +17,5 @@ class ProjectDesign extends Model
 
     protected $casts = [
         'is_featured' => 'boolean',
-        'image' => AsImageUrl::class,
     ];
 }

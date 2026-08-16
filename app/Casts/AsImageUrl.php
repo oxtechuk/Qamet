@@ -9,17 +9,22 @@ use Illuminate\Database\Eloquent\Model;
 
 final class AsImageUrl implements CastsAttributes
 {
-    public function get(Model $model, string $key, mixed $value, array $attributes): ?string
+    public static function url(?string $path): ?string
     {
-        if ($value === null || $value === '') {
+        if ($path === null || $path === '') {
             return null;
         }
 
-        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
-            return $value;
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
         }
 
-        return asset('storage/'.ltrim($value, '/'));
+        return asset('storage/'.ltrim($path, '/'));
+    }
+
+    public function get(Model $model, string $key, mixed $value, array $attributes): ?string
+    {
+        return self::url($value);
     }
 
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed

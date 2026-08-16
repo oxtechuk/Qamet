@@ -17,6 +17,8 @@ import type { FilterValues, CarsQueryParams } from "../types/cars.types";
 import { DEFAULT_FILTER_VALUES } from "../types/cars.types";
 import type { CarCardProps } from "../components/CarCard";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
+import AllCarsPageSkeleton from "../components/skeletons/AllCarsPageSkeleton";
+
 
 const PAGE_SIZE = 9;
 

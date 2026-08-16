@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Store;
 
+use App\Casts\AsImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,8 +15,8 @@ class TestimonialResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'content' => $this->content,
-            'image' => $this->image,
-            'review_image' => $this->review_image,
+            'image' => AsImageUrl::url($this->image),
+            'review_image' => AsImageUrl::url($this->review_image),
             'rating' => $this->rating,
         ];
     }

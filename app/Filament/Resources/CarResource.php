@@ -211,6 +211,7 @@ class CarResource extends Resource
                                     ->visibility('public'),
                                 Forms\Components\FileUpload::make('exterior_images')->label(__('Exterior Images'))
                                     ->multiple()
+                                    ->reorderable()
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
                                     ->maxSize(5120)
                                     ->disk('public')
@@ -218,6 +219,7 @@ class CarResource extends Resource
                                     ->visibility('public'),
                                 Forms\Components\FileUpload::make('interior_images')->label(__('Interior Images'))
                                     ->multiple()
+                                    ->reorderable()
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
                                     ->maxSize(5120)
                                     ->disk('public')

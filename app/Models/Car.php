@@ -37,26 +37,23 @@ class Car extends Model
         'specs' => 'array',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
-        'thumbnail' => AsImageUrl::class,
     ];
 
-    public function getColorsAttribute(mixed $value): ?array
+    public function getFormattedColorsAttribute(): ?array
     {
-        $colors = is_string($value) ? json_decode($value, true) : $value;
-
-        if (! is_array($colors)) {
+        if (! is_array($this->colors)) {
             return null;
         }
 
         return array_map(function (mixed $color): array {
             $color = is_array($color) ? $color : [];
 
-            if (isset($color['image']) && $color['image'] !== null) {
-                $color['image'] = Storage::disk('public')->url($color['image']);
+            if (! empty($color['image'])) {
+                $color['image'] = AsImageUrl::url($color['image']);
             }
 
             return $color;
-        }, $colors);
+        }, $this->colors);
     }
 
     public function getSpecsAttribute(mixed $value): ?array
@@ -145,7 +142,8 @@ class Car extends Model
     public function getExteriorImagesAttribute(): array
     {
         return $this->images->where('type', 'exterior')
-            ->map(fn (CarImage $img) => $img->getOriginal('image_path'))
+            ->pluck('image_path')
+            ->filter()
             ->values()
             ->all();
     }
@@ -153,7 +151,8 @@ class Car extends Model
     public function getInteriorImagesAttribute(): array
     {
         return $this->images->where('type', 'interior')
-            ->map(fn (CarImage $img) => $img->getOriginal('image_path'))
+            ->pluck('image_path')
+            ->filter()
             ->values()
             ->all();
     }
@@ -161,14 +160,19 @@ class Car extends Model
     public function getMainImageAttribute(): ?string
     {
         if ($this->thumbnail) {
-            return $this->thumbnail;
+            return AsImageUrl::url($this->thumbnail);
         }
 
         if ($this->relationLoaded('images') && $this->images->isNotEmpty()) {
-            return $this->images->first()->image_path;
+            return AsImageUrl::url($this->images->first()->image_path);
         }
 
         return null;
+    }
+
+    public function getThumbnailUrlAttribute(): ?string
+    {
+        return AsImageUrl::url($this->thumbnail);
     }
 
     public function getActiveOfferAttribute()

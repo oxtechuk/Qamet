@@ -34,8 +34,10 @@ class CreateCar extends CreateRecord
         $this->syncCarImages($this->record, $this->data['interior_images'] ?? [], 'interior');
     }
 
-    private function syncCarImages(Car $car, array $paths, string $type): void
+    private function syncCarImages(Car $car, mixed $paths, string $type): void
     {
+        $paths = is_array($paths) ? $paths : ($paths ? [$paths] : []);
+
         $car->images()->where('type', $type)->delete();
 
         foreach (array_values($paths) as $index => $path) {

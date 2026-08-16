@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Store;
 
+use App\Casts\AsImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,7 +14,7 @@ class BrandResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'logo' => $this->logo,
+            'logo' => AsImageUrl::url($this->logo),
             'cars_count' => $this->whenHas('cars_count'),
         ];
     }

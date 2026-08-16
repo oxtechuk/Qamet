@@ -106,7 +106,7 @@ class OfferCacheService extends BaseCacheService
                     'id' => $offer->car->id,
                     'name' => $offer->car->name,
                     'slug' => $offer->car->slug,
-                    'thumbnail' => $offer->car->thumbnail,
+                    'thumbnail' => \App\Casts\AsImageUrl::url($offer->car->thumbnail),
                     'cash_price' => $offer->car->cash_price,
                     'brand' => $offer->car->brand?->name,
                 ] : null,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Store;
 
+use App\Casts\AsImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,13 +15,10 @@ class CarResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'main_image' => $this->main_image,
-            'thumbnail' => $this->thumbnail,
-            'images' => $this->whenLoaded('images', fn () => $this->images->pluck('image_path'),
-            ),
-            'exterior_images' => $this->whenLoaded('images', fn () => $this->images->where('type', 'exterior')->pluck('image_path')->values(),
-            ),
-            'interior_images' => $this->whenLoaded('images', fn () => $this->images->where('type', 'interior')->pluck('image_path')->values(),
-            ),
+            'thumbnail' => AsImageUrl::url($this->thumbnail),
+            'images' => $this->whenLoaded('images', fn () => $this->images->map(fn ($img) => AsImageUrl::url($img->image_path))->values()),
+            'exterior_images' => $this->whenLoaded('images', fn () => $this->images->where('type', 'exterior')->map(fn ($img) => AsImageUrl::url($img->image_path))->values()),
+            'interior_images' => $this->whenLoaded('images', fn () => $this->images->where('type', 'interior')->map(fn ($img) => AsImageUrl::url($img->image_path))->values()),
             'cash_price' => $this->cash_price,
             'current_price' => $this->current_price,
             'savings' => max(0, $this->cash_price - $this->current_price),
@@ -29,7 +27,7 @@ class CarResource extends JsonResource
             'year' => $this->year,
             'is_current_year' => now()->format('Y') == $this->year,
             'type' => $this->type,
-            'colors' => $this->colors,
+            'colors' => $this->formatted_colors,
             //   'specs' => $this->specs,
             'description' => $this->description,
             'features' => $this->features,

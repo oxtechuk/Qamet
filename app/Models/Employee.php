@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\AsImageUrl;
+
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,7 +21,6 @@ class Employee extends Authenticatable
     protected $casts = [
         'is_active' => 'boolean',
         'password' => 'hashed',
-        'avatar' => AsImageUrl::class,
     ];
 
     public function bookings(): HasMany

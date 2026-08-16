@@ -9,6 +9,8 @@ import { useLanguageStore } from "../store/language.store";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
 import { offerToCardProps } from "../utils/offers";
 import { useSEO } from "../utils/useSEO";
+import OffersPageSkeleton from "../components/skeletons/OffersPageSkeleton";
+
 
 export default function OffersPage() {
   const { t } = useTranslation();

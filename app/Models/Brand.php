@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\AsImageUrl;
+
 use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +19,6 @@ class Brand extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'logo' => AsImageUrl::class,
     ];
 
     protected static function booted(): void

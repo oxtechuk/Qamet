@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\AsImageUrl;
+
 use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -17,7 +17,5 @@ class Testimonial extends Model
 
     protected $casts = [
         'is_visible' => 'boolean',
-        'image' => AsImageUrl::class,
-        'review_image' => AsImageUrl::class,
     ];
 }

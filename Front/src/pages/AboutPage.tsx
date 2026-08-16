@@ -14,6 +14,7 @@ import AboutIntroSection from "../components/about/AboutIntroSection";
 import WhyChooseUsSection from "../components/about/WhyChooseUsSection";
 import ShowroomGallerySection from "../components/about/ShowroomGallerySection";
 import TestimonialsSection from "../components/about/TestimonialsSection";
+import AboutPageSkeleton from "../components/skeletons/AboutPageSkeleton";
 
 const FALLBACK_GALLERY_ITEMS: ShowroomGalleryItem[] = [
   { id: 1, src: APP_IMAGES.GALLERY_G1, alt: "سيارة داخل المعرض", type: "video", poster: APP_IMAGES.GALLERY_G1 },

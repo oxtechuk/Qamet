@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Store;
 
+use App\Casts\AsImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,7 +15,7 @@ class CarMiniResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'main_image' => $this->main_image,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => AsImageUrl::url($this->thumbnail),
             'cash_price' => $this->cash_price,
             'current_price' => $this->current_price,
             'savings' => max(0, $this->cash_price - $this->current_price),
@@ -23,7 +24,7 @@ class CarMiniResource extends JsonResource
             'type' => $this->type,
             'year' => $this->year,
             'specs' => $this->specs,
-            'colors' => $this->colors,
+            'colors' => $this->formatted_colors,
             'is_featured' => $this->is_featured,
             'availability_status' => $this->availability_status,
             'highlight' => $this->whenLoaded('highlight', fn () => [

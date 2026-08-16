@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\AsImageUrl;
+
 use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,8 +21,6 @@ class GalleryItem extends Model
     {
         return [
             'is_active' => 'boolean',
-            'file' => AsImageUrl::class,
-            'thumbnail' => AsImageUrl::class,
         ];
     }
 }

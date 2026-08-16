@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Store;
 
+use App\Casts\AsImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,7 +14,7 @@ class BlogPostDetailResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => AsImageUrl::url($this->thumbnail),
             'content' => $this->content,
             'excerpt' => $this->excerpt,
             'meta_title' => $this->meta_title,
@@ -22,7 +23,7 @@ class BlogPostDetailResource extends JsonResource
             'employee' => $this->whenLoaded('employee', fn () => [
                 'name' => $this->employee?->name,
                 'role' => $this->employee?->role,
-                'avatar' => $this->employee?->avatar,
+                'avatar' => AsImageUrl::url($this->employee?->avatar),
             ]),
             'categories' => $this->whenLoaded('categories', fn () => BlogCategoryResource::collection($this->categories)),
             'reading_time' => $this->reading_time,

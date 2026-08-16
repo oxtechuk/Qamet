@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Store;
 
+use App\Casts\AsImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,8 +12,8 @@ class GalleryItemResource extends JsonResource
     {
         return [
             'type' => $this->type,
-            'file' => $this->file,
-            'thumbnail' => $this->thumbnail,
+            'file' => AsImageUrl::url($this->file),
+            'thumbnail' => AsImageUrl::url($this->thumbnail),
             'caption' => $this->caption,
             'alt_text' => $this->alt_text,
         ];
