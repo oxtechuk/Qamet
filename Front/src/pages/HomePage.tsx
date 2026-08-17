@@ -180,7 +180,10 @@ export default function Home() {
                             "var(--brand-secondary-color)",
                         )}
                     </>
-                ) : undefined,
+                ) : (
+                    slide.subtitle || undefined
+                ),
+                description: slide.description || undefined,
                 buttonText: slide.button_text,
                 buttonLink: slide.button_link,
                 button2Text: slide.button_2_text,
@@ -194,6 +197,7 @@ export default function Home() {
                 image: APP_IMAGES.HOME_HERO,
                 title: t("hero.titleBlue"),
                 subtitle: t("hero.slides.0.subtitle"),
+                description: t("hero.slides.0.description"),
                 buttonText: t("hero.primaryButton"),
                 buttonLink: "/cars",
                 button2Text: t("hero.secondaryButton"),

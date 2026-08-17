@@ -110,7 +110,7 @@ class HomeTest extends TestCase
             'success',
             'message',
             'data' => [
-                'hero_slides' => ['*' => ['image', 'title', 'car', 'button_text', 'button_link', 'button_2_text', 'button_2_link']],
+                'hero_slides' => ['*' => ['image', 'title', 'subtitle', 'description', 'car', 'button_text', 'button_link', 'button_2_text', 'button_2_link']],
                 'brands',
                 'latest_cars' => ['section', 'items'],
                 'why_us' => ['*' => ['icon', 'title', 'description']],

@@ -69,6 +69,8 @@ final class HomeApiService
                 return [
                     'image' => $this->resolveImage($slide['image'] ?? null),
                     'title' => $slide["title_{$locale}"] ?? $slide['title_en'] ?? '',
+                    'subtitle' => $slide["subtitle_{$locale}"] ?? $slide['subtitle_en'] ?? null,
+                    'description' => $slide["description_{$locale}"] ?? $slide['description_en'] ?? null,
                     'car' => $car ? HeroCarResource::make($car)->resolve() : null,
                     'button_text' => $slide["button_text_{$locale}"] ?? $slide['button_text_en'] ?? '',
                     'button_link' => $slide['link'] ?? null,

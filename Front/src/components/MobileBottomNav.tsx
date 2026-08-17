@@ -155,7 +155,7 @@ export default function MobileBottomNav() {
             <div className="mt-6 border-t border-[#E5E7EB] pt-4 flex flex-col gap-1">
               <span className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F]">
                 <MapPin size={20} strokeWidth={2} />
-                {t("topbar.locationValue")}
+                {settings?.contact?.address || t("topbar.locationValue")}
               </span>
               {settings?.contact?.phone && (
                 <a href={`tel:${settings.contact.phone}`} className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F] hover:bg-gray-50">

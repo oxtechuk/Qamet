@@ -32,6 +32,8 @@ export default function LazyImg(props: ImgHTMLAttributes<HTMLImageElement>) {
       {...rest}
       ref={imgRef}
       src={PLACEHOLDER}
+      loading="lazy"
+      decoding="async"
       onLoad={(e) => {
         setLoaded(true);
         onLoad?.(e);
@@ -40,7 +42,7 @@ export default function LazyImg(props: ImgHTMLAttributes<HTMLImageElement>) {
       style={{
         ...style,
         clipPath: loaded ? "inset(0 0 0 0)" : "inset(0 0 100% 0)",
-        transition: "clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     />
   );

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OfferResource\Pages;
 use App\Models\Offer;
+use App\Services\Media\ImageOptimizationService;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -88,7 +89,8 @@ class OfferResource extends Resource
                                     ->image()
                                     ->disk('public')
                                     ->directory('offers')
-                                    ->visibility('public'),
+                                    ->visibility('public')
+                                    ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('offers', 1200, 800, 82)),
                                 Forms\Components\Toggle::make('is_active')
                                     ->label(__('Active'))
                                     ->default(true),

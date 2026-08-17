@@ -79,10 +79,12 @@ final class SettingApiService
             'site_name' => $siteName,
             'footer_text' => $footerText,
             'contact' => [
-                'email' => $settings->get('contact_email', ''),
-                'phone' => $settings->get('contact_phone', ''),
-                'whatsapp' => $settings->get('contact_whatsapp', ''),
-                'address' => $settings->get('contact_address', ''),
+                'email' => $settings->get('contact_email') ?: $settings->get('support_email', ''),
+                'phone' => $settings->get('contact_phone') ?: $settings->get('support_phone', ''),
+                'whatsapp' => $settings->get('contact_whatsapp') ?: $settings->get('whatsapp_number', ''),
+                'address' => $this->resolveBilingual($settings->get('contact_address', []), $locale)
+                    ?: ($this->resolveBilingual($settings->get('address', []), $locale)
+                    ?: (is_string($settings->get('contact_address')) ? $settings->get('contact_address') : (is_string($settings->get('address')) ? $settings->get('address') : ''))),
                 'sales_phone' => $settings->get('sales_phone', ''),
                 'finance_phone' => $settings->get('finance_phone', ''),
                 'aftersales_phone' => $settings->get('aftersales_phone', ''),

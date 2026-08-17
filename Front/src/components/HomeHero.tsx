@@ -279,8 +279,14 @@ export default function HomeHero({
                                 )}
 
                                 {current.subtitle && (
-                                    <p className="mb-2 text-[13px] font-medium text-white/85 sm:text-[14px]">
+                                    <p className="mb-1 text-[13px] font-medium text-white/85 sm:text-[14px]">
                                         {current.subtitle}
+                                    </p>
+                                )}
+
+                                {current.description && (
+                                    <p className="mb-2 text-[12px] text-white/75 sm:text-[13px] line-clamp-3 max-w-[480px]">
+                                        {current.description}
                                     </p>
                                 )}
 
@@ -539,7 +545,7 @@ export default function HomeHero({
                         <div className="px-5 py-4 flex flex-col gap-1">
                             <span className="flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-semibold text-gray-600">
                                 <MapPin size={18} strokeWidth={2} className="text-[var(--brand-primary-color)]" />
-                                {t("topbar.locationValue")}
+                                {settings?.contact?.address || t("topbar.locationValue")}
                             </span>
                             <button
                                 type="button"

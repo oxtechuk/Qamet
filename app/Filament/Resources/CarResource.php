@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CarResource\Pages;
 use App\Models\Car;
+use App\Services\Media\ImageOptimizationService;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -208,23 +209,26 @@ class CarResource extends Resource
                                     ->image()
                                     ->disk('public')
                                     ->directory('cars/thumbnails')
-                                    ->visibility('public'),
+                                    ->visibility('public')
+                                    ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/thumbnails', 800, 600, 82)),
                                 Forms\Components\FileUpload::make('exterior_images')->label(__('Exterior Images'))
                                     ->multiple()
                                     ->reorderable()
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
-                                    ->maxSize(5120)
+                                    ->maxSize(10240)
                                     ->disk('public')
                                     ->directory('cars/exterior')
-                                    ->visibility('public'),
+                                    ->visibility('public')
+                                    ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/exterior', 1400, 1050, 82)),
                                 Forms\Components\FileUpload::make('interior_images')->label(__('Interior Images'))
                                     ->multiple()
                                     ->reorderable()
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
-                                    ->maxSize(5120)
+                                    ->maxSize(10240)
                                     ->disk('public')
                                     ->directory('cars/interior')
-                                    ->visibility('public'),
+                                    ->visibility('public')
+                                    ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/interior', 1400, 1050, 82)),
                                 Forms\Components\Repeater::make('colors')->label(__('Colors'))
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
@@ -235,7 +239,8 @@ class CarResource extends Resource
                                             ->image()
                                             ->disk('public')
                                             ->directory('cars/colors')
-                                            ->visibility('public'),
+                                            ->visibility('public')
+                                            ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/colors', 800, 600, 82)),
                                     ])
                                     ->addActionLabel(__('Add Color')),
                             ]),

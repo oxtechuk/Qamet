@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogPostResource\Pages;
 use App\Models\BlogPost;
+use App\Services\Media\ImageOptimizationService;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -57,7 +58,7 @@ class BlogPostResource extends Resource
                             ]),
                         Tab::make(__('Meta'))
                             ->schema([
-                                Forms\Components\FileUpload::make('thumbnail')->label(__('Featured Image'))->image()->disk('public')->directory('blog')->visibility('public'),
+                                Forms\Components\FileUpload::make('thumbnail')->label(__('Featured Image'))->image()->disk('public')->directory('blog')->visibility('public')->saveUploadedFileUsing(ImageOptimizationService::makeCallback('blog', 1200, 800, 82)),
                                 Forms\Components\Select::make('categories')->label(__('Categories'))
                                     ->relationship('categories', 'name')
                                     ->multiple()

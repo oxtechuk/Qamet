@@ -544,11 +544,11 @@ main>div,
     line-height: var(--tw-leading, var(--text-sm--line-height));
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
-    color: oklch(0.63 0 0) ! IMPORTANT;
+    color: oklch(0.7 0 0) !important;
     flex: 1;
     overflow: hidden;
 }
-    
+
 /* ==========================================================================
    10. Compact Settings Page Layout (Zero Wasted Whitespace)
    ========================================================================== */
@@ -583,11 +583,11 @@ main>div,
     overflow-y: auto !important;
 }
 
-.fi-modal .fi-form > .grid,
-.fi-modal-window .fi-form > .grid,
-.fi-modal-content .fi-form > .grid,
-.fi-modal .fi-form > div,
-.fi-modal-window .fi-form > div {
+.fi-modal .fi-form>.grid,
+.fi-modal-window .fi-form>.grid,
+.fi-modal-content .fi-form>.grid,
+.fi-modal .fi-form>div,
+.fi-modal-window .fi-form>div {
     grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
     width: 100% !important;
 }

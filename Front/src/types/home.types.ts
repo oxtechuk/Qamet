@@ -80,6 +80,8 @@ export interface HomeCarItem {
 export interface HeroSlideData {
   image: string | null;
   title: string;
+  subtitle?: string | null;
+  description?: string | null;
   car: {
     id: number;
     name: string;

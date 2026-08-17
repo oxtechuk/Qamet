@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
+use App\Services\Media\ImageOptimizationService;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Pages\Page;
@@ -66,6 +67,11 @@ class Settings extends Page
             'site_name_en' => $this->getBilingual('site_name', 'en'),
             'site_description_ar' => $this->getBilingual('site_description', 'ar'),
             'site_description_en' => $this->getBilingual('site_description', 'en'),
+            'contact_email' => $this->getSetting('contact_email') ?: $this->getSetting('support_email', ''),
+            'contact_phone' => $this->getSetting('contact_phone') ?: $this->getSetting('support_phone', ''),
+            'contact_whatsapp' => $this->getSetting('contact_whatsapp') ?: $this->getSetting('whatsapp_number', ''),
+            'contact_address_ar' => $this->getBilingual('contact_address', 'ar') ?: $this->getBilingual('address', 'ar') ?: '',
+            'contact_address_en' => $this->getBilingual('contact_address', 'en') ?: $this->getBilingual('address', 'en') ?: '',
             'support_email' => $this->getSetting('support_email', ''),
             'support_phone' => $this->getSetting('support_phone', ''),
             'address_ar' => $this->getBilingual('address', 'ar'),
@@ -344,6 +350,39 @@ class Settings extends Page
                         Tab::make(__('Contact & Social'))
                             ->icon('heroicon-m-phone')
                             ->schema([
+                                Section::make(__('Main Contact & Top Bar'))
+                                    ->description(__('Contact details displayed in the top bar, header, and footer'))
+                                    ->schema([
+                                        Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('contact_phone')
+                                                    ->label(__('Top Bar Phone'))
+                                                    ->tel()
+                                                    ->placeholder('+966501234567')
+                                                    ->helperText(__('Phone number shown in the top bar and site header')),
+                                                Forms\Components\TextInput::make('contact_email')
+                                                    ->label(__('Top Bar Email'))
+                                                    ->email()
+                                                    ->placeholder('info@qmtnjdcars.sa')
+                                                    ->helperText(__('Email address shown in the top bar')),
+                                                Forms\Components\TextInput::make('contact_whatsapp')
+                                                    ->label(__('WhatsApp Number'))
+                                                    ->tel()
+                                                    ->placeholder('+966501234567')
+                                                    ->helperText(__('Direct WhatsApp chat line')),
+                                            ]),
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('contact_address_ar')
+                                                    ->label(__('Location / Address (Arabic)'))
+                                                    ->placeholder('عجمان، الإمارات أو الرياض، السعودية')
+                                                    ->helperText(__('Address or branch shown in the top bar (Arabic)')),
+                                                Forms\Components\TextInput::make('contact_address_en')
+                                                    ->label(__('Location / Address (English)'))
+                                                    ->placeholder('Ajman, UAE or Riyadh, Saudi Arabia')
+                                                    ->helperText(__('Address or branch shown in the top bar (English)')),
+                                            ]),
+                                    ]),
                                 Section::make(__('Working Hours'))
                                     ->description(__('Operating hours for customer service'))
                                     ->schema([
@@ -480,7 +519,8 @@ class Settings extends Page
                                                             ->image()
                                                             ->directory('slides/home')
                                                             ->visibility('public')
-                                                            ->required(),
+                                                            ->required()
+                                                            ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('slides/home', 1920, 1080, 82)),
                                                         Forms\Components\Select::make('car_id')
                                                             ->label(__('Linked Car').' ('.__('optional').')')
                                                             ->options(fn () => \App\Models\Car::query()->where('is_active', true)->get()->pluck('name', 'id'))
@@ -493,6 +533,22 @@ class Settings extends Page
                                                             ->label(__('Title').' ('.__('Arabic').')'),
                                                         Forms\Components\TextInput::make('title_en')
                                                             ->label(__('Title').' ('.__('English').')'),
+                                                    ]),
+                                                Grid::make(2)
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('subtitle_ar')
+                                                            ->label(__('Subtitle').' ('.__('Arabic').')'),
+                                                        Forms\Components\TextInput::make('subtitle_en')
+                                                            ->label(__('Subtitle').' ('.__('English').')'),
+                                                    ]),
+                                                Grid::make(2)
+                                                    ->schema([
+                                                        Forms\Components\Textarea::make('description_ar')
+                                                            ->label(__('Description').' ('.__('Arabic').')')
+                                                            ->rows(2),
+                                                        Forms\Components\Textarea::make('description_en')
+                                                            ->label(__('Description').' ('.__('English').')')
+                                                            ->rows(2),
                                                     ]),
                                                 Grid::make(3)
                                                     ->schema([
@@ -667,7 +723,8 @@ class Settings extends Page
                                                     ->label(__('Banner Image'))
                                                     ->image()
                                                     ->directory('banners')
-                                                    ->visibility('public'),
+                                                    ->visibility('public')
+                                                    ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('banners', 1920, 800, 82)),
                                                 Forms\Components\TextInput::make('home_banner.button_text_ar')
                                                     ->label(__('Button Text').' ('.__('Arabic').')'),
                                                 Forms\Components\TextInput::make('home_banner.button_text_en')
@@ -1082,7 +1139,7 @@ class Settings extends Page
     }
 
     private const BILINGUAL_KEYS = [
-        'site_name', 'site_description', 'address',
+        'site_name', 'site_description', 'address', 'contact_address',
         'meta_title', 'meta_description', 'maintenance_message',
         'hero_video_youtube',
     ];
