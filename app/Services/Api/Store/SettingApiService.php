@@ -60,17 +60,18 @@ final class SettingApiService
 
         $locale = app()->getLocale();
 
-        $siteName = $settings->get('site_name', '');
-        if (is_array($siteName)) {
-            $siteName = $siteName[$locale] ?? ($siteName['ar'] ?? '');
-        }
-
-        $footerText = $settings->get('footer_text', '');
+        $siteName = $this->resolveBilingual($settings->get('site_name', ''), $locale);
+        $footerText = $this->resolveBilingual($settings->get('footer_text', ''), $locale);
 
         $socialMedia = $settings->get('social_links', []);
         if (is_string($socialMedia)) {
             $socialMedia = json_decode($socialMedia, true) ?: [];
         }
+
+        $contactEmail = $this->resolveBilingual($settings->get('contact_email') ?: $settings->get('support_email', ''), $locale);
+        $contactPhone = $this->resolveBilingual($settings->get('contact_phone') ?: $settings->get('support_phone', ''), $locale);
+        $contactWhatsapp = $this->resolveBilingual($settings->get('contact_whatsapp') ?: $settings->get('whatsapp_number', ''), $locale);
+        $contactAddress = $this->resolveBilingual($settings->get('contact_address') ?: $settings->get('address', ''), $locale);
 
         return [
             'logo' => $this->resolveUrl($settings->get('site_logo')),
@@ -79,15 +80,13 @@ final class SettingApiService
             'site_name' => $siteName,
             'footer_text' => $footerText,
             'contact' => [
-                'email' => $settings->get('contact_email') ?: $settings->get('support_email', ''),
-                'phone' => $settings->get('contact_phone') ?: $settings->get('support_phone', ''),
-                'whatsapp' => $settings->get('contact_whatsapp') ?: $settings->get('whatsapp_number', ''),
-                'address' => $this->resolveBilingual($settings->get('contact_address', []), $locale)
-                    ?: ($this->resolveBilingual($settings->get('address', []), $locale)
-                    ?: (is_string($settings->get('contact_address')) ? $settings->get('contact_address') : (is_string($settings->get('address')) ? $settings->get('address') : ''))),
-                'sales_phone' => $settings->get('sales_phone', ''),
-                'finance_phone' => $settings->get('finance_phone', ''),
-                'aftersales_phone' => $settings->get('aftersales_phone', ''),
+                'email' => $contactEmail,
+                'phone' => $contactPhone,
+                'whatsapp' => $contactWhatsapp,
+                'address' => $contactAddress,
+                'sales_phone' => (string) $this->resolveBilingual($settings->get('sales_phone', ''), $locale),
+                'finance_phone' => (string) $this->resolveBilingual($settings->get('finance_phone', ''), $locale),
+                'aftersales_phone' => (string) $this->resolveBilingual($settings->get('aftersales_phone', ''), $locale),
             ],
             'working_hours' => [
                 'from' => $settings->get('working_hours_from', '09:00'),
@@ -96,7 +95,7 @@ final class SettingApiService
             ],
             'social_media' => $socialMedia,
             'hero_video' => $this->resolveUrl($settings->get('hero_video')),
-            'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale) ?? '',
+            'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale),
         ];
     }
 
@@ -104,6 +103,11 @@ final class SettingApiService
     {
         $settings = $this->cache->rememberSettings();
         $locale = app()->getLocale();
+
+        $contactEmail = $this->resolveBilingual($settings->get('contact_email') ?: $settings->get('support_email', ''), $locale);
+        $contactPhone = $this->resolveBilingual($settings->get('contact_phone') ?: $settings->get('support_phone', ''), $locale);
+        $contactWhatsapp = $this->resolveBilingual($settings->get('contact_whatsapp') ?: $settings->get('whatsapp_number', ''), $locale);
+        $contactAddress = $this->resolveBilingual($settings->get('contact_address') ?: $settings->get('address', ''), $locale);
 
         return [
             'site' => [
@@ -114,23 +118,23 @@ final class SettingApiService
                 'favicon' => $this->resolveUrl($settings->get('site_favicon')),
                 'currency' => $settings->get('currency', 'SAR'),
                 'locale' => $settings->get('locale', 'ar'),
-                'footer_text' => $settings->get('footer_text', ''),
+                'footer_text' => $this->resolveBilingual($settings->get('footer_text', ''), $locale),
                 'breadcrumb_bg' => $this->resolveUrl($settings->get('breadcrumb_bg')),
                 'hero_video' => $this->resolveUrl($settings->get('hero_video')),
-                'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale) ?? '',
+                'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale),
                 'page_loader' => [
                     'enabled' => (bool) $settings->get('page_loader_enabled', false),
                     'image' => $this->resolveUrl($settings->get('page_loader_image')),
                 ],
             ],
             'contact' => [
-                'email' => $settings->get('support_email', ''),
-                'phone' => $settings->get('support_phone', ''),
-                'whatsapp' => $settings->get('whatsapp_number', ''),
-                'address' => $this->resolveBilingual($settings->get('address', []), $locale),
-                'sales_phone' => $settings->get('sales_phone', ''),
-                'finance_phone' => $settings->get('finance_phone', ''),
-                'aftersales_phone' => $settings->get('aftersales_phone', ''),
+                'email' => $contactEmail,
+                'phone' => $contactPhone,
+                'whatsapp' => $contactWhatsapp,
+                'address' => $contactAddress,
+                'sales_phone' => (string) $this->resolveBilingual($settings->get('sales_phone', ''), $locale),
+                'finance_phone' => (string) $this->resolveBilingual($settings->get('finance_phone', ''), $locale),
+                'aftersales_phone' => (string) $this->resolveBilingual($settings->get('aftersales_phone', ''), $locale),
             ],
             'working_hours' => [
                 'from' => $settings->get('working_hours_from', '09:00'),
@@ -283,13 +287,50 @@ final class SettingApiService
         return Storage::disk('public')->url($path);
     }
 
-    private function resolveBilingual(mixed $value, string $locale): mixed
+    private function resolveBilingual(mixed $value, string $locale): string
     {
-        if (is_array($value) && isset($value[$locale])) {
-            return $value[$locale];
+        if (is_null($value)) {
+            return '';
         }
 
-        return $value;
+        if (is_string($value)) {
+            if (str_starts_with($value, '{') && str_ends_with($value, '}')) {
+                $decoded = json_decode($value, true);
+                if (is_array($decoded)) {
+                    $short = strtolower(substr($locale, 0, 2));
+
+                    return (string) ($decoded[$locale] ?? $decoded[$short] ?? $decoded['ar'] ?? $decoded['en'] ?? (reset($decoded) ?: ''));
+                }
+            }
+
+            return $value;
+        }
+
+        if (is_array($value)) {
+            $short = strtolower(substr($locale, 0, 2));
+
+            if (isset($value[$locale]) && is_string($value[$locale])) {
+                return $value[$locale];
+            }
+            if (isset($value[$short]) && is_string($value[$short])) {
+                return $value[$short];
+            }
+            if (isset($value['ar']) && is_string($value['ar'])) {
+                return $value['ar'];
+            }
+            if (isset($value['en']) && is_string($value['en'])) {
+                return $value['en'];
+            }
+            foreach ($value as $v) {
+                if (is_string($v) && $v !== '') {
+                    return $v;
+                }
+            }
+
+            return '';
+        }
+
+        return is_scalar($value) ? (string) $value : '';
     }
 
     private function resolveSocialLinks(mixed $value): array

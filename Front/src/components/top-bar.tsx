@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Phone, Mail, MapPin } from "lucide-react";
 import type { ITopBarProps } from "../interfaces/ITopBar";
 import { useSettingsStore } from "../store/settings.store";
+import { getLocalizedName } from "../utils/localized-name";
 
 export default function TopBar({
   phone: propPhone,
@@ -11,9 +12,9 @@ export default function TopBar({
 }: ITopBarProps) {
   const { t, i18n } = useTranslation();
   const settings = useSettingsStore((s) => s.settings);
-  const phone = settings?.contact?.phone || propPhone || t("topbar.phoneValue");
-  const email = settings?.contact?.email || propEmail || t("topbar.emailValue");
-  const location = settings?.contact?.address || propLocation || t("topbar.locationValue");
+  const phone = getLocalizedName(settings?.contact?.phone || propPhone, i18n.language) || t("topbar.phoneValue");
+  const email = getLocalizedName(settings?.contact?.email || propEmail, i18n.language) || t("topbar.emailValue");
+  const location = getLocalizedName(settings?.contact?.address || propLocation, i18n.language) || t("topbar.locationValue");
 
   return (
     <div className="hidden md:block fixed top-0 left-0 right-0 z-50 w-full bg-[#051023] text-white text-xs sm:text-sm shadow-sm">

@@ -7,6 +7,7 @@ import { mobileNavItems } from "../constants/navigation";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
 import { X, Info, Phone, Newspaper, Languages, MapPin, Mail, ShoppingBag } from "lucide-react";
 import LazyImg from "./LazyImg";
+import { getLocalizedName } from "../utils/localized-name";
 
 const menuLinks = [
   { labelKey: "nav.orders", to: "/orders", icon: ShoppingBag },
@@ -155,18 +156,18 @@ export default function MobileBottomNav() {
             <div className="mt-6 border-t border-[#E5E7EB] pt-4 flex flex-col gap-1">
               <span className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F]">
                 <MapPin size={20} strokeWidth={2} />
-                {settings?.contact?.address || t("topbar.locationValue")}
+                {getLocalizedName(settings?.contact?.address, isRTL ? "ar" : "en") || t("topbar.locationValue")}
               </span>
               {settings?.contact?.phone && (
-                <a href={`tel:${settings.contact.phone}`} className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F] hover:bg-gray-50">
+                <a href={`tel:${getLocalizedName(settings.contact.phone, isRTL ? "ar" : "en")}`} className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F] hover:bg-gray-50">
                   <Phone size={20} strokeWidth={2} />
-                  {settings.contact.phone}
+                  {getLocalizedName(settings.contact.phone, isRTL ? "ar" : "en")}
                 </a>
               )}
               {settings?.contact?.email && (
-                <a href={`mailto:${settings.contact.email}`} className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F] hover:bg-gray-50">
+                <a href={`mailto:${getLocalizedName(settings.contact.email, isRTL ? "ar" : "en")}`} className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-bold text-[#07111F] hover:bg-gray-50">
                   <Mail size={20} strokeWidth={2} />
-                  {settings.contact.email}
+                  {getLocalizedName(settings.contact.email, isRTL ? "ar" : "en")}
                 </a>
               )}
               <button

@@ -11,6 +11,7 @@ import CarFinder from "./CarFinder";
 import BrandsCarousel from "./BrandsCarousel";
 import SlideArrow from "./SlideArrow";
 import LazyImg from "./LazyImg";
+import { getLocalizedName } from "../utils/localized-name";
 
 const SLIDE_INTERVAL = 5000;
 
@@ -545,7 +546,7 @@ export default function HomeHero({
                         <div className="px-5 py-4 flex flex-col gap-1">
                             <span className="flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-semibold text-gray-600">
                                 <MapPin size={18} strokeWidth={2} className="text-[var(--brand-primary-color)]" />
-                                {settings?.contact?.address || t("topbar.locationValue")}
+                                {getLocalizedName(settings?.contact?.address, isRTL ? "ar" : "en") || t("topbar.locationValue")}
                             </span>
                             <button
                                 type="button"

@@ -5,6 +5,7 @@ import type { IFooterProps } from "../interfaces/IFooterProps";
 import { useSettingsStore } from "../store/settings.store";
 import { useLanguageStore } from "../store/language.store";
 import { getSocialIcon } from "../utils/social-icons";
+import { getLocalizedName } from "../utils/localized-name";
 import { APP_IMAGES } from "../constants/app-images";
 import LazyImg from "./LazyImg";
 
@@ -17,16 +18,16 @@ export default function Footer({
     address: propAddress,
     copyright: propCopyright,
 }: IFooterProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const direction = useLanguageStore((state) => state.direction);
     const settings = useSettingsStore((state) => state.settings);
     const resolvedLogo = settings?.logo_color || APP_IMAGES.LOGO_WHITE;
 
-    const phone = settings?.contact?.phone ?? propPhone;
-    const email = settings?.contact?.email ?? propEmail;
-    const address = settings?.contact?.address ?? propAddress;
-    const copyright = settings?.footer_text ?? propCopyright;
+    const phone = getLocalizedName(settings?.contact?.phone ?? propPhone, i18n.language);
+    const email = getLocalizedName(settings?.contact?.email ?? propEmail, i18n.language);
+    const address = getLocalizedName(settings?.contact?.address ?? propAddress, i18n.language);
+    const copyright = getLocalizedName(settings?.footer_text ?? propCopyright, i18n.language);
 
     const socialLinks = settings?.social_media?.length
         ? settings.social_media.map((social) => ({
@@ -37,9 +38,9 @@ export default function Footer({
         : propSocialLinks;
 
     // Department phones from API
-    const salesPhone = settings?.contact?.sales_phone;
-    const financePhone = settings?.contact?.finance_phone;
-    const aftersalesPhone = settings?.contact?.aftersales_phone;
+    const salesPhone = getLocalizedName(settings?.contact?.sales_phone, i18n.language);
+    const financePhone = getLocalizedName(settings?.contact?.finance_phone, i18n.language);
+    const aftersalesPhone = getLocalizedName(settings?.contact?.aftersales_phone, i18n.language);
     return (
         <footer
             dir={direction}
