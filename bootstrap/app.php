@@ -44,7 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     return route('filament.admin.auth.login');
                 }
 
-                return route('store.auth.login');
+                return Route::has('store.home') ? route('store.home') : '/';
             }
         );
     })
@@ -98,6 +98,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 return redirect()->guest(route('filament.admin.auth.login'));
             }
 
-            return redirect()->guest(route('store.auth.login'));
+            return redirect()->guest(Route::has('store.home') ? route('store.home') : '/');
         });
     })->create();
