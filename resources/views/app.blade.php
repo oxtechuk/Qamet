@@ -88,12 +88,27 @@
             $indexHtml = file_get_contents(public_path('index.html'));
             preg_match_all('/<link[^>]+rel="(?:stylesheet|modulepreload)"[^>]*>/i', $indexHtml, $cssMatches);
             preg_match_all('/<script[^>]+type="module"[^>]*><\/script>/i', $indexHtml, $jsMatches);
+
+            $transformAsset = function(string $tag): string {
+                return preg_replace_callback('/(href|src)="([^"]+)"/i', function(array $m): string {
+                    $attr = $m[1];
+                    $val = $m[2];
+                    if (str_starts_with($val, 'http://') || str_starts_with($val, 'https://') || str_starts_with($val, '//')) {
+                        return $m[0];
+                    }
+                    $cleaned = ltrim(preg_replace('#^/+(?:qamet/public/)?#i', '', $val), '/');
+                    return $attr . '="' . asset($cleaned) . '"';
+                }, $tag);
+            };
+
+            $renderedCss = array_map($transformAsset, $cssMatches[0] ?? []);
+            $renderedJs = array_map($transformAsset, $jsMatches[0] ?? []);
         @endphp
-        @if (!empty($cssMatches[0]))
-            {!! implode("\n    ", $cssMatches[0]) !!}
+        @if (!empty($renderedCss))
+            {!! implode("\n    ", $renderedCss) !!}
         @endif
-        @if (!empty($jsMatches[0]))
-            {!! implode("\n    ", $jsMatches[0]) !!}
+        @if (!empty($renderedJs))
+            {!! implode("\n    ", $renderedJs) !!}
         @endif
     @endif
 </head>
