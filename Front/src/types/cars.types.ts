@@ -34,7 +34,8 @@ export interface CarsListResponse {
 export interface CarColorWithImage {
   hex: string;
   name: string;
-  image: string | null;
+  image?: string | null;
+  images?: string[];
 }
 
 export interface FeatureItem {
@@ -52,6 +53,8 @@ export interface CarDetails {
   images: string[];
   exterior_images?: string[];
   interior_images?: string[];
+  exterior_colors?: CarColorWithImage[];
+  interior_colors?: CarColorWithImage[];
   cash_price: number;
   min_installment: number;
   current_price: number;

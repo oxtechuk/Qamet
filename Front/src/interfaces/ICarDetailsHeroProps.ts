@@ -1,7 +1,9 @@
 export interface ICarColor {
   name: string;
   value: string;
+  hex?: string;
   image?: string | null;
+  images?: string[];
 }
 
 export interface ICarDetailsHeroProps {
@@ -10,6 +12,8 @@ export interface ICarDetailsHeroProps {
   images: string[];
   exteriorImages?: string[];
   interiorImages?: string[];
+  exteriorColors?: ICarColor[];
+  interiorColors?: ICarColor[];
   price: number;
   oldPrice?: number;
   monthlyInstallment: number;

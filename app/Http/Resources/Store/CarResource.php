@@ -28,6 +28,8 @@ class CarResource extends JsonResource
             'is_current_year' => now()->format('Y') == $this->year,
             'type' => $this->type,
             'colors' => $this->formatted_colors,
+            'exterior_colors' => $this->formatted_exterior_colors,
+            'interior_colors' => $this->formatted_interior_colors,
             'specs' => $this->specs,
             'description' => $this->description,
             'features' => $this->features,

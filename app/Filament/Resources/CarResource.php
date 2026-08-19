@@ -172,6 +172,80 @@ class CarResource extends Resource
                                 Forms\Components\RichEditor::make('description_en')->label(__('Description').' ('.__('English').')')
                                     ->columnSpanFull(),
                             ]),
+
+                        Section::make(__('الألوان والصور الخارجية (Exterior Colors & Images)'))
+                            ->icon('heroicon-o-swatch')
+                            ->collapsible()
+                            ->description(__('إضافة الألوان الخارجية للسيارة مع رفع صور متعددة مخصصة لكل لون'))
+                            ->schema([
+                                Forms\Components\Repeater::make('exterior_colors')
+                                    ->label(__('الألوان الخارجية'))
+                                    ->schema([
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label(__('اسم اللون الخارجي'))
+                                                    ->placeholder('مثال: أبيض لؤلؤي، أسود ملكي...')
+                                                    ->required(),
+                                                Forms\Components\ColorPicker::make('hex')
+                                                    ->label(__('كود اللون (Hex)'))
+                                                    ->required(),
+                                            ]),
+                                        Forms\Components\FileUpload::make('images')
+                                            ->label(__('صور السيارة بهذا اللون (خارجي)'))
+                                            ->multiple()
+                                            ->reorderable()
+                                            ->image()
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->maxSize(10240)
+                                            ->disk('public')
+                                            ->directory('cars/exterior-colors')
+                                            ->visibility('public')
+                                            ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/exterior-colors', 1400, 1050, 82))
+                                            ->helperText(__('يمكنك رفع صور متعددة للسيارة من الخارج بهذا اللون المحدد')),
+                                    ])
+                                    ->addActionLabel(__('إضافة لون خارجي جديد'))
+                                    ->collapsible()
+                                    ->cloneable()
+                                    ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
+                            ]),
+
+                        Section::make(__('الألوان والصور الداخلية للمقصورة (Interior Colors & Images)'))
+                            ->icon('heroicon-o-sparkles')
+                            ->collapsible()
+                            ->description(__('إضافة ألوان المقصورة والفرش الداخلي مع رفع صور متعددة مخصصة لكل لون'))
+                            ->schema([
+                                Forms\Components\Repeater::make('interior_colors')
+                                    ->label(__('الألوان الداخلية'))
+                                    ->schema([
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label(__('اسم اللون الداخلي'))
+                                                    ->placeholder('مثال: جلد جملي فاخر، بيج، أحمر ماروني...')
+                                                    ->required(),
+                                                Forms\Components\ColorPicker::make('hex')
+                                                    ->label(__('كود اللون (Hex)'))
+                                                    ->required(),
+                                            ]),
+                                        Forms\Components\FileUpload::make('images')
+                                            ->label(__('صور المقصورة والفرش بهذا اللون (داخلي)'))
+                                            ->multiple()
+                                            ->reorderable()
+                                            ->image()
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->maxSize(10240)
+                                            ->disk('public')
+                                            ->directory('cars/interior-colors')
+                                            ->visibility('public')
+                                            ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/interior-colors', 1400, 1050, 82))
+                                            ->helperText(__('يمكنك رفع صور متعددة لداخلية السيارة والمقصورة بهذا اللون المحدد')),
+                                    ])
+                                    ->addActionLabel(__('إضافة لون داخلي جديد'))
+                                    ->collapsible()
+                                    ->cloneable()
+                                    ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
+                            ]),
                     ]),
 
                 // Right/Side Column: Settings & Media (1/3 Width)
@@ -202,7 +276,7 @@ class CarResource extends Resource
                                     ->helperText(__('Optional highlight tag for this car')),
                             ]),
 
-                        Section::make(__('Media & Colors'))
+                        Section::make(__('Media & Main Images'))
                             ->icon('heroicon-o-photo')
                             ->schema([
                                 Forms\Components\FileUpload::make('thumbnail')->label(__('Thumbnail'))
@@ -211,7 +285,7 @@ class CarResource extends Resource
                                     ->directory('cars/thumbnails')
                                     ->visibility('public')
                                     ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/thumbnails', 800, 600, 82)),
-                                Forms\Components\FileUpload::make('exterior_images')->label(__('Exterior Images'))
+                                Forms\Components\FileUpload::make('exterior_images')->label(__('صور عامة إضافية (خارجي)'))
                                     ->multiple()
                                     ->reorderable()
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
@@ -220,7 +294,7 @@ class CarResource extends Resource
                                     ->directory('cars/exterior')
                                     ->visibility('public')
                                     ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/exterior', 1400, 1050, 82)),
-                                Forms\Components\FileUpload::make('interior_images')->label(__('Interior Images'))
+                                Forms\Components\FileUpload::make('interior_images')->label(__('صور عامة إضافية (داخلي)'))
                                     ->multiple()
                                     ->reorderable()
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
@@ -229,20 +303,6 @@ class CarResource extends Resource
                                     ->directory('cars/interior')
                                     ->visibility('public')
                                     ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/interior', 1400, 1050, 82)),
-                                Forms\Components\Repeater::make('colors')->label(__('Colors'))
-                                    ->schema([
-                                        Forms\Components\TextInput::make('name')
-                                            ->required(),
-                                        Forms\Components\ColorPicker::make('hex')->label(__('Hex'))
-                                            ->required(),
-                                        Forms\Components\FileUpload::make('image')->label(__('Image'))
-                                            ->image()
-                                            ->disk('public')
-                                            ->directory('cars/colors')
-                                            ->visibility('public')
-                                            ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/colors', 800, 600, 82)),
-                                    ])
-                                    ->addActionLabel(__('Add Color')),
                             ]),
                     ]),
             ]);

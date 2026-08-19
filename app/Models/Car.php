@@ -24,7 +24,7 @@ class Car extends Model
 
     protected $fillable = [
         'brand_id', 'category_id', 'name', 'slug', 'model', 'year', 'type',
-        'color', 'colors', 'cash_price', 'min_down_payment', 'min_installment',
+        'color', 'colors', 'exterior_colors', 'interior_colors', 'cash_price', 'min_down_payment', 'min_installment',
         'description', 'features', 'specs', 'thumbnail', 'is_featured', 'is_active', 'is_highlighted', 'highlight_id', 'views',
         'availability_status',
     ];
@@ -33,26 +33,71 @@ class Car extends Model
 
     protected $casts = [
         'colors' => 'array',
+        'exterior_colors' => 'array',
+        'interior_colors' => 'array',
         'specs' => 'array',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
 
-    public function getFormattedColorsAttribute(): ?array
+    public function getFormattedExteriorColorsAttribute(): ?array
     {
-        if (! is_array($this->colors)) {
+        $colors = $this->exterior_colors ?? $this->colors;
+        if (! is_array($colors)) {
             return null;
         }
 
         return array_map(function (mixed $color): array {
             $color = is_array($color) ? $color : [];
 
+            if (! empty($color['images']) && is_array($color['images'])) {
+                $color['images'] = array_values(array_map(fn ($img) => AsImageUrl::url($img), array_filter($color['images'])));
+            } elseif (! empty($color['image'])) {
+                $color['images'] = [AsImageUrl::url($color['image'])];
+            } else {
+                $color['images'] = [];
+            }
+
             if (! empty($color['image'])) {
                 $color['image'] = AsImageUrl::url($color['image']);
+            } elseif (! empty($color['images'][0])) {
+                $color['image'] = $color['images'][0];
             }
 
             return $color;
-        }, $this->colors);
+        }, $colors);
+    }
+
+    public function getFormattedInteriorColorsAttribute(): ?array
+    {
+        if (! is_array($this->interior_colors)) {
+            return null;
+        }
+
+        return array_map(function (mixed $color): array {
+            $color = is_array($color) ? $color : [];
+
+            if (! empty($color['images']) && is_array($color['images'])) {
+                $color['images'] = array_values(array_map(fn ($img) => AsImageUrl::url($img), array_filter($color['images'])));
+            } elseif (! empty($color['image'])) {
+                $color['images'] = [AsImageUrl::url($color['image'])];
+            } else {
+                $color['images'] = [];
+            }
+
+            if (! empty($color['image'])) {
+                $color['image'] = AsImageUrl::url($color['image']);
+            } elseif (! empty($color['images'][0])) {
+                $color['image'] = $color['images'][0];
+            }
+
+            return $color;
+        }, $this->interior_colors);
+    }
+
+    public function getFormattedColorsAttribute(): ?array
+    {
+        return $this->formatted_exterior_colors;
     }
 
     public function getSpecsAttribute(mixed $value): ?array

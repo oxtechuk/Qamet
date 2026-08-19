@@ -85,11 +85,23 @@ export default function CarDetailsPage() {
         images={car.images?.length ? car.images : [car.main_image]}
         exteriorImages={car.exterior_images}
         interiorImages={car.interior_images}
+        exteriorColors={(car.exterior_colors ?? car.colors ?? []).map((c) => ({
+          name: c.name,
+          value: c.hex,
+          image: c.image,
+          images: c.images ?? (c.image ? [c.image] : []),
+        }))}
+        interiorColors={(car.interior_colors ?? []).map((c) => ({
+          name: c.name,
+          value: c.hex,
+          image: c.image,
+          images: c.images ?? (c.image ? [c.image] : []),
+        }))}
         price={car.current_price}
         oldPrice={saving > 0 ? car.cash_price : undefined}
         monthlyInstallment={car.min_installment}
         savingAmount={saving > 0 ? saving : undefined}
-        colors={(car.colors ?? []).map((c) => ({ name: c.name, value: c.hex, image: c.image }))}
+        colors={(car.colors ?? []).map((c) => ({ name: c.name, value: c.hex, image: c.image, images: c.images }))}
         orderTo={`/orders?car=${car.id}&slug=${car.slug}`}
         financeTo="/finance-calculator"
       />

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
@@ -19,40 +19,70 @@ export default function CarDetailsHero({
     images,
     exteriorImages,
     interiorImages,
+    exteriorColors,
+    interiorColors,
     price,
     monthlyInstallment,
     colors,
     orderTo,
 }: ICarDetailsHeroProps) {
     const { t, i18n } = useTranslation();
+    const isRtl = i18n.dir() === "rtl";
     const settings = useSettingsStore((s) => s.settings);
     const whatsappNumber =
         settings?.contact?.whatsapp?.replace(/\D/g, "") ?? "";
     const whatsappHref = `https://wa.me/${whatsappNumber}`;
     const [activeImage, setActiveImage] = useState(0);
-    const [viewType, setViewType] = useState<"inside" | "outside">("inside");
+    const [viewType, setViewType] = useState<"inside" | "outside">("outside");
     const [selectedColor, setSelectedColor] = useState<ICarColor | null>(null);
 
-    const currentImages =
-        viewType === "inside"
-            ? interiorImages?.length
-                ? interiorImages.map(getImageUrl)
-                : images.map(getImageUrl)
-            : exteriorImages?.length
-              ? exteriorImages.map(getImageUrl)
-              : images.map(getImageUrl);
+    const availableColors = useMemo(() => {
+        if (viewType === "inside") {
+            return interiorColors && interiorColors.length > 0 ? interiorColors : [];
+        }
+        return (exteriorColors && exteriorColors.length > 0) ? exteriorColors : colors;
+    }, [viewType, exteriorColors, interiorColors, colors]);
 
-    const colorImage = selectedColor?.image
-        ? getImageUrl(selectedColor.image)
-        : null;
-    const currentImage = colorImage ?? currentImages[activeImage];
-    const isShowingColorImage = !!colorImage;
+    const currentImages = useMemo(() => {
+        if (selectedColor) {
+            if (selectedColor.images && selectedColor.images.length > 0) {
+                return selectedColor.images.map(getImageUrl);
+            }
+            if (selectedColor.image) {
+                return [getImageUrl(selectedColor.image)];
+            }
+        }
+
+        if (viewType === "inside") {
+            return interiorImages && interiorImages.length > 0
+                ? interiorImages.map(getImageUrl)
+                : images.map(getImageUrl);
+        }
+
+        return exteriorImages && exteriorImages.length > 0
+            ? exteriorImages.map(getImageUrl)
+            : images.map(getImageUrl);
+    }, [viewType, selectedColor, interiorImages, exteriorImages, images]);
+
+    const activeIndex = activeImage >= currentImages.length ? 0 : activeImage;
+    const currentImage = currentImages[activeIndex] || (images[0] ? getImageUrl(images[0]) : "");
+    const isShowingColorImage = !!(selectedColor && (selectedColor.images?.length || selectedColor.image));
 
     const handleViewChange = useCallback((type: "inside" | "outside") => {
         setViewType(type);
         setActiveImage(0);
         setSelectedColor(null);
     }, []);
+
+    const handleColorClick = (color: ICarColor) => {
+        if (selectedColor?.name === color.name) {
+            setSelectedColor(null);
+            setActiveImage(0);
+        } else {
+            setSelectedColor(color);
+            setActiveImage(0);
+        }
+    };
 
     return (
         <section dir={i18n.dir()} className="w-full py-10">
@@ -65,11 +95,14 @@ export default function CarDetailsHero({
                         images={currentImages}
                         currentImages={currentImages}
                         currentImage={currentImage}
-                        activeImage={activeImage}
+                        activeImage={activeIndex}
                         onImageSelect={setActiveImage}
                         isShowingColorImage={isShowingColorImage}
                         selectedColor={selectedColor}
-                        onClearColor={() => setSelectedColor(null)}
+                        onClearColor={() => {
+                            setSelectedColor(null);
+                            setActiveImage(0);
+                        }}
                         viewType={viewType}
                         onViewChange={handleViewChange}
                     />
@@ -102,55 +135,76 @@ export default function CarDetailsHero({
 
                             {/* Monthly installment card */}
                             <div
-                                className="mt-3 rounded-[16px] bg-[#F9F5E8] px-5 py-4 text-start"
+                                className="mt-3 flex items-center justify-between rounded-[16px] border border-[#E5E7EB] bg-white px-5 py-4"
                             >
-                                <p className="text-[13px] text-[#6B7280]">
-                                    {t("carDetails.hero.installmentFrom")}
-                                </p>
-                                <p className="mt-1 text-[32px] font-extrabold text-[#111827]">
-                                    {formatPrice(monthlyInstallment, "#111827")}
-                                </p>
+                                <div className="text-start">
+                                    <p className="text-[13px] text-[#6B7280]">
+                                        {t("carDetails.hero.installment")}
+                                    </p>
+                                    <p className="mt-0.5 text-[22px] font-bold text-[#07111F]">
+                                        {formatPrice(monthlyInstallment, "#07111F")}{" "}
+                                        <span className="text-[14px] font-normal text-[#6B7280]">
+                                            / {t("carDetails.hero.month")}
+                                        </span>
+                                    </p>
+                                </div>
+                                <Link
+                                    to="/finance-calculator"
+                                    className="flex h-10 items-center justify-center rounded-xl bg-[var(--brand-primary-color)]/10 px-4 text-sm font-semibold text-[var(--brand-primary-color)] transition hover:bg-[var(--brand-primary-color)]/20"
+                                >
+                                    {t("carDetails.hero.calcFinance") || (isRtl ? "حاسبة التمويل" : "Finance Calculator")}
+                                </Link>
                             </div>
 
-                            {/* Colors */}
-                            {colors.length > 0 && (
-                                <div className="mt-4 flex items-center justify-between rounded-[16px] border border-[#E5E7EB] bg-white px-5 py-4">
-                                    <div className="flex items-center gap-3">
-                                        {colors.map((color) => (
-                                            <button
-                                                key={color.name}
-                                                type="button"
-                                                onClick={() =>
-                                                    setSelectedColor(
-                                                        selectedColor?.name ===
-                                                            color.name
-                                                            ? null
-                                                            : color,
-                                                    )
-                                                }
-                                                aria-label={color.name}
-                                                className={`h-[44px] w-[44px] rounded-full border-2 p-[3px] transition ${
-                                                    selectedColor?.name ===
-                                                    color.name
-                                                        ? "border-[var(--brand-primary-color)]"
-                                                        : "border-transparent"
-                                                }`}
-                                            >
-                                                <span
-                                                    className="block h-full w-full rounded-full border border-black/10"
-                                                    style={{
-                                                        backgroundColor:
-                                                            color.value,
-                                                    }}
-                                                />
-                                            </button>
-                                        ))}
+                            {/* Color options */}
+                            {availableColors.length > 0 && (
+                                <div className="mt-5 flex flex-col gap-2 rounded-[16px] border border-[#F3F4F6] bg-[#FAFAFA] p-4">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[14px] font-bold text-[#111827]">
+                                            {viewType === "inside"
+                                                ? (isRtl ? "ألوان المقصورة والفرش الداخلي" : "Interior Colors")
+                                                : (isRtl ? "الألوان الخارجية المتاحة" : "Exterior Colors")}
+                                        </span>
+                                        {selectedColor && (
+                                            <span className="text-xs font-semibold text-[var(--brand-primary-color)]">
+                                                {selectedColor.name}
+                                            </span>
+                                        )}
                                     </div>
-                                    <span
-                                        className="text-end text-[14px] font-medium text-[#374151]"
-                                    >
-                                        {t("carDetails.hero.availableColors")}
-                                    </span>
+                                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                                        {availableColors.map((color: ICarColor) => {
+                                            const isSelected = selectedColor?.name === color.name;
+                                            return (
+                                                <button
+                                                    key={color.name}
+                                                    type="button"
+                                                    onClick={() => handleColorClick(color)}
+                                                    title={color.name}
+                                                    aria-label={color.name}
+                                                    className={`group relative flex items-center gap-2 rounded-full border px-3 py-1.5 transition-all ${
+                                                        isSelected
+                                                            ? "border-[var(--brand-primary-color)] bg-white shadow-sm ring-2 ring-[var(--brand-primary-color)]/30"
+                                                            : "border-gray-200 bg-white hover:border-gray-300"
+                                                    }`}
+                                                >
+                                                    <span
+                                                        className="h-5 w-5 rounded-full border border-black/15 shadow-inner"
+                                                        style={{
+                                                            backgroundColor: color.value || color.hex || "#ccc",
+                                                        }}
+                                                    />
+                                                    <span className={`text-xs font-medium ${isSelected ? "font-bold text-[var(--brand-primary-color)]" : "text-gray-700"}`}>
+                                                        {color.name}
+                                                    </span>
+                                                    {color.images && color.images.length > 0 && (
+                                                        <span className="rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-500">
+                                                            {color.images.length}
+                                                        </span>
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             )}
 
@@ -158,7 +212,7 @@ export default function CarDetailsHero({
                             <div className="mt-5 flex flex-col gap-3">
                                 <Link
                                     to={orderTo}
-                                    className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] text-[var(--brand-primary-color)] transition hover:opacity-90"
+                                    className="flex h-[56px] w-full items-center justify-center rounded-[16px] bg-[var(--brand-secondary-color)] text-[17px] text-[var(--brand-primary-color)] transition hover:opacity-90 font-bold"
                                 >
                                     {t("carDetails.hero.orderNow")}
                                 </Link>
@@ -167,7 +221,7 @@ export default function CarDetailsHero({
                                     href={whatsappHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex h-[56px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#25D366] text-[17px] text-white! transition hover:opacity-90"
+                                    className="flex h-[56px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#25D366] text-[17px] text-white! transition hover:opacity-90 font-bold"
                                 >
                                     <SiWhatsapp size={22} />
                                     {t("carDetails.hero.whatsappContact")}
@@ -305,7 +359,7 @@ function CarDetailsGallery({
             </div>
 
             {/* Thumbnails row with prev/next arrows */}
-            {!isShowingColorImage && (
+            {currentImages.length > 1 && (
                 <div
                     className="mt-4 flex items-center gap-2"
                     dir="ltr"
@@ -317,9 +371,9 @@ function CarDetailsGallery({
                     />
 
                     {/* Thumbnails */}
-                    <div className="flex flex-1 justify-center gap-2">
+                    <div className="flex flex-1 justify-center gap-2 overflow-x-auto py-1">
                         {currentImages
-                            .slice(0, 4)
+                            .slice(0, 6)
                             .map((image, index) => (
                                 <button
                                     key={index}

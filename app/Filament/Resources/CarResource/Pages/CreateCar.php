@@ -25,6 +25,10 @@ class CreateCar extends CreateRecord
 
         $data['slug'] = ['en' => $slugEn, 'ar' => $slugAr];
 
+        if (! empty($data['exterior_colors'])) {
+            $data['colors'] = $data['exterior_colors'];
+        }
+
         return $data;
     }
 

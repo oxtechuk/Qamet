@@ -32,6 +32,15 @@ class EditCar extends EditRecord
         return $data;
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['exterior_colors']) && ! empty($data['exterior_colors'])) {
+            $data['colors'] = $data['exterior_colors'];
+        }
+
+        return $data;
+    }
+
     protected function afterSave(): void
     {
         $this->syncCarImages($this->record, $this->data['exterior_images'] ?? [], 'exterior');
