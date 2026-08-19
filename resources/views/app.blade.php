@@ -15,13 +15,13 @@
         @php
             $indexHtml = file_get_contents(public_path('index.html'));
             preg_match_all('/<link[^>]+rel="(?:stylesheet|modulepreload)"[^>]*>/i', $indexHtml, $cssMatches);
-            preg_match('/<script[^>]+src="\/assets\/store\/[^"]+"[^>]*><\/script>/i', $indexHtml, $jsMatches);
+            preg_match_all('/<script[^>]+type="module"[^>]*><\/script>/i', $indexHtml, $jsMatches);
         @endphp
         @if (!empty($cssMatches[0]))
             {!! implode("\n    ", $cssMatches[0]) !!}
         @endif
         @if (!empty($jsMatches[0]))
-            {!! $jsMatches[0] !!}
+            {!! implode("\n    ", $jsMatches[0]) !!}
         @endif
     @endif
 </head>

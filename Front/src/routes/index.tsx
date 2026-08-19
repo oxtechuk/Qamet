@@ -23,6 +23,21 @@ const withSuspense = (element: ReactNode) => (
   <Suspense fallback={<LoadingSpinner />}>{element}</Suspense>
 );
 
+function getRuntimeBasename() {
+  const envBase = import.meta.env.BASE_URL || "/";
+  if (typeof window === "undefined") return envBase;
+
+  const currentPath = window.location.pathname;
+  const cleanEnv = envBase.replace(/\/+$/, "");
+  if (!cleanEnv || cleanEnv === "/") return "/";
+
+  if (currentPath.toLowerCase().startsWith(cleanEnv.toLowerCase())) {
+    return currentPath.slice(0, cleanEnv.length);
+  }
+
+  return envBase;
+}
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -33,36 +48,36 @@ export const router = createBrowserRouter([
         index: true,
         Component: HomePage,
       },
-      { path: "/cars", element: withSuspense(<AllCarsPage />) },
-      { path: "/cars/:slug", element: withSuspense(<CarDetailsPage />) },
-      { path: "/compare", element: withSuspense(<ComparePage />) },
-      { path: "/offers", element: withSuspense(<OffersPage />) },
+      { path: "cars", element: withSuspense(<AllCarsPage />) },
+      { path: "cars/:slug", element: withSuspense(<CarDetailsPage />) },
+      { path: "compare", element: withSuspense(<ComparePage />) },
+      { path: "offers", element: withSuspense(<OffersPage />) },
       {
-        path: "/about",
+        path: "about",
         element: withSuspense(<AboutPage />),
       },
       {
-        path: "/blog",
+        path: "blog",
         element: withSuspense(<BlogsPage />),
       },
       {
-        path: "/blog/:slug",
+        path: "blog/:slug",
         element: withSuspense(<BlogDetailsPage />),
       },
       {
-        path: "/contact",
+        path: "contact",
         element: withSuspense(<ContactPage />),
       },
       {
-        path: "/finance-calculator",
+        path: "finance-calculator",
         element: withSuspense(<FinanceCalculatorPage />),
       },
       {
-        path: "/brands",
+        path: "brands",
         element: withSuspense(<BrandsPage />),
       },
       {
-        path: "/orders",
+        path: "orders",
         element: withSuspense(<OrdersPage />),
       },
       {
@@ -72,5 +87,6 @@ export const router = createBrowserRouter([
     ],
   },
 ], {
-  basename: import.meta.env.BASE_URL,
+  basename: getRuntimeBasename(),
 });
+

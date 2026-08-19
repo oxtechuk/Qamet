@@ -1,7 +1,19 @@
 import { API_ORIGIN } from "./axios.constants";
 
-const base = import.meta.env.BASE_URL;
-const cleanBase = base.endsWith("/") ? base : `${base}/`;
+function getBase() {
+  const envBase = import.meta.env.BASE_URL ?? "/";
+  if (typeof window !== "undefined") {
+    const currentPath = window.location.pathname;
+    const cleanEnv = envBase.replace(/\/+$/, "");
+    if (cleanEnv && cleanEnv !== "/" && currentPath.toLowerCase().startsWith(cleanEnv.toLowerCase())) {
+      const matched = currentPath.slice(0, cleanEnv.length);
+      return matched.endsWith("/") ? matched : `${matched}/`;
+    }
+  }
+  return envBase.endsWith("/") ? envBase : `${envBase}/`;
+}
+
+const cleanBase = getBase();
 
 const STORAGE_PREFIX = API_ORIGIN ? `${API_ORIGIN}/storage/` : `${cleanBase}storage/`;
 
