@@ -125,8 +125,8 @@ final class HomeApiService
                 return [
                     'image' => $this->resolveImage($banner['image'] ?? null),
                     'mobile_image' => $this->resolveImage($banner['mobile_image'] ?? null),
-                    'title' => $banner['title'][$locale] ?? $banner['title']['en'] ?? '',
-                    'button_text' => $banner['button_text_'.$locale] ?? $banner['button_text_en'] ?? '',
+                    'title' => is_array($banner['title'] ?? null) ? ($banner['title'][$locale] ?? $banner['title']['en'] ?? '') : ($banner['title_'.$locale] ?? $banner['title_en'] ?? $banner['title'] ?? ''),
+                    'button_text' => is_array($banner['button_text'] ?? null) ? ($banner['button_text'][$locale] ?? $banner['button_text']['en'] ?? '') : ($banner['button_text_'.$locale] ?? $banner['button_text_en'] ?? $banner['button_text'] ?? ''),
                     'url' => $banner['url'] ?? null,
                     'is_active' => ($banner['active'] ?? true) && $withinDateRange,
                 ];
