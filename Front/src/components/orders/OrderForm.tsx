@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Car, CreditCard, Banknote, Clock, User, Briefcase, HelpCircle, Check, Sparkles, ShieldCheck } from "lucide-react";
+import { Car, CreditCard, Banknote, Clock, Check, Sparkles, ShieldCheck } from "lucide-react";
 import { getImageUrl, APP_IMAGES } from "../../constants/app-images";
 import type { CarItem } from "../../types/home.types";
 import LazyImg from "../LazyImg";
