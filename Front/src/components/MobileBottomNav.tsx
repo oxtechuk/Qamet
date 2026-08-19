@@ -5,12 +5,13 @@ import { useLanguageStore } from "../store/language.store";
 import { useSettingsStore } from "../store/settings.store";
 import { mobileNavItems } from "../constants/navigation";
 import { APP_IMAGES, getImageUrl } from "../constants/app-images";
-import { X, Info, Phone, Newspaper, Languages, MapPin, Mail, ShoppingBag } from "lucide-react";
+import { X, Info, Phone, Newspaper, Languages, MapPin, Mail, ShoppingBag, Building2 } from "lucide-react";
 import LazyImg from "./LazyImg";
 import { getLocalizedName } from "../utils/localized-name";
 
 const menuLinks = [
   { labelKey: "nav.orders", to: "/orders", icon: ShoppingBag },
+  { labelKey: "nav.corporate", to: "/corporate", icon: Building2 },
   { labelKey: "nav.about", to: "/about", icon: Info },
   { labelKey: "nav.contact", to: "/contact", icon: Phone },
   { labelKey: "mobileNav.blog", to: "/blog", icon: Newspaper },
