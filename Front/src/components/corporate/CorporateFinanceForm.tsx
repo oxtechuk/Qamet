@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Building2, Banknote, CreditCard, FileText, ShieldCheck } from "lucide-react";
 import { toast } from "react-toastify";
 import { submitBooking } from "../../services/api";
+import { trackLead } from "../../utils/analytics";
 
 interface ICorporateFinanceFormProps {
   onSuccess?: () => void;
@@ -58,6 +59,15 @@ export default function CorporateFinanceForm({ onSuccess }: ICorporateFinanceFor
         preferred_contact_date: contactDate.trim() || null,
         preferred_contact_time: timeLabel,
         notes: notes.trim() || null,
+      });
+
+      trackLead({
+        formName: "corporate_order",
+        carName: `${carType.trim()} (${carCount} vehicles)`,
+        orderType: "corporate",
+        name: clientName.trim(),
+        phone: clientPhone.trim(),
+        email: clientEmail.trim(),
       });
 
       toast.success(

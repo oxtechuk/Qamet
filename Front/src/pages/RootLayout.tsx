@@ -13,6 +13,7 @@ import Footer from "../components/Footer";
 import MobileBottomNav from "../components/MobileBottomNav";
 import ScrollToTop from "../components/ScrollToTop";
 import WhatsAppWidget from "../components/WhatsAppWidget";
+import { trackPageView } from "../utils/analytics";
 
 export default function RootLayout() {
   const { t } = useTranslation();
@@ -20,6 +21,10 @@ export default function RootLayout() {
   const { language, setLanguage } = useLanguageStore();
   const { loaded, settings, setSettings, setLoading } = useSettingsStore();
   const isHome = pathname === "/";
+
+  useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     if (loaded) return;

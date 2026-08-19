@@ -1,5 +1,6 @@
 import { useSettingsStore } from "../store/settings.store";
 import { useLanguageStore } from "../store/language.store";
+import { trackContact } from "../utils/analytics";
 
 export default function WhatsAppWidget() {
   const { settings, loaded } = useSettingsStore();
@@ -30,6 +31,7 @@ export default function WhatsAppWidget() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackContact("whatsapp")}
         className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] rounded-full shadow-lg hover:bg-[#20ba5a] transition-all duration-300 hover:scale-110 active:scale-95"
         title={tooltipText}
       >

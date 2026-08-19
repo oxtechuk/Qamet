@@ -35,4 +35,19 @@ return [
         ],
     ],
 
+    'meta' => [
+        'pixel_id' => env('META_PIXEL_ID', '1057716843499038'),
+        'capi_token' => env('META_CAPI_TOKEN', 'EAATP3pNl4QgBSFPC0OmvbnQZCAa8d68FZA42rdlFERXuArRRENkMigCXqLBaW4KyfgUxyTUvJhP1buIXEJwfkKVMttfQwGttGNQ0BH26rq4RaRECTciFSmpljQ4t2rwozJloPUHzVgFJ0YLTQZCZAicyaXzoGW5IWDFufNwUZBKWIxWEshYMKOI5JalLV9lv53QZDZD'),
+    ],
+
+    'tiktok' => [
+        'pixel_id' => env('TIKTOK_PIXEL_ID', 'D9IS4RRC77U13TU259K0'),
+        'capi_token' => env('TIKTOK_CAPI_TOKEN', 'cf43cf0e3ff1cfbb76b1a537cb864af263b66bae'),
+    ],
+
+    'snapchat' => [
+        'pixel_id' => env('SNAPCHAT_PIXEL_ID', '84c3351e-4d60-430d-9c66-dc0cf889ed32'),
+        'capi_token' => env('SNAPCHAT_CAPI_TOKEN', 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzg1MDUzOTk4LCJzdWIiOiJiYjJkODk1MC01NzkxLTRkNjMtYmNiNy0zMWFiOTUwMWM4ODR-UFJPRFVDVElPTn5mMzdlYjNiNy02NmEzLTRlYmYtYTA0MS1iM2E1NzY0ZmMwMzEifQ.AWz_v84D0bwDGhbS6wKh_5xxD4oZIl2tXxsGxHT0ebs'),
+    ],
+
 ];

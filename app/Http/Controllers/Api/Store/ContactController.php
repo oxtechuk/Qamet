@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Store;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Requests\Api\Store\ContactRequest;
 use App\Http\Resources\Store\BranchResource;
+use App\Jobs\SendConversionEventJob;
 use App\Services\Api\Store\ContactApiService;
 use App\Services\Cache\ContactCacheService;
 
@@ -31,6 +32,15 @@ final class ContactController extends ApiBaseController
     public function store(ContactRequest $request)
     {
         $lead = $this->contactService->submitContactForm($request->validated());
+
+        SendConversionEventJob::dispatch([
+            'event_name' => 'Lead',
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'content_name' => $request->input('subject', 'Contact Inquiry'),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
 
         return $this->respondCreated(
             ['lead_id' => $lead->id],

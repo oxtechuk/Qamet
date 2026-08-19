@@ -6,6 +6,7 @@ import { useCarSearch } from "../hooks/useCarSearch";
 import { submitBooking } from "../services/api";
 import { getCarBySlug, searchCars } from "../services/api/cars.service";
 import { useSEO } from "../utils/useSEO";
+import { trackLead } from "../utils/analytics";
 import { CarSelector, OrderForm, TrustBadges } from "../components/orders";
 
 export default function OrdersPage() {
@@ -107,6 +108,15 @@ export default function OrdersPage() {
                 down_payment: payment === "bank" && hasDownpayment && downPayment ? parseInt(downPayment, 10) : null,
                 has_obligations: payment === "bank" ? hasObligations : false,
                 monthly_obligations: payment === "bank" && hasObligations && monthlyObligations ? parseInt(monthlyObligations, 10) : null,
+            });
+
+            trackLead({
+                formName: payment === "bank" ? "installment_order" : "cash_order",
+                carName: selectedCar ? selectedCar.name : carType.trim(),
+                orderType: payment === "bank" ? "finance" : "cash",
+                name: fullName.trim(),
+                phone: phone.trim(),
+                value: selectedCar?.current_price || selectedCar?.cash_price || 0,
             });
 
             toast.success(isRtl ? "تم إرسال طلبك بنجاح! سيتواصل معك مندوب المبيعات قريباً." : "Your request was submitted successfully! A representative will contact you soon.");

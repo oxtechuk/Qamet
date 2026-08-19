@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { getCarBySlug } from "../services/api/cars.service";
 import { getImageUrl } from "../constants/app-images";
 import { mapRelatedCar, buildTabs } from "../utils/car-mappers";
 import { useSEO } from "../utils/useSEO";
+import { trackViewContent } from "../utils/analytics";
 import type { CarCardProps } from "../components/CarCard";
 
 export default function CarDetailsPage() {
@@ -24,6 +25,17 @@ export default function CarDetailsPage() {
     enabled: !!slug,
     retry: 1,
   });
+
+  useEffect(() => {
+    if (car) {
+      trackViewContent({
+        carId: car.id,
+        carName: car.name,
+        brand: car.brand?.name,
+        price: car.current_price || car.cash_price,
+      });
+    }
+  }, [car?.id, car?.name]);
 
   const tabs = useMemo(() => (car ? buildTabs(car, t) : []), [car, t]);
 

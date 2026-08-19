@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { submitContactForm } from "../services/api/contact.service";
+import { trackLead } from "../utils/analytics";
 import type { IContactFormValues } from "../interfaces/IContactFormValues";
 
 const EMPTY_FORM: IContactFormValues = {
@@ -34,6 +35,14 @@ export function useContactForm() {
                 country: values.country,
                 message: values.message,
             });
+
+            trackLead({
+                formName: "contact_form",
+                name: values.fullName,
+                phone: values.phone,
+                email: values.email,
+            });
+
             setSubmitStatus("success");
             setValues(EMPTY_FORM);
         } catch {

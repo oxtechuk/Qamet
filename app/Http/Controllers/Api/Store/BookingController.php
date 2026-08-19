@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Store;
 
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Requests\Api\Store\BookingRequest;
+use App\Jobs\SendConversionEventJob;
 use App\Models\Car;
 use App\Services\Api\Store\BookingApiService;
 use App\Services\Api\Store\Data\BookingData;
@@ -44,6 +45,17 @@ final class BookingController extends ApiBaseController
         );
 
         $booking = $this->bookingService->create($data);
+
+        SendConversionEventJob::dispatch([
+            'event_name' => 'Lead',
+            'email' => $booking->client_email ?? null,
+            'phone' => $booking->client_phone,
+            'value' => $booking->total_price ?? ($car?->cash_price ?? 0),
+            'currency' => 'SAR',
+            'content_name' => $booking->car_type ?? ($car?->name ?? 'Car Booking'),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
 
         return $this->respondCreated([
             'booking_id' => $booking->id,
