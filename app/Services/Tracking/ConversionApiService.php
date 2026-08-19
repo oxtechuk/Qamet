@@ -78,6 +78,13 @@ final class ConversionApiService
         ]);
     }
 
+    private function httpClient(): \Illuminate\Http\Client\PendingRequest
+    {
+        return app()->isLocal()
+            ? Http::withoutVerifying()->timeout(5)
+            : Http::timeout(5);
+    }
+
     private function sendToMeta(array $data): void
     {
         $pixelId = config('services.meta.pixel_id');
@@ -97,11 +104,11 @@ final class ConversionApiService
 
             $customData = array_filter([
                 'currency' => $data['currency'],
-                'value' => $data['value'],
+                'value' => $data['value'] > 0 ? $data['value'] : null,
                 'content_name' => $data['content_name'],
             ]);
 
-            $response = Http::timeout(5)->post("https://graph.facebook.com/v19.0/{$pixelId}/events", [
+            $response = $this->httpClient()->post("https://graph.facebook.com/v19.0/{$pixelId}/events", [
                 'access_token' => $token,
                 'data' => [
                     [
@@ -140,10 +147,10 @@ final class ConversionApiService
                 'user_agent' => $data['user_agent'],
             ]);
 
-            $response = Http::withHeaders([
+            $response = $this->httpClient()->withHeaders([
                 'Access-Token' => $token,
                 'Content-Type' => 'application/json',
-            ])->timeout(5)->post('https://business-api.tiktok.com/open_api/v1.3/event/track/', [
+            ])->post('https://business-api.tiktok.com/open_api/v1.3/event/track/', [
                 'event_source' => 'web',
                 'event_source_id' => $pixelId,
                 'data' => [
@@ -154,7 +161,7 @@ final class ConversionApiService
                         'user' => $user,
                         'properties' => array_filter([
                             'currency' => $data['currency'],
-                            'value' => $data['value'],
+                            'value' => $data['value'] > 0 ? $data['value'] : null,
                             'content_name' => $data['content_name'],
                         ]),
                     ],
@@ -179,24 +186,23 @@ final class ConversionApiService
         }
 
         try {
-            $userData = array_filter([
-                'em' => $data['email_hash'],
-                'ph' => $data['phone_hash'],
+            $payload = array_filter([
+                'pixel_id' => $pixelId,
+                'event_type' => $data['event_name'],
+                'event_conversion_type' => 'WEB',
+                'event_id' => $data['event_id'],
+                'timestamp' => (string) round(microtime(true) * 1000),
+                'hashed_email' => $data['email_hash'],
+                'hashed_phone_number' => $data['phone_hash'],
                 'client_ip_address' => $data['ip'],
                 'client_user_agent' => $data['user_agent'],
+                'price' => $data['value'] > 0 ? $data['value'] : null,
+                'currency' => $data['currency'],
             ]);
 
-            $response = Http::withToken($token)
-                ->timeout(5)
-                ->post('https://tr.snapchat.com/v2/conversion', [
-                    'pixel_id' => $pixelId,
-                    'event_type' => $data['event_name'],
-                    'event_id' => $data['event_id'],
-                    'timestamp' => (string) (time() * 1000),
-                    'user_data' => $userData,
-                    'price' => $data['value'],
-                    'currency' => $data['currency'],
-                ]);
+            $response = $this->httpClient()
+                ->withToken($token)
+                ->post('https://tr.snapchat.com/v2/conversion', $payload);
 
             if (! $response->successful()) {
                 Log::debug('[Snapchat CAPI] Event response: '.$response->body());

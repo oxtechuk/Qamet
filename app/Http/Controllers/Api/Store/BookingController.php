@@ -46,7 +46,7 @@ final class BookingController extends ApiBaseController
 
         $booking = $this->bookingService->create($data);
 
-        SendConversionEventJob::dispatch([
+        SendConversionEventJob::dispatchAfterResponse([
             'event_name' => 'Lead',
             'email' => $booking->client_email ?? null,
             'phone' => $booking->client_phone,

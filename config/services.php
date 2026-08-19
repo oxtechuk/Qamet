@@ -50,4 +50,8 @@ return [
         'capi_token' => env('SNAPCHAT_CAPI_TOKEN', 'eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzg1MDUzOTk4LCJzdWIiOiJiYjJkODk1MC01NzkxLTRkNjMtYmNiNy0zMWFiOTUwMWM4ODR-UFJPRFVDVElPTn5mMzdlYjNiNy02NmEzLTRlYmYtYTA0MS1iM2E1NzY0ZmMwMzEifQ.AWz_v84D0bwDGhbS6wKh_5xxD4oZIl2tXxsGxHT0ebs'),
     ],
 
+    'gtm' => [
+        'id' => env('GTM_ID', 'GTM-55MZCJ7Z'),
+    ],
+
 ];
