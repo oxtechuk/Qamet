@@ -17,6 +17,8 @@ export interface CarsQueryParams {
   max_price?: number;
   search?: string;
   q?: string;
+  fuel?: string;
+  transmission?: string;
   offer_id?: number;
   sort?: "price_asc" | "price_desc" | "year_desc" | "year_asc";
 }

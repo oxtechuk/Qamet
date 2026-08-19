@@ -200,8 +200,15 @@ final class CarApiService
             $query->where('cash_price', '<=', $filters['max_price']);
         }
 
-        if (! empty($filters['fuel'])) {
+        if (! empty($filters['fuel']) && $filters['fuel'] !== 'all') {
             $query->where('specs->fuel', $filters['fuel']);
+        }
+
+        if (! empty($filters['transmission']) && $filters['transmission'] !== 'all') {
+            $query->where(function (Builder $q) use ($filters) {
+                $q->where('specs->gearbox', $filters['transmission'])
+                    ->orWhere('transmission', $filters['transmission']);
+            });
         }
 
         if (! empty($filters['highlight'])) {

@@ -55,7 +55,7 @@ final class CarController extends ApiBaseController
 
     public function index(Request $request)
     {
-        $filters = $request->only(['brands', 'type', 'year', 'min_price', 'max_price', 'search', 'q', 'offer_id', 'sort', 'category_id', 'brand_type_id', 'fuel', 'min_hp', 'max_hp', 'highlight']);
+        $filters = $request->only(['brands', 'type', 'year', 'min_price', 'max_price', 'search', 'q', 'offer_id', 'sort', 'category_id', 'brand_type_id', 'fuel', 'transmission', 'min_hp', 'max_hp', 'highlight']);
         $paginator = $this->carService->list($filters, (int) $request->get('per_page', 12));
 
         $paginator->setCollection(collect(

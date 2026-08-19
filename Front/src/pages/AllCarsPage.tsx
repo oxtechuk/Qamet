@@ -9,7 +9,7 @@ import HomeOffersSection from "../components/HomeOffersSection";
 import { getCarsMeta } from "../services/api";
 import { getCars } from "../services/api/cars.service";
 import { useLanguageStore } from "../store/language.store";
-import { mapCarToCardProps, unique } from "../utils/car-mappers";
+import { mapCarToCardProps } from "../utils/car-mappers";
 import { useSEO } from "../utils/useSEO";
 import type { FilterValues, CarsQueryParams } from "../types/cars.types";
 import { DEFAULT_FILTER_VALUES } from "../types/cars.types";
@@ -17,7 +17,7 @@ import type { CarCardProps } from "../components/CarCard";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 import AllCarsPageSkeleton from "../components/skeletons/AllCarsPageSkeleton";
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
 export default function AllCarsPage() {
     const { t } = useTranslation();
@@ -62,7 +62,10 @@ export default function AllCarsPage() {
     }, [initialFilters]);
 
     function buildParams(): CarsQueryParams {
-        const params: CarsQueryParams = {};
+        const params: CarsQueryParams = {
+            page: currentPage,
+            per_page: PAGE_SIZE,
+        };
 
         if (filters.brandId !== null) {
             params.brands = [filters.brandId];
@@ -85,6 +88,12 @@ export default function AllCarsPage() {
         if (filters.search) {
             params.q = filters.search;
         }
+        if (filters.transmission && filters.transmission !== "all") {
+            params.transmission = filters.transmission;
+        }
+        if (filters.fuelType && filters.fuelType !== "all") {
+            params.fuel = filters.fuelType;
+        }
         if (offerId) {
             params.offer_id = Number(offerId);
         }
@@ -99,48 +108,44 @@ export default function AllCarsPage() {
         retry: 1,
     });
 
-    const allCars = useMemo(() => {
-        if (!carsResponse) return [];
+    const pagedCars = useMemo(() => {
+        if (!carsResponse?.data) return [];
         return carsResponse.data
             .map(mapCarToCardProps)
             .filter(Boolean) as CarCardProps[];
     }, [carsResponse]);
 
+    const totalCars = carsResponse?.meta?.total ?? pagedCars.length;
+    const totalPages = Math.max(1, carsResponse?.meta?.last_page ?? 1);
+
     const sidebarData = useMemo(() => {
-        const transmissions = unique(
-            allCars.map((c) => c.transmission).filter((v): v is string => Boolean(v)),
-        );
-        const fuelTypes = unique(
-            allCars.map((c) => c.fuelType).filter((v): v is string => Boolean(v)),
-        );
-        return { transmissions, fuelTypes };
-    }, [allCars]);
+        const transmissions = [
+            "Automatic",
+            "Manual",
+            "أوتوماتيك",
+            "يدوي",
+        ];
+        const rawFuels = (carsMeta?.filter_fuels ?? []) as Array<{ value?: string; name?: string }>;
+        const fuelTypes = rawFuels
+            .map((f) => f.value ?? f.name)
+            .filter(Boolean) as string[];
 
-    const filteredCars = useMemo(() => {
-        let result = allCars.slice();
-
-        if (filters.transmission !== "all") {
-            result = result.filter(
-                (c) => c.transmission === filters.transmission,
-            );
-        }
-        if (filters.fuelType !== "all") {
-            result = result.filter((c) => c.fuelType === filters.fuelType);
-        }
-
-        return result;
-    }, [allCars, filters]);
-
-    const totalPages = Math.max(1, Math.ceil(filteredCars.length / PAGE_SIZE));
-    const safePage = Math.min(currentPage, totalPages);
-    const pagedCars = filteredCars.slice(
-        (safePage - 1) * PAGE_SIZE,
-        safePage * PAGE_SIZE,
-    );
+        return {
+            transmissions,
+            fuelTypes: fuelTypes.length > 0
+                ? fuelTypes
+                : ["بنزين", "ديزل", "هايبرد", "كهرباء", "Gasoline", "Diesel", "Hybrid", "Electric"],
+        };
+    }, [carsMeta?.filter_fuels]);
 
     const handleFilterChange = (newFilters: FilterValues) => {
         setFilters(newFilters);
         setCurrentPage(1);
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 350, behavior: "smooth" });
     };
 
     const homeOffers: IHomeOfferSlide[] = useMemo(() => {
@@ -208,15 +213,15 @@ export default function AllCarsPage() {
                         onSearchSubmit={() =>
                             handleFilterChange({ ...filters })
                         }
-                        resultCount={filteredCars.length}
+                        resultCount={totalCars}
                     />
 
                     {pagedCars.length > 0 ? (
                         <CarsResultsGrid
                             cars={pagedCars}
-                            currentPage={safePage}
+                            currentPage={currentPage}
                             totalPages={totalPages}
-                            onPageChange={setCurrentPage}
+                            onPageChange={handlePageChange}
                         />
                     ) : (
                         <div className="py-20 text-center">
