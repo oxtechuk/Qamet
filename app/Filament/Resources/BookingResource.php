@@ -60,22 +60,29 @@ class BookingResource extends Resource
                                             ->required()
                                             ->maxLength(20),
                                     ]),
-                                Grid::make(2)
+                                Grid::make(3)
                                     ->schema([
                                         Forms\Components\TextInput::make('client_email')->label(__('Client Email'))
                                             ->email()
                                             ->maxLength(255),
-                                        Forms\Components\Select::make('booking_type')->label(__('Booking Type'))
+                                        Forms\Components\TextInput::make('age')->label(__('العمر'))
+                                            ->numeric()
+                                            ->minValue(18)
+                                            ->maxValue(100),
+                                        Forms\Components\Select::make('purchase_urgency')->label(__('توقيت الشراء'))
                                             ->options([
-                                                'test_drive' => __('Test Drive'),
-                                                'booking' => __('Booking'),
-                                                'loan' => __('Loan Request'),
+                                                'today' => 'اليوم',
+                                                '3_days' => 'خلال 3 أيام',
+                                                'week' => 'خلال أسبوع',
+                                                'month' => 'خلال شهر',
+                                                'later' => 'لاحقاً',
+                                                'inquiry' => 'مجرد استفسار',
                                             ])
-                                            ->required(),
+                                            ->searchable(),
                                     ]),
                             ]),
 
-                        Section::make(__('Car & Pricing'))
+                        Section::make(__('بيانات السيارة والدفع'))
                             ->icon('heroicon-o-truck')
                             ->schema([
                                 Grid::make(2)
@@ -84,32 +91,72 @@ class BookingResource extends Resource
                                             ->relationship('car', 'name')
                                             ->searchable()
                                             ->preload(),
-                                        Forms\Components\TextInput::make('car_type')->label(__('Car Type'))
-                                            ->placeholder(__('e.g. Toyota Camry 2025'))
-                                            ->helperText(__('Required if no car is selected from inventory.')),
-                                    ]),
-                                Grid::make(3)
-                                    ->schema([
-                                        Forms\Components\TextInput::make('total_price')->label(__('Total Price'))
-                                            ->numeric()
-                                            ->prefix(__('SAR')),
-                                        Forms\Components\TextInput::make('down_payment')->label(__('Down Payment'))
-                                            ->numeric()
-                                            ->prefix(__('SAR')),
-                                        Forms\Components\TextInput::make('monthly_installment')->label(__('Monthly Installment'))
-                                            ->numeric()
-                                            ->prefix(__('SAR')),
+                                        Forms\Components\TextInput::make('car_type')->label(__('الموديل / الفئة'))
+                                            ->placeholder(__('e.g. Toyota Camry 2025')),
                                     ]),
                                 Grid::make(2)
                                     ->schema([
-                                        Forms\Components\TextInput::make('duration_years')->label(__('Duration Years'))
-                                            ->numeric()
-                                            ->suffix(__('years')),
                                         Forms\Components\Select::make('payment_method')->label(__('Payment Method'))
                                             ->options([
                                                 'cash' => __('Cash'),
-                                                'bank' => __('Bank Financing'),
+                                                'bank' => __('Bank Financing / Installment'),
+                                            ])
+                                            ->default('cash')
+                                            ->reactive(),
+                                        Forms\Components\TextInput::make('total_price')->label(__('Total Price'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                    ]),
+                            ]),
+
+                        Section::make(__('بيانات العمل والتمويل (للتقسيط)'))
+                            ->icon('heroicon-o-banknotes')
+                            ->schema([
+                                Grid::make(3)
+                                    ->schema([
+                                        Forms\Components\Select::make('work_sector')->label(__('جهة العمل'))
+                                            ->options([
+                                                'government' => 'حكومي',
+                                                'private' => 'قطاع خاص',
+                                                'military' => 'عسكري',
+                                                'retired' => 'متقاعد',
+                                                'other' => 'أخرى',
                                             ]),
+                                        Forms\Components\TextInput::make('salary')->label(__('الراتب الشهري'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                        Forms\Components\TextInput::make('service_duration')->label(__('مدة الخدمة'))
+                                            ->placeholder('مثال: سنتين'),
+                                    ]),
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\Toggle::make('has_downpayment')->label(__('هل توجد دفعة أولى؟'))
+                                            ->reactive(),
+                                        Forms\Components\TextInput::make('down_payment')->label(__('قيمة الدفعة الأولى'))
+                                            ->numeric()
+                                            ->prefix(__('SAR'))
+                                            ->visible(fn (Forms\Get $get) => (bool) $get('has_downpayment') || $get('down_payment') > 0),
+                                    ]),
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\Toggle::make('has_obligations')->label(__('هل توجد التزامات / أقساط حالية؟'))
+                                            ->reactive(),
+                                        Forms\Components\TextInput::make('monthly_obligations')->label(__('إجمالي الأقساط الحالية'))
+                                            ->numeric()
+                                            ->prefix(__('SAR'))
+                                            ->visible(fn (Forms\Get $get) => (bool) $get('has_obligations') || $get('monthly_obligations') > 0),
+                                    ]),
+                                Grid::make(3)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('monthly_installment')->label(__('Monthly Installment'))
+                                            ->numeric()
+                                            ->prefix(__('SAR')),
+                                        Forms\Components\TextInput::make('duration_years')->label(__('Duration Years'))
+                                            ->numeric()
+                                            ->suffix(__('years')),
+                                        Forms\Components\TextInput::make('interest_rate')->label(__('Interest Rate %'))
+                                            ->numeric()
+                                            ->suffix('%'),
                                     ]),
                             ]),
                     ]),
@@ -165,8 +212,7 @@ class BookingResource extends Resource
 
                 Tables\Columns\TextColumn::make('client_name')->label(__('Client Name'))
                     ->searchable()
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('client_phone')->label(__('Client Phone'))
                     ->searchable()
@@ -179,30 +225,55 @@ class BookingResource extends Resource
                     ->limit(25),
 
                 Tables\Columns\TextColumn::make('car_type')
-                    ->label(__('Car Type'))
+                    ->label(__('الموديل / الفئة'))
                     ->limit(25)
                     ->placeholder('-'),
 
                 Tables\Columns\TextColumn::make('payment_method')
-                    ->label(__('Payment'))
+                    ->label(__('طريقة الدفع'))
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
-                        'cash' => __('Cash'),
-                        'bank' => __('Bank'),
-                        default => '-',
+                        'cash' => '💵 كاش',
+                        'bank', 'finance', 'installment' => '💳 تقسيط / تمويل',
+                        default => $state ?? '-',
                     })
                     ->color(fn (?string $state): string => match ($state) {
                         'cash' => 'success',
-                        'bank' => 'info',
+                        'bank', 'finance', 'installment' => 'info',
                         default => 'gray',
                     }),
+
+                Tables\Columns\TextColumn::make('purchase_urgency')
+                    ->label(__('توقيت الشراء'))
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'today' => 'اليوم',
+                        '3_days' => 'خلال 3 أيام',
+                        'week' => 'خلال أسبوع',
+                        'month' => 'خلال شهر',
+                        'later' => 'لاحقاً',
+                        'inquiry' => 'استفسار',
+                        default => $state ?? '-',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'today', '3_days' => 'danger',
+                        'week' => 'warning',
+                        'month' => 'info',
+                        default => 'gray',
+                    })
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('salary')
+                    ->label(__('الراتب'))
+                    ->money('SAR')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('total_price')->label(__('Total Price'))
                     ->money('SAR')
                     ->sortable(),
 
                 Tables\Columns\SelectColumn::make('assigned_to')
-                    ->label(__('Assigned'))
+                    ->label(__('مندوب المبيعات'))
                     ->options(fn () => \App\Models\Employee::query()->pluck('name', 'id')->toArray())
                     ->sortable(),
 
@@ -225,6 +296,31 @@ class BookingResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('payment_method')
+                    ->label(__('طريقة الدفع'))
+                    ->options([
+                        'cash' => 'كاش',
+                        'bank' => 'تقسيط / تمويل بنكي',
+                    ]),
+                Tables\Filters\SelectFilter::make('purchase_urgency')
+                    ->label(__('توقيت الشراء'))
+                    ->options([
+                        'today' => 'اليوم',
+                        '3_days' => 'خلال 3 أيام',
+                        'week' => 'خلال أسبوع',
+                        'month' => 'خلال شهر',
+                        'later' => 'لاحقاً',
+                        'inquiry' => 'مجرد استفسار',
+                    ]),
+                Tables\Filters\SelectFilter::make('work_sector')
+                    ->label(__('جهة العمل'))
+                    ->options([
+                        'government' => 'حكومي',
+                        'private' => 'قطاع خاص',
+                        'military' => 'عسكري',
+                        'retired' => 'متقاعد',
+                        'other' => 'أخرى',
+                    ]),
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'new' => __('New'),
@@ -234,7 +330,6 @@ class BookingResource extends Resource
                         'sold' => __('Sold'),
                         'rejected' => __('Rejected'),
                     ]),
-                Tables\Filters\SelectFilter::make('booking_type'),
                 Tables\Filters\SelectFilter::make('assigned_to')
                     ->relationship('assignedTo', 'name')
                     ->searchable(),

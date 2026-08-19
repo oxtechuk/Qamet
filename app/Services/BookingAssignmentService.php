@@ -26,23 +26,38 @@ class BookingAssignmentService
             return;
         }
 
-        // 2. Fetch all active sales representatives
+        // 2. Determine required sales specialization based on payment method
+        $isCashOrder = $booking->payment_method === 'cash';
+        $requiredTypes = $isCashOrder ? ['cash', 'all'] : ['finance', 'all'];
+
+        // Fetch active sales representatives matching the specialization
         $salesReps = Employee::whereIn('role', ['sales', 'sales-rep'])
             ->where('is_active', true)
+            ->where(function ($q) use ($requiredTypes) {
+                $q->whereIn('sales_type', $requiredTypes)
+                    ->orWhereNull('sales_type');
+            })
             ->orderBy('id')
             ->get();
+
+        // Fallback to any active sales reps if no specialized rep is found
+        if ($salesReps->isEmpty()) {
+            $salesReps = Employee::whereIn('role', ['sales', 'sales-rep'])
+                ->where('is_active', true)
+                ->orderBy('id')
+                ->get();
+        }
 
         if ($salesReps->isEmpty()) {
             return;
         }
 
-        // 3. Find the last assigned representative across both Booking and Lead models
-        $lastAssignedRepId = $this->getLastAssignedRepId();
+        // 3. Find the last assigned representative across bookings for this specialization
+        $lastAssignedRepId = $this->getLastAssignedRepIdForPaymentMethod($booking->payment_method);
 
         $assignedRep = null;
 
         if ($lastAssignedRepId !== null) {
-            // Find the index of the last assigned employee
             $lastIndex = $salesReps->search(fn ($rep) => $rep->id == $lastAssignedRepId);
 
             if ($lastIndex !== false && $lastIndex < $salesReps->count() - 1) {
@@ -67,6 +82,27 @@ class BookingAssignmentService
                 __('تم تعيين طلب جديد لك للعميل').' '.$booking->client_name
             ));
         }
+    }
+
+    /**
+     * Finds the most recently assigned sales representative's ID for a given payment method.
+     */
+    private function getLastAssignedRepIdForPaymentMethod(?string $paymentMethod): ?int
+    {
+        $query = Booking::whereNotNull('assigned_to')
+            ->whereHas('employee', function ($q) {
+                $q->whereIn('role', ['sales', 'sales-rep']);
+            });
+
+        if ($paymentMethod === 'cash') {
+            $query->where('payment_method', 'cash');
+        } else {
+            $query->where('payment_method', '!=', 'cash');
+        }
+
+        $lastBooking = $query->latest('id')->first();
+
+        return $lastBooking ? (int) $lastBooking->assigned_to : $this->getLastAssignedRepId();
     }
 
     /**

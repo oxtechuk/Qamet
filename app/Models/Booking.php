@@ -10,13 +10,20 @@ class Booking extends Model
 {
     protected $fillable = [
         'car_id', 'car_type', 'payment_method', 'assigned_to', 'client_name',
-        'client_phone', 'client_email', 'down_payment', 'duration_years',
+        'client_phone', 'client_email', 'age', 'work_sector', 'salary',
+        'service_duration', 'has_downpayment', 'has_obligations', 'monthly_obligations',
+        'purchase_urgency', 'down_payment', 'duration_years',
         'interest_rate', 'monthly_installment', 'total_price', 'notes', 'status',
         'source', 'last_contacted_at', 'booking_type', 'location',
     ];
 
     protected $casts = [
         'last_contacted_at' => 'datetime',
+        'has_downpayment' => 'boolean',
+        'has_obligations' => 'boolean',
+        'age' => 'integer',
+        'salary' => 'integer',
+        'monthly_obligations' => 'integer',
     ];
 
     const BOOKING_TYPES = ['test_drive', 'purchase', 'inquiry'];
@@ -125,5 +132,23 @@ class Booking extends Model
     public function scopeCompleted($query)
     {
         return $query->where('status', 'sold');
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', 'rejected');
+    }
+
+    public function scopeCash($query)
+    {
+        return $query->where('payment_method', 'cash');
+    }
+
+    public function scopeFinance($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereIn('payment_method', ['bank', 'finance', 'installment'])
+                ->orWhereNull('payment_method');
+        });
     }
 }

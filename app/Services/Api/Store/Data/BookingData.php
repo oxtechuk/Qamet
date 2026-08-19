@@ -22,6 +22,14 @@ final class BookingData
         public readonly ?string $booking_type = null,
         public readonly ?string $location = null,
         public readonly ?string $client_email = null,
+        public readonly ?int $age = null,
+        public readonly ?string $work_sector = null,
+        public readonly ?int $salary = null,
+        public readonly ?string $service_duration = null,
+        public readonly bool $has_downpayment = false,
+        public readonly bool $has_obligations = false,
+        public readonly ?int $monthly_obligations = null,
+        public readonly ?string $purchase_urgency = null,
         public readonly ?string $notes = null,
     ) {}
 
@@ -61,6 +69,14 @@ final class BookingData
             booking_type: $validated['booking_type'] ?? null,
             location: $validated['location'] ?? null,
             client_email: $validated['client_email'] ?? null,
+            age: isset($validated['age']) ? (int) $validated['age'] : null,
+            work_sector: $validated['work_sector'] ?? null,
+            salary: isset($validated['salary']) ? (int) $validated['salary'] : null,
+            service_duration: $validated['service_duration'] ?? null,
+            has_downpayment: (bool) ($validated['has_downpayment'] ?? false),
+            has_obligations: (bool) ($validated['has_obligations'] ?? false),
+            monthly_obligations: isset($validated['monthly_obligations']) ? (int) $validated['monthly_obligations'] : null,
+            purchase_urgency: $validated['purchase_urgency'] ?? null,
             notes: $validated['notes'] ?? null,
         );
     }
@@ -83,6 +99,14 @@ final class BookingData
             'booking_type' => $this->booking_type,
             'location' => $this->location,
             'client_email' => $this->client_email,
+            'age' => $this->age,
+            'work_sector' => $this->work_sector,
+            'salary' => $this->salary,
+            'service_duration' => $this->service_duration,
+            'has_downpayment' => $this->has_downpayment,
+            'has_obligations' => $this->has_obligations,
+            'monthly_obligations' => $this->monthly_obligations,
+            'purchase_urgency' => $this->purchase_urgency,
             'notes' => $this->notes,
         ];
     }

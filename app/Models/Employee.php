@@ -13,7 +13,7 @@ class Employee extends Authenticatable
 
     protected $guard_name = 'employee';
 
-    protected $fillable = ['name', 'username', 'email', 'password', 'phone', 'role', 'is_active', 'avatar'];
+    protected $fillable = ['name', 'username', 'email', 'password', 'phone', 'role', 'sales_type', 'is_active', 'avatar'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -35,5 +35,15 @@ class Employee extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole('admin') || $this->role === 'admin';
+    }
+
+    public function isCashRep(): bool
+    {
+        return in_array($this->sales_type, ['cash', 'all']) || $this->isAdmin();
+    }
+
+    public function isFinanceRep(): bool
+    {
+        return in_array($this->sales_type, ['finance', 'all']) || $this->isAdmin();
     }
 }

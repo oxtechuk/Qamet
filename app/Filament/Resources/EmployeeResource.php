@@ -68,6 +68,15 @@ class EmployeeResource extends Resource
                             ->multiple()
                             ->preload()
                             ->searchable(),
+                        Forms\Components\Select::make('sales_type')
+                            ->label(__('تخصص المبيعات والتوزيع'))
+                            ->options([
+                                'all' => 'شامل (كاش وتقسيط)',
+                                'cash' => 'مندوب مبيعات كاش فقط',
+                                'finance' => 'مندوب مبيعات تقسيط / تمويل فقط',
+                            ])
+                            ->default('all')
+                            ->helperText('يحدد نوع الطلبات التي يتم تعيينها للمندوب تلقائياً'),
                         Forms\Components\FileUpload::make('avatar')
                             ->label(__('Avatar'))
                             ->image()
@@ -119,6 +128,20 @@ class EmployeeResource extends Resource
 
                 Tables\Columns\TextColumn::make('roles.name')->label(__('Role'))
                     ->badge()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('sales_type')->label(__('التخصص'))
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'cash' => 'كاش فقط',
+                        'finance' => 'تقسيط فقط',
+                        default => 'شامل',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'cash' => 'success',
+                        'finance' => 'info',
+                        default => 'gray',
+                    })
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('bookings_count')
