@@ -78,15 +78,13 @@ class OfferIndexTest extends TestCase
                     'subtitle',
                     'image',
                 ],
-                'bento_cars',
-                'main_gallery',
+                'hero_offer',
             ],
         ]);
 
         $meta = $response->json('meta');
         $this->assertEquals('Offers title', $meta['hero']['title']);
-        $this->assertCount(2, $meta['main_gallery']);
-        $this->assertCount(1, $meta['bento_cars']);
-        $this->assertEquals('camry', $meta['bento_cars'][0]['slug']);
+        $this->assertCount(1, $response->json('data'));
+        $this->assertEquals('Summer Sale', $response->json('data.0.title'));
     }
 }

@@ -41,7 +41,7 @@ class OptimizeImagesCommand extends Command
         $maxHeight = (int) ($this->option('max-height') ?? 1920);
         $replaceOriginal = (bool) $this->option('replace-original');
 
-        $basePath = storage_path('app/public' . ($subDir ? '/' . trim($subDir, '/') : ''));
+        $basePath = storage_path('app/public'.($subDir ? '/'.trim($subDir, '/') : ''));
 
         if (! File::isDirectory($basePath)) {
             $this->error("Directory does not exist: {$basePath}");
@@ -101,7 +101,7 @@ class OptimizeImagesCommand extends Command
                 ['Files Processed', (string) $processedCount],
                 ['Original Total Size', $this->formatBytes($totalOriginal)],
                 ['Optimized Total Size', $this->formatBytes($totalOptimized)],
-                ['Saved Space', $this->formatBytes($savedBytes) . " ({$percentSaved}%)"],
+                ['Saved Space', $this->formatBytes($savedBytes)." ({$percentSaved}%)"],
             ]
         );
 
@@ -123,6 +123,6 @@ class OptimizeImagesCommand extends Command
         $base = log($bytes, 1024);
         $pow = (int) floor($base);
 
-        return round(pow(1024, $base - $pow), $precision) . ' ' . ($units[$pow] ?? 'B');
+        return round(pow(1024, $base - $pow), $precision).' '.($units[$pow] ?? 'B');
     }
 }
