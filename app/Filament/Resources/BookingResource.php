@@ -135,7 +135,7 @@ class BookingResource extends Resource
                                         Forms\Components\TextInput::make('down_payment')->label(__('قيمة الدفعة الأولى'))
                                             ->numeric()
                                             ->prefix(__('SAR'))
-                                            ->visible(fn (Forms\Get $get) => (bool) $get('has_downpayment') || $get('down_payment') > 0),
+                                            ->visible(fn ($get) => (bool) $get('has_downpayment') || $get('down_payment') > 0),
                                     ]),
                                 Grid::make(2)
                                     ->schema([
@@ -144,7 +144,7 @@ class BookingResource extends Resource
                                         Forms\Components\TextInput::make('monthly_obligations')->label(__('إجمالي الأقساط الحالية'))
                                             ->numeric()
                                             ->prefix(__('SAR'))
-                                            ->visible(fn (Forms\Get $get) => (bool) $get('has_obligations') || $get('monthly_obligations') > 0),
+                                            ->visible(fn ($get) => (bool) $get('has_obligations') || $get('monthly_obligations') > 0),
                                     ]),
                                 Grid::make(3)
                                     ->schema([
