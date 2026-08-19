@@ -71,15 +71,15 @@ class ImageOptimizationService
         );
 
         // Save output to temporary file
-        $tempPath = tempnam(sys_get_temp_dir(), 'opt_img_') . '.webp';
+        $tempPath = tempnam(sys_get_temp_dir(), 'opt_img_').'.webp';
         imagewebp($targetCanvas, $tempPath, $quality);
 
         imagedestroy($image);
         imagedestroy($targetCanvas);
 
         // Generate target filename and store on disk
-        $filename = Str::random(40) . '.webp';
-        $targetPath = trim($directory, '/') . '/' . $filename;
+        $filename = Str::random(40).'.webp';
+        $targetPath = trim($directory, '/').'/'.$filename;
 
         $stream = fopen($tempPath, 'r');
         Storage::disk($disk)->put($targetPath, $stream, 'public');
@@ -146,10 +146,10 @@ class ImageOptimizationService
 
         $outputPath = $absolutePath;
         if (! $replaceOriginal && $extension !== 'webp') {
-            $outputPath = pathinfo($absolutePath, PATHINFO_DIRNAME) . '/' . pathinfo($absolutePath, PATHINFO_FILENAME) . '.webp';
+            $outputPath = pathinfo($absolutePath, PATHINFO_DIRNAME).'/'.pathinfo($absolutePath, PATHINFO_FILENAME).'.webp';
         }
 
-        $tempPath = tempnam(sys_get_temp_dir(), 'opt_existing_') . '.webp';
+        $tempPath = tempnam(sys_get_temp_dir(), 'opt_existing_').'.webp';
         imagewebp($targetCanvas, $tempPath, $quality);
 
         imagedestroy($image);

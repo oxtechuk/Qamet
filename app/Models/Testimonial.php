@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Traits\HasBilingualFields;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
