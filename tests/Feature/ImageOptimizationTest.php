@@ -27,7 +27,7 @@ class ImageOptimizationTest extends TestCase
 
     public function test_it_optimizes_existing_file_in_storage(): void
     {
-        $tempFile = tempnam(sys_get_temp_dir(), 'test_img_') . '.png';
+        $tempFile = tempnam(sys_get_temp_dir(), 'test_img_').'.png';
 
         $img = imagecreatetruecolor(800, 600);
         $color = imagecolorallocate($img, 200, 50, 50);
