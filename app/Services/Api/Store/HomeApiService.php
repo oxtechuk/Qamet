@@ -12,6 +12,7 @@ use App\Http\Resources\Store\CarTypeResource;
 use App\Http\Resources\Store\HeroCarResource;
 use App\Http\Resources\Store\OfferCardResource;
 use App\Models\Car;
+use App\Services\Cache\CarCacheService;
 use App\Services\Cache\HomeCacheService;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,13 +20,13 @@ final class HomeApiService
 {
     public function __construct(
         private readonly HomeCacheService $cache,
-        private readonly CarApiService $carService,
+        private readonly CarCacheService $carCache,
     ) {}
 
     public function home(): array
     {
         $locale = app()->getLocale();
-        $result = $this->carService->listMeta();
+        $filters = $this->carCache->rememberCarFilters();
 
         return [
             'hero_slides' => $this->buildHeroSlides($locale),
@@ -41,12 +42,12 @@ final class HomeApiService
                 'items' => OfferCardResource::collection($this->cache->rememberOffers())->resolve(),
             ],
             'cars_by_budget' => $this->buildCarsByBudget($locale),
-            'filter_brands' => BrandResource::collection($result['filterBrands'])->resolve(),
-            'filter_types' => CarTypeResource::collection($result['filterTypes'])->resolve(),
-            'filter_categories' => CarCategoryResource::collection($result['filterCategories'])->resolve(),
-            'filter_brand_types' => BrandTypeResource::collection($result['filterBrandTypes'])->resolve(),
-            'filter_years' => $result['filterYears'],
-            'filter_prices' => $result['filterPrices'],
+            'filter_brands' => BrandResource::collection($filters['brands'])->resolve(),
+            'filter_types' => CarTypeResource::collection($filters['types'])->resolve(),
+            'filter_categories' => CarCategoryResource::collection($filters['categories'])->resolve(),
+            'filter_brand_types' => BrandTypeResource::collection($filters['brandTypes'])->resolve(),
+            'filter_years' => $filters['years'],
+            'filter_prices' => $filters['prices'],
         ];
     }
 
@@ -58,7 +59,7 @@ final class HomeApiService
         $slides = $this->cache->rememberHomeHeroSlides();
         $carIds = array_values(array_filter(array_column($slides, 'car_id')));
         $cars = $carIds
-            ? Car::whereIn('id', $carIds)->get()->keyBy('id')
+            ? $this->cache->rememberHeroCars($carIds)->keyBy('id')
             : collect();
 
         return collect($slides)
@@ -141,16 +142,16 @@ final class HomeApiService
     private function buildCarsByBudget(string $locale): array
     {
         $rawBrackets = $this->cache->rememberBudgetBrackets();
+        $cachedPrices = $this->carCache->rememberAllCarPrices();
 
         $brackets = collect($rawBrackets)
-            ->map(function (array $bracket) use ($locale): array {
+            ->map(function (array $bracket) use ($cachedPrices, $locale): array {
                 $min = (int) ($bracket['min'] ?? 0);
                 $max = isset($bracket['max']) && $bracket['max'] !== null ? (int) $bracket['max'] : null;
 
-                $count = Car::where('is_active', true)
-                    ->where('cash_price', '>=', $min)
-                    ->when($max !== null, fn ($q) => $q->where('cash_price', '<=', $max))
-                    ->count();
+                $count = $cachedPrices->filter(
+                    fn (int $price): bool => $price >= $min && ($max === null || $price <= $max)
+                )->count();
 
                 return [
                     'label' => $bracket["label_{$locale}"] ?? $bracket['label_en'] ?? '',
@@ -163,13 +164,7 @@ final class HomeApiService
 
         // Default cars shown before any bracket is selected — the first (lowest) bracket's range.
         $first = $brackets->first() ?? ['min' => 0, 'max' => null];
-        $defaultCars = Car::where('is_active', true)
-            ->where('cash_price', '>=', $first['min'])
-            ->when($first['max'] !== null, fn ($q) => $q->where('cash_price', '<=', $first['max']))
-            ->with(['brand', 'images', 'activeOffers', 'highlight'])
-            ->latest()
-            ->limit(8)
-            ->get();
+        $defaultCars = $this->cache->rememberDefaultBudgetCars($first['min'], $first['max']);
 
         return [
             'section' => $this->sectionCopy('budget', $locale),

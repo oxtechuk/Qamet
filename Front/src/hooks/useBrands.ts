@@ -14,8 +14,9 @@ export function useBrands(): IUseBrandsReturn {
   const [search, setSearch] = useState("");
 
   const { data: brands, isLoading } = useQuery({
-    queryKey: ["brands-page", language],
+    queryKey: ["brands", language],
     queryFn: () => getBrands(),
+    staleTime: 5 * 60 * 1000,
   });
 
   const brandCards: IBrandCardProps[] = useMemo(() => {

@@ -15,6 +15,7 @@ import { formatPrice } from "../utils/format";
 import type { BrandInfo } from "../types/home.types";
 import type { FilterValues } from "../types/cars.types";
 import type { ICarsSidebarFilterProps, BrandWithLogo } from "../interfaces/ICarsSidebarFilterProps";
+import { useLanguageStore } from "../store/language.store";
 import LazyImg from "./LazyImg";
 
 export default function CarsSidebarFilter({
@@ -25,6 +26,7 @@ export default function CarsSidebarFilter({
   onFilterChange,
 }: ICarsSidebarFilterProps) {
   const { t, i18n } = useTranslation();
+  const language = useLanguageStore((s) => s.language);
   const isRTL = i18n.dir() === "rtl";
   const [sidebarTab, setSidebarTab] = useState<"brands" | "other">("brands");
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -39,8 +41,9 @@ export default function CarsSidebarFilter({
   }, [filters]);
 
   const { data: fetchedBrands } = useQuery({
-    queryKey: ["brands"],
-    queryFn: getBrands,
+    queryKey: ["brands", language],
+    queryFn: () => getBrands(),
+    staleTime: 5 * 60 * 1000,
   });
 
   const brands = brandsProp ?? fetchedBrands ?? [];

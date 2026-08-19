@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import { getCarTypes } from "../services/api/cars.service";
+import { useLanguageStore } from "../store/language.store";
 import type { IAllCarsFilterBarProps } from "../interfaces/IAllCarsFilterBar";
 
 export default function AllCarsFilterBar({
@@ -10,10 +11,12 @@ export default function AllCarsFilterBar({
   onSearchChange,
 }: IAllCarsFilterBarProps) {
   const { t, i18n } = useTranslation();
+  const language = useLanguageStore((s) => s.language);
 
   const { data: carTypes } = useQuery({
-    queryKey: ["car-types"],
+    queryKey: ["car-types", language],
     queryFn: getCarTypes,
+    staleTime: 5 * 60 * 1000,
   });
 
   const filters = [

@@ -54,39 +54,53 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => __('Not Found')], 404);
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['success' => false, 'message' => __('Not Found'), 'status' => 404], 404);
             }
 
-            return response()->view('errors.404', [], 404);
+            if (view()->exists('errors.404')) {
+                return response()->view('errors.404', [], 404);
+            }
+
+            return response('Not Found', 404);
         });
 
         $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => __('Forbidden')], 403);
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['success' => false, 'message' => __('Forbidden'), 'status' => 403], 403);
             }
 
-            return response()->view('errors.403', [], 403);
+            if (view()->exists('errors.403')) {
+                return response()->view('errors.403', [], 403);
+            }
+
+            return response('Forbidden', 403);
         });
 
         $exceptions->render(function (ModelNotFoundException $e, Request $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => __('Resource not found')], 404);
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['success' => false, 'message' => __('Resource not found'), 'status' => 404], 404);
             }
 
-            return response()->view('errors.404', [], 404);
+            if (view()->exists('errors.404')) {
+                return response()->view('errors.404', [], 404);
+            }
+
+            return response('Resource not found', 404);
         });
 
         $exceptions->render(function (HttpException $e, Request $request) {
             $statusCode = $e->getStatusCode();
 
-            if ($request->expectsJson()) {
-                return response()->json(['message' => $e->getMessage() ?: __('Error')], $statusCode);
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['success' => false, 'message' => $e->getMessage() ?: __('Error'), 'status' => $statusCode], $statusCode);
             }
 
             if (view()->exists("errors.{$statusCode}")) {
                 return response()->view("errors.{$statusCode}", ['exception' => $e], $statusCode);
             }
+
+            return response($e->getMessage() ?: 'Error', $statusCode);
         });
 
         $exceptions->render(function (AuthenticationException $e, Request $request) {

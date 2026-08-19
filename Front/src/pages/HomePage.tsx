@@ -112,12 +112,13 @@ export default function Home() {
     const { data, isLoading } = useQuery({
         queryKey: ["home-data", language],
         queryFn: getHomePageData,
+        staleTime: 5 * 60 * 1000,
     });
 
     const { data: searchedBrands } = useQuery({
         queryKey: ["brands-search", brandSearch, language],
         queryFn: () => getBrands(brandSearch || undefined),
-        staleTime: 2 * 60 * 1000,
+        staleTime: 5 * 60 * 1000,
     });
 
     const { data: budgetFilteredData } = useQuery({
@@ -128,6 +129,7 @@ export default function Home() {
                 per_page: 12,
             }),
         enabled: !!activeBudgetRange,
+        staleTime: 5 * 60 * 1000,
     });
 
     const latestCars = useMemo(

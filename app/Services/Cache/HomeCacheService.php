@@ -76,18 +76,45 @@ class HomeCacheService extends BaseCacheService
             ->get());
     }
 
+    public function rememberDefaultBudgetCars(int $min = 0, ?int $max = null): Collection
+    {
+        $cacheKey = "home.budget_default_cars_{$min}_" . ($max ?? 'max');
+
+        return $this->remember($cacheKey, fn () => Car::where('is_active', true)
+            ->where('cash_price', '>=', $min)
+            ->when($max !== null, fn ($q) => $q->where('cash_price', '<=', $max))
+            ->with(['brand', 'images', 'activeOffers', 'highlight'])
+            ->latest()
+            ->limit(8)
+            ->get());
+    }
+
+    public function rememberHeroCars(array $carIds): Collection
+    {
+        if (empty($carIds)) {
+            return new Collection();
+        }
+        sort($carIds);
+        $key = 'home.hero_cars_' . implode('_', $carIds);
+
+        return $this->remember($key, fn () => Car::whereIn('id', $carIds)->get());
+    }
+
     public function forgetLatestCars(): void
     {
+        unset(self::$runtimeCache['home.latest_cars']);
         Cache::forget('home.latest_cars');
     }
 
     public function forgetOffers(): void
     {
+        unset(self::$runtimeCache['home.offers']);
         Cache::forget('home.offers');
     }
 
     public function forgetBrands(): void
     {
+        unset(self::$runtimeCache['home.brands']);
         Cache::forget('home.brands');
     }
 }

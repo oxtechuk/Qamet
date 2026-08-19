@@ -12,9 +12,25 @@ class BaseCacheService
 
     protected const TTL_LONG = 86400;
 
+    /**
+     * In-process memory cache to avoid multiple cache-store roundtrips within the same HTTP request.
+     *
+     * @var array<string, mixed>
+     */
+    protected static array $runtimeCache = [];
+
     protected function remember(string $key, callable $callback, int $ttl = self::TTL_DEFAULT): mixed
     {
-        return Cache::remember($key, $ttl, $callback);
+        if (! app()->runningUnitTests() && array_key_exists($key, self::$runtimeCache)) {
+            return self::$runtimeCache[$key];
+        }
+
+        $value = Cache::remember($key, $ttl, $callback);
+        if (! app()->runningUnitTests()) {
+            self::$runtimeCache[$key] = $value;
+        }
+
+        return $value;
     }
 
     public function rememberSettings(): mixed
@@ -106,11 +122,18 @@ class BaseCacheService
 
     public function forgetSettings(): void
     {
+        unset(self::$runtimeCache['settings.all']);
         Cache::forget('settings.all');
     }
 
     public function flushAll(): void
     {
+        self::$runtimeCache = [];
         Cache::flush();
+    }
+
+    public static function clearRuntimeCache(): void
+    {
+        self::$runtimeCache = [];
     }
 }

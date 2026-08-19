@@ -6,7 +6,6 @@ namespace App\Services\Api\Store;
 
 use App\Models\Brand;
 use App\Models\Car;
-use App\Models\Offer;
 use App\Services\Api\Store\Helpers\SlugResolver;
 use App\Services\Cache\CarCacheService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -100,12 +99,9 @@ final class CarApiService
 
     public function listMeta(): array
     {
-        $featuredOffer = Offer::active()
-            ->with('car.brand')
-            ->first();
-
-        $totalCars = Car::where('is_active', true)->count();
-        $totalBrands = Brand::where('is_active', true)->count();
+        $featuredOffer = $this->cache->rememberFeaturedOffer();
+        $totalCars = $this->cache->rememberTotalActiveCars();
+        $totalBrands = $this->cache->rememberTotalActiveBrands();
 
         $hero = $this->cache->rememberHeroSetting('store_hero');
 

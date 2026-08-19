@@ -6,19 +6,16 @@ import AllCarsSearchBar from "../components/AllCarsSearchBar";
 import CarsSidebarFilter from "../components/CarsSidebarFilter";
 import CarsResultsGrid from "../components/CarsResultsGrid";
 import HomeOffersSection from "../components/HomeOffersSection";
-import { APP_IMAGES, getImageUrl } from "../constants/app-images";
-import { getHomePageData, getCarsMeta } from "../services/api";
+import { getCarsMeta } from "../services/api";
 import { getCars } from "../services/api/cars.service";
 import { useLanguageStore } from "../store/language.store";
 import { mapCarToCardProps, unique } from "../utils/car-mappers";
-import { formatPrice } from "../utils/format";
 import { useSEO } from "../utils/useSEO";
 import type { FilterValues, CarsQueryParams } from "../types/cars.types";
 import { DEFAULT_FILTER_VALUES } from "../types/cars.types";
 import type { CarCardProps } from "../components/CarCard";
 import type { IHomeOfferSlide } from "../interfaces/IHomeOfferSlide";
 import AllCarsPageSkeleton from "../components/skeletons/AllCarsPageSkeleton";
-
 
 const PAGE_SIZE = 9;
 
@@ -49,12 +46,6 @@ export default function AllCarsPage() {
             search: q ?? "",
         };
     }, [searchParams]);
-
-    const { data: homeData } = useQuery({
-        queryKey: ["home-data", language],
-        queryFn: getHomePageData,
-        staleTime: 5 * 60 * 1000,
-    });
 
     const { data: carsMeta } = useQuery({
         queryKey: ["cars-meta", language],
@@ -109,28 +100,11 @@ export default function AllCarsPage() {
     });
 
     const allCars = useMemo(() => {
-        if (carsResponse) {
-            return carsResponse.data
-                .map(mapCarToCardProps)
-                .filter(Boolean) as CarCardProps[];
-        }
-
-        const fallback = homeData?.latest_cars?.items ?? homeData?.cars_by_budget?.cars ?? [];
-        return fallback
-            .map((car) => ({
-                id: car.id,
-                image: getImageUrl(car.main_image) || APP_IMAGES.CAR_PLACEHOLDER,
-                brand: car.brand?.name ?? "",
-                name: car.name ?? "",
-                year: String(car.year ?? ""),
-                price: formatPrice(car.current_price || car.cash_price, "var(--brand-primary-color)"),
-                monthlyPrice: formatPrice(car.min_installment ?? 0, "var(--brand-secondary-color)"),
-                detailsTo: `/cars/${car.slug}`,
-                badgeText: car.highlight?.text ?? car.highlight?.text_ar ?? undefined,
-                badgeColor: car.highlight?.color ?? undefined,
-            }))
+        if (!carsResponse) return [];
+        return carsResponse.data
+            .map(mapCarToCardProps)
             .filter(Boolean) as CarCardProps[];
-    }, [carsResponse, homeData?.latest_cars?.items, homeData?.cars_by_budget?.cars]);
+    }, [carsResponse]);
 
     const sidebarData = useMemo(() => {
         const transmissions = unique(

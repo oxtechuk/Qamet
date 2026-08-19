@@ -95,8 +95,39 @@ class CarCacheService extends BaseCacheService
         return $result;
     }
 
+    public function rememberTotalActiveCars(): int
+    {
+        return (int) $this->remember('cars.total_active', fn () => Car::where('is_active', true)->count(), self::TTL_DEFAULT);
+    }
+
+    public function rememberTotalActiveBrands(): int
+    {
+        return (int) $this->remember('brands.total_active', fn () => Brand::where('is_active', true)->count(), self::TTL_DEFAULT);
+    }
+
+    public function rememberFeaturedOffer(): mixed
+    {
+        return $this->remember('offers.featured', fn () => \App\Models\Offer::active()->with('car.brand')->first(), self::TTL_DEFAULT);
+    }
+
+    public function rememberAllCarPrices(): \Illuminate\Support\Collection
+    {
+        return $this->remember('cars.all_prices', fn () => Car::where('is_active', true)->pluck('cash_price'), self::TTL_LONG);
+    }
+
     public function forgetCars(): void
     {
+        unset(
+            self::$runtimeCache['cars.filters'],
+            self::$runtimeCache['cars.total_active'],
+            self::$runtimeCache['brands.total_active'],
+            self::$runtimeCache['offers.featured'],
+            self::$runtimeCache['cars.all_prices']
+        );
         Cache::forget('cars.filters');
+        Cache::forget('cars.total_active');
+        Cache::forget('brands.total_active');
+        Cache::forget('offers.featured');
+        Cache::forget('cars.all_prices');
     }
 }
