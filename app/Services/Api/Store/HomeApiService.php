@@ -11,7 +11,6 @@ use App\Http\Resources\Store\CarCategoryResource;
 use App\Http\Resources\Store\CarTypeResource;
 use App\Http\Resources\Store\HeroCarResource;
 use App\Http\Resources\Store\OfferCardResource;
-use App\Models\Car;
 use App\Services\Cache\CarCacheService;
 use App\Services\Cache\HomeCacheService;
 use Illuminate\Support\Facades\Storage;

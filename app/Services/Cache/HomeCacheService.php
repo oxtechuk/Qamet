@@ -78,7 +78,7 @@ class HomeCacheService extends BaseCacheService
 
     public function rememberDefaultBudgetCars(int $min = 0, ?int $max = null): Collection
     {
-        $cacheKey = "home.budget_default_cars_{$min}_" . ($max ?? 'max');
+        $cacheKey = "home.budget_default_cars_{$min}_".($max ?? 'max');
 
         return $this->remember($cacheKey, fn () => Car::where('is_active', true)
             ->where('cash_price', '>=', $min)
@@ -92,10 +92,10 @@ class HomeCacheService extends BaseCacheService
     public function rememberHeroCars(array $carIds): Collection
     {
         if (empty($carIds)) {
-            return new Collection();
+            return new Collection;
         }
         sort($carIds);
-        $key = 'home.hero_cars_' . implode('_', $carIds);
+        $key = 'home.hero_cars_'.implode('_', $carIds);
 
         return $this->remember($key, fn () => Car::whereIn('id', $carIds)->get());
     }
