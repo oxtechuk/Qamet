@@ -1,49 +1,33 @@
-import { type ImgHTMLAttributes, useRef, useState, useEffect } from "react";
+import { type ImgHTMLAttributes, useState } from "react";
+import { APP_IMAGES } from "../constants/app-images";
 
-const PLACEHOLDER =
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+export default function LazyImg({
+  src,
+  alt,
+  className,
+  onError,
+  ...rest
+}: ImgHTMLAttributes<HTMLImageElement>) {
+  const [imgSrc, setImgSrc] = useState<string | undefined>(src);
+  const [hasError, setHasError] = useState(false);
 
-export default function LazyImg(props: ImgHTMLAttributes<HTMLImageElement>) {
-  const { src, className, style, onLoad, ...rest } = props;
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const el = imgRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const img = el;
-          img.src = src as string;
-          observer.unobserve(img);
-        }
-      },
-      { rootMargin: "200px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [src]);
+  const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    if (!hasError) {
+      setHasError(true);
+      setImgSrc(APP_IMAGES.CAR_PLACEHOLDER);
+    }
+    onError?.(e);
+  };
 
   return (
     <img
       {...rest}
-      ref={imgRef}
-      src={PLACEHOLDER}
+      src={imgSrc || APP_IMAGES.CAR_PLACEHOLDER}
+      alt={alt ?? ""}
       loading="lazy"
       decoding="async"
-      onLoad={(e) => {
-        setLoaded(true);
-        onLoad?.(e);
-      }}
+      onError={handleError}
       className={className}
-      style={{
-        ...style,
-        clipPath: loaded ? "inset(0 0 0 0)" : "inset(0 0 100% 0)",
-        transition: "clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-      }}
     />
   );
 }
