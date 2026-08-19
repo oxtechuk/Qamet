@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Car, CreditCard, Banknote, Clock, User, Briefcase, HelpCircle, CheckCircle2 } from "lucide-react";
+import { Car, CreditCard, Banknote, Clock, User, Briefcase, HelpCircle, Check, Sparkles, ShieldCheck } from "lucide-react";
 import { getImageUrl, APP_IMAGES } from "../../constants/app-images";
 import type { CarItem } from "../../types/home.types";
 import LazyImg from "../LazyImg";
@@ -75,7 +75,7 @@ export default function OrderForm({
   const isRtl = i18n.dir() === "rtl";
 
   const inputCls =
-    "h-[48px] w-full rounded-[10px] border border-[#E5E7EB] bg-white px-4 text-[14px] text-[#111827] outline-none placeholder:text-[#9CA3AF] focus:border-[var(--brand-primary-color)] focus:ring-2 focus:ring-[rgba(41,155,224,0.12)] transition";
+    "h-[50px] w-full rounded-[12px] border border-[#E2E8F0] bg-white px-4 text-[14px] font-medium text-[#0F172A] outline-none placeholder:text-[#94A3B8] focus:border-[#021F38] focus:ring-4 focus:ring-[#021F38]/10 transition-all duration-200";
 
   // Urgency options for Cash vs Finance
   const cashUrgencyOptions = [
@@ -95,9 +95,9 @@ export default function OrderForm({
   const currentUrgencyOptions = payment === "cash" ? cashUrgencyOptions : financeUrgencyOptions;
 
   return (
-    <div>
+    <div className="w-full">
       {/* Top Switcher: Cash vs Finance */}
-      <div className="mb-6 rounded-[16px] bg-[#E5E7EB]/50 p-1.5 backdrop-blur">
+      <div className="mb-5 rounded-[18px] bg-[#E2E8F0]/70 p-1.5 backdrop-blur-md shadow-inner">
         <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
@@ -108,13 +108,13 @@ export default function OrderForm({
               }
             }}
             className={[
-              "flex h-[52px] items-center justify-center gap-2.5 rounded-[12px] text-[15px] font-extrabold transition-all duration-200 shadow-sm",
+              "flex h-[52px] items-center justify-center gap-2.5 rounded-[14px] text-[15px] font-black transition-all duration-200",
               payment === "cash"
-                ? "bg-[var(--brand-primary-color)] text-white shadow-md scale-[1.01]"
-                : "bg-white/80 text-[#4B5563] hover:bg-white hover:text-[#111827]",
+                ? "bg-[#021F38] text-white shadow-md scale-[1.01]"
+                : "bg-white/60 text-[#475569] hover:bg-white hover:text-[#0F172A]",
             ].join(" ")}
           >
-            <Banknote size={20} className={payment === "cash" ? "text-[var(--brand-secondary-color)]" : ""} />
+            <Banknote size={20} className={payment === "cash" ? "text-[var(--brand-secondary-color)]" : "text-[#64748B]"} />
             <span>{isRtl ? "شراء نقدي (كاش)" : "Cash Purchase"}</span>
           </button>
 
@@ -127,13 +127,13 @@ export default function OrderForm({
               }
             }}
             className={[
-              "flex h-[52px] items-center justify-center gap-2.5 rounded-[12px] text-[15px] font-extrabold transition-all duration-200 shadow-sm",
+              "flex h-[52px] items-center justify-center gap-2.5 rounded-[14px] text-[15px] font-black transition-all duration-200",
               payment === "bank"
-                ? "bg-[var(--brand-primary-color)] text-white shadow-md scale-[1.01]"
-                : "bg-white/80 text-[#4B5563] hover:bg-white hover:text-[#111827]",
+                ? "bg-[#021F38] text-white shadow-md scale-[1.01]"
+                : "bg-white/60 text-[#475569] hover:bg-white hover:text-[#0F172A]",
             ].join(" ")}
           >
-            <CreditCard size={20} className={payment === "bank" ? "text-[var(--brand-secondary-color)]" : ""} />
+            <CreditCard size={20} className={payment === "bank" ? "text-[var(--brand-secondary-color)]" : "text-[#64748B]"} />
             <span>{isRtl ? "تمويل بنكي / تقسيط" : "Bank Financing / Installment"}</span>
           </button>
         </div>
@@ -142,27 +142,27 @@ export default function OrderForm({
       {/* Selected Car Preview Card */}
       <div
         className={[
-          "mb-5 flex min-h-[84px] items-center justify-center rounded-[14px] border-2 border-dashed transition",
+          "mb-5 flex min-h-[88px] items-center justify-center rounded-[16px] border-2 border-dashed transition-all",
           selectedCar
-            ? "border-[var(--brand-primary-color)] bg-white shadow-sm"
-            : "border-[#D1D5DB] bg-white",
+            ? "border-[#021F38]/30 bg-white shadow-sm"
+            : "border-[#CBD5E1] bg-white/70",
         ].join(" ")}
       >
         {selectedCar ? (
-          <div className="flex w-full items-center gap-3 px-4 py-3">
+          <div className="flex w-full items-center gap-3.5 px-4 py-3">
             <LazyImg
               src={getImageUrl(selectedCar.main_image) || APP_IMAGES.CAR_PLACEHOLDER}
               alt={selectedCar.name}
-              className="h-[52px] w-[72px] rounded-[8px] object-cover"
+              className="h-[56px] w-[80px] rounded-[10px] object-cover border border-[#E2E8F0]"
             />
             <div className="flex-1 text-start">
-              <p className="text-[12px] font-medium text-[#9CA3AF]">
-                {selectedCar.brand?.name}
-              </p>
-              <p className="text-[14px] font-bold text-[#111827]">
+              <span className="inline-block rounded-md bg-[#F1F5F9] px-2 py-0.5 text-[11px] font-bold text-[#475569]">
+                {selectedCar.brand?.name || (isRtl ? "سيارة مختارة" : "Selected Car")}
+              </span>
+              <p className="text-[15px] font-black text-[#0F172A]">
                 {selectedCar.name} {selectedCar.year}
               </p>
-              <p className="text-[12px] font-semibold text-[var(--brand-secondary-color)]">
+              <p className="text-[13px] font-extrabold text-[var(--brand-secondary-color)]">
                 {selectedCar.current_price
                   ? `${selectedCar.current_price.toLocaleString()} ${t("financeCalculator.step2.riyal")}`
                   : ""}
@@ -170,9 +170,9 @@ export default function OrderForm({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-1.5 py-4 text-[#9CA3AF]">
-            <Car size={26} strokeWidth={1.5} />
-            <p className="text-[13px] font-medium">
+          <div className="flex flex-col items-center gap-1.5 py-4 text-[#94A3B8]">
+            <Car size={26} strokeWidth={1.5} className="text-[#94A3B8]" />
+            <p className="text-[13px] font-bold">
               {t("ordersPage.selectCarEmpty")}
             </p>
           </div>
@@ -182,18 +182,22 @@ export default function OrderForm({
       {/* Main Order Form */}
       <form
         onSubmit={onSubmit}
-        className="space-y-5 rounded-[16px] border border-[#E5E7EB] bg-white p-5 shadow-sm sm:p-6"
+        className="space-y-6 rounded-[20px] border border-[#E2E8F0] bg-white p-5 shadow-sm sm:p-7"
       >
-        {/* Section: Personal Info */}
+        {/* Section 1: Personal Info */}
         <div>
-          <div className="mb-3 flex items-center gap-2 text-[14px] font-bold text-[#111827]">
-            <User size={16} className="text-[var(--brand-primary-color)]" />
-            <span>{isRtl ? "1. البيانات الشخصية" : "1. Personal Information"}</span>
+          <div className="mb-3.5 flex items-center gap-2 text-[#0F172A]">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#021F38] text-[12px] font-black text-white">
+              1
+            </span>
+            <h3 className="text-[15px] font-black">
+              {isRtl ? "البيانات الشخصية" : "Personal Information"}
+            </h3>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+              <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                 {isRtl ? "اسم العميل" : "Full Name"} <span className="text-red-500">*</span>
               </label>
               <input
@@ -206,7 +210,7 @@ export default function OrderForm({
               />
             </div>
             <div>
-              <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+              <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                 {isRtl ? "رقم الجوال" : "Phone Number"} <span className="text-red-500">*</span>
               </label>
               <input
@@ -223,8 +227,8 @@ export default function OrderForm({
 
           {/* Age field only for Finance */}
           {payment === "bank" && (
-            <div className="mt-3">
-              <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+            <div className="mt-3.5">
+              <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                 {isRtl ? "العمر" : "Age"}
               </label>
               <input
@@ -240,17 +244,21 @@ export default function OrderForm({
           )}
         </div>
 
-        {/* Section: Work & Income (Finance only) */}
+        {/* Section 2: Work & Income (Finance only) */}
         {payment === "bank" && (
-          <div className="border-t border-[#F3F4F6] pt-4">
-            <div className="mb-3 flex items-center gap-2 text-[14px] font-bold text-[#111827]">
-              <Briefcase size={16} className="text-[var(--brand-primary-color)]" />
-              <span>{isRtl ? "2. بيانات العمل والدخل" : "2. Employment & Income"}</span>
+          <div className="border-t border-[#F1F5F9] pt-5">
+            <div className="mb-3.5 flex items-center gap-2 text-[#0F172A]">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#021F38] text-[12px] font-black text-white">
+                2
+              </span>
+              <h3 className="text-[15px] font-black">
+                {isRtl ? "بيانات العمل والدخل" : "Employment & Income"}
+              </h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
               <div>
-                <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+                <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                   {isRtl ? "جهة العمل" : "Work Sector"}
                 </label>
                 <select
@@ -267,7 +275,7 @@ export default function OrderForm({
               </div>
 
               <div>
-                <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+                <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                   {isRtl ? "الراتب الشهري (ريال)" : "Monthly Salary (SAR)"}
                 </label>
                 <input
@@ -281,7 +289,7 @@ export default function OrderForm({
               </div>
 
               <div>
-                <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+                <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                   {isRtl ? "مدة الخدمة" : "Service Duration"}
                 </label>
                 <input
@@ -296,16 +304,20 @@ export default function OrderForm({
           </div>
         )}
 
-        {/* Section: Car Details / Category */}
-        <div className="border-t border-[#F3F4F6] pt-4">
-          <div className="mb-3 flex items-center gap-2 text-[14px] font-bold text-[#111827]">
-            <Car size={16} className="text-[var(--brand-primary-color)]" />
-            <span>{payment === "cash" ? (isRtl ? "2. بيانات السيارة" : "2. Car Details") : (isRtl ? "3. بيانات السيارة والتمويل" : "3. Car & Financing Details")}</span>
+        {/* Section 3: Car Details & Finance Options */}
+        <div className="border-t border-[#F1F5F9] pt-5">
+          <div className="mb-3.5 flex items-center gap-2 text-[#0F172A]">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#021F38] text-[12px] font-black text-white">
+              {payment === "cash" ? 2 : 3}
+            </span>
+            <h3 className="text-[15px] font-black">
+              {payment === "cash" ? (isRtl ? "بيانات السيارة المطلوبة" : "Desired Car Details") : (isRtl ? "بيانات السيارة والتمويل" : "Car & Financing Details")}
+            </h3>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+              <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
                 {isRtl ? "الموديل / الفئة المطلوبة" : "Desired Model / Category"}
               </label>
               <input
@@ -317,24 +329,29 @@ export default function OrderForm({
               />
             </div>
 
-            {/* Down Payment & Commitments (Finance only) */}
+            {/* Down Payment & Obligations Cards (Finance only) */}
             {payment === "bank" && (
-              <div className="grid grid-cols-1 gap-4 pt-1 sm:grid-cols-2">
-                {/* Has Downpayment */}
-                <div className="rounded-[12px] border border-[#E5E7EB] bg-[#F9FAFB] p-3.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[13px] font-semibold text-[#111827]">
-                      {isRtl ? "هل لديك دفعة أولى؟" : "Do you have a down payment?"}
-                    </span>
-                    <div className="flex gap-1.5">
+              <div className="space-y-3 pt-1">
+                {/* Has Downpayment Card */}
+                <div className="rounded-[16px] border border-[#E2E8F0] bg-[#F8FAFC] p-4 transition-all duration-200">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <Sparkles size={16} className="text-[var(--brand-secondary-color)]" />
+                      <span className="text-[14px] font-bold text-[#0F172A]">
+                        {isRtl ? "هل لديك دفعة أولى؟" : "Do you have a down payment?"}
+                      </span>
+                    </div>
+
+                    {/* Modern Pill Toggle */}
+                    <div className="flex items-center rounded-[10px] bg-[#E2E8F0] p-1">
                       <button
                         type="button"
                         onClick={() => setHasDownpayment(true)}
                         className={[
-                          "h-[30px] rounded-[6px] px-3 text-[12px] font-bold transition",
+                          "h-[32px] w-[54px] rounded-[8px] text-[13px] font-black transition-all duration-200",
                           hasDownpayment
-                            ? "bg-[var(--brand-primary-color)] text-white"
-                            : "bg-white text-[#4B5563] border border-[#D1D5DB]",
+                            ? "bg-[#021F38] text-white shadow-sm"
+                            : "text-[#64748B] hover:text-[#0F172A]",
                         ].join(" ")}
                       >
                         {isRtl ? "نعم" : "Yes"}
@@ -346,45 +363,54 @@ export default function OrderForm({
                           setDownPayment("");
                         }}
                         className={[
-                          "h-[30px] rounded-[6px] px-3 text-[12px] font-bold transition",
+                          "h-[32px] w-[54px] rounded-[8px] text-[13px] font-black transition-all duration-200",
                           !hasDownpayment
-                            ? "bg-[#6B7280] text-white"
-                            : "bg-white text-[#4B5563] border border-[#D1D5DB]",
+                            ? "bg-[#64748B] text-white shadow-sm"
+                            : "text-[#64748B] hover:text-[#0F172A]",
                         ].join(" ")}
                       >
                         {isRtl ? "لا" : "No"}
                       </button>
                     </div>
                   </div>
+
                   {hasDownpayment && (
-                    <div className="mt-2.5">
+                    <div className="mt-3 pt-3 border-t border-[#E2E8F0]/60 animate-in fade-in duration-200">
+                      <label className="mb-1 block text-[12px] font-bold text-[#475569]">
+                        {isRtl ? "قيمة الدفعة الأولى التقريبية (ريال)" : "Approx. Down Payment (SAR)"}
+                      </label>
                       <input
                         type="number"
                         min="0"
                         value={downPayment}
                         onChange={(e) => setDownPayment(e.target.value)}
-                        placeholder={isRtl ? "قيمة الدفعة الأولى التقريبية" : "Approx. down payment"}
-                        className={`${inputCls} h-[40px] text-[13px]`}
+                        placeholder={isRtl ? "مثال: 20000" : "e.g. 20000"}
+                        className={`${inputCls} h-[44px] text-[13px]`}
                       />
                     </div>
                   )}
                 </div>
 
-                {/* Has Obligations */}
-                <div className="rounded-[12px] border border-[#E5E7EB] bg-[#F9FAFB] p-3.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[13px] font-semibold text-[#111827]">
-                      {isRtl ? "هل لديك التزامات أو أقساط؟" : "Any existing obligations?"}
-                    </span>
-                    <div className="flex gap-1.5">
+                {/* Has Obligations Card */}
+                <div className="rounded-[16px] border border-[#E2E8F0] bg-[#F8FAFC] p-4 transition-all duration-200">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <CreditCard size={16} className="text-[#64748B]" />
+                      <span className="text-[14px] font-bold text-[#0F172A]">
+                        {isRtl ? "هل لديك التزامات أو أقساط حالية؟" : "Any existing obligations or installments?"}
+                      </span>
+                    </div>
+
+                    {/* Modern Pill Toggle */}
+                    <div className="flex items-center rounded-[10px] bg-[#E2E8F0] p-1">
                       <button
                         type="button"
                         onClick={() => setHasObligations(true)}
                         className={[
-                          "h-[30px] rounded-[6px] px-3 text-[12px] font-bold transition",
+                          "h-[32px] w-[54px] rounded-[8px] text-[13px] font-black transition-all duration-200",
                           hasObligations
-                            ? "bg-[var(--brand-primary-color)] text-white"
-                            : "bg-white text-[#4B5563] border border-[#D1D5DB]",
+                            ? "bg-[#021F38] text-white shadow-sm"
+                            : "text-[#64748B] hover:text-[#0F172A]",
                         ].join(" ")}
                       >
                         {isRtl ? "نعم" : "Yes"}
@@ -396,25 +422,29 @@ export default function OrderForm({
                           setMonthlyObligations("");
                         }}
                         className={[
-                          "h-[30px] rounded-[6px] px-3 text-[12px] font-bold transition",
+                          "h-[32px] w-[54px] rounded-[8px] text-[13px] font-black transition-all duration-200",
                           !hasObligations
-                            ? "bg-[#6B7280] text-white"
-                            : "bg-white text-[#4B5563] border border-[#D1D5DB]",
+                            ? "bg-[#64748B] text-white shadow-sm"
+                            : "text-[#64748B] hover:text-[#0F172A]",
                         ].join(" ")}
                       >
                         {isRtl ? "لا" : "No"}
                       </button>
                     </div>
                   </div>
+
                   {hasObligations && (
-                    <div className="mt-2.5">
+                    <div className="mt-3 pt-3 border-t border-[#E2E8F0]/60 animate-in fade-in duration-200">
+                      <label className="mb-1 block text-[12px] font-bold text-[#475569]">
+                        {isRtl ? "إجمالي الأقساط الشهرية الحالية (ريال)" : "Total Monthly Obligations (SAR)"}
+                      </label>
                       <input
                         type="number"
                         min="0"
                         value={monthlyObligations}
                         onChange={(e) => setMonthlyObligations(e.target.value)}
-                        placeholder={isRtl ? "إجمالي الأقساط الشهرية الحالية" : "Total monthly obligations"}
-                        className={`${inputCls} h-[40px] text-[13px]`}
+                        placeholder={isRtl ? "مثال: 1500" : "e.g. 1500"}
+                        className={`${inputCls} h-[44px] text-[13px]`}
                       />
                     </div>
                   )}
@@ -424,30 +454,32 @@ export default function OrderForm({
           </div>
         </div>
 
-        {/* Section: Purchase Timing (أهم سؤال) */}
-        <div className="border-t border-[#F3F4F6] pt-4">
-          <div className="mb-2.5 flex items-center gap-2 text-[14px] font-bold text-[#111827]">
-            <Clock size={16} className="text-[var(--brand-secondary-color)]" />
-            <span>{isRtl ? "متى ترغب بشراء السيارة؟" : "When do you plan to purchase?"}</span>
+        {/* Section 4: Purchase Urgency (أهم سؤال) */}
+        <div className="border-t border-[#F1F5F9] pt-5">
+          <div className="mb-3 flex items-center gap-2 text-[#0F172A]">
+            <Clock size={18} className="text-[var(--brand-secondary-color)]" />
+            <h4 className="text-[14px] font-black">
+              {isRtl ? "متى ترغب بشراء السيارة؟" : "When do you plan to purchase?"}
+            </h4>
           </div>
 
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {currentUrgencyOptions.map((opt) => {
-              const selected = purchaseUrgency === opt.value;
+              const isSelected = purchaseUrgency === opt.value;
               return (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => setPurchaseUrgency(opt.value)}
                   className={[
-                    "relative flex h-[46px] items-center justify-center gap-2 rounded-[10px] px-3 text-[13px] font-bold transition-all",
-                    selected
-                      ? "bg-[var(--brand-secondary-color)] text-[var(--brand-primary-color)] shadow-sm ring-2 ring-[var(--brand-secondary-color)]"
-                      : "border border-[#E5E7EB] bg-[#F9FAFB] text-[#4B5563] hover:border-[var(--brand-secondary-color)] hover:bg-white",
+                    "min-h-[50px] rounded-[12px] px-3 py-2 text-[13px] sm:text-[14px] font-black transition-all duration-200 flex items-center justify-center gap-1.5 shadow-sm text-center",
+                    isSelected
+                      ? "bg-[#021F38] text-[var(--brand-secondary-color)] ring-2 ring-[var(--brand-secondary-color)] shadow-md scale-[1.02]"
+                      : "border border-[#E2E8F0] bg-[#F8FAFC] text-[#475569] hover:border-[#021F38]/30 hover:bg-white hover:text-[#0F172A]",
                   ].join(" ")}
                 >
-                  {selected && <CheckCircle2 size={14} className="text-[var(--brand-primary-color)]" />}
-                  <span>{opt.label}</span>
+                  {isSelected && <Check size={16} className="text-[var(--brand-secondary-color)] shrink-0" />}
+                  <span className="truncate leading-normal">{opt.label}</span>
                 </button>
               );
             })}
@@ -455,8 +487,8 @@ export default function OrderForm({
         </div>
 
         {/* Notes (Optional) */}
-        <div>
-          <label className="mb-1 block text-[12px] font-medium text-[#374151]">
+        <div className="border-t border-[#F1F5F9] pt-4">
+          <label className="mb-1.5 block text-[13px] font-bold text-[#334155]">
             {isRtl ? "ملاحظات إضافية (اختياري)" : "Additional Notes (Optional)"}
           </label>
           <textarea
@@ -464,7 +496,7 @@ export default function OrderForm({
             onChange={(e) => setNotes(e.target.value)}
             placeholder={isRtl ? "أي استفسار أو تفاصيل أخرى ترغب بإضافتها..." : "Any other details or inquiries..."}
             rows={2}
-            className={`${inputCls} h-auto resize-none py-2.5 leading-6`}
+            className={`${inputCls} h-auto resize-none py-3 leading-relaxed`}
           />
         </div>
 
@@ -472,11 +504,11 @@ export default function OrderForm({
         <button
           type="submit"
           disabled={submitting || (!selectedCar && !carType.trim()) || !fullName.trim() || !phone.trim()}
-          className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[12px] bg-[var(--brand-primary-color)] text-[15px] font-bold text-white transition-all shadow-md hover:bg-[#032e52] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-[54px] w-full items-center justify-center gap-2.5 rounded-[14px] bg-[#021F38] text-[16px] font-black text-white transition-all duration-200 shadow-lg hover:bg-[#032e52] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {submitting ? (
-            <span className="flex items-center gap-2">
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+            <span className="flex items-center gap-2.5">
+              <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
               <span>{isRtl ? "جاري إرسال الطلب..." : "Submitting Order..."}</span>
             </span>
           ) : (
@@ -484,9 +516,9 @@ export default function OrderForm({
           )}
         </button>
 
-        <p className="flex items-center justify-center gap-1.5 text-[12px] text-[#9CA3AF]">
-          <HelpCircle size={13} />
-          <span>{isRtl ? "بياناتك بأمان ولن يتم استخدامها إلا للتواصل معك بخصوص هذا الطلب." : "Your information is secure and will only be used to contact you regarding this request."}</span>
+        <p className="flex items-center justify-center gap-1.5 text-[12px] font-medium text-[#64748B]">
+          <ShieldCheck size={15} className="text-[#10B981]" />
+          <span>{isRtl ? "بياناتك محمية ولن تُستخدم إلا للتواصل معك بخصوص هذا الطلب." : "Your information is secure and will only be used to contact you regarding this request."}</span>
         </p>
       </form>
     </div>

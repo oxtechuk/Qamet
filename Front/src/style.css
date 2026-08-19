@@ -38,7 +38,7 @@
   --background: #FAFAF8;
   --border: #e5e4e7;
 
-  --font-main: "Changa";
+  --font-main: "Cairo", "Tajawal", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 * {
@@ -48,9 +48,8 @@
 body {
   margin: 0;
   font-family: var(--font-main);
-  font-size: 18px;
-  line-height: 145%;
-  letter-spacing: 0.18px;
+  font-size: 16px;
+  line-height: 1.6;
   background-color: var(--background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;

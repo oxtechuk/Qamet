@@ -6,6 +6,9 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-white.svg') }}" media="(prefers-color-scheme: dark)" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Qemt Najd</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     @if (file_exists(public_path('hot')))
         @viteReactRefresh
         @vite('resources/react/main.tsx')
