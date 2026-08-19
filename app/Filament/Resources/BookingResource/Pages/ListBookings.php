@@ -38,6 +38,11 @@ class ListBookings extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->finance())
                 ->badge(Booking::finance()->count()),
 
+            'corporate' => Tab::make('تمويل الشركات')
+                ->icon('heroicon-m-building-office-2')
+                ->modifyQueryUsing(fn (Builder $query) => $query->corporate())
+                ->badge(Booking::corporate()->count()),
+
             'completed' => Tab::make('طلبات مكتملة')
                 ->icon('heroicon-m-check-badge')
                 ->modifyQueryUsing(fn (Builder $query) => $query->completed())

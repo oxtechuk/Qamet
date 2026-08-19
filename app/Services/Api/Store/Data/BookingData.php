@@ -30,6 +30,10 @@ final class BookingData
         public readonly bool $has_obligations = false,
         public readonly ?int $monthly_obligations = null,
         public readonly ?string $purchase_urgency = null,
+        public readonly ?string $company_name = null,
+        public readonly ?string $preferred_contact_date = null,
+        public readonly ?string $preferred_contact_time = null,
+        public readonly ?int $car_count = 1,
         public readonly ?string $notes = null,
     ) {}
 
@@ -56,7 +60,7 @@ final class BookingData
         }
 
         return new self(
-            car_id: $validated['car_id'] ? (int) $validated['car_id'] : null,
+            car_id: ! empty($validated['car_id']) ? (int) $validated['car_id'] : null,
             car_type: $validated['car_type'] ?? null,
             payment_method: $validated['payment_method'] ?? null,
             client_name: $validated['client_name'],
@@ -77,6 +81,10 @@ final class BookingData
             has_obligations: (bool) ($validated['has_obligations'] ?? false),
             monthly_obligations: isset($validated['monthly_obligations']) ? (int) $validated['monthly_obligations'] : null,
             purchase_urgency: $validated['purchase_urgency'] ?? null,
+            company_name: $validated['company_name'] ?? null,
+            preferred_contact_date: $validated['preferred_contact_date'] ?? null,
+            preferred_contact_time: $validated['preferred_contact_time'] ?? null,
+            car_count: isset($validated['car_count']) ? (int) $validated['car_count'] : 1,
             notes: $validated['notes'] ?? null,
         );
     }
@@ -107,6 +115,10 @@ final class BookingData
             'has_obligations' => $this->has_obligations,
             'monthly_obligations' => $this->monthly_obligations,
             'purchase_urgency' => $this->purchase_urgency,
+            'company_name' => $this->company_name,
+            'preferred_contact_date' => $this->preferred_contact_date,
+            'preferred_contact_time' => $this->preferred_contact_time,
+            'car_count' => $this->car_count ?? 1,
             'notes' => $this->notes,
         ];
     }

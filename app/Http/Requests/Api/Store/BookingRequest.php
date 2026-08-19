@@ -30,7 +30,11 @@ final class BookingRequest extends ApiBaseRequest
             'duration_years' => ['nullable', 'integer', 'min:1', 'max:10'],
             'interest_rate' => ['nullable', 'numeric', 'min:0', 'max:50'],
             'notes' => ['nullable', 'string', 'max:1000'],
-            'booking_type' => ['nullable', 'string', 'in:test_drive,purchase,inquiry'],
+            'booking_type' => ['nullable', 'string', 'in:test_drive,purchase,inquiry,corporate'],
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'preferred_contact_date' => ['nullable', 'string', 'max:50'],
+            'preferred_contact_time' => ['nullable', 'string', 'max:50'],
+            'car_count' => ['nullable', 'integer', 'min:1', 'max:1000'],
             'location' => ['nullable', 'string', 'max:500'],
         ];
     }

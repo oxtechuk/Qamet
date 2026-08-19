@@ -14,6 +14,11 @@ export interface IBookingFormData {
   has_obligations?: boolean;
   monthly_obligations?: number | null;
   purchase_urgency?: string | null;
+  company_name?: string | null;
+  preferred_contact_date?: string | null;
+  preferred_contact_time?: string | null;
+  car_count?: number | null;
+  booking_type?: string | null;
   notes?: string | null;
 }
 

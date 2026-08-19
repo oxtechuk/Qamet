@@ -18,6 +18,7 @@ const ContactPage = lazy(() => import("../pages/ContactPage"));
 const FinanceCalculatorPage = lazy(() => import("../pages/FinanceCalculatorPage"));
 const BrandsPage = lazy(() => import("../pages/BrandsPage"));
 const OrdersPage = lazy(() => import("../pages/OrdersPage"));
+const CorporateFinancePage = lazy(() => import("../pages/CorporateFinancePage"));
 
 const withSuspense = (element: ReactNode) => (
   <Suspense fallback={<LoadingSpinner />}>{element}</Suspense>
@@ -79,6 +80,14 @@ export const router = createBrowserRouter([
       {
         path: "orders",
         element: withSuspense(<OrdersPage />),
+      },
+      {
+        path: "corporate",
+        element: withSuspense(<CorporateFinancePage />),
+      },
+      {
+        path: "corporate-finance",
+        element: withSuspense(<CorporateFinancePage />),
       },
       {
         path: "*",

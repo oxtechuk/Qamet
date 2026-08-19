@@ -50,10 +50,13 @@ class BookingResource extends Resource
                         Section::make(__('Client Info'))
                             ->icon('heroicon-o-user')
                             ->schema([
-                                Grid::make(2)
+                                Grid::make(3)
                                     ->schema([
                                         Forms\Components\TextInput::make('client_name')->label(__('Client Name'))
                                             ->required()
+                                            ->maxLength(255),
+                                        Forms\Components\TextInput::make('company_name')->label(__('اسم المنشأة / الشركة'))
+                                            ->placeholder('في حال كان الطلب لشركة/مؤسسة')
                                             ->maxLength(255),
                                         Forms\Components\TextInput::make('client_phone')->label(__('Client Phone'))
                                             ->tel()
@@ -80,12 +83,19 @@ class BookingResource extends Resource
                                             ])
                                             ->searchable(),
                                     ]),
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('preferred_contact_date')->label(__('تاريخ التواصل المفضل'))
+                                            ->placeholder('مثال: 2026-08-25 أو غداً صباحاً'),
+                                        Forms\Components\TextInput::make('preferred_contact_time')->label(__('الوقت المفضل للتواصل'))
+                                            ->placeholder('مثال: 10:00 صباحاً - 02:00 مساءً'),
+                                    ]),
                             ]),
 
                         Section::make(__('بيانات السيارة والدفع'))
                             ->icon('heroicon-o-truck')
                             ->schema([
-                                Grid::make(2)
+                                Grid::make(3)
                                     ->schema([
                                         Forms\Components\Select::make('car_id')->label(__('Car'))
                                             ->relationship('car', 'name')
@@ -93,6 +103,10 @@ class BookingResource extends Resource
                                             ->preload(),
                                         Forms\Components\TextInput::make('car_type')->label(__('الموديل / الفئة'))
                                             ->placeholder(__('e.g. Toyota Camry 2025')),
+                                        Forms\Components\TextInput::make('car_count')->label(__('عدد السيارات المطلوبة'))
+                                            ->numeric()
+                                            ->default(1)
+                                            ->minValue(1),
                                     ]),
                                 Grid::make(2)
                                     ->schema([

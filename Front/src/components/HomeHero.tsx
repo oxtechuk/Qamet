@@ -140,6 +140,7 @@ export default function HomeHero({
         { label: t("nav.cars"), path: "/cars" },
         { label: t("nav.offers"), path: "/offers" },
         { label: t("nav.orders"), path: "/orders" },
+        { label: t("nav.corporate"), path: "/corporate" },
         { label: t("nav.about"), path: "/about" },
         { label: t("nav.blog"), path: "/blog" },
         { label: t("nav.contact"), path: "/contact" },

@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Booking extends Model
 {
     protected $fillable = [
-        'car_id', 'car_type', 'payment_method', 'assigned_to', 'client_name',
-        'client_phone', 'client_email', 'age', 'work_sector', 'salary',
+        'car_id', 'car_type', 'car_count', 'payment_method', 'assigned_to', 'client_name',
+        'company_name', 'client_phone', 'client_email', 'age', 'work_sector', 'salary',
         'service_duration', 'has_downpayment', 'has_obligations', 'monthly_obligations',
-        'purchase_urgency', 'down_payment', 'duration_years',
+        'purchase_urgency', 'preferred_contact_date', 'preferred_contact_time', 'down_payment', 'duration_years',
         'interest_rate', 'monthly_installment', 'total_price', 'notes', 'status',
         'source', 'last_contacted_at', 'booking_type', 'location',
     ];
@@ -24,14 +24,16 @@ class Booking extends Model
         'age' => 'integer',
         'salary' => 'integer',
         'monthly_obligations' => 'integer',
+        'car_count' => 'integer',
     ];
 
-    const BOOKING_TYPES = ['test_drive', 'purchase', 'inquiry'];
+    const BOOKING_TYPES = ['test_drive', 'purchase', 'inquiry', 'corporate'];
 
     const BOOKING_TYPES_LABELS = [
         'test_drive' => 'تجربة قيادة',
-        'purchase' => 'شراء',
+        'purchase' => 'شراء أفراد',
         'inquiry' => 'استفسار',
+        'corporate' => 'تمويل شركات',
     ];
 
     const STATUSES = [
@@ -150,5 +152,10 @@ class Booking extends Model
             $q->whereIn('payment_method', ['bank', 'finance', 'installment'])
                 ->orWhereNull('payment_method');
         });
+    }
+
+    public function scopeCorporate($query)
+    {
+        return $query->where('booking_type', 'corporate');
     }
 }
