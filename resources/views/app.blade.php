@@ -2,10 +2,10 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-white.svg') }}" media="(prefers-color-scheme: dark)" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Qemt Najd</title>
-    <link rel="preload" as="image" href="/images/home_hero.webp" fetchpriority="high" />
     @if (file_exists(public_path('hot')))
         @viteReactRefresh
         @vite('resources/react/main.tsx')
