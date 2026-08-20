@@ -19,11 +19,7 @@ class RolePermissionsAndBookingSecurityTest extends TestCase
     {
         parent::setUp();
 
-        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
-
-        // Ensure roles & permissions exist
-        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'employee']);
-        Role::firstOrCreate(['name' => 'employee', 'guard_name' => 'employee']);
+        $this->seed(\Database\Seeders\PermissionSeeder::class);
     }
 
     public function test_role_resource_has_arabic_labels_and_categorized_permissions(): void
@@ -32,7 +28,7 @@ class RolePermissionsAndBookingSecurityTest extends TestCase
         $this->assertEquals('الأدوار والصلاحيات', RoleResource::getPluralModelLabel());
 
         $groups = RoleResource::getPermissionsGrouped();
-        $this->assertArrayHasKey('الطلبات والحجوزات', $groups);
+        $this->assertArrayHasKey('الطلبات والحجوزات ومبيعات الكاش والتقسيط', $groups);
         $this->assertArrayHasKey('العملاء والليدز', $groups);
         $this->assertArrayHasKey('السيارات والكتالوج', $groups);
         $this->assertArrayHasKey('الفريق والمستخدمين', $groups);
@@ -40,10 +36,52 @@ class RolePermissionsAndBookingSecurityTest extends TestCase
 
         $options = RoleResource::getPermissionOptions();
         $this->assertArrayHasKey('manage-bookings', $options);
-        $this->assertEquals('إدارة وعرض الطلبات والحجوزات', $options['manage-bookings']);
+        $this->assertArrayHasKey('manage-cash-bookings', $options);
+        $this->assertArrayHasKey('manage-finance-bookings', $options);
+        $this->assertArrayHasKey('manage-corporate-bookings', $options);
+
+        $this->assertEquals('إدارة وعرض كافة الطلبات (شامل كاش وتقسيط)', $options['manage-bookings']);
+        $this->assertEquals('إدارة وعرض طلبات الكاش فقط 💵', $options['manage-cash-bookings']);
+        $this->assertEquals('إدارة وعرض طلبات التقسيط والتمويل فقط 💳', $options['manage-finance-bookings']);
+        $this->assertEquals('إدارة وعرض طلبات تمويل الشركات 🏢', $options['manage-corporate-bookings']);
 
         $descriptions = RoleResource::getPermissionDescriptions();
-        $this->assertArrayHasKey('manage-bookings', $descriptions);
+        $this->assertArrayHasKey('manage-cash-bookings', $descriptions);
+        $this->assertArrayHasKey('manage-finance-bookings', $descriptions);
+    }
+
+    public function test_role_permission_grants_cash_or_finance_scoping(): void
+    {
+        $cashRole = Role::firstOrCreate(['name' => 'cash-officer', 'guard_name' => 'employee']);
+        $cashRole->givePermissionTo('manage-cash-bookings');
+
+        $emp = Employee::create([
+            'name' => 'Cash Officer',
+            'email' => 'officer@qmtnjd.test',
+            'password' => 'password123',
+            'role' => 'employee',
+            'sales_type' => 'cash',
+            'is_active' => true,
+        ]);
+        $emp->assignRole($cashRole);
+
+        $cashBooking = $this->createBooking([
+            'client_name' => 'Cash Only Client',
+            'payment_method' => 'cash',
+            'assigned_to' => null,
+        ]);
+
+        $financeBooking = $this->createBooking([
+            'client_name' => 'Finance Only Client',
+            'payment_method' => 'finance',
+            'assigned_to' => null,
+        ]);
+
+        Auth::guard('employee')->setUser($emp);
+
+        $visibleIds = BookingResource::getEloquentQuery()->pluck('id')->toArray();
+        $this->assertContains($cashBooking->id, $visibleIds);
+        $this->assertNotContains($financeBooking->id, $visibleIds);
     }
 
     private function createBooking(array $attributes = []): Booking

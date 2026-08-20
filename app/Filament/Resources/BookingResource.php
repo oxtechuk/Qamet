@@ -60,23 +60,66 @@ class BookingResource extends Resource
             return $query;
         }
 
-        return $query->where(function (Builder $q) use ($user) {
+        // 1. If explicit sales_type is specified on employee, respect it
+        if ($user->sales_type === 'cash') {
+            return $query->where(function (Builder $q) use ($user) {
+                $q->where('assigned_to', $user->id)
+                    ->orWhere(function (Builder $cashQ) {
+                        $cashQ->where('payment_method', 'cash')->whereNull('assigned_to');
+                    });
+            });
+        }
+
+        if ($user->sales_type === 'finance') {
+            return $query->where(function (Builder $q) use ($user) {
+                $q->where('assigned_to', $user->id)
+                    ->orWhere(function (Builder $finQ) {
+                        $finQ->where(function (Builder $mQ) {
+                            $mQ->whereIn('payment_method', ['bank', 'finance', 'installment'])
+                                ->orWhereNull('payment_method');
+                        })->whereNull('assigned_to')
+                            ->orWhere(function (Builder $corpQ) {
+                                $corpQ->where('booking_type', 'corporate')->whereNull('assigned_to');
+                            });
+                    });
+            });
+        }
+
+        // 2. Otherwise determine by Spatie permissions
+        $canCash = $user->hasPermissionTo('manage-cash-bookings', 'employee');
+        $canFinance = $user->hasPermissionTo('manage-finance-bookings', 'employee');
+        $canCorporate = $user->hasPermissionTo('manage-corporate-bookings', 'employee');
+        $canAll = $user->hasPermissionTo('manage-bookings', 'employee') || $user->sales_type === 'all';
+
+        if ($canAll || ($canCash && $canFinance)) {
+            return $query->where(function (Builder $q) use ($user) {
+                $q->where('assigned_to', $user->id)
+                    ->orWhereNull('assigned_to');
+            });
+        }
+
+        return $query->where(function (Builder $q) use ($user, $canCash, $canFinance, $canCorporate) {
             $q->where('assigned_to', $user->id);
 
-            if ($user->sales_type === 'cash') {
+            if ($canCash) {
                 $q->orWhere(function (Builder $cashQ) {
                     $cashQ->where('payment_method', 'cash')->whereNull('assigned_to');
                 });
-            } elseif ($user->sales_type === 'finance') {
+            }
+
+            if ($canFinance) {
                 $q->orWhere(function (Builder $finQ) {
                     $finQ->where(function (Builder $mQ) {
                         $mQ->whereIn('payment_method', ['bank', 'finance', 'installment'])
-                            ->orWhereNull('payment_method')
-                            ->orWhere('booking_type', 'corporate');
+                            ->orWhereNull('payment_method');
                     })->whereNull('assigned_to');
                 });
-            } else {
-                $q->orWhereNull('assigned_to');
+            }
+
+            if ($canCorporate) {
+                $q->orWhere(function (Builder $corpQ) {
+                    $corpQ->where('booking_type', 'corporate')->whereNull('assigned_to');
+                });
             }
         });
     }

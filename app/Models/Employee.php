@@ -39,11 +39,17 @@ class Employee extends Authenticatable
 
     public function isCashRep(): bool
     {
-        return in_array($this->sales_type, ['cash', 'all']) || $this->isAdmin();
+        return $this->isAdmin()
+            || in_array($this->sales_type, ['cash', 'all'])
+            || $this->hasPermissionTo('manage-cash-bookings', 'employee')
+            || $this->hasPermissionTo('manage-bookings', 'employee');
     }
 
     public function isFinanceRep(): bool
     {
-        return in_array($this->sales_type, ['finance', 'all']) || $this->isAdmin();
+        return $this->isAdmin()
+            || in_array($this->sales_type, ['finance', 'all'])
+            || $this->hasPermissionTo('manage-finance-bookings', 'employee')
+            || $this->hasPermissionTo('manage-bookings', 'employee');
     }
 }
