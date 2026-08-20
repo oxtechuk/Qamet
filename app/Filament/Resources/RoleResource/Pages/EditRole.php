@@ -10,11 +10,17 @@ class EditRole extends EditRecord
 {
     protected static string $resource = RoleResource::class;
 
+    public function getTitle(): string
+    {
+        return 'تعديل الدور والصلاحيات';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make()
-                ->hidden(fn ($record): bool => $record->name === 'admin'),
+                ->label('حذف الدور')
+                ->hidden(fn ($record): bool => in_array($record->name, ['admin', 'employee'])),
         ];
     }
 }

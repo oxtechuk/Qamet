@@ -8,6 +8,7 @@ use App\Models\Employee;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Facades\Auth;
 
 class ShowBooking extends ViewRecord
 {
@@ -20,6 +21,7 @@ class ShowBooking extends ViewRecord
                 ->label(__('إسناد موظف'))
                 ->icon('heroicon-o-user-plus')
                 ->color('info')
+                ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin())
                 ->slideOver()
                 ->modalWidth('md')
                 ->form([
@@ -118,7 +120,8 @@ class ShowBooking extends ViewRecord
                 }),
 
             Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
         ];
     }
 }

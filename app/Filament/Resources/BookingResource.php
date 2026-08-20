@@ -12,6 +12,9 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class BookingResource extends Resource
 {
@@ -36,6 +39,46 @@ class BookingResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('Bookings');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return (bool) Auth::guard('employee')->user()?->isAdmin();
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return (bool) Auth::guard('employee')->user()?->isAdmin();
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = Auth::guard('employee')->user();
+
+        if (! $user || $user->isAdmin()) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($user) {
+            $q->where('assigned_to', $user->id);
+
+            if ($user->sales_type === 'cash') {
+                $q->orWhere(function (Builder $cashQ) {
+                    $cashQ->where('payment_method', 'cash')->whereNull('assigned_to');
+                });
+            } elseif ($user->sales_type === 'finance') {
+                $q->orWhere(function (Builder $finQ) {
+                    $finQ->where(function (Builder $mQ) {
+                        $mQ->whereIn('payment_method', ['bank', 'finance', 'installment'])
+                            ->orWhereNull('payment_method')
+                            ->orWhere('booking_type', 'corporate');
+                    })->whereNull('assigned_to');
+                });
+            } else {
+                $q->orWhereNull('assigned_to');
+            }
+        });
     }
 
     public static function form(Schema $schema): Schema
@@ -195,6 +238,8 @@ class BookingResource extends Resource
                                     ->required(),
                                 Forms\Components\Select::make('assigned_to')->label(__('Assigned To'))
                                     ->relationship('assignedTo', 'name')
+                                    ->disabled(fn () => ! (Auth::guard('employee')->user()?->isAdmin()))
+                                    ->helperText(fn () => ! (Auth::guard('employee')->user()?->isAdmin()) ? 'إسناد وتحويل الطلبات متاح لمدير النظام فقط' : null)
                                     ->searchable()
                                     ->preload(),
                                 Forms\Components\Select::make('source')->label(__('Source'))
@@ -286,9 +331,11 @@ class BookingResource extends Resource
                     ->money('SAR')
                     ->sortable(),
 
-                Tables\Columns\SelectColumn::make('assigned_to')
+                Tables\Columns\TextColumn::make('assignedTo.name')
                     ->label(__('مندوب المبيعات'))
-                    ->options(fn () => \App\Models\Employee::query()->pluck('name', 'id')->toArray())
+                    ->placeholder('غير مسند')
+                    ->badge()
+                    ->color(fn ($record) => $record->assigned_to ? 'info' : 'gray')
                     ->sortable(),
 
                 Tables\Columns\SelectColumn::make('status')
@@ -422,6 +469,7 @@ class BookingResource extends Resource
                     ->label(__('إسناد موظف'))
                     ->icon('heroicon-o-user-plus')
                     ->color('info')
+                    ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin())
                     ->slideOver()
                     ->modalWidth('md')
                     ->form([
@@ -514,15 +562,18 @@ class BookingResource extends Resource
                         ]);
                     }),
                 Actions\EditAction::make(),
-                Actions\DeleteAction::make(),
+                Actions\DeleteAction::make()
+                    ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
-                    Actions\DeleteBulkAction::make(),
+                    Actions\DeleteBulkAction::make()
+                        ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
                     Actions\BulkAction::make('bulk_assign')
                         ->label(__('إسناد المحددة لموظف'))
                         ->icon('heroicon-o-user-plus')
                         ->color('info')
+                        ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin())
                         ->form([
                             Forms\Components\Select::make('assigned_to')
                                 ->label(__('الموظف المسند إليه'))

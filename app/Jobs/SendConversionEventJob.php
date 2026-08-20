@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Services\Tracking\ConversionApiService;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class SendConversionEventJob implements ShouldQueue
+class SendConversionEventJob
 {
     use Queueable;
 
