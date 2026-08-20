@@ -10,6 +10,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleResource extends Resource
@@ -215,10 +216,21 @@ class RoleResource extends Resource
 
     public static function getPermissionOptions(): array
     {
+        $permissions = Permission::where('guard_name', 'employee')->get()->keyBy('name');
         $options = [];
+
         foreach (self::getPermissionsGrouped() as $group) {
-            foreach ($group['permissions'] as $key => $item) {
-                $options[$key] = $item['label'];
+            foreach ($group['permissions'] as $name => $item) {
+                if (isset($permissions[$name])) {
+                    $options[$permissions[$name]->id] = $item['label'];
+                }
+            }
+        }
+
+        // Add any remaining permissions in DB
+        foreach ($permissions as $name => $permission) {
+            if (! isset($options[$permission->id])) {
+                $options[$permission->id] = $name;
             }
         }
 
@@ -227,10 +239,14 @@ class RoleResource extends Resource
 
     public static function getPermissionDescriptions(): array
     {
+        $permissions = Permission::where('guard_name', 'employee')->get()->keyBy('name');
         $descriptions = [];
+
         foreach (self::getPermissionsGrouped() as $group) {
-            foreach ($group['permissions'] as $key => $item) {
-                $descriptions[$key] = $item['description'];
+            foreach ($group['permissions'] as $name => $item) {
+                if (isset($permissions[$name])) {
+                    $descriptions[$permissions[$name]->id] = $item['description'];
+                }
             }
         }
 

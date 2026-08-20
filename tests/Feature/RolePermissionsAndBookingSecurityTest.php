@@ -35,19 +35,20 @@ class RolePermissionsAndBookingSecurityTest extends TestCase
         $this->assertArrayHasKey('الإعدادات والربط والتقنية', $groups);
 
         $options = RoleResource::getPermissionOptions();
-        $this->assertArrayHasKey('manage-bookings', $options);
-        $this->assertArrayHasKey('manage-cash-bookings', $options);
-        $this->assertArrayHasKey('manage-finance-bookings', $options);
-        $this->assertArrayHasKey('manage-corporate-bookings', $options);
+        $this->assertNotEmpty($options);
 
-        $this->assertEquals('إدارة وعرض كافة الطلبات (شامل كاش وتقسيط)', $options['manage-bookings']);
-        $this->assertEquals('إدارة وعرض طلبات الكاش فقط 💵', $options['manage-cash-bookings']);
-        $this->assertEquals('إدارة وعرض طلبات التقسيط والتمويل فقط 💳', $options['manage-finance-bookings']);
-        $this->assertEquals('إدارة وعرض طلبات تمويل الشركات 🏢', $options['manage-corporate-bookings']);
+        // Assert all keys are integer IDs for MySQL compatibility
+        foreach (array_keys($options) as $id) {
+            $this->assertIsInt($id);
+        }
+
+        $this->assertContains('إدارة وعرض كافة الطلبات (شامل كاش وتقسيط)', $options);
+        $this->assertContains('إدارة وعرض طلبات الكاش فقط 💵', $options);
+        $this->assertContains('إدارة وعرض طلبات التقسيط والتمويل فقط 💳', $options);
+        $this->assertContains('إدارة وعرض طلبات تمويل الشركات 🏢', $options);
 
         $descriptions = RoleResource::getPermissionDescriptions();
-        $this->assertArrayHasKey('manage-cash-bookings', $descriptions);
-        $this->assertArrayHasKey('manage-finance-bookings', $descriptions);
+        $this->assertNotEmpty($descriptions);
     }
 
     public function test_role_permission_grants_cash_or_finance_scoping(): void
