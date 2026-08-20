@@ -24,12 +24,24 @@ class ImageOptimizationService
         int $maxHeight = 1920,
         int $quality = 82
     ): string {
-        $realPath = is_string($file) ? $file : $file->getRealPath();
+        try {
+            if ($file instanceof TemporaryUploadedFile && ! $file->exists()) {
+                return '';
+            }
 
-        if (! file_exists($realPath) || ! is_readable($realPath)) {
+            $realPath = is_string($file) ? $file : $file->getRealPath();
+        } catch (\Throwable $e) {
+            return '';
+        }
+
+        if (! is_string($realPath) || ! file_exists($realPath) || ! is_readable($realPath)) {
             // Fallback to default store if file not directly readable
             if ($file instanceof UploadedFile || $file instanceof TemporaryUploadedFile) {
-                return $file->store($directory, $disk);
+                try {
+                    return $file->store($directory, $disk) ?: '';
+                } catch (\Throwable $e) {
+                    return '';
+                }
             }
 
             return '';
@@ -40,7 +52,11 @@ class ImageOptimizationService
         if (! $image) {
             // If GD cannot process (e.g. SVG or unsupported), save as-is
             if ($file instanceof UploadedFile || $file instanceof TemporaryUploadedFile) {
-                return $file->store($directory, $disk);
+                try {
+                    return $file->store($directory, $disk) ?: '';
+                } catch (\Throwable $e) {
+                    return '';
+                }
             }
 
             return '';

@@ -34,7 +34,10 @@ export default function CarDetailsHero({
     const whatsappHref = `https://wa.me/${whatsappNumber}`;
     const [activeImage, setActiveImage] = useState(0);
     const [viewType, setViewType] = useState<"inside" | "outside">("outside");
-    const [selectedColor, setSelectedColor] = useState<ICarColor | null>(null);
+    const [selectedExteriorColor, setSelectedExteriorColor] = useState<ICarColor | null>(null);
+    const [selectedInteriorColor, setSelectedInteriorColor] = useState<ICarColor | null>(null);
+
+    const selectedColor = viewType === "inside" ? selectedInteriorColor : selectedExteriorColor;
 
     const availableColors = useMemo(() => {
         if (viewType === "inside") {
@@ -44,25 +47,38 @@ export default function CarDetailsHero({
     }, [viewType, exteriorColors, interiorColors, colors]);
 
     const currentImages = useMemo(() => {
-        if (selectedColor) {
-            if (selectedColor.images && selectedColor.images.length > 0) {
-                return selectedColor.images.map(getImageUrl);
-            }
-            if (selectedColor.image) {
-                return [getImageUrl(selectedColor.image)];
+        const activeColor = viewType === "inside" ? selectedInteriorColor : selectedExteriorColor;
+
+        if (activeColor) {
+            const colorImgs = (activeColor.images && activeColor.images.length > 0)
+                ? activeColor.images
+                : (activeColor.image ? [activeColor.image] : []);
+
+            const validImgs = colorImgs.filter((img) => typeof img === "string" && img.trim() !== "");
+            if (validImgs.length > 0) {
+                return validImgs.map(getImageUrl);
             }
         }
 
         if (viewType === "inside") {
-            return interiorImages && interiorImages.length > 0
-                ? interiorImages.map(getImageUrl)
-                : images.map(getImageUrl);
+            const intImgs = (interiorImages && interiorImages.length > 0)
+                ? interiorImages.filter((img) => typeof img === "string" && img.trim() !== "")
+                : [];
+            if (intImgs.length > 0) {
+                return intImgs.map(getImageUrl);
+            }
+            return images.filter((img) => typeof img === "string" && img.trim() !== "").map(getImageUrl);
         }
 
-        return exteriorImages && exteriorImages.length > 0
-            ? exteriorImages.map(getImageUrl)
-            : images.map(getImageUrl);
-    }, [viewType, selectedColor, interiorImages, exteriorImages, images]);
+        const extImgs = (exteriorImages && exteriorImages.length > 0)
+            ? exteriorImages.filter((img) => typeof img === "string" && img.trim() !== "")
+            : [];
+        if (extImgs.length > 0) {
+            return extImgs.map(getImageUrl);
+        }
+
+        return images.filter((img) => typeof img === "string" && img.trim() !== "").map(getImageUrl);
+    }, [viewType, selectedInteriorColor, selectedExteriorColor, interiorImages, exteriorImages, images]);
 
     const activeIndex = activeImage >= currentImages.length ? 0 : activeImage;
     const currentImage = currentImages[activeIndex] || (images[0] ? getImageUrl(images[0]) : "");
@@ -71,17 +87,32 @@ export default function CarDetailsHero({
     const handleViewChange = useCallback((type: "inside" | "outside") => {
         setViewType(type);
         setActiveImage(0);
-        setSelectedColor(null);
     }, []);
 
     const handleColorClick = (color: ICarColor) => {
-        if (selectedColor?.name === color.name) {
-            setSelectedColor(null);
-            setActiveImage(0);
+        if (viewType === "inside") {
+            if (selectedInteriorColor?.name === color.name) {
+                setSelectedInteriorColor(null);
+            } else {
+                setSelectedInteriorColor(color);
+            }
         } else {
-            setSelectedColor(color);
-            setActiveImage(0);
+            if (selectedExteriorColor?.name === color.name) {
+                setSelectedExteriorColor(null);
+            } else {
+                setSelectedExteriorColor(color);
+            }
         }
+        setActiveImage(0);
+    };
+
+    const handleClearColor = () => {
+        if (viewType === "inside") {
+            setSelectedInteriorColor(null);
+        } else {
+            setSelectedExteriorColor(null);
+        }
+        setActiveImage(0);
     };
 
     return (
@@ -99,10 +130,7 @@ export default function CarDetailsHero({
                         onImageSelect={setActiveImage}
                         isShowingColorImage={isShowingColorImage}
                         selectedColor={selectedColor}
-                        onClearColor={() => {
-                            setSelectedColor(null);
-                            setActiveImage(0);
-                        }}
+                        onClearColor={handleClearColor}
                         viewType={viewType}
                         onViewChange={handleViewChange}
                     />
@@ -371,9 +399,8 @@ function CarDetailsGallery({
                     />
 
                     {/* Thumbnails */}
-                    <div className="flex flex-1 justify-center gap-2 overflow-x-auto py-1">
+                    <div className="flex flex-1 justify-center gap-2 overflow-x-auto py-1 scrollbar-none">
                         {currentImages
-                            .slice(0, 6)
                             .map((image, index) => (
                                 <button
                                     key={index}

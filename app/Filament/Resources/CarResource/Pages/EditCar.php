@@ -29,6 +29,10 @@ class EditCar extends EditRecord
         $data['exterior_images'] = $this->record->exterior_images;
         $data['interior_images'] = $this->record->interior_images;
 
+        if (empty($data['exterior_colors']) && ! empty($this->record->colors)) {
+            $data['exterior_colors'] = $this->record->colors;
+        }
+
         return $data;
     }
 

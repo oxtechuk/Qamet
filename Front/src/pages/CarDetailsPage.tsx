@@ -97,23 +97,44 @@ export default function CarDetailsPage() {
         images={car.images?.length ? car.images : [car.main_image]}
         exteriorImages={car.exterior_images}
         interiorImages={car.interior_images}
-        exteriorColors={(car.exterior_colors ?? car.colors ?? []).map((c) => ({
-          name: c.name,
-          value: c.hex,
-          image: c.image,
-          images: c.images ?? (c.image ? [c.image] : []),
-        }))}
-        interiorColors={(car.interior_colors ?? []).map((c) => ({
-          name: c.name,
-          value: c.hex,
-          image: c.image,
-          images: c.images ?? (c.image ? [c.image] : []),
-        }))}
+        exteriorColors={(() => {
+          const raw = (car.exterior_colors && car.exterior_colors.length > 0) ? car.exterior_colors : car.colors;
+          if (!Array.isArray(raw)) return [];
+          return raw.map((c) => {
+            const rawImgs = Array.isArray(c.images) ? c.images : (c.image ? [c.image] : []);
+            const cleanImgs = rawImgs.filter((img): img is string => typeof img === "string" && img.trim() !== "");
+            return {
+              name: c.name || "",
+              value: c.hex || (c as any).value || "#ccc",
+              hex: c.hex || (c as any).value || "#ccc",
+              image: cleanImgs[0] || c.image || null,
+              images: cleanImgs,
+            };
+          });
+        })()}
+        interiorColors={(() => {
+          const raw = car.interior_colors;
+          if (!Array.isArray(raw)) return [];
+          return raw.map((c) => {
+            const rawImgs = Array.isArray(c.images) ? c.images : (c.image ? [c.image] : []);
+            const cleanImgs = rawImgs.filter((img): img is string => typeof img === "string" && img.trim() !== "");
+            return {
+              name: c.name || "",
+              value: c.hex || (c as any).value || "#ccc",
+              hex: c.hex || (c as any).value || "#ccc",
+              image: cleanImgs[0] || c.image || null,
+              images: cleanImgs,
+            };
+          });
+        })()}
         price={car.current_price}
         oldPrice={saving > 0 ? car.cash_price : undefined}
         monthlyInstallment={car.min_installment}
         savingAmount={saving > 0 ? saving : undefined}
-        colors={(car.colors ?? []).map((c) => ({ name: c.name, value: c.hex, image: c.image, images: c.images }))}
+        colors={(car.colors ?? []).map((c) => {
+          const cleanImgs = (Array.isArray(c.images) ? c.images : (c.image ? [c.image] : [])).filter((img): img is string => typeof img === "string" && img.trim() !== "");
+          return { name: c.name, value: c.hex, hex: c.hex, image: cleanImgs[0] || c.image, images: cleanImgs };
+        })}
         orderTo={`/orders?car=${car.id}&slug=${car.slug}`}
         financeTo="/finance-calculator"
       />

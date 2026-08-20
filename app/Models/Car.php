@@ -211,8 +211,9 @@ class Car extends Model
             return AsImageUrl::url($this->images->first()->image_path);
         }
 
-        if (! empty($this->exterior_colors) && is_array($this->exterior_colors)) {
-            foreach ($this->exterior_colors as $color) {
+        $colors = $this->exterior_colors ?? $this->colors;
+        if (! empty($colors) && is_array($colors)) {
+            foreach ($colors as $color) {
                 if (! empty($color['images']) && is_array($color['images']) && ! empty($color['images'][0])) {
                     return AsImageUrl::url($color['images'][0]);
                 }

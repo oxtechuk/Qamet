@@ -27,6 +27,8 @@ class CreateCar extends CreateRecord
 
         if (! empty($data['exterior_colors'])) {
             $data['colors'] = $data['exterior_colors'];
+        } elseif (! empty($data['colors'])) {
+            $data['exterior_colors'] = $data['colors'];
         }
 
         return $data;
