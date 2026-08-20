@@ -52,14 +52,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        try {
-            View::share([
-                'globalSettings' => app(\App\Services\Cache\BaseCacheService::class)->rememberSettings(),
-            ]);
-        } catch (\Throwable $e) {
-            View::share([
-                'globalSettings' => [],
-            ]);
+        if (! $this->app->runningInConsole()) {
+            try {
+                View::share([
+                    'globalSettings' => app(\App\Services\Cache\BaseCacheService::class)->rememberSettings(),
+                ]);
+            } catch (\Throwable $e) {
+                View::share([
+                    'globalSettings' => [],
+                ]);
+            }
         }
 
         $this->registerObservers();
