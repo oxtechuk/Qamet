@@ -136,7 +136,7 @@ export default function CarDetailsHero({
                     />
                     
                     {/* Content */}
-                    <div className="order-1 lg:order-2">
+                    <div className="order-2 lg:order-2">
                         <div className="rounded-[20px] border border-[#E5E7EB] bg-white px-5 py-6 shadow-sm">
                             {/* Title */}
                             <h1
@@ -320,7 +320,7 @@ function CarDetailsGallery({
     };
 
     return (
-        <div className="order-2 lg:order-1">
+        <div className="order-1 lg:order-1">
             {/* Tabs */}
             <div className="mb-4 grid h-[56px] grid-cols-2 gap-2 rounded-[14px] border border-[#E5E7EB] bg-white p-1.5">
                 <button
