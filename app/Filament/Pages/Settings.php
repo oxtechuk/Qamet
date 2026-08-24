@@ -87,8 +87,17 @@ class Settings extends Page
             'meta_title_en' => $this->getBilingual('meta_title', 'en'),
             'meta_description_ar' => $this->getBilingual('meta_description', 'ar'),
             'meta_description_en' => $this->getBilingual('meta_description', 'en'),
+            'gtm_id' => $this->getSetting('gtm_id', 'GTM-5M2CZSCS'),
             'google_analytics_id' => $this->getSetting('google_analytics_id', ''),
-            'facebook_pixel_id' => $this->getSetting('facebook_pixel_id', ''),
+            'facebook_pixel_id' => $this->getSetting('facebook_pixel_id', '1252316483659611'),
+            'facebook_capi_token' => $this->getSetting('facebook_capi_token', ''),
+            'snapchat_pixel_id' => $this->getSetting('snapchat_pixel_id', '16663479-4ad1-42f9-885c-eb51993cf1f3'),
+            'snapchat_capi_token' => $this->getSetting('snapchat_capi_token', ''),
+            'tiktok_pixel_id' => $this->getSetting('tiktok_pixel_id', 'DA62NE3C77UC8FLJ30EG'),
+            'tiktok_capi_token' => $this->getSetting('tiktok_capi_token', ''),
+            'twitter_pixel_id' => $this->getSetting('twitter_pixel_id', ''),
+            'header_scripts' => $this->getSetting('header_scripts', ''),
+            'body_scripts' => $this->getSetting('body_scripts', ''),
             'whatsapp_number' => $this->getSetting('whatsapp_number', ''),
             'maintenance_mode' => $this->getSetting('maintenance_mode', false),
             'maintenance_message_ar' => $this->getBilingual('maintenance_message', 'ar'),
@@ -871,15 +880,65 @@ class Settings extends Page
                                                     ->label(__('Default Meta Description').' ('.__('English').')'),
                                             ]),
                                     ]),
-                                Section::make(__('Analytics'))
+                                Section::make('أدوات الربط والتحليلات (Tracking Pixels & Analytics)')
+                                    ->description('إدارة معرفات وتوكنات تتبع المنصات الإعلانية والتحليلات')
                                     ->schema([
-                                        Forms\Components\TextInput::make('google_analytics_id')
-                                            ->label(__('Google Analytics ID'))
-                                            ->placeholder(__('e.g. G-XXXXXXXXXX'))
-                                            ->helperText(__('Format: G-XXXXXXXXXX')),
-                                        Forms\Components\TextInput::make('facebook_pixel_id')
-                                            ->label(__('Facebook Pixel ID'))
-                                            ->helperText(__('Numeric ID from Facebook Events Manager')),
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('gtm_id')
+                                                    ->label('معرف جوجل تاج مانجر (GTM ID)')
+                                                    ->placeholder('e.g. GTM-5M2CZSCS')
+                                                    ->helperText('أدخل معرف Google Tag Manager الخاص بالموقع'),
+                                                Forms\Components\TextInput::make('google_analytics_id')
+                                                    ->label('معرف تحليلات جوجل (GA4 ID)')
+                                                    ->placeholder('e.g. G-XXXXXXXXXX')
+                                                    ->helperText('أدخل معرف Google Analytics GA4'),
+                                                Forms\Components\TextInput::make('facebook_pixel_id')
+                                                    ->label('معرف فيسبوك / ميتا بكسل (Meta Pixel ID)')
+                                                    ->placeholder('e.g. 1252316483659611')
+                                                    ->helperText('المعرف الرقمي لبيكسل Meta / Facebook'),
+                                                Forms\Components\Textarea::make('facebook_capi_token')
+                                                    ->label('توكن ربط الخادم Meta CAPI Access Token')
+                                                    ->rows(2)
+                                                    ->placeholder('EAATP3pNl4QgBSY...')
+                                                    ->helperText('رمز الوصول للربط برمجياً عبر Conversions API'),
+                                                Forms\Components\TextInput::make('snapchat_pixel_id')
+                                                    ->label('معرف سناب شات بكسل (Snapchat Pixel ID)')
+                                                    ->placeholder('e.g. 16663479-4ad1-42f9-885c-eb51993cf1f3')
+                                                    ->helperText('المعرف الخاص ببيكسل Snapchat'),
+                                                Forms\Components\Textarea::make('snapchat_capi_token')
+                                                    ->label('توكن ربط الخادم Snapchat CAPI Token')
+                                                    ->rows(2)
+                                                    ->placeholder('eyJhbGciOiJIUzI1Ni...')
+                                                    ->helperText('توكن CAPI الخاص بـ Snapchat'),
+                                                Forms\Components\TextInput::make('tiktok_pixel_id')
+                                                    ->label('معرف تيك توك بكسل (TikTok Pixel ID)')
+                                                    ->placeholder('e.g. DA62NE3C77UC8FLJ30EG')
+                                                    ->helperText('المعرف الخاص ببيكسل TikTok'),
+                                                Forms\Components\Textarea::make('tiktok_capi_token')
+                                                    ->label('توكن ربط الخادم TikTok CAPI Access Token')
+                                                    ->rows(2)
+                                                    ->placeholder('a8b96c35bb2736d...')
+                                                    ->helperText('رمز الوصول CAPI لـ TikTok'),
+                                                Forms\Components\TextInput::make('twitter_pixel_id')
+                                                    ->label('معرف منصة X / تويتر بكسل (Twitter / X Pixel ID)')
+                                                    ->placeholder('e.g. o1234')
+                                                    ->helperText('المعرف الخاص ببيكسل Twitter / X'),
+                                            ]),
+                                    ]),
+                                Section::make('أكواد الربط المخصصة (Custom Scripts)')
+                                    ->description('إضافة سكريبتات وأكواد تتبع مخصصة للهيدر والبودي')
+                                    ->schema([
+                                        Forms\Components\Textarea::make('header_scripts')
+                                            ->label('أكواد مخصصة في Head (<head>)')
+                                            ->rows(4)
+                                            ->placeholder('<script>/* Custom Header Tracking Code */</script>')
+                                            ->helperText('سيتم حقن هذه الأكواد تلقائياً داخل وسم <head> في الصفحة'),
+                                        Forms\Components\Textarea::make('body_scripts')
+                                            ->label('أكواد مخصصة في Body (<body>)')
+                                            ->rows(4)
+                                            ->placeholder('<script>/* Custom Body Tracking Code */</script>')
+                                            ->helperText('سيتم حقن هذه الأكواد تلقائياً قبل إغلاق وسم <body> في الصفحة'),
                                     ]),
                                 Section::make(__('Calculator Limits'))
                                     ->description(__('Configure maximum values for the installment calculator'))

@@ -14,6 +14,7 @@ import MobileBottomNav from "../components/MobileBottomNav";
 import ScrollToTop from "../components/ScrollToTop";
 import WhatsAppWidget from "../components/WhatsAppWidget";
 import { trackPageView } from "../utils/analytics";
+import { injectIntegrations } from "../utils/injectIntegrations";
 
 export default function RootLayout() {
   const { t } = useTranslation();
@@ -33,9 +34,14 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (!loaded || !settings?.favicon) return;
-    const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-    if (link) link.href = getImageUrl(settings.favicon);
+    if (!loaded || !settings) return;
+    if (settings.favicon) {
+      const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+      if (link) link.href = getImageUrl(settings.favicon);
+    }
+    if (settings.integrations) {
+      injectIntegrations(settings.integrations);
+    }
   }, [loaded, settings]);
 
   const navItems = [

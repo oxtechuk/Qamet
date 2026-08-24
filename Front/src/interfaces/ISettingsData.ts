@@ -23,6 +23,20 @@ export interface IContactInfo {
   aftersales_phone: string | null;
 }
 
+export interface IIntegrationsInfo {
+  gtm_id?: string;
+  google_analytics_id?: string;
+  facebook_pixel_id?: string;
+  facebook_capi_token?: string;
+  snapchat_pixel_id?: string;
+  snapchat_capi_token?: string;
+  tiktok_pixel_id?: string;
+  tiktok_capi_token?: string;
+  twitter_pixel_id?: string;
+  header_scripts?: string;
+  body_scripts?: string;
+}
+
 export interface ISettingsData {
   logo: string;
   logo_color: string | null;
@@ -34,4 +48,5 @@ export interface ISettingsData {
   social_media: ISocialMediaItem[];
   hero_video?: string | null;
   hero_video_youtube?: string | null;
+  integrations?: IIntegrationsInfo;
 }

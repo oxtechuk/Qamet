@@ -145,8 +145,21 @@ final class SettingApiService
             'seo' => [
                 'meta_title' => $this->resolveBilingual($settings->get('meta_title', []), $locale),
                 'meta_description' => $this->resolveBilingual($settings->get('meta_description', []), $locale),
-                'google_analytics_id' => $settings->get('google_analytics_id', ''),
-                'facebook_pixel_id' => $settings->get('facebook_pixel_id', ''),
+                'google_analytics_id' => (string) $settings->get('google_analytics_id', ''),
+                'facebook_pixel_id' => (string) $settings->get('facebook_pixel_id', '1252316483659611'),
+            ],
+            'integrations' => [
+                'gtm_id' => (string) $settings->get('gtm_id', 'GTM-5M2CZSCS'),
+                'google_analytics_id' => (string) $settings->get('google_analytics_id', ''),
+                'facebook_pixel_id' => (string) $settings->get('facebook_pixel_id', '1252316483659611'),
+                'facebook_capi_token' => (string) $settings->get('facebook_capi_token', ''),
+                'snapchat_pixel_id' => (string) $settings->get('snapchat_pixel_id', '16663479-4ad1-42f9-885c-eb51993cf1f3'),
+                'snapchat_capi_token' => (string) $settings->get('snapchat_capi_token', ''),
+                'tiktok_pixel_id' => (string) $settings->get('tiktok_pixel_id', 'DA62NE3C77UC8FLJ30EG'),
+                'tiktok_capi_token' => (string) $settings->get('tiktok_capi_token', ''),
+                'twitter_pixel_id' => (string) $settings->get('twitter_pixel_id', ''),
+                'header_scripts' => (string) $settings->get('header_scripts', ''),
+                'body_scripts' => (string) $settings->get('body_scripts', ''),
             ],
             'calculator' => [
                 'max_car_price' => (int) ($settings->get('max_car_price', 2500000)),
