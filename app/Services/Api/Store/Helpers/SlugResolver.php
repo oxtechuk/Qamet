@@ -10,8 +10,19 @@ final class SlugResolver
 {
     public static function applyCarSlug(Builder $query, string $slug): void
     {
-        $query->where(function ($q) use ($slug) {
-            $q->where('slug->en', $slug)->orWhere('slug->ar', $slug);
+        $decoded = urldecode($slug);
+
+        $query->where(function ($q) use ($slug, $decoded) {
+            $q->where('slug->en', $slug)
+                ->orWhere('slug->ar', $slug)
+                ->orWhere('slug->en', $decoded)
+                ->orWhere('slug->ar', $decoded);
+
+            if (strlen($decoded) > 10) {
+                $prefix = mb_substr($decoded, 0, 15);
+                $q->orWhere('slug->ar', 'LIKE', "%{$prefix}%")
+                    ->orWhere('slug->en', 'LIKE', "%{$prefix}%");
+            }
         });
     }
 }

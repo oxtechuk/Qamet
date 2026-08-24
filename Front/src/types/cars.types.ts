@@ -43,6 +43,7 @@ export interface CarColorWithImage {
 export interface FeatureItem {
   id: number;
   name: string;
+  value?: string | null;
   icon: string;
 }
 

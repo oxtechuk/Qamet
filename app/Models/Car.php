@@ -267,7 +267,8 @@ class Car extends Model
 
     public static function generateUniqueSlug(string $name, int $year, string $locale, ?int $excludeCarId = null): string
     {
-        $baseSlug = self::slugify($name);
+        $cleanName = self::sanitizeNameForSlug($name);
+        $baseSlug = self::slugify($cleanName);
 
         if (! str_contains($baseSlug, (string) $year)) {
             $baseSlug .= '-'.$year;
@@ -295,6 +296,29 @@ class Car extends Model
         }
 
         return $slug;
+    }
+
+    public static function sanitizeNameForSlug(string $name): string
+    {
+        $bloatWords = [
+            'زجاج كهرب', 'زجاج', 'كهرب', 'بريمي', 'عبداللطيف جميل', 'سعودي', 'خليجي',
+            'قير عادي', 'قير اوتوماتيك', 'قير أوتوماتيك', 'عادي', 'اوتوماتيك', 'أوتوماتيك',
+            'دبل', 'سلق', 'بدون دبل', 'فل كامل', 'نصف فل', 'نص فل', 'ستاندر',
+        ];
+
+        $cleaned = $name;
+        foreach ($bloatWords as $word) {
+            $cleaned = mb_ireplace($word, '', $cleaned);
+        }
+
+        $words = array_values(array_filter(explode(' ', trim($cleaned))));
+        if (count($words) > 4) {
+            $words = array_slice($words, 0, 4);
+        }
+
+        $result = implode(' ', $words);
+
+        return ! empty(trim($result)) ? $result : $name;
     }
 
     private static function slugify(string $text): string
