@@ -186,8 +186,7 @@ final class ConversionApiService
         }
 
         try {
-            $payload = array_filter([
-                'pixel_id' => $pixelId,
+            $eventData = array_filter([
                 'event_type' => $data['event_name'],
                 'event_conversion_type' => 'WEB',
                 'event_id' => $data['event_id'],
@@ -199,6 +198,11 @@ final class ConversionApiService
                 'price' => $data['value'] > 0 ? $data['value'] : null,
                 'currency' => $data['currency'],
             ]);
+
+            $payload = [
+                'pixel_id' => $pixelId,
+                'data' => [$eventData],
+            ];
 
             $response = $this->httpClient()
                 ->withToken($token)

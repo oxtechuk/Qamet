@@ -20,6 +20,7 @@ export interface IBookingFormData {
   car_count?: number | null;
   booking_type?: string | null;
   notes?: string | null;
+  event_id?: string | null;
 }
 
 export interface IBookingApiResponse {

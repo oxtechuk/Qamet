@@ -13,4 +13,5 @@ export interface IContactFormData {
   subject: string;
   country: string;
   message: string;
+  event_id?: string | null;
 }

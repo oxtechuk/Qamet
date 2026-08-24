@@ -6,7 +6,7 @@ import { useCarSearch } from "../hooks/useCarSearch";
 import { submitBooking } from "../services/api";
 import { getCarBySlug, searchCars } from "../services/api/cars.service";
 import { useSEO } from "../utils/useSEO";
-import { trackLead } from "../utils/analytics";
+import { trackLead, generateEventId } from "../utils/analytics";
 import { CarSelector, OrderForm, TrustBadges } from "../components/orders";
 
 export default function OrdersPage() {
@@ -91,6 +91,9 @@ export default function OrdersPage() {
 
         setSubmitting(true);
         try {
+            // Generate a shared event_id for client ↔ CAPI deduplication
+            const eventId = generateEventId("lead");
+
             await submitBooking({
                 car_id: selectedCar?.id ?? null,
                 payment_method: payment,
@@ -99,6 +102,7 @@ export default function OrdersPage() {
                 car_type: carType.trim() || (selectedCar ? `${selectedCar.name} ${selectedCar.year ?? ""}`.trim() : null),
                 purchase_urgency: purchaseUrgency || null,
                 notes: notes.trim() || null,
+                event_id: eventId,
                 // Finance fields
                 age: payment === "bank" && age ? parseInt(age, 10) : null,
                 work_sector: payment === "bank" ? workSector : null,
@@ -111,6 +115,7 @@ export default function OrdersPage() {
             });
 
             trackLead({
+                eventId,
                 formName: payment === "bank" ? "installment_order" : "cash_order",
                 carName: selectedCar ? selectedCar.name : carType.trim(),
                 orderType: payment === "bank" ? "finance" : "cash",

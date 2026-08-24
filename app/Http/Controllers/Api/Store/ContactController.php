@@ -34,6 +34,7 @@ final class ContactController extends ApiBaseController
         $lead = $this->contactService->submitContactForm($request->validated());
 
         SendConversionEventJob::dispatchAfterResponse([
+            'event_id' => $request->input('event_id') ?: null,
             'event_name' => 'Lead',
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),

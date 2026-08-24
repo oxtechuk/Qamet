@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { submitContactForm } from "../services/api/contact.service";
-import { trackLead } from "../utils/analytics";
+import { trackLead, generateEventId } from "../utils/analytics";
 import type { IContactFormValues } from "../interfaces/IContactFormValues";
 
 const EMPTY_FORM: IContactFormValues = {
@@ -27,6 +27,9 @@ export function useContactForm() {
         setIsSubmitting(true);
         setSubmitStatus("idle");
         try {
+            // Generate a shared event_id for client ↔ CAPI deduplication
+            const eventId = generateEventId("lead");
+
             await submitContactForm({
                 name: values.fullName,
                 phone: values.phone,
@@ -34,9 +37,11 @@ export function useContactForm() {
                 subject: values.subject,
                 country: values.country,
                 message: values.message,
+                event_id: eventId,
             });
 
             trackLead({
+                eventId,
                 formName: "contact_form",
                 name: values.fullName,
                 phone: values.phone,
