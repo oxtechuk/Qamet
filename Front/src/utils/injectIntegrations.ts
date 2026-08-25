@@ -61,7 +61,11 @@ gtag('config', '${cleanGaId}');`;
   // 3. Meta / Facebook Pixel
   if (facebook_pixel_id && facebook_pixel_id.trim().length > 3) {
     const cleanFbId = facebook_pixel_id.trim();
-    if (!document.getElementById("qamet-fb-pixel")) {
+    const basePixelEl = document.getElementById("qamet-fb-pixel-base");
+    const dynamicPixelEl = document.getElementById("qamet-fb-pixel");
+
+    if (!basePixelEl && !dynamicPixelEl) {
+      // No pixel at all — inject fully
       const fbScript = document.createElement("script");
       fbScript.id = "qamet-fb-pixel";
       fbScript.setAttribute(INJECTED_TAG_ATTRIBUTE, "fb");
@@ -76,6 +80,16 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '${cleanFbId}');
 fbq('track', 'PageView');`;
       document.head.appendChild(fbScript);
+    } else if (typeof window.fbq === "function") {
+      // fbq already loaded (from index.html or previous inject) — only add new pixel ID if different
+      const alreadyInitScript = document.getElementById("qamet-fb-pixel-init-" + cleanFbId);
+      if (!alreadyInitScript) {
+        const initScript = document.createElement("script");
+        initScript.id = "qamet-fb-pixel-init-" + cleanFbId;
+        initScript.setAttribute(INJECTED_TAG_ATTRIBUTE, "fb-extra-init");
+        initScript.innerHTML = `fbq('init', '${cleanFbId}');`;
+        document.head.appendChild(initScript);
+      }
     }
   }
 

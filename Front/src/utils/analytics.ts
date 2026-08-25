@@ -22,9 +22,24 @@ export function generateEventId(prefix = "evt"): string {
 }
 
 /**
- * Track SPA PageView across GTM, Meta Pixel, TikTok Pixel, and Snapchat Pixel
+ * Flag to skip the very first SPA PageView call when the pixel already
+ * fired a PageView from index.html on initial load.
+ */
+let _firstPageViewSent = false;
+
+/**
+ * Track SPA PageView across GTM, Meta Pixel, TikTok Pixel, and Snapchat Pixel.
+ * Skips the first call to avoid duplicating the PageView already fired by
+ * the inline pixel snippet in index.html on initial page load.
  */
 export function trackPageView(path: string, title?: string): void {
+  // On the very first render the pixel in index.html already fired a PageView.
+  // Skip here and mark as handled so subsequent SPA navigations are tracked.
+  if (!_firstPageViewSent) {
+    _firstPageViewSent = true;
+    return;
+  }
+
   try {
     const pageTitle = title || document.title;
     const pageUrl = window.location.href;
@@ -55,6 +70,42 @@ export function trackPageView(path: string, title?: string): void {
     }
   } catch (err) {
     console.debug("[Analytics] trackPageView error:", err);
+  }
+}
+
+/**
+ * Track 404 Not Found pages as a custom event so they can be filtered
+ * out in Meta Events Manager and excluded from conversion reports.
+ */
+export function track404Page(path?: string): void {
+  try {
+    const page = path || window.location.pathname;
+
+    // GTM dataLayer — custom event for filtering in GA4 / GTM
+    if (window.dataLayer && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: "page_not_found",
+        page_path: page,
+        page_location: window.location.href,
+      });
+    }
+
+    // Meta Pixel — custom event (filterable in Events Manager)
+    if (typeof window.fbq === "function") {
+      window.fbq("trackCustom", "PageNotFound", { page_path: page });
+    }
+
+    // TikTok Pixel
+    if (window.ttq && typeof window.ttq.track === "function") {
+      window.ttq.track("PageNotFound", { page_path: page });
+    }
+
+    // Snapchat Pixel
+    if (typeof window.snaptr === "function") {
+      window.snaptr("track", "CUSTOM_EVENT_2", { event_name: "page_not_found", page_path: page });
+    }
+  } catch (err) {
+    console.debug("[Analytics] track404Page error:", err);
   }
 }
 
