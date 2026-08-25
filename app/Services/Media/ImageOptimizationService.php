@@ -97,10 +97,9 @@ class ImageOptimizationService
         $filename = Str::random(40).'.webp';
         $targetPath = trim($directory, '/').'/'.$filename;
 
-        $stream = fopen($tempPath, 'r');
-        Storage::disk($disk)->put($targetPath, $stream, 'public');
-
+        $stream = @fopen($tempPath, 'r');
         if (is_resource($stream)) {
+            Storage::disk($disk)->put($targetPath, $stream, 'public');
             fclose($stream);
         }
 
