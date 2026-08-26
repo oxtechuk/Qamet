@@ -87,8 +87,9 @@ final class ConversionApiService
 
     private function sendToMeta(array $data): void
     {
-        $pixelId = config('services.meta.pixel_id');
-        $token = config('services.meta.capi_token');
+        $settings = app(\App\Services\Cache\BaseCacheService::class)->rememberSettings();
+        $pixelId = $settings->get('facebook_pixel_id') ?: config('services.meta.pixel_id');
+        $token = $settings->get('facebook_capi_token') ?: config('services.meta.capi_token');
 
         if (! $pixelId || ! $token) {
             return;
@@ -132,8 +133,9 @@ final class ConversionApiService
 
     private function sendToTikTok(array $data): void
     {
-        $pixelId = config('services.tiktok.pixel_id');
-        $token = config('services.tiktok.capi_token');
+        $settings = app(\App\Services\Cache\BaseCacheService::class)->rememberSettings();
+        $pixelId = $settings->get('tiktok_pixel_id') ?: config('services.tiktok.pixel_id');
+        $token = $settings->get('tiktok_capi_token') ?: config('services.tiktok.capi_token');
 
         if (! $pixelId || ! $token) {
             return;
@@ -178,8 +180,9 @@ final class ConversionApiService
 
     private function sendToSnapchat(array $data): void
     {
-        $pixelId = config('services.snapchat.pixel_id');
-        $token = config('services.snapchat.capi_token');
+        $settings = app(\App\Services\Cache\BaseCacheService::class)->rememberSettings();
+        $pixelId = $settings->get('snapchat_pixel_id') ?: config('services.snapchat.pixel_id');
+        $token = $settings->get('snapchat_capi_token') ?: config('services.snapchat.capi_token');
 
         if (! $pixelId || ! $token) {
             return;

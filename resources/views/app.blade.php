@@ -11,10 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
     @php
-        $gtmId = config('services.gtm.id');
-        $metaPixelId = config('services.meta.pixel_id');
-        $tiktokPixelId = config('services.tiktok.pixel_id');
-        $snapchatPixelId = config('services.snapchat.pixel_id');
+        $settings = $globalSettings ?? collect();
+        $gtmId = $settings->get('gtm_id') ?: config('services.gtm.id');
+        $metaPixelId = $settings->get('facebook_pixel_id') ?: config('services.meta.pixel_id');
+        $tiktokPixelId = $settings->get('tiktok_pixel_id') ?: config('services.tiktok.pixel_id');
+        $snapchatPixelId = $settings->get('snapchat_pixel_id') ?: config('services.snapchat.pixel_id');
     @endphp
 
     @if ($gtmId)

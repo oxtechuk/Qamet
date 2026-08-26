@@ -41,8 +41,8 @@ return [
     ],
 
     'tiktok' => [
-        'pixel_id' => env('TIKTOK_PIXEL_ID', 'D9IS4RRC77U13TU259K0'),
-        'capi_token' => env('TIKTOK_CAPI_TOKEN', 'cf43cf0e3ff1cfbb76b1a537cb864af263b66bae'),
+        'pixel_id' => env('TIKTOK_PIXEL_ID', 'DA62NE3C77UC8FLJ30EG'),
+        'capi_token' => env('TIKTOK_CAPI_TOKEN', '70b2255b67cb35242f1a8b8957093fc7c2d45d57'),
     ],
 
     'snapchat' => [
