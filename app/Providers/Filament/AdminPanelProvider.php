@@ -124,10 +124,10 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook('panels::head.end', function (): string {
                 $dir = app()->isLocale('ar') ? 'rtl' : 'ltr';
                 $cssUrl = asset('css/filament/dashboard.css');
-                $cssPath = resource_path('css/filament/dashboard.css');
+                $cssPath = public_path('css/filament/dashboard.css');
                 $version = file_exists($cssPath) ? filemtime($cssPath) : '1.0';
 
-                return "<script>document.documentElement.setAttribute('dir', '{$dir}')</script><link rel=\"stylesheet\" href=\"{$cssUrl}?v={$version}\">";
+                return "<script>document.documentElement.setAttribute('dir', '{$dir}'); document.documentElement.setAttribute('translate', 'no'); document.documentElement.classList.add('notranslate');</script><link rel=\"stylesheet\" href=\"{$cssUrl}?v={$version}\">";
             });
     }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />

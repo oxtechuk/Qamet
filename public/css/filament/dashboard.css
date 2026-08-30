@@ -393,7 +393,15 @@ div.bg-white {
     border-radius: var(--dashboard-card-radius) !important;
     box-shadow: var(--dashboard-shadow) !important;
     color: var(--text-dark) !important;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Prevent Google Translate & Browser Extensions from adding blue background highlights to text */
+.goog-text-highlight,
+font[style*="background-color"],
+span[style*="background-color"] {
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .fi-stats-overview-stat:hover,
