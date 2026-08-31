@@ -30,10 +30,34 @@ class RecentOrdersTable extends BaseWidget
 
     public function table(Table $table): Table
     {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+        $query = Booking::with(['car.brand', 'assignedTo'])->latest();
+
+        if ($user && ! $user->isAdmin()) {
+            $canCash = $user->hasPermission('manage-cash-bookings');
+            $canFinance = $user->hasPermission('manage-finance-bookings');
+            $canCorporate = $user->hasPermission('manage-corporate-bookings');
+            $canAll = $user->hasPermission('manage-bookings');
+
+            if (! $canAll) {
+                $query->where(function ($q) use ($user, $canCash, $canFinance, $canCorporate) {
+                    $q->where('assigned_to', $user->id);
+
+                    if ($canCash) {
+                        $q->orWhere(fn ($cq) => $cq->where('payment_method', 'cash')->whereNull('assigned_to'));
+                    }
+                    if ($canFinance) {
+                        $q->orWhere(fn ($fq) => $fq->whereIn('payment_method', ['bank', 'finance', 'installment'])->whereNull('assigned_to'));
+                    }
+                    if ($canCorporate) {
+                        $q->orWhere(fn ($corq) => $corq->where('booking_type', 'corporate')->whereNull('assigned_to'));
+                    }
+                });
+            }
+        }
+
         return $table
-            ->query(
-                Booking::with(['car.brand', 'assignedTo'])->latest()->limit(5)
-            )
+            ->query($query->limit(5))
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label(__('ID'))

@@ -29,7 +29,10 @@ class MonthlyRevenueChart extends ChartWidget
 
     protected function getData(): array
     {
-        return Cache::remember('dashboard_monthly_revenue_chart', 600, function () {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+        $cacheKey = $user && ! $user->isAdmin() ? 'dashboard_monthly_rev_user_'.$user->id : 'dashboard_monthly_revenue_chart';
+
+        return Cache::remember($cacheKey, 120, function () use ($user) {
             $driver = DB::connection()->getDriverName();
             $monthExpr = $driver === 'sqlite'
                 ? "CAST(strftime('%m', created_at) AS INTEGER)"
@@ -38,7 +41,13 @@ class MonthlyRevenueChart extends ChartWidget
                 ? "CAST(strftime('%Y', created_at) AS INTEGER)"
                 : 'YEAR(created_at)';
 
-            $revenue = Booking::where('status', 'sold')
+            $query = Booking::where('status', 'sold');
+
+            if ($user && ! $user->isAdmin()) {
+                $query->where('assigned_to', $user->id);
+            }
+
+            $revenue = $query
                 ->select(
                     DB::raw("{$monthExpr} as month"),
                     DB::raw("{$yearExpr} as year"),

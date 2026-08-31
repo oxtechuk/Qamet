@@ -29,7 +29,10 @@ class SalesTrendChart extends ChartWidget
 
     protected function getData(): array
     {
-        return Cache::remember('dashboard_sales_trend_chart', 600, function () {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+        $cacheKey = $user && ! $user->isAdmin() ? 'dashboard_sales_trend_user_'.$user->id : 'dashboard_sales_trend_chart';
+
+        return Cache::remember($cacheKey, 120, function () use ($user) {
             $currentMonth = (int) now()->format('n');
             $driver = DB::connection()->getDriverName();
             $monthExpr = $driver === 'sqlite'
@@ -39,7 +42,13 @@ class SalesTrendChart extends ChartWidget
                 ? "CAST(strftime('%Y', created_at) AS INTEGER)"
                 : 'YEAR(created_at)';
 
-            $sales = Booking::select(
+            $query = Booking::query();
+
+            if ($user && ! $user->isAdmin()) {
+                $query->where('assigned_to', $user->id);
+            }
+
+            $sales = $query->select(
                 DB::raw("{$monthExpr} as month"),
                 DB::raw("{$yearExpr} as year"),
                 DB::raw("SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as completed"),

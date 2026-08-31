@@ -30,10 +30,15 @@ class RecentPaymentsWidget extends BaseWidget
 
     public function table(Table $table): Table
     {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+        $query = Booking::whereNotNull('down_payment')->latest();
+
+        if ($user && ! $user->isAdmin()) {
+            $query->where('assigned_to', $user->id);
+        }
+
         return $table
-            ->query(
-                Booking::whereNotNull('down_payment')->latest()->limit(5)
-            )
+            ->query($query->limit(5))
             ->columns([
                 Tables\Columns\TextColumn::make('client_name')
                     ->label(__('Client'))
