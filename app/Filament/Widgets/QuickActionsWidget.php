@@ -17,6 +17,32 @@ class QuickActionsWidget extends Widget implements HasActions
 
     protected string $view = 'filament.widgets.quick-actions';
 
+    public static function canView(): bool
+    {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+
+        if (! $user) {
+            return false;
+        }
+
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return $user->hasPermission([
+            'manage-bookings',
+            'manage-cash-bookings',
+            'manage-finance-bookings',
+            'manage-corporate-bookings',
+            'manage-leads',
+            'manage-cars',
+            'manage-brands',
+            'manage-offers',
+            'manage-tasks',
+            'manage-employees',
+        ]);
+    }
+
     public function addCarAction(): Action
     {
         return Action::make('addCar')
