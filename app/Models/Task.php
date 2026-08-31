@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'title', 'description', 'status', 'priority',
         'assigned_to', 'due_date', 'created_by', 'booking_id',

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\HasBilingualFields;
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 class Offer extends Model
 {
-    use HasBilingualFields, HasTranslations;
+    use HasBilingualFields, HasTranslations, LogsActivity;
 
     public $translatable = ['title', 'description'];
 

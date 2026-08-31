@@ -26,14 +26,47 @@ class EditCar extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $data['exterior_images'] = $this->record->exterior_images;
-        $data['interior_images'] = $this->record->interior_images;
+        $data['exterior_images'] = $this->sanitizeImagePaths($this->record->exterior_images);
+        $data['interior_images'] = $this->sanitizeImagePaths($this->record->interior_images);
 
-        if (empty($data['exterior_colors']) && ! empty($this->record->colors)) {
-            $data['exterior_colors'] = $this->record->colors;
+        if (! empty($data['thumbnail']) && (str_contains((string) $data['thumbnail'], 'livewire-tmp') || ! is_string($data['thumbnail']))) {
+            $data['thumbnail'] = null;
+        }
+
+        $colors = ! empty($data['exterior_colors']) ? $data['exterior_colors'] : $this->record->colors;
+        if (is_array($colors)) {
+            foreach ($colors as &$color) {
+                if (isset($color['images']) && is_array($color['images'])) {
+                    $color['images'] = $this->sanitizeImagePaths($color['images']);
+                }
+            }
+            unset($color);
+            $data['exterior_colors'] = $colors;
+        }
+
+        $interiorColors = $data['interior_colors'] ?? null;
+        if (is_array($interiorColors)) {
+            foreach ($interiorColors as &$color) {
+                if (isset($color['images']) && is_array($color['images'])) {
+                    $color['images'] = $this->sanitizeImagePaths($color['images']);
+                }
+            }
+            unset($color);
+            $data['interior_colors'] = $interiorColors;
         }
 
         return $data;
+    }
+
+    private function sanitizeImagePaths(mixed $paths): array
+    {
+        if (! is_array($paths)) {
+            $paths = $paths ? [$paths] : [];
+        }
+
+        return array_values(array_filter($paths, function ($path) {
+            return is_string($path) && ! empty($path) && ! str_contains($path, 'livewire-tmp');
+        }));
     }
 
     protected function mutateFormDataBeforeSave(array $data): array

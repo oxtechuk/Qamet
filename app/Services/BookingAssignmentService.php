@@ -78,29 +78,46 @@ class BookingAssignmentService
         $isCash = $booking->payment_method === 'cash';
         $isCorporate = $booking->booking_type === 'corporate';
 
-        if ($isCash) {
-            $requiredPermissions = ['manage-cash-bookings', 'manage-bookings'];
-        } elseif ($isCorporate) {
-            $requiredPermissions = ['manage-corporate-bookings', 'manage-finance-bookings', 'manage-bookings'];
-        } else {
-            $requiredPermissions = ['manage-finance-bookings', 'manage-bookings'];
-        }
-
         return Employee::where('is_active', true)
             ->orderBy('id')
             ->get()
-            ->filter(function (Employee $employee) use ($isCash, $requiredPermissions) {
-                // Must have one of the required booking permissions
-                if (! $employee->hasPermission($requiredPermissions)) {
+            ->filter(function (Employee $employee) use ($isCash, $isCorporate) {
+                // 1. Exclude Admin, Manager, and Data Entry
+                if ($employee->isAdmin() || in_array($employee->role, ['admin', 'manager', 'data_entry'])) {
                     return false;
                 }
 
-                // If sales_type is explicitly restricting, respect it
-                if ($isCash && $employee->sales_type === 'finance') {
+                if ($employee->hasAnyRole(['admin', 'Super Admin', 'manager', 'data_entry', 'Data Entry', 'مدير', 'مدخل بيانات'], 'employee')) {
                     return false;
                 }
-                if (! $isCash && $employee->sales_type === 'cash') {
+
+                // 2. Must have sales_type set (not empty or none)
+                if (empty($employee->sales_type) || $employee->sales_type === 'none') {
                     return false;
+                }
+
+                // 3. Must match payment method / booking type:
+                if ($isCash) {
+                    if (! in_array($employee->sales_type, ['cash', 'all'])) {
+                        return false;
+                    }
+                    if (! $employee->hasPermission(['manage-cash-bookings', 'manage-bookings'])) {
+                        return false;
+                    }
+                } elseif ($isCorporate) {
+                    if (! in_array($employee->sales_type, ['corporate', 'finance', 'all'])) {
+                        return false;
+                    }
+                    if (! $employee->hasPermission(['manage-corporate-bookings', 'manage-finance-bookings', 'manage-bookings'])) {
+                        return false;
+                    }
+                } else {
+                    if (! in_array($employee->sales_type, ['finance', 'all'])) {
+                        return false;
+                    }
+                    if (! $employee->hasPermission(['manage-finance-bookings', 'manage-bookings'])) {
+                        return false;
+                    }
                 }
 
                 return true;
@@ -189,6 +206,18 @@ class BookingAssignmentService
             ->orderBy('id')
             ->get()
             ->filter(function (Employee $employee) {
+                if ($employee->isAdmin() || in_array($employee->role, ['admin', 'manager', 'data_entry'])) {
+                    return false;
+                }
+
+                if ($employee->hasAnyRole(['admin', 'Super Admin', 'manager', 'data_entry', 'Data Entry', 'مدير', 'مدخل بيانات'], 'employee')) {
+                    return false;
+                }
+
+                if (empty($employee->sales_type) || $employee->sales_type === 'none') {
+                    return false;
+                }
+
                 return $employee->hasPermission(['manage-leads', 'manage-bookings', 'manage-cash-bookings', 'manage-finance-bookings']);
             })
             ->values();

@@ -43,12 +43,18 @@ class ListBookings extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->corporate())
                 ->badge((clone $baseQuery)->corporate()->count()),
 
+            'under_review' => Tab::make('طلبات المراجعة')
+                ->icon('heroicon-m-exclamation-triangle')
+                ->modifyQueryUsing(fn (Builder $query) => $query->underReview())
+                ->badge((clone $baseQuery)->underReview()->count())
+                ->badgeColor('danger'),
+
             'completed' => Tab::make('طلبات مكتملة')
                 ->icon('heroicon-m-check-badge')
                 ->modifyQueryUsing(fn (Builder $query) => $query->completed())
                 ->badge((clone $baseQuery)->completed()->count()),
 
-            'cancelled' => Tab::make('طلبات ملغية')
+            'cancelled' => Tab::make('طلبات ملغية ومرفوضة')
                 ->icon('heroicon-m-x-circle')
                 ->modifyQueryUsing(fn (Builder $query) => $query->cancelled())
                 ->badge((clone $baseQuery)->cancelled()->count()),

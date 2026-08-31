@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'car_id', 'car_type', 'car_count', 'payment_method', 'assigned_to', 'client_name',
         'company_name', 'client_phone', 'client_email', 'age', 'work_sector', 'salary',
@@ -37,11 +40,14 @@ class Booking extends Model
     ];
 
     const STATUSES = [
-        'new' => ['label' => 'جديد',          'color' => 'primary'],
-        'contacted' => ['label' => 'تم التواصل',     'color' => 'info'],
-        'interested' => ['label' => 'مهتم',           'color' => 'warning'],
-        'rejected' => ['label' => 'مرفوض',          'color' => 'danger'],
-        'sold' => ['label' => 'تم البيع ✓',     'color' => 'success'],
+        'new' => ['label' => 'جديد', 'color' => 'primary'],
+        'contacted' => ['label' => 'تم التواصل', 'color' => 'info'],
+        'interested' => ['label' => 'مهتم', 'color' => 'warning'],
+        'negotiation' => ['label' => 'تفاوض / عروض', 'color' => 'warning'],
+        'under_review' => ['label' => 'طلب إغلاق / مراجعة الإدارة', 'color' => 'danger'],
+        'rejected' => ['label' => 'مرفوض', 'color' => 'danger'],
+        'cancelled' => ['label' => 'ملغي', 'color' => 'gray'],
+        'sold' => ['label' => 'تم البيع ✓', 'color' => 'success'],
     ];
 
     protected static function booted(): void
@@ -152,6 +158,11 @@ class Booking extends Model
             $q->whereIn('payment_method', ['bank', 'finance', 'installment'])
                 ->orWhereNull('payment_method');
         });
+    }
+
+    public function scopeUnderReview($query)
+    {
+        return $query->where('status', 'under_review');
     }
 
     public function scopeCorporate($query)

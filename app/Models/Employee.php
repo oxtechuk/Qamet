@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends Authenticatable implements FilamentUser
 {
-    use HasRoles, Notifiable;
+    use HasRoles, LogsActivity, Notifiable;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -63,17 +64,11 @@ class Employee extends Authenticatable implements FilamentUser
 
     public function isCashRep(): bool
     {
-        return $this->isAdmin()
-            || $this->hasPermission('manage-cash-bookings')
-            || $this->hasPermission('manage-bookings')
-            || in_array($this->sales_type, ['cash', 'all']);
+        return ! $this->isAdmin() && in_array($this->sales_type, ['cash', 'all']);
     }
 
     public function isFinanceRep(): bool
     {
-        return $this->isAdmin()
-            || $this->hasPermission('manage-finance-bookings')
-            || $this->hasPermission('manage-bookings')
-            || in_array($this->sales_type, ['finance', 'all']);
+        return ! $this->isAdmin() && in_array($this->sales_type, ['finance', 'all']);
     }
 }

@@ -78,9 +78,12 @@ class EmployeeResource extends Resource
                                 'all' => 'شامل (كاش وتقسيط)',
                                 'cash' => 'مندوب مبيعات كاش فقط',
                                 'finance' => 'مندوب مبيعات تقسيط / تمويل فقط',
+                                'corporate' => 'تمويل شركات',
+                                'none' => 'ليس مندوب مبيعات (إدارة / مدخل بيانات)',
                             ])
                             ->default('all')
-                            ->helperText('يحدد نوع الطلبات التي يتم تعيينها للمندوب تلقائياً'),
+                            ->dehydrateStateUsing(fn ($state) => $state ?: 'all')
+                            ->helperText('يحدد نوع الطلبات التي يتم تعيينها للموظف تلقائياً (اختر ليس مندوب للإداريين)'),
                         Forms\Components\FileUpload::make('avatar')
                             ->label(__('Avatar'))
                             ->image()

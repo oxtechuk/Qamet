@@ -279,15 +279,30 @@ class BookingResource extends Resource
                             ->icon('heroicon-o-flag')
                             ->schema([
                                 Forms\Components\Select::make('status')->label(__('Status'))
-                                    ->options([
-                                        'new' => __('New'),
-                                        'contacted' => __('Contacted'),
-                                        'interested' => __('Interested'),
-                                        'negotiation' => __('Negotiation'),
-                                        'sold' => __('Sold'),
-                                        'rejected' => __('Rejected'),
-                                        'cancelled' => __('Cancelled'),
-                                    ])
+                                    ->options(function () {
+                                        $isAdmin = (bool) Auth::guard('employee')->user()?->isAdmin();
+                                        if ($isAdmin) {
+                                            return [
+                                                'new' => __('New'),
+                                                'contacted' => __('Contacted'),
+                                                'interested' => __('Interested'),
+                                                'negotiation' => __('Negotiation'),
+                                                'sold' => __('Sold'),
+                                                'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                                                'rejected' => __('Rejected'),
+                                                'cancelled' => __('Cancelled'),
+                                            ];
+                                        }
+
+                                        return [
+                                            'new' => __('New'),
+                                            'contacted' => __('Contacted'),
+                                            'interested' => __('Interested'),
+                                            'negotiation' => __('Negotiation'),
+                                            'sold' => __('Sold'),
+                                            'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                                        ];
+                                    })
                                     ->required(),
                                 Forms\Components\Select::make('assigned_to')->label(__('Assigned To'))
                                     ->relationship('assignedTo', 'name')
@@ -398,10 +413,12 @@ class BookingResource extends Resource
                         'contacted' => __('Contacted'),
                         'interested' => __('Interested'),
                         'negotiation' => __('Negotiation'),
+                        'under_review' => 'طلب إغلاق / مراجعة الإدارة',
                         'sold' => __('Sold'),
                         'rejected' => __('Rejected'),
                         'cancelled' => __('Cancelled'),
                     ])
+                    ->disabled(fn () => ! (Auth::guard('employee')->user()?->isAdmin()))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
@@ -545,20 +562,91 @@ class BookingResource extends Resource
                     ->form([
                         Forms\Components\Select::make('status')
                             ->label(__('الحالة'))
-                            ->options([
-                                'new' => __('New'),
-                                'contacted' => __('Contacted'),
-                                'interested' => __('Interested'),
-                                'negotiation' => __('Negotiation'),
-                                'sold' => __('Sold'),
-                                'rejected' => __('Rejected'),
-                                'cancelled' => __('Cancelled'),
-                            ])
+                            ->options(function () {
+                                $isAdmin = (bool) Auth::guard('employee')->user()?->isAdmin();
+                                if ($isAdmin) {
+                                    return [
+                                        'new' => __('New'),
+                                        'contacted' => __('Contacted'),
+                                        'interested' => __('Interested'),
+                                        'negotiation' => __('Negotiation'),
+                                        'sold' => __('Sold'),
+                                        'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                                        'rejected' => __('Rejected'),
+                                        'cancelled' => __('Cancelled'),
+                                    ];
+                                }
+
+                                return [
+                                    'new' => __('New'),
+                                    'contacted' => __('Contacted'),
+                                    'interested' => __('Interested'),
+                                    'negotiation' => __('Negotiation'),
+                                    'sold' => __('Sold'),
+                                    'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                                ];
+                            })
                             ->default(fn (Booking $record) => $record->status)
                             ->required(),
                     ])
                     ->action(function (Booking $record, array $data) {
                         $record->update(['status' => $data['status']]);
+                    }),
+                Actions\Action::make('request_rejection')
+                    ->label('طلب إغلاق / رفض')
+                    ->icon('heroicon-o-exclamation-triangle')
+                    ->color('danger')
+                    ->visible(fn (Booking $record) => ! in_array($record->status, ['rejected', 'cancelled', 'under_review']))
+                    ->form([
+                        Forms\Components\Select::make('reason')
+                            ->label('سبب طلب الإغلاق / الرفض')
+                            ->options([
+                                'low_salary' => 'عدم استيفاء شروط الراتب / الالتزامات',
+                                'bank_rejected' => 'رفض البنك للطلب التمويلي',
+                                'unresponsive' => 'العميل غير جاد / لا يرد على الاتصالات',
+                                'bought_elsewhere' => 'العميل اشترى من جهة أخرى / صرف النظر',
+                                'car_unavailable' => 'عدم توفر السيارة المطلوبة',
+                                'other' => 'سبب آخر (موضح بالملاحظات أدناه)',
+                            ])
+                            ->required(),
+                        Forms\Components\Textarea::make('details')
+                            ->label('تفاصيل وملاحظات للمراجعة الإدارية')
+                            ->placeholder('اكتب تفاصيل التواصل مع العميل وسبب طلب الإغلاق لتقييم الإدارة...')
+                            ->required()
+                            ->rows(3),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        $reasonLabel = match ($data['reason']) {
+                            'low_salary' => 'عدم استيفاء شروط الراتب/الالتزامات',
+                            'bank_rejected' => 'رفض البنك للطلب',
+                            'unresponsive' => 'العميل غير جاد / لا يرد',
+                            'bought_elsewhere' => 'العميل اشترى من جهة أخرى / صرف النظر',
+                            'car_unavailable' => 'عدم توفر السيارة المطلوبة',
+                            default => 'سبب آخر',
+                        };
+
+                        $user = Auth::guard('employee')->user();
+                        $repName = $user?->name ?: 'المندوب';
+
+                        $noteEntry = "\n[طلب إغلاق/رفض من {$repName} - السبب: {$reasonLabel} | التفاصيل: {$data['details']}]";
+
+                        $record->update([
+                            'status' => 'under_review',
+                            'notes' => trim(($record->notes ?? '').$noteEntry),
+                        ]);
+
+                        \App\Services\ActivityLog\ActivityLogger::log(
+                            action: 'status_changed',
+                            subjectType: 'طلب حجز',
+                            subjectId: $record->id,
+                            subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
+                            description: "طلب المندوب {$repName} إغلاق/رفض الطلب رقم #{$record->id} (السبب: {$reasonLabel})"
+                        );
+
+                        \Filament\Notifications\Notification::make()
+                            ->title('تم إرسال طلب الإغلاق والرفض لمراجعة الإدارة بنجاح')
+                            ->success()
+                            ->send();
                     }),
                 Actions\Action::make('create_task')
                     ->label(__('Follow-up Task'))
