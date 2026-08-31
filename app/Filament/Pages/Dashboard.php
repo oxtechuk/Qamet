@@ -24,7 +24,7 @@ class Dashboard extends BaseDashboard
     {
         $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
 
-        return $user && ($user->isAdmin() || $user->hasPermission('manage-dashboard'));
+        return (bool) $user?->is_active;
     }
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-home';
