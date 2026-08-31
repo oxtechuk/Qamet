@@ -27,7 +27,7 @@ final class SettingApiService
     ];
 
     private const IMAGE_KEYS = [
-        'site_logo', 'site_logo_color', 'site_favicon', 'breadcrumb_bg', 'hero_video',
+        'site_logo', 'site_logo_color', 'site_favicon', 'breadcrumb_bg', 'hero_video', 'hero_video_mobile',
         'hero_ad_1_image', 'hero_ad_2_image', 'page_loader_image',
         'store_img_hero_mask', 'store_img_hero_card_1', 'store_img_hero_card_3',
         'store_img_business_1', 'store_img_offer_banner_left',
@@ -95,7 +95,9 @@ final class SettingApiService
             ],
             'social_media' => $socialMedia,
             'hero_video' => $this->resolveUrl($settings->get('hero_video')),
+            'hero_video_mobile' => $this->resolveUrl($settings->get('hero_video_mobile')),
             'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale),
+            'hero_video_youtube_mobile' => $this->resolveBilingual($settings->get('hero_video_youtube_mobile', []), $locale),
         ];
     }
 
@@ -121,7 +123,9 @@ final class SettingApiService
                 'footer_text' => $this->resolveBilingual($settings->get('footer_text', ''), $locale),
                 'breadcrumb_bg' => $this->resolveUrl($settings->get('breadcrumb_bg')),
                 'hero_video' => $this->resolveUrl($settings->get('hero_video')),
+                'hero_video_mobile' => $this->resolveUrl($settings->get('hero_video_mobile')),
                 'hero_video_youtube' => $this->resolveBilingual($settings->get('hero_video_youtube', []), $locale),
+                'hero_video_youtube_mobile' => $this->resolveBilingual($settings->get('hero_video_youtube_mobile', []), $locale),
                 'page_loader' => [
                     'enabled' => (bool) $settings->get('page_loader_enabled', false),
                     'image' => $this->resolveUrl($settings->get('page_loader_image')),

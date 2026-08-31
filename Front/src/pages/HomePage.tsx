@@ -249,7 +249,9 @@ export default function Home() {
             <HomeHero
                 slides={heroSlides}
                 heroVideoUrl={settings?.hero_video || undefined}
+                heroVideoMobileUrl={settings?.hero_video_mobile || undefined}
                 heroVideoYoutube={settings?.hero_video_youtube || undefined}
+                heroVideoYoutubeMobile={settings?.hero_video_youtube_mobile || undefined}
                 filterBrands={
                     ((data?.filter_brand_types?.length
                         ? data.filter_brand_types

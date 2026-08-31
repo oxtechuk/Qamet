@@ -47,6 +47,8 @@ export interface ISettingsData {
   working_hours: IWorkingHours;
   social_media: ISocialMediaItem[];
   hero_video?: string | null;
+  hero_video_mobile?: string | null;
   hero_video_youtube?: string | null;
+  hero_video_youtube_mobile?: string | null;
   integrations?: IIntegrationsInfo;
 }

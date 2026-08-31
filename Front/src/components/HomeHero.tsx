@@ -51,15 +51,17 @@ const HERO_ANIMATIONS = `
 
 function getYoutubeId(url?: string): string | null {
     if (!url || typeof url !== 'string') return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp = /(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*)/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return (match && match[1] && match[1].length === 11) ? match[1] : null;
 }
 
 export default function HomeHero({
     slides,
     heroVideoUrl,
+    heroVideoMobileUrl,
     heroVideoYoutube,
+    heroVideoYoutubeMobile,
     filterBrands,
     filterTypes,
     filterCategories,
@@ -75,6 +77,18 @@ export default function HomeHero({
     const settings = useSettingsStore((state) => state.settings);
 
     const isRTL = direction === "rtl";
+
+    const [isMobile, setIsMobile] = useState(() =>
+        typeof window !== "undefined" ? window.innerWidth < 768 : false
+    );
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -120,6 +134,11 @@ export default function HomeHero({
             return nextMuted;
         });
     }, []);
+
+    const activeYoutubeUrl = isMobile && heroVideoYoutubeMobile ? heroVideoYoutubeMobile : heroVideoYoutube;
+    const activeYoutubeId = getYoutubeId(activeYoutubeUrl) || (isMobile ? getYoutubeId(heroVideoYoutube) : null);
+
+    const activeVideoUrl = isMobile && heroVideoMobileUrl ? heroVideoMobileUrl : (heroVideoUrl || (isMobile ? heroVideoMobileUrl : undefined));
 
     const totalSlides = slides.length;
     const current = (slides && slides.length > 0) ? slides[currentSlide] : null;
@@ -184,7 +203,7 @@ export default function HomeHero({
         { label: t("nav.contact"), path: "/contact" },
     ];
 
-    const hasVideo = !!(getYoutubeId(heroVideoYoutube) || heroVideoUrl);
+    const hasVideo = !!(activeYoutubeId || activeVideoUrl || getYoutubeId(heroVideoYoutube) || heroVideoUrl);
 
     if (totalSlides === 0 && !hasVideo) {
         return null;
@@ -202,21 +221,23 @@ export default function HomeHero({
                 <div className="relative min-h-0 flex-1 overflow-hidden rounded-t-[16px] border-[5px] border-white bg-black mx-2 mt-2">
                     {/* Background slider / video */}
                     <div className="absolute inset-0">
-                        {getYoutubeId(heroVideoYoutube) ? (
+                        {activeYoutubeId ? (
                             <div className="absolute inset-0 overflow-hidden bg-black flex items-center justify-center">
                                 <iframe
+                                    key={activeYoutubeId}
                                     ref={iframeRef}
-                                    src={`https://www.youtube.com/embed/${getYoutubeId(heroVideoYoutube)}?autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(heroVideoYoutube)}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=1&loop=1&playlist=${activeYoutubeId}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                                     title="YouTube Hero Video Background"
                                     frameBorder="0"
                                     allow="autoplay; encrypted-media"
                                     className="w-full h-full pointer-events-none border-0"
                                 />
                             </div>
-                        ) : heroVideoUrl ? (
+                        ) : activeVideoUrl ? (
                             <video
+                                key={activeVideoUrl}
                                 ref={videoRef}
-                                src={heroVideoUrl}
+                                src={activeVideoUrl}
                                 autoPlay
                                 muted
                                 loop
@@ -317,7 +338,7 @@ export default function HomeHero({
 
 
                     {/* Hero text */}
-                    {current && (
+                    {current && (current.title || current.subtitle || current.description || current.buttonText || current.button2Text) ? (
                         <div
                             className={[
                                 "absolute z-20",
@@ -354,45 +375,47 @@ export default function HomeHero({
                                     </p>
                                 )}
 
-                                <div
-                                    className={[
-                                        "mt-5 flex flex-col justify-center items-center gap-3",
-                                        "sm:flex-row",
-                                    ].join(" ")}
-                                >
-                                    {current.buttonText && (
-                                        <NavLink
-                                            to={current.buttonLink || "/cars"}
-                                            className={[
-                                                "flex min-h-[42px] min-w-[120px] items-center justify-center",
-                                                "rounded-[10px] bg-[var(--brand-secondary-color)] px-6",
-                                                "text-[13px] font-bold text-[var(--brand-primary-color)]",
-                                                "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-                                                "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
-                                            ].join(" ")}
-                                        >
-                                            {current.buttonText}
-                                        </NavLink>
-                                    )}
+                                {(current.buttonText || current.button2Text) && (
+                                    <div
+                                        className={[
+                                            "mt-5 flex flex-col justify-center items-center gap-3",
+                                            "sm:flex-row",
+                                        ].join(" ")}
+                                    >
+                                        {current.buttonText && (
+                                            <NavLink
+                                                to={current.buttonLink || "/cars"}
+                                                className={[
+                                                    "flex min-h-[42px] min-w-[120px] items-center justify-center",
+                                                    "rounded-[10px] bg-[var(--brand-secondary-color)] px-6",
+                                                    "text-[13px] font-bold text-[var(--brand-primary-color)]",
+                                                    "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                                                    "transition duration-300 hover:-translate-y-0.5 hover:brightness-105",
+                                                ].join(" ")}
+                                            >
+                                                {current.buttonText}
+                                            </NavLink>
+                                        )}
 
-                                    {current.button2Text && (
-                                        <NavLink
-                                            to={current.button2Link || "/finance-calculator"}
-                                            className={[
-                                                "flex min-h-[42px] min-w-[120px] items-center justify-center",
-                                                "rounded-[10px] bg-white px-6",
-                                                "text-[13px] font-bold text-[var(--brand-primary-color)]",
-                                                "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-                                                "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
-                                            ].join(" ")}
-                                        >
-                                            {current.button2Text}
-                                        </NavLink>
-                                    )}
-                                </div>
+                                        {current.button2Text && (
+                                            <NavLink
+                                                to={current.button2Link || "/finance-calculator"}
+                                                className={[
+                                                    "flex min-h-[42px] min-w-[120px] items-center justify-center",
+                                                    "rounded-[10px] bg-white px-6",
+                                                    "text-[13px] font-bold text-[var(--brand-primary-color)]",
+                                                    "shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                                                    "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
+                                                ].join(" ")}
+                                            >
+                                                {current.button2Text}
+                                            </NavLink>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    )}
+                    ) : null}
 
                     {/* Search bar */}
                     <div className="absolute inset-x-4 bottom-[18%] z-20 sm:inset-x-8 md:bottom-[19%]">

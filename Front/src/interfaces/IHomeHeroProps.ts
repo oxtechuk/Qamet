@@ -20,7 +20,9 @@ export interface HeroSlide {
 export interface IHomeHeroProps {
   slides: HeroSlide[];
   heroVideoUrl?: string;
+  heroVideoMobileUrl?: string;
   heroVideoYoutube?: string;
+  heroVideoYoutubeMobile?: string;
   filterBrands?: BrandInfo[];
   filterTypes?: FilterCategory[];
   filterCategories?: FilterCategory[];

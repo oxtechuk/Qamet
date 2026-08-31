@@ -117,8 +117,11 @@ class Settings extends Page
             'offers_hero_offer_id' => $this->getSetting('offers_hero_offer_id'),
             'car_hero_slides' => $this->getSetting('car_hero_slides', []),
             'hero_video' => $this->getSetting('hero_video'),
+            'hero_video_mobile' => $this->getSetting('hero_video_mobile'),
             'hero_video_youtube_ar' => $this->getBilingual('hero_video_youtube', 'ar'),
             'hero_video_youtube_en' => $this->getBilingual('hero_video_youtube', 'en'),
+            'hero_video_youtube_mobile_ar' => $this->getBilingual('hero_video_youtube_mobile', 'ar'),
+            'hero_video_youtube_mobile_en' => $this->getBilingual('hero_video_youtube_mobile', 'en'),
             'hero_slides' => $this->getSetting('hero_slides', []),
             'home_why_us' => $this->getSetting('home_why_us', []),
             'home_budget_brackets' => $this->getSetting('home_budget_brackets', []),
@@ -508,22 +511,39 @@ class Settings extends Page
                                         Grid::make(2)
                                             ->schema([
                                                 Forms\Components\FileUpload::make('hero_video')
-                                                    ->label(__('Hero Video (MP4)'))
+                                                    ->label(__('Hero Video (MP4) - Desktop'))
                                                     ->acceptedFileTypes(['video/mp4', 'video/quicktime'])
                                                     ->maxSize(20480)
                                                     ->directory('branding/videos')
                                                     ->visibility('public')
-                                                    ->helperText(__('An MP4 video file to show in the background (max 20MB)')),
+                                                    ->helperText(__('An MP4 video file to show in the background for desktop (max 20MB)')),
+                                                Forms\Components\FileUpload::make('hero_video_mobile')
+                                                    ->label(__('Hero Video (MP4) - Mobile / Reels'))
+                                                    ->acceptedFileTypes(['video/mp4', 'video/quicktime'])
+                                                    ->maxSize(20480)
+                                                    ->directory('branding/videos')
+                                                    ->visibility('public')
+                                                    ->helperText(__('Vertical MP4 video (9:16) to show on mobile (max 20MB)')),
                                                 Forms\Components\TextInput::make('hero_video_youtube_ar')
-                                                    ->label(__('Hero Video YouTube URL').' ('.__('Arabic').')')
+                                                    ->label(__('Hero Video YouTube URL (Desktop)').' ('.__('Arabic').')')
                                                     ->url()
                                                     ->placeholder('https://www.youtube.com/watch?v=...')
-                                                    ->helperText(__('YouTube video link to show in the background (Arabic)')),
+                                                    ->helperText(__('YouTube video link for desktop (Arabic)')),
+                                                Forms\Components\TextInput::make('hero_video_youtube_mobile_ar')
+                                                    ->label(__('Hero Video YouTube URL (Mobile / Shorts)').' ('.__('Arabic').')')
+                                                    ->url()
+                                                    ->placeholder('https://www.youtube.com/shorts/... or watch?v=...')
+                                                    ->helperText(__('YouTube Shorts/Video link for mobile (Arabic)')),
                                                 Forms\Components\TextInput::make('hero_video_youtube_en')
-                                                    ->label(__('Hero Video YouTube URL').' ('.__('English').')')
+                                                    ->label(__('Hero Video YouTube URL (Desktop)').' ('.__('English').')')
                                                     ->url()
                                                     ->placeholder('https://www.youtube.com/watch?v=...')
-                                                    ->helperText(__('YouTube video link to show in the background (English)')),
+                                                    ->helperText(__('YouTube video link for desktop (English)')),
+                                                Forms\Components\TextInput::make('hero_video_youtube_mobile_en')
+                                                    ->label(__('Hero Video YouTube URL (Mobile / Shorts)').' ('.__('English').')')
+                                                    ->url()
+                                                    ->placeholder('https://www.youtube.com/shorts/... or watch?v=...')
+                                                    ->helperText(__('YouTube Shorts/Video link for mobile (English)')),
                                             ]),
                                         Forms\Components\Repeater::make('hero_slides')
                                             ->label(__('Image Slides (Fallback if no video is set)'))
@@ -1207,6 +1227,7 @@ class Settings extends Page
         'site_name', 'site_description', 'address', 'contact_address',
         'meta_title', 'meta_description', 'maintenance_message',
         'hero_video_youtube',
+        'hero_video_youtube_mobile',
     ];
 
     private const HERO_KEYS = [
