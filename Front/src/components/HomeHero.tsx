@@ -210,7 +210,7 @@ export default function HomeHero({
                                     title="YouTube Hero Video Background"
                                     frameBorder="0"
                                     allow="autoplay; encrypted-media"
-                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] min-w-[177.78vh] h-[56.25vw] min-h-full object-cover pointer-events-none"
+                                    className="w-full h-full pointer-events-none border-0"
                                 />
                             </div>
                         ) : heroVideoUrl ? (

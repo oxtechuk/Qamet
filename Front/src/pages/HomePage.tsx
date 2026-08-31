@@ -166,6 +166,7 @@ export default function Home() {
 
     const heroSlides: HeroSlide[] = useMemo(() => {
         const apiSlides = data?.hero_slides;
+        const hasVideo = !!(settings?.hero_video || settings?.hero_video_youtube);
 
         if (Array.isArray(apiSlides) && apiSlides.length > 0) {
             return apiSlides.map((slide, index) => ({
@@ -173,7 +174,7 @@ export default function Home() {
                 image: slide.image
                     ? getImageUrl(slide.image) || APP_IMAGES.LOGO
                     : APP_IMAGES.LOGO,
-                title: slide.car ? slide.car.name : slide.title,
+                title: slide.car ? slide.car.name : (slide.title?.trim() || undefined),
                 subtitle: slide.car ? (
                     <>
                         {t("hero.startsFrom")}{" "}
@@ -183,14 +184,18 @@ export default function Home() {
                         )}
                     </>
                 ) : (
-                    slide.subtitle || undefined
+                    slide.subtitle?.trim() || undefined
                 ),
-                description: slide.description || undefined,
-                buttonText: slide.button_text,
-                buttonLink: slide.button_link,
-                button2Text: slide.button_2_text,
-                button2Link: slide.button_2_link,
+                description: slide.description?.trim() || undefined,
+                buttonText: slide.button_text?.trim() || undefined,
+                buttonLink: slide.button_link?.trim() || undefined,
+                button2Text: slide.button_2_text?.trim() || undefined,
+                button2Link: slide.button_2_link?.trim() || undefined,
             }));
+        }
+
+        if (hasVideo) {
+            return [];
         }
 
         return [
@@ -206,7 +211,7 @@ export default function Home() {
                 button2Link: "/finance-calculator",
             },
         ];
-    }, [data, t]);
+    }, [data, settings?.hero_video, settings?.hero_video_youtube, t]);
 
     const homeOffers: IHomeOfferSlide[] = useMemo(
         () => [
