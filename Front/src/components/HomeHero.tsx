@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, Languages, Mail, MapPin, Menu, Phone, Search, X } from "lucide-react";
+import { ChevronDown, Languages, Mail, MapPin, Menu, Phone, Search, Volume2, VolumeX, X } from "lucide-react";
 
 import { useLanguageStore } from "../store/language.store";
 import { useSettingsStore } from "../store/settings.store";
@@ -80,6 +80,46 @@ export default function HomeHero({
     const [menuOpen, setMenuOpen] = useState(false);
     const [logoError, setLogoError] = useState(false);
     const [carFinderOpen, setCarFinderOpen] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
+
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const toggleMute = useCallback(() => {
+        setIsMuted((prevMuted) => {
+            const nextMuted = !prevMuted;
+
+            if (iframeRef.current?.contentWindow) {
+                iframeRef.current.contentWindow.postMessage(
+                    JSON.stringify({
+                        event: "command",
+                        func: nextMuted ? "mute" : "unMute",
+                        args: [],
+                    }),
+                    "*"
+                );
+                if (!nextMuted) {
+                    iframeRef.current.contentWindow.postMessage(
+                        JSON.stringify({
+                            event: "command",
+                            func: "setVolume",
+                            args: [100],
+                        }),
+                        "*"
+                    );
+                }
+            }
+
+            if (videoRef.current) {
+                videoRef.current.muted = nextMuted;
+                if (!nextMuted) {
+                    videoRef.current.volume = 1;
+                }
+            }
+
+            return nextMuted;
+        });
+    }, []);
 
     const totalSlides = slides.length;
     const current = (slides && slides.length > 0) ? slides[currentSlide] : null;
@@ -125,8 +165,6 @@ export default function HomeHero({
         return () => window.clearInterval(intervalId);
     }, [nextSlide, totalSlides]);
 
-
-
     useEffect(() => {
         document.body.style.overflow = menuOpen ? "hidden" : "";
 
@@ -165,17 +203,19 @@ export default function HomeHero({
                     {/* Background slider / video */}
                     <div className="absolute inset-0">
                         {getYoutubeId(heroVideoYoutube) ? (
-                            <div className="absolute inset-0 overflow-hidden pointer-events-none bg-black">
+                            <div className="absolute inset-0 overflow-hidden bg-black flex items-center justify-center">
                                 <iframe
-                                    src={`https://www.youtube.com/embed/${getYoutubeId(heroVideoYoutube)}?autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(heroVideoYoutube)}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1`}
+                                    ref={iframeRef}
+                                    src={`https://www.youtube.com/embed/${getYoutubeId(heroVideoYoutube)}?autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(heroVideoYoutube)}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                                     title="YouTube Hero Video Background"
                                     frameBorder="0"
                                     allow="autoplay; encrypted-media"
-                                    className="absolute left-1/2 top-1/2 h-[56.25vw] min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 w-[177.77vh] object-cover pointer-events-none scale-[1.35]"
+                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] min-w-[177.78vh] h-[56.25vw] min-h-full object-cover pointer-events-none"
                                 />
                             </div>
                         ) : heroVideoUrl ? (
                             <video
+                                ref={videoRef}
                                 src={heroVideoUrl}
                                 autoPlay
                                 muted
@@ -207,13 +247,6 @@ export default function HomeHero({
                                 );
                             })
                         )}
-
-                        {/* Overlay matching reference */}
-                        <div className="absolute inset-0 bg-black/35" />
-
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/55 rtl:bg-gradient-to-l" />
-
-                        <div className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-black/55 to-transparent" />
                     </div>
 
                     {/* Top header */}
@@ -235,6 +268,35 @@ export default function HomeHero({
                                 <Menu size={18} strokeWidth={2.4} />
                                 <span>{t("hero.menu")}</span>
                             </button>
+
+                            {/* Audio Control Widget */}
+                            {hasVideo && (
+                                <button
+                                    type="button"
+                                    onClick={toggleMute}
+                                    aria-label={isMuted ? "تشغيل الصوت" : "كتم الصوت"}
+                                    title={isMuted ? "تشغيل الصوت" : "كتم الصوت"}
+                                    className={[
+                                        "flex h-[42px] items-center justify-center gap-2",
+                                        "rounded-[12px] bg-white/90 hover:bg-white px-3.5 sm:px-4",
+                                        "text-[12px] font-bold text-[var(--brand-primary-color)]",
+                                        "shadow-[0_8px_24px_rgba(0,0,0,0.14)] backdrop-blur-md border border-white/40",
+                                        "transition duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer",
+                                    ].join(" ")}
+                                >
+                                    {isMuted ? (
+                                        <>
+                                            <VolumeX size={18} className="text-red-500" />
+                                            <span className="hidden sm:inline">{t("hero.unmute", { defaultValue: "تشغيل الصوت" })}</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Volume2 size={18} className="text-emerald-600 animate-pulse" />
+                                            <span className="hidden sm:inline">{t("hero.mute", { defaultValue: "كتم الصوت" })}</span>
+                                        </>
+                                    )}
+                                </button>
+                            )}
 
                             {/* Center logo */}
                             <NavLink

@@ -535,7 +535,6 @@ class Settings extends Page
                                                             ->image()
                                                             ->directory('slides/home')
                                                             ->visibility('public')
-                                                            ->required()
                                                             ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('slides/home', 1920, 1080, 82)),
                                                         Forms\Components\Select::make('car_id')
                                                             ->label(__('Linked Car').' ('.__('optional').')')

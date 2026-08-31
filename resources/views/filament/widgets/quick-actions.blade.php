@@ -32,7 +32,7 @@
                     @endif
 
                     @if ($canLeads)
-                        <a href="{{ route('filament.admin.resources.leads.create') }}" class="quick-action-card">
+                        <a href="{{ route('filament.admin.resources.leads.index') }}" class="quick-action-card">
                             <div class="quick-action-icon" style="background: #f5f3ff; color: #a855f7;">
                                 <x-filament::icon icon="heroicon-m-user-plus" class="w-5 h-5" />
                             </div>
@@ -41,7 +41,7 @@
                     @endif
 
                     @if ($canTasks)
-                        <a href="{{ route('filament.admin.resources.tasks.create') }}" class="quick-action-card">
+                        <a href="{{ route('filament.admin.resources.tasks.index') }}" class="quick-action-card">
                             <div class="quick-action-icon" style="background: #eff6ff; color: #3b82f6;">
                                 <x-filament::icon icon="heroicon-m-clipboard-document-check" class="w-5 h-5" />
                             </div>
@@ -77,7 +77,7 @@
                     @endif
 
                     @if ($canEmployees)
-                        <a href="{{ route('filament.admin.resources.employees.create') }}" class="quick-action-card">
+                        <a href="{{ route('filament.admin.resources.employees.index') }}" class="quick-action-card">
                             <div class="quick-action-icon" style="background: #ecfeff; color: #06b6d4;">
                                 <x-filament::icon icon="heroicon-m-building-storefront" class="w-5 h-5" />
                             </div>

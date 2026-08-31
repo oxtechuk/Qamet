@@ -76,7 +76,7 @@ class QuickActionsWidget extends Widget implements HasActions
             ->label(__('Add Dealer'))
             ->icon('heroicon-m-building-storefront')
             ->color('success')
-            ->url(route('filament.admin.resources.employees.create'));
+            ->url(route('filament.admin.resources.employees.index'));
     }
 
     public function createAuctionAction(): Action
