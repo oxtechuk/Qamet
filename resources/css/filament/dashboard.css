@@ -24,27 +24,26 @@
 }
 
 /* ==========================================================================
-   1. General Content Background & Headings
+   1. General Content Background & Headings (Dashboard Only)
    ========================================================================== */
-.fi-body,
-.fi-main,
-body,
-main {
+body:not(:has(.auth-card-container)),
+.fi-body:not(:has(.auth-card-container)),
+.fi-main:not(:has(.auth-card-container)) {
     background-color: var(--light-bg) !important;
 }
 
-.fi-header-heading,
-h1,
-.fi-header-title,
-.fi-page-heading {
+body:not(:has(.auth-card-container)) .fi-header-heading,
+body:not(:has(.auth-card-container)) h1,
+body:not(:has(.auth-card-container)) .fi-header-title,
+body:not(:has(.auth-card-container)) .fi-page-heading {
     color: var(--text-dark) !important;
     font-weight: 800 !important;
     letter-spacing: -0.02em !important;
 }
 
-.fi-header-subheading,
-p.text-gray-500,
-.fi-section-header-description {
+body:not(:has(.auth-card-container)) .fi-header-subheading,
+body:not(:has(.auth-card-container)) p.text-gray-500,
+body:not(:has(.auth-card-container)) .fi-section-header-description {
     color: var(--text-muted) !important;
 }
 
@@ -79,22 +78,81 @@ header.fi-topbar,
     padding: 0.8rem !important;
 }
 
+/* ==========================================================================
+   Language & Theme Switcher Controls
+   ========================================================================== */
+.fi-theme-switcher,
+.fi-language-switch,
+[class*="language-switch"],
+[class*="theme-switcher"] {
+    display: none !important;
+}
+
+/* ==========================================================================
+   User Menu & Dropdown Panel Styling
+   ========================================================================== */
+.fi-dropdown-panel {
+    background-color: #1e2025 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+}
+
+.fi-dropdown-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 0.75rem 1rem !important;
+}
+
 .fi-dropdown-header span {
+    color: #dfc674 !important;
+    font-weight: 700 !important;
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: start;
-    color: oklch(0.82 0.1 91.92) !important;
     flex: 1;
     overflow: hidden;
 }
 
+.fi-dropdown-header svg {
+    color: #dfc674 !important;
+}
+
+.fi-dropdown-list {
+    padding: 0.35rem !important;
+}
+
+.fi-dropdown-list-item {
+    color: #f1f5f9 !important;
+    border-radius: 0.5rem !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+.fi-dropdown-list-item:hover {
+    background-color: rgba(223, 198, 116, 0.15) !important;
+    color: #dfc674 !important;
+}
+
 .fi-dropdown-list-item-label {
+    color: #f1f5f9 !important;
+    font-weight: 500 !important;
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: start;
-    color: #fff !important;
     flex: 1;
     overflow: hidden;
+}
+
+.fi-dropdown-list-item:hover .fi-dropdown-list-item-label {
+    color: #dfc674 !important;
+}
+
+.fi-dropdown-list-item svg {
+    color: #94a3b8 !important;
+}
+
+.fi-dropdown-list-item:hover svg {
+    color: #dfc674 !important;
 }
 
 /* Global Search Bar (Exact 200px Width Targeting Full HTML Tree) */

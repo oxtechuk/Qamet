@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class CalculatorLeadResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-calculator-leads';
+
     protected static ?string $model = CalculatorLead::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

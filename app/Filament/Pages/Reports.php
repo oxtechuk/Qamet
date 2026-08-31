@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class Reports extends Page
 {
+    public static function canAccess(): bool
+    {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+
+        return $user && ($user->isAdmin() || $user->hasPermission('manage-reports'));
+    }
+
     protected static string|\BackedEnum|null $navigationIcon = null;
 
     public function getTitle(): string

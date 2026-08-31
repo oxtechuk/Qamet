@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class HighlightResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-cars';
+
     protected static ?string $model = Highlight::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

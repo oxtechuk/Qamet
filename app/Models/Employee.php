@@ -34,22 +34,39 @@ class Employee extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->hasRole('admin') || $this->role === 'admin';
+        return $this->hasRole('admin', 'employee') || $this->role === 'admin';
+    }
+
+    public function hasPermission(string|array $permissions): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        try {
+            if (is_array($permissions)) {
+                return $this->hasAnyPermission($permissions, 'employee');
+            }
+
+            return $this->hasPermissionTo($permissions, 'employee');
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     public function isCashRep(): bool
     {
         return $this->isAdmin()
-            || in_array($this->sales_type, ['cash', 'all'])
-            || $this->hasPermissionTo('manage-cash-bookings', 'employee')
-            || $this->hasPermissionTo('manage-bookings', 'employee');
+            || $this->hasPermission('manage-cash-bookings')
+            || $this->hasPermission('manage-bookings')
+            || in_array($this->sales_type, ['cash', 'all']);
     }
 
     public function isFinanceRep(): bool
     {
         return $this->isAdmin()
-            || in_array($this->sales_type, ['finance', 'all'])
-            || $this->hasPermissionTo('manage-finance-bookings', 'employee')
-            || $this->hasPermissionTo('manage-bookings', 'employee');
+            || $this->hasPermission('manage-finance-bookings')
+            || $this->hasPermission('manage-bookings')
+            || in_array($this->sales_type, ['finance', 'all']);
     }
 }

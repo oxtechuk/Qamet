@@ -19,6 +19,10 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class CarResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-cars';
+
     protected static ?string $model = Car::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

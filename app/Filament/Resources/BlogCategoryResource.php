@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class BlogCategoryResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-blog';
+
     protected static ?string $model = BlogCategory::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

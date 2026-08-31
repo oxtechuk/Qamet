@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class FaqResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-faqs';
+
     protected static ?string $model = Faq::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

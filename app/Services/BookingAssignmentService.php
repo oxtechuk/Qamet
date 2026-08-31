@@ -16,6 +16,11 @@ class BookingAssignmentService
      *
      * @return void
      */
+    /**
+     * Automatically assigns a booking to a sales representative using Round-Robin.
+     *
+     * @return void
+     */
     public function autoAssign(Booking $booking)
     {
         // 1. Check if auto assignment is enabled in settings
@@ -26,27 +31,8 @@ class BookingAssignmentService
             return;
         }
 
-        // 2. Determine required sales specialization based on payment method
-        $isCashOrder = $booking->payment_method === 'cash';
-        $requiredTypes = $isCashOrder ? ['cash', 'all'] : ['finance', 'all'];
-
-        // Fetch active sales representatives matching the specialization
-        $salesReps = Employee::whereIn('role', ['sales', 'sales-rep'])
-            ->where('is_active', true)
-            ->where(function ($q) use ($requiredTypes) {
-                $q->whereIn('sales_type', $requiredTypes)
-                    ->orWhereNull('sales_type');
-            })
-            ->orderBy('id')
-            ->get();
-
-        // Fallback to any active sales reps if no specialized rep is found
-        if ($salesReps->isEmpty()) {
-            $salesReps = Employee::whereIn('role', ['sales', 'sales-rep'])
-                ->where('is_active', true)
-                ->orderBy('id')
-                ->get();
-        }
+        // 2. Fetch active employees strictly based on required booking permissions
+        $salesReps = $this->getEligibleEmployeesForBooking($booking);
 
         if ($salesReps->isEmpty()) {
             return;
@@ -85,14 +71,49 @@ class BookingAssignmentService
     }
 
     /**
+     * Get active sales representatives eligible for a given booking.
+     */
+    public function getEligibleEmployeesForBooking(Booking $booking)
+    {
+        $isCash = $booking->payment_method === 'cash';
+        $isCorporate = $booking->booking_type === 'corporate';
+
+        if ($isCash) {
+            $requiredPermissions = ['manage-cash-bookings', 'manage-bookings'];
+        } elseif ($isCorporate) {
+            $requiredPermissions = ['manage-corporate-bookings', 'manage-finance-bookings', 'manage-bookings'];
+        } else {
+            $requiredPermissions = ['manage-finance-bookings', 'manage-bookings'];
+        }
+
+        return Employee::where('is_active', true)
+            ->orderBy('id')
+            ->get()
+            ->filter(function (Employee $employee) use ($isCash, $requiredPermissions) {
+                // Must have one of the required booking permissions
+                if (! $employee->hasPermission($requiredPermissions)) {
+                    return false;
+                }
+
+                // If sales_type is explicitly restricting, respect it
+                if ($isCash && $employee->sales_type === 'finance') {
+                    return false;
+                }
+                if (! $isCash && $employee->sales_type === 'cash') {
+                    return false;
+                }
+
+                return true;
+            })
+            ->values();
+    }
+
+    /**
      * Finds the most recently assigned sales representative's ID for a given payment method.
      */
     private function getLastAssignedRepIdForPaymentMethod(?string $paymentMethod): ?int
     {
-        $query = Booking::whereNotNull('assigned_to')
-            ->whereHas('employee', function ($q) {
-                $q->whereIn('role', ['sales', 'sales-rep']);
-            });
+        $query = Booking::whereNotNull('assigned_to');
 
         if ($paymentMethod === 'cash') {
             $query->where('payment_method', 'cash');
@@ -120,11 +141,8 @@ class BookingAssignmentService
             return;
         }
 
-        // 2. Fetch all active sales representatives
-        $salesReps = Employee::whereIn('role', ['sales', 'sales-rep'])
-            ->where('is_active', true)
-            ->orderBy('id')
-            ->get();
+        // 2. Fetch active sales representatives with lead/booking permissions
+        $salesReps = $this->getEligibleEmployeesForLead($lead);
 
         if ($salesReps->isEmpty()) {
             return;
@@ -136,7 +154,6 @@ class BookingAssignmentService
         $assignedRep = null;
 
         if ($lastAssignedRepId !== null) {
-            // Find the index of the last assigned employee
             $lastIndex = $salesReps->search(fn ($rep) => $rep->id == $lastAssignedRepId);
 
             if ($lastIndex !== false && $lastIndex < $salesReps->count() - 1) {
@@ -164,21 +181,29 @@ class BookingAssignmentService
     }
 
     /**
+     * Get active sales representatives eligible for leads.
+     */
+    public function getEligibleEmployeesForLead(Lead $lead)
+    {
+        return Employee::where('is_active', true)
+            ->orderBy('id')
+            ->get()
+            ->filter(function (Employee $employee) {
+                return $employee->hasPermission(['manage-leads', 'manage-bookings', 'manage-cash-bookings', 'manage-finance-bookings']);
+            })
+            ->values();
+    }
+
+    /**
      * Finds the most recently assigned sales representative's ID across both Booking and Lead models.
      */
     private function getLastAssignedRepId(): ?int
     {
         $lastBooking = Booking::whereNotNull('assigned_to')
-            ->whereHas('employee', function ($q) {
-                $q->whereIn('role', ['sales', 'sales-rep']);
-            })
             ->latest('id')
             ->first();
 
         $lastLead = Lead::whereNotNull('assigned_to')
-            ->whereHas('employee', function ($q) {
-                $q->whereIn('role', ['sales', 'sales-rep']);
-            })
             ->latest('id')
             ->first();
 

@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class CalculatorBankResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-calculator-settings';
+
     protected static ?string $model = CalculatorBank::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

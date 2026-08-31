@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class ContactSourceResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-contact-sources';
+
     protected static ?string $model = ContactSource::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

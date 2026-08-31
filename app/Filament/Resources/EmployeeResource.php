@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-employees';
+
     protected static ?string $model = Employee::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;
@@ -65,9 +69,9 @@ class EmployeeResource extends Resource
                         Forms\Components\Select::make('roles')
                             ->label(__('Role'))
                             ->relationship('roles', 'name')
-                            ->multiple()
                             ->preload()
-                            ->searchable(),
+                            ->searchable()
+                            ->required(),
                         Forms\Components\Select::make('sales_type')
                             ->label(__('تخصص المبيعات والتوزيع'))
                             ->options([

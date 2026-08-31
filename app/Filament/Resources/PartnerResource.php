@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class PartnerResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-partners';
+
     protected static ?string $model = Partner::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

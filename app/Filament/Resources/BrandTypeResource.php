@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class BrandTypeResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-brand-types';
+
     protected static ?string $model = BrandType::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

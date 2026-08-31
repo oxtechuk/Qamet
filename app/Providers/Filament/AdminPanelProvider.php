@@ -34,12 +34,7 @@ class AdminPanelProvider extends PanelProvider
         ], package: 'app');
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-            $switch
-                ->locales(['ar', 'en'])
-                ->labels([
-                    'ar' => 'العربية',
-                    'en' => 'English',
-                ]);
+            $switch->visible(false);
         });
     }
 
@@ -50,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->spa()
+            ->darkMode(false)
             ->login(Login::class)
             ->authGuard('employee')
             ->authPasswordBroker('employees')

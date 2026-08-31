@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class CarTypeResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-car-types';
+
     protected static ?string $model = CarType::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

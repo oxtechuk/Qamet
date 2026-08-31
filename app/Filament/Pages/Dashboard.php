@@ -20,6 +20,13 @@ class Dashboard extends BaseDashboard
         return __('Dashboard');
     }
 
+    public static function canAccess(): bool
+    {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+
+        return $user && ($user->isAdmin() || $user->hasPermission('manage-dashboard'));
+    }
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-home';
 
     protected static ?int $navigationSort = 0;

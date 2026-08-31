@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class ProjectDesignResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-designs';
+
     protected static ?string $model = ProjectDesign::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

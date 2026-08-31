@@ -1,76 +1,86 @@
-<div class="login-wrapper" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<div class="auth-card-container" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
-    <div class="image-panel">
-        <div class="image-panel-header">
-            <div class="brand-pill">
+    <!-- Left Brand Hero Showcase -->
+    <div class="auth-hero-panel">
+        <div class="hero-header">
+            <div class="hero-badge">
                 <i class="bi bi-shield-lock-fill"></i>
-                {{ __('نظام الإدارة الآمن | قمة نجد') }}
+                {{ __('نظام الإدارة والتحكم') }}
             </div>
-            <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}" style="color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s;" onmouseover="this.style.color='#dfc674'" onmouseout="this.style.color='#94a3b8'">
+            <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}" class="hero-store-link">
                 <i class="bi bi-globe"></i>
-                {{ __('المتجر') }}
+                {{ __('الموقع الإلكتروني') }}
             </a>
         </div>
 
-        <div class="image-panel-content">
-            <div class="badge-tag">
+        <div class="hero-content">
+            <div class="hero-tag">
                 <i class="bi bi-stars"></i>
-                {{ __('الجيل الجديد من إدارة السيارات') }}
+                {{ __('قمة نجد للسيارات') }}
             </div>
-            <h2>{{ __('منصة إدارة وتتبع السيارات الأكثر تميزاً') }}</h2>
-            <p>{{ __('تحكم في أسطول سياراتك، تتبع الحجوزات والمبيعات، وقم بإدارة لوحة العمل الخاصة بك بكل سهولة وذكاء.') }}</p>
+            <h2>{{ __('منصة متكاملة لإدارة ومتابعة المبيعات والأسطول') }}</h2>
+            <p>{{ __('تحكم ذكي في المخزون، متابعة فورية للحجوزات ومبيعات الكاش والتقسيط، وإدارة فرق العمل بكل احترافية.') }}</p>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
+            <div class="hero-features">
+                <div class="hero-feat-card">
+                    <div class="hero-feat-icon">
                         <i class="bi bi-speedometer2"></i>
                     </div>
-                    <div class="feature-info">
-                        <h4>{{ __('لوحة تتبع مباشرة') }}</h4>
-                        <span>{{ __('مراقبة الأداء والمبيعات') }}</span>
+                    <div>
+                        <h4>{{ __('متابعة فورية') }}</h4>
+                        <span>{{ __('أداء المبيعات والطلبات') }}</span>
                     </div>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">
+                <div class="hero-feat-card">
+                    <div class="hero-feat-icon">
                         <i class="bi bi-shield-check"></i>
                     </div>
-                    <div class="feature-info">
-                        <h4>{{ __('أمان وحماية عالية') }}</h4>
-                        <span>{{ __('تشفير وصلاحيات متقدمة') }}</span>
+                    <div>
+                        <h4>{{ __('أمان وصلاحيات') }}</h4>
+                        <span>{{ __('مصفوفة وصول متطورة') }}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="form-panel">
-        <div class="form-content-wrapper">
-            <div class="logo-section">
-                <div class="logo-img-wrapper">
+    <!-- Right Login Form Panel -->
+    <div class="auth-form-panel">
+        <div class="auth-form-wrapper">
+            <div class="auth-logo-box">
+                <div class="auth-logo-frame">
                     @php
                         $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value');
-                        $logoUrl = $siteLogo ? asset('storage/' . $siteLogo) : asset('images/logo_without_bg.png');
+                        if ($siteLogo && file_exists(public_path('storage/' . $siteLogo))) {
+                            $logoUrl = asset('storage/' . $siteLogo);
+                        } elseif (file_exists(public_path('images/logo_without_bg_white.svg'))) {
+                            $logoUrl = asset('images/logo_without_bg_white.svg');
+                        } elseif (file_exists(public_path('images/logo_without_bg.svg'))) {
+                            $logoUrl = asset('images/logo_without_bg.svg');
+                        } else {
+                            $logoUrl = asset('favicon.svg');
+                        }
                     @endphp
-                    <img src="{{ $logoUrl }}" alt="قمة نجد Logo" style="max-height: 75px; width: auto; filter: drop-shadow(0 4px 16px rgba(223, 198, 116, 0.35));">
+                    <img src="{{ $logoUrl }}" alt="قمة نجد" style="max-height: 68px; width: auto; filter: drop-shadow(0 4px 14px rgba(223, 198, 116, 0.35));">
                 </div>
-                <div class="logo-badge">
+                <div class="auth-role-tag">
                     <i class="bi bi-shield-fill-check"></i>
-                    {{ __('لوحة تحكم المديرين') }}
+                    {{ __('لوحة تحكم الفريق والمديرين') }}
                 </div>
             </div>
 
-            <div class="form-header">
-                <h1>{{ __('مرحباً بعودتك 👋') }}</h1>
-                <p>{{ __('قم بتسجيل الدخول للمتابعة إلى لوحة التحكم') }}</p>
+            <div class="auth-title-area">
+                <h1 class="auth-main-title">{{ __('مرحباً بعودتك 👋') }}</h1>
+                <p class="auth-sub-title">{{ __('أدخل بياناتك لتسجيل الدخول للوحة التحكم') }}</p>
             </div>
 
             {{ $this->content }}
             <x-filament-actions::modals />
         </div>
 
-        <div class="footer-text">
-            &copy; {{ date('Y') }} <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}">قمة نجد</a> Dashboard. All rights reserved.
+        <div class="auth-footer">
+            &copy; {{ date('Y') }} <a href="{{ Route::has('store.home') ? route('store.home') : url('/') }}">قمة نجد</a>. جميع الحقوق محفوظة.
         </div>
     </div>
 

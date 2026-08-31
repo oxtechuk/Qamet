@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class WhyChooseUsItemResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-settings';
+
     protected static ?string $model = WhyChooseUsItem::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

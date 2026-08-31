@@ -10,11 +10,16 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-roles';
+
     protected static ?string $model = Role::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;
@@ -327,6 +332,20 @@ class RoleResource extends Resource
             ])
             ->bulkActions([])
             ->defaultSort('name');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        if (in_array($record->name, ['admin', 'employee'])) {
+            return false;
+        }
+
+        return (bool) Auth::guard('employee')->user()?->hasPermission('manage-roles');
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
     }
 
     public static function getRelations(): array

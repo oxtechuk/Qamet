@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class SpecificationResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-specifications';
+
     protected static ?string $model = Specification::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

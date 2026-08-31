@@ -16,6 +16,10 @@ use Filament\Tables\Table;
 
 class OfferResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-offers';
+
     protected static ?string $model = Offer::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

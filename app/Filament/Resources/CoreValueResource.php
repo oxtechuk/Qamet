@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class CoreValueResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-settings';
+
     protected static ?string $model = CoreValue::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

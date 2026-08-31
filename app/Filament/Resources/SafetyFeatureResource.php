@@ -15,6 +15,10 @@ use Filament\Tables\Table;
 
 class SafetyFeatureResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-safety-features';
+
     protected static ?string $model = SafetyFeature::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;

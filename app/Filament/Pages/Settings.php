@@ -20,6 +20,13 @@ use Filament\Support\Exceptions\Halt;
 
 class Settings extends Page
 {
+    public static function canAccess(): bool
+    {
+        $user = \Illuminate\Support\Facades\Auth::guard('employee')->user();
+
+        return $user && ($user->isAdmin() || $user->hasPermission(['manage-settings', 'manage-settings-integrations', 'manage-translations', 'manage-calculator-settings']));
+    }
+
     protected static string|\BackedEnum|null $navigationIcon = null;
 
     public function getTitle(): string

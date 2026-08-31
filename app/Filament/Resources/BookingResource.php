@@ -41,6 +41,15 @@ class BookingResource extends Resource
         return __('Bookings');
     }
 
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = [
+        'manage-bookings',
+        'manage-cash-bookings',
+        'manage-finance-bookings',
+        'manage-corporate-bookings',
+    ];
+
     public static function canDelete(Model $record): bool
     {
         return (bool) Auth::guard('employee')->user()?->isAdmin();
@@ -60,44 +69,45 @@ class BookingResource extends Resource
             return $query;
         }
 
-        // 1. If explicit sales_type is specified on employee, respect it
-        if ($user->sales_type === 'cash') {
-            return $query->where(function (Builder $q) use ($user) {
-                $q->where('assigned_to', $user->id)
-                    ->orWhere(function (Builder $cashQ) {
-                        $cashQ->where('payment_method', 'cash')->whereNull('assigned_to');
-                    });
-            });
-        }
+        // Determine permissions
+        $canAll = $user->hasPermission('manage-bookings');
+        $canCash = $user->hasPermission('manage-cash-bookings');
+        $canFinance = $user->hasPermission('manage-finance-bookings');
+        $canCorporate = $user->hasPermission('manage-corporate-bookings');
 
-        if ($user->sales_type === 'finance') {
-            return $query->where(function (Builder $q) use ($user) {
-                $q->where('assigned_to', $user->id)
-                    ->orWhere(function (Builder $finQ) {
-                        $finQ->where(function (Builder $mQ) {
-                            $mQ->whereIn('payment_method', ['bank', 'finance', 'installment'])
-                                ->orWhereNull('payment_method');
-                        })->whereNull('assigned_to')
-                            ->orWhere(function (Builder $corpQ) {
-                                $corpQ->where('booking_type', 'corporate')->whereNull('assigned_to');
-                            });
-                    });
-            });
-        }
+        // Full access to bookings
+        if ($canAll || ($canCash && $canFinance && $canCorporate)) {
+            if ($user->sales_type === 'cash') {
+                return $query->where(function (Builder $q) use ($user) {
+                    $q->where('assigned_to', $user->id)
+                        ->orWhere(function (Builder $cashQ) {
+                            $cashQ->where('payment_method', 'cash')->whereNull('assigned_to');
+                        });
+                });
+            }
 
-        // 2. Otherwise determine by Spatie permissions
-        $canCash = $user->hasPermissionTo('manage-cash-bookings', 'employee');
-        $canFinance = $user->hasPermissionTo('manage-finance-bookings', 'employee');
-        $canCorporate = $user->hasPermissionTo('manage-corporate-bookings', 'employee');
-        $canAll = $user->hasPermissionTo('manage-bookings', 'employee') || $user->sales_type === 'all';
+            if ($user->sales_type === 'finance') {
+                return $query->where(function (Builder $q) use ($user) {
+                    $q->where('assigned_to', $user->id)
+                        ->orWhere(function (Builder $finQ) {
+                            $finQ->where(function (Builder $mQ) {
+                                $mQ->whereIn('payment_method', ['bank', 'finance', 'installment'])
+                                    ->orWhereNull('payment_method');
+                            })->whereNull('assigned_to')
+                                ->orWhere(function (Builder $corpQ) {
+                                    $corpQ->where('booking_type', 'corporate')->whereNull('assigned_to');
+                                });
+                        });
+                });
+            }
 
-        if ($canAll || ($canCash && $canFinance)) {
             return $query->where(function (Builder $q) use ($user) {
                 $q->where('assigned_to', $user->id)
                     ->orWhereNull('assigned_to');
             });
         }
 
+        // Restricted access based specifically on assigned permissions
         return $query->where(function (Builder $q) use ($user, $canCash, $canFinance, $canCorporate) {
             $q->where('assigned_to', $user->id);
 

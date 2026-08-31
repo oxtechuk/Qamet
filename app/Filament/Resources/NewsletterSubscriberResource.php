@@ -11,6 +11,10 @@ use Filament\Tables\Table;
 
 class NewsletterSubscriberResource extends Resource
 {
+    use \App\Traits\HasResourcePermission;
+
+    protected static string|array|null $permission = 'manage-newsletter';
+
     protected static ?string $model = NewsletterSubscriber::class;
 
     protected static string|\BackedEnum|null $navigationIcon = null;
