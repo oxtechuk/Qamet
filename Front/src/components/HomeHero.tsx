@@ -99,6 +99,27 @@ export default function HomeHero({
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
+    const onIframeLoad = useCallback(() => {
+        if (iframeRef.current?.contentWindow) {
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({
+                    event: "command",
+                    func: "setPlaybackQuality",
+                    args: ["highres"],
+                }),
+                "*"
+            );
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({
+                    event: "command",
+                    func: "setPlaybackQualityRange",
+                    args: ["hd1080", "highres"],
+                }),
+                "*"
+            );
+        }
+    }, []);
+
     const toggleMute = useCallback(() => {
         setIsMuted((prevMuted) => {
             const nextMuted = !prevMuted;
@@ -222,15 +243,16 @@ export default function HomeHero({
                     {/* Background slider / video */}
                     <div className="absolute inset-0">
                         {activeYoutubeId ? (
-                            <div className="absolute inset-0 overflow-hidden bg-black flex items-center justify-center">
+                            <div className="absolute inset-0 overflow-hidden bg-black flex items-center justify-center pointer-events-none">
                                 <iframe
                                     key={activeYoutubeId}
                                     ref={iframeRef}
-                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=1&loop=1&playlist=${activeYoutubeId}&controls=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                                    onLoad={onIframeLoad}
+                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=1&loop=1&playlist=${activeYoutubeId}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1&vq=hd1080&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                                     title="YouTube Hero Video Background"
                                     frameBorder="0"
                                     allow="autoplay; encrypted-media"
-                                    className="w-full h-full pointer-events-none border-0"
+                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[110vw] min-w-[195vh] h-[62vw] min-h-[115%] object-cover pointer-events-none scale-[1.3] border-0"
                                 />
                             </div>
                         ) : activeVideoUrl ? (
@@ -273,24 +295,7 @@ export default function HomeHero({
                     {/* Top header */}
                     <header className="absolute inset-x-0 top-0 z-30 px-5 pt-7 sm:px-8 md:px-10 lg:px-12">
                         <div className="relative flex items-start justify-between">
-                            {/* Menu button — hidden on mobile */}
-                            <button
-                                type="button"
-                                onClick={() => setMenuOpen(true)}
-                                className={[
-                                    "hidden sm:flex h-[42px] min-w-[96px] items-center justify-center gap-2",
-                                    "rounded-[12px] bg-white px-4",
-                                    "text-[12px] font-bold text-[var(--brand-primary-color)]",
-                                    "shadow-[0_8px_24px_rgba(0,0,0,0.14)]",
-                                    "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
-                                    "order-1",
-                                ].join(" ")}
-                            >
-                                <Menu size={18} strokeWidth={2.4} />
-                                <span>{t("hero.menu")}</span>
-                            </button>
-
-                            {/* Audio Control Widget */}
+                            {/* Audio Control Widget (Swapped to opposite side) */}
                             {hasVideo && (
                                 <button
                                     type="button"
@@ -299,10 +304,11 @@ export default function HomeHero({
                                     title={isMuted ? "تشغيل الصوت" : "كتم الصوت"}
                                     className={[
                                         "flex h-[42px] items-center justify-center gap-2",
-                                        "rounded-[12px] bg-white/90 hover:bg-white px-3.5 sm:px-4",
+                                        "rounded-[12px] bg-white px-3.5 sm:px-4",
                                         "text-[12px] font-bold text-[var(--brand-primary-color)]",
-                                        "shadow-[0_8px_24px_rgba(0,0,0,0.14)] backdrop-blur-md border border-white/40",
+                                        "shadow-[0_8px_24px_rgba(0,0,0,0.14)]",
                                         "transition duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer",
+                                        "order-1",
                                     ].join(" ")}
                                 >
                                     {isMuted ? (
@@ -319,7 +325,23 @@ export default function HomeHero({
                                 </button>
                             )}
 
-                            {/* Center logo */}
+                            {/* Menu button — hidden on mobile */}
+                            <button
+                                type="button"
+                                onClick={() => setMenuOpen(true)}
+                                className={[
+                                    "hidden sm:flex h-[42px] min-w-[96px] items-center justify-center gap-2",
+                                    "rounded-[12px] bg-white px-4",
+                                    "text-[12px] font-bold text-[var(--brand-primary-color)]",
+                                    "shadow-[0_8px_24px_rgba(0,0,0,0.14)]",
+                                    "transition duration-300 hover:-translate-y-0.5 hover:bg-white/95",
+                                ].join(" ")}
+                            >
+                                <Menu size={18} strokeWidth={2.4} />
+                                <span>{t("hero.menu")}</span>
+                            </button>
+
+                            {/* Center logo with white filter */}
                             <NavLink
                                 to="/"
                                 aria-label={t("nav.home")}
@@ -329,7 +351,7 @@ export default function HomeHero({
                                     src={logoSrc}
                                     alt="Logo"
                                     onError={() => setLogoError(true)}
-                                    className="h-[58px] w-auto max-w-[150px] object-contain sm:h-[66px]"
+                                    className="h-[58px] w-auto max-w-[150px] object-contain sm:h-[66px] brightness-0 invert drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
                                 />
                             </NavLink>
                         </div>
