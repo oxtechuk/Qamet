@@ -166,6 +166,11 @@ class Car extends Model
         return $this->hasMany(Offer::class);
     }
 
+    public function variants(): HasMany
+    {
+        return $this->hasMany(CarVariant::class)->orderBy('sort_order');
+    }
+
     public function activeOffers(): HasMany
     {
         return $this->offers()

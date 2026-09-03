@@ -250,6 +250,77 @@ class CarResource extends Resource
                                     ->cloneable()
                                     ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
                             ]),
+
+                        Section::make(__('الفروقات والإضافات'))
+                            ->icon('heroicon-o-adjustments-horizontal')
+                            ->collapsible()
+                            ->collapsed()
+                            ->description(__('أضف نسخاً مختلفة من نفس السيارة (مريات، جنوط، باقات) مع صورة وسعر ومواصفات خاصة بكل نسخة'))
+                            ->schema([
+                                Forms\Components\Repeater::make('variants')
+                                    ->label(__('الفروقات والإضافات'))
+                                    ->relationship('variants')
+                                    ->schema([
+                                        Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label(__('اسم الفارياتن / الإضافة'))
+                                                    ->placeholder('مثال: جنوط 18 بوصة، باقة Sport، دبل كامل...')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('sort_order')
+                                                    ->label(__('الترتيب'))
+                                                    ->numeric()
+                                                    ->default(0),
+                                            ]),
+
+                                        Forms\Components\FileUpload::make('image')
+                                            ->label(__('صورة هذا الفارياتن'))
+                                            ->image()
+                                            ->disk('public')
+                                            ->directory('cars/variants')
+                                            ->visibility('public')
+                                            ->saveUploadedFileUsing(ImageOptimizationService::makeCallback('cars/variants', 1400, 1050, 82))
+                                            ->helperText(__('ارفع صورة توضح الفرق البصري لهذا الفارياتن')),
+
+                                        Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('cash_price')
+                                                    ->label(__('سعر الكاش'))
+                                                    ->numeric()
+                                                    ->prefix(__('SAR')),
+                                                Forms\Components\TextInput::make('min_installment')
+                                                    ->label(__('أقل قسط شهري'))
+                                                    ->numeric()
+                                                    ->prefix(__('SAR/شهر')),
+                                                Forms\Components\TextInput::make('min_down_payment')
+                                                    ->label(__('أقل دفعة أولى'))
+                                                    ->numeric()
+                                                    ->prefix(__('SAR')),
+                                            ]),
+
+                                        Forms\Components\Repeater::make('specs')
+                                            ->label(__('المواصفات الخاصة بهذا الفارياتن'))
+                                            ->schema([
+                                                Grid::make(2)
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('key')
+                                                            ->label(__('المواصفة'))
+                                                            ->placeholder('مثال: نوع الجنوط، حجم الإطار...'),
+                                                        Forms\Components\TextInput::make('value')
+                                                            ->label(__('القيمة'))
+                                                            ->placeholder('مثال: ألومنيوم 18 بوصة...'),
+                                                    ]),
+                                            ])
+                                            ->addActionLabel(__('إضافة مواصفة'))
+                                            ->collapsible()
+                                            ->defaultItems(0),
+                                    ])
+                                    ->addActionLabel(__('إضافة فارياتن / إضافة جديدة'))
+                                    ->collapsible()
+                                    ->cloneable()
+                                    ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                                    ->orderColumn('sort_order'),
+                            ]),
                     ]),
 
                 // Right/Side Column: Settings & Media (1/3 Width)

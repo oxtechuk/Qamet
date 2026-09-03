@@ -78,7 +78,7 @@ class ReviewBookingResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('status', 'under_review');
+            ->whereIn('status', ['under_review', 'closed', 'rejected']);
     }
 
     public static function table(Table $table): Table
@@ -129,6 +129,22 @@ class ReviewBookingResource extends Resource
                     ->dateTime('Y-m-d h:i A')
                     ->since()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->label(__('الحالة'))
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'under_review' => 'قيد المراجعة',
+                        'closed' => 'مقفول',
+                        'rejected' => 'مرفوض',
+                        default => $state,
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'under_review' => 'warning',
+                        'closed' => 'danger',
+                        'rejected' => 'gray',
+                        default => 'gray',
+                    }),
             ])
             ->actions([
                 // 1. تأكيد الرفض / الإغلاق من الإدارة
