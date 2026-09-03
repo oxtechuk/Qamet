@@ -13,15 +13,15 @@ final class SlugResolver
         $decoded = urldecode($slug);
 
         $query->where(function ($q) use ($slug, $decoded) {
-            $q->where('slug->en', $slug)
-                ->orWhere('slug->ar', $slug)
+            $q->where('slug->ar', $slug)
+                ->orWhere('slug->en', $slug)
+                ->orWhere('slug->ar', $decoded)
                 ->orWhere('slug->en', $decoded)
-                ->orWhere('slug->ar', $decoded);
+                ->orWhere('slug', $slug)
+                ->orWhere('slug', $decoded);
 
-            if (strlen($decoded) > 10) {
-                $prefix = mb_substr($decoded, 0, 15);
-                $q->orWhere('slug->ar', 'LIKE', "%{$prefix}%")
-                    ->orWhere('slug->en', 'LIKE', "%{$prefix}%");
+            if (is_numeric($slug)) {
+                $q->orWhere('id', (int) $slug);
             }
         });
     }

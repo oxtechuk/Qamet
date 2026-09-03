@@ -80,6 +80,17 @@ export interface CarDetails {
   features_list: FeatureItem[];
   safety_features?: FeatureItem[];
   related_cars: CarItem[];
+  variants?: ICarVariantItem[];
+}
+
+export interface ICarVariantItem {
+  id: number;
+  name: string;
+  image?: string | null;
+  cash_price?: number | null;
+  min_installment?: number | null;
+  min_down_payment?: number | null;
+  specs?: Array<{ key: string; value?: string }> | Record<string, string>;
 }
 
 export interface CarsSidebarFilterData {

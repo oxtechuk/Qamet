@@ -38,6 +38,7 @@ final class CarApiService
             'specifications',
             'features_list',
             'safety_features',
+            'variants' => fn ($q) => $q->orderBy('sort_order'),
             'activeOffers',
             'highlight',
             'offers' => fn ($q) => $q->active(),

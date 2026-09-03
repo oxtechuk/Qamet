@@ -105,6 +105,7 @@ export default function AllCarsPage() {
         queryKey: ["cars-data", language, filters, currentPage, offerId],
         queryFn: () => getCars(buildParams()),
         staleTime: 5 * 60 * 1000,
+        placeholderData: (previousData) => previousData,
         retry: 1,
     });
 
@@ -169,7 +170,7 @@ export default function AllCarsPage() {
             }));
     }, [carsMeta?.hero_slides, language]);
 
-    if (carsPending) {
+    if (carsPending && !carsResponse) {
         return <AllCarsPageSkeleton />;
     }
 

@@ -109,7 +109,7 @@ class CarsShowcase extends Page
         }
 
         return Car::query()
-            ->with(['brand', 'category', 'specifications', 'features_list', 'safety_features', 'variants'])
+            ->with(['brand', 'category', 'specifications', 'features_list', 'safety_features', 'variants', 'images'])
             ->find($this->selectedCarId);
     }
 
@@ -128,7 +128,8 @@ class CarsShowcase extends Page
     public function buildSpecsText(Car $car): string
     {
         $lines = [];
-        $lines[] = '🚗 '.$car->name.' '.($car->year ?? '');
+        $carTitle = str_contains($car->name, (string) $car->year) ? $car->name : "{$car->name} {$car->year}";
+        $lines[] = '🚗 '.$carTitle;
         $lines[] = '';
 
         if ($car->cash_price) {
@@ -159,6 +160,14 @@ class CarsShowcase extends Page
             }
         }
 
+        if ($car->safety_features->isNotEmpty()) {
+            $lines[] = '';
+            $lines[] = '🛡️ ميزات الأمان:';
+            foreach ($car->safety_features as $sf) {
+                $lines[] = '• '.$sf->name;
+            }
+        }
+
         if ($car->variants->isNotEmpty()) {
             $lines[] = '';
             $lines[] = '🔧 الفروقات والإضافات المتاحة:';
@@ -167,63 +176,19 @@ class CarsShowcase extends Page
                 if ($variant->cash_price) {
                     $lines[] = '  - سعر الكاش: '.number_format($variant->cash_price).' ريال';
                 }
+                if ($variant->min_installment) {
+                    $lines[] = '  - القسط: '.number_format($variant->min_installment).' ريال/شهر';
+                }
             }
         }
 
         return implode("\n", $lines);
     }
 
-    public function getAllImagesForDownload(): array
-    {
-        $car = $this->getSelectedCar();
-        if (! $car) {
-            return [];
-        }
-
-        $paths = [];
-
-        if ($car->thumbnail) {
-            $paths[] = $car->thumbnail;
-        }
-
-        $exteriorColors = $car->exterior_colors ?? $car->colors ?? [];
-        foreach ($exteriorColors as $color) {
-            foreach ($color['images'] ?? [] as $img) {
-                if ($img) {
-                    $paths[] = $img;
-                }
-            }
-        }
-
-        foreach ($car->interior_colors ?? [] as $color) {
-            foreach ($color['images'] ?? [] as $img) {
-                if ($img) {
-                    $paths[] = $img;
-                }
-            }
-        }
-
-        foreach ($car->variants as $variant) {
-            if ($variant->image) {
-                $paths[] = $variant->image;
-            }
-        }
-
-        return array_unique(array_filter($paths));
-    }
-
     public function downloadImages(): void
     {
         $car = $this->getSelectedCar();
         if (! $car) {
-            return;
-        }
-
-        $imagePaths = $this->getAllImagesForDownload();
-
-        if (empty($imagePaths)) {
-            $this->dispatch('notify', ['type' => 'warning', 'message' => 'لا توجد صور لتحميلها']);
-
             return;
         }
 
@@ -236,17 +201,127 @@ class CarsShowcase extends Page
         }
 
         $zip = new \ZipArchive;
-        $zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            return;
+        }
 
-        foreach ($imagePaths as $path) {
-            $absPath = Storage::disk('public')->path($path);
-            if (file_exists($absPath)) {
-                $zip->addFile($absPath, basename($path));
+        $filesAdded = 0;
+
+        // 1. الصورة الرئيسية / صورة الواجهة
+        if ($car->thumbnail) {
+            if ($this->addImageToZip($zip, $car->thumbnail, 'الرئيسية/صورة_الواجهة.'.$this->getImageExtension($car->thumbnail))) {
+                $filesAdded++;
+            }
+        }
+
+        // 2. صور عامة إضافية للسيارة
+        if ($car->relationLoaded('images') || $car->images()->exists()) {
+            foreach ($car->images as $idx => $img) {
+                $folder = $img->type === 'interior' ? 'صور_عامة_داخلية' : 'صور_عامة_خارجية';
+                if ($this->addImageToZip($zip, $img->image_path, "{$folder}/صورة_".($idx + 1).'.'.$this->getImageExtension($img->image_path))) {
+                    $filesAdded++;
+                }
+            }
+        }
+
+        // 3. الألوان الخارجية مجمعة حسب اسم اللون
+        $exteriorColors = $car->exterior_colors ?? $car->colors ?? [];
+        if (is_array($exteriorColors)) {
+            foreach ($exteriorColors as $cIdx => $color) {
+                $colorName = $this->sanitizeFileName($color['name'] ?? 'لون_خارجي_'.($cIdx + 1));
+                $images = $color['images'] ?? (! empty($color['image']) ? [$color['image']] : []);
+                foreach ((array) $images as $imgIdx => $img) {
+                    if ($img && $this->addImageToZip($zip, $img, "الألوان_الخارجية/{$colorName}/صورة_".($imgIdx + 1).'.'.$this->getImageExtension($img))) {
+                        $filesAdded++;
+                    }
+                }
+            }
+        }
+
+        // 4. الألوان الداخلية مجمعة حسب اسم اللون
+        $interiorColors = $car->interior_colors ?? [];
+        if (is_array($interiorColors)) {
+            foreach ($interiorColors as $cIdx => $color) {
+                $colorName = $this->sanitizeFileName($color['name'] ?? 'لون_داخلي_'.($cIdx + 1));
+                $images = $color['images'] ?? (! empty($color['image']) ? [$color['image']] : []);
+                foreach ((array) $images as $imgIdx => $img) {
+                    if ($img && $this->addImageToZip($zip, $img, "الألوان_الداخلية/{$colorName}/صورة_".($imgIdx + 1).'.'.$this->getImageExtension($img))) {
+                        $filesAdded++;
+                    }
+                }
+            }
+        }
+
+        // 5. الفروقات والإضافات / الفئات مجمعة حسب اسم الفئة
+        if ($car->variants->isNotEmpty()) {
+            foreach ($car->variants as $vIdx => $variant) {
+                if ($variant->image) {
+                    $variantName = $this->sanitizeFileName($variant->name ?? 'فئة_'.($vIdx + 1));
+                    if ($this->addImageToZip($zip, $variant->image, "الفروقات_والفئات/{$variantName}/صورة.".$this->getImageExtension($variant->image))) {
+                        $filesAdded++;
+                    }
+                }
             }
         }
 
         $zip->close();
 
+        if ($filesAdded === 0) {
+            $this->dispatch('toast-message', message: 'لا توجد صور متوفرة للتحميل لهذه السيارة');
+
+            return;
+        }
+
         $this->dispatch('download-file', url: Storage::disk('public')->url('temp/'.$zipName));
+    }
+
+    private function addImageToZip(\ZipArchive $zip, string $path, string $zipInternalPath): bool
+    {
+        // 1. Try public disk
+        $cleanPath = preg_replace('#^https?://[^/]+/storage/#', '', $path);
+        $cleanPath = ltrim(preg_replace('#^storage/#', '', $cleanPath), '/');
+
+        $diskPath = Storage::disk('public')->path($cleanPath);
+        if (file_exists($diskPath) && is_file($diskPath)) {
+            return $zip->addFile($diskPath, $zipInternalPath);
+        }
+
+        // 2. Try raw filesystem path
+        if (file_exists($path) && is_file($path)) {
+            return $zip->addFile($path, $zipInternalPath);
+        }
+
+        // 3. Try HTTP URL if absolute URL
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            try {
+                $context = stream_context_create([
+                    'ssl' => ['verify_peer' => false, 'verify_peer_name' => false],
+                    'http' => ['timeout' => 8],
+                ]);
+                $content = @file_get_contents($path, false, $context);
+                if ($content !== false && strlen($content) > 0) {
+                    return $zip->addFromString($zipInternalPath, $content);
+                }
+            } catch (\Throwable) {
+                // Skip if unreachable
+            }
+        }
+
+        return false;
+    }
+
+    private function getImageExtension(string $path): string
+    {
+        $parsed = parse_url($path, PHP_URL_PATH);
+        $ext = strtolower(pathinfo($parsed ?: $path, PATHINFO_EXTENSION));
+
+        return in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg']) ? $ext : 'webp';
+    }
+
+    private function sanitizeFileName(string $name): string
+    {
+        $clean = preg_replace('/[\\\\\/:\*\?"<>\|\s]+/u', '_', trim($name));
+
+        return trim($clean, '_') ?: 'item';
     }
 }

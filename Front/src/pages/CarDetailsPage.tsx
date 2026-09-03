@@ -137,6 +137,7 @@ export default function CarDetailsPage() {
         })}
         orderTo={`/orders?car=${car.id}&slug=${car.slug}`}
         financeTo="/finance-calculator"
+        variants={car.variants}
       />
       <CarDetailsSpecs tabs={tabs} />
 

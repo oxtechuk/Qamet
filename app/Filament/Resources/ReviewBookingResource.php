@@ -10,6 +10,8 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -140,137 +142,251 @@ class ReviewBookingResource extends Resource
                     })
                     ->sortable(),
             ])
+            ->recordAction('view')
             ->actions([
-                // 1. تأكيد الرفض / الإغلاق من الإدارة
-                Actions\Action::make('confirm_rejection')
-                    ->label('تأكيد الرفض والإغلاق')
-                    ->icon('heroicon-o-x-circle')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->modalHeading('تأكيد رفض وإغلاق الطلب')
-                    ->modalDescription('سيتم تأكيد رفض الطلب وإلغاء إسناده للمندوب ونقله للطلبات المرفوضة/الملغية.')
+                Actions\ViewAction::make('view')
+                    ->label('التفاصيل')
+                    ->icon('heroicon-o-eye')
+                    ->color('primary')
+                    ->slideOver()
+                    ->modalWidth('4xl')
+                    ->modalHeading(fn (Booking $record): string => "تفاصيل الطلب #{$record->id} - {$record->client_name}")
                     ->form([
-                        Forms\Components\Textarea::make('admin_note')
-                            ->label('ملاحظات الإدارة الإضافية (اختياري)')
-                            ->placeholder('سبب اعتماد الإغلاق أو تعليق الإدارة...'),
-                    ])
-                    ->action(function (Booking $record, array $data) {
-                        $oldAssignedRep = $record->assignedTo;
-                        $noteText = ! empty($data['admin_note']) ? ' | ملاحظة الإدارة: '.$data['admin_note'] : '';
+                        Section::make('بيانات العميل')
+                            ->icon('heroicon-o-user')
+                            ->schema([
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('client_name')
+                                        ->label('اسم العميل')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('client_phone')
+                                        ->label('رقم الجوال')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('client_email')
+                                        ->label('البريد الإلكتروني')
+                                        ->placeholder('-')
+                                        ->disabled(),
+                                ]),
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('work_sector')
+                                        ->label('جهة العمل')
+                                        ->formatStateUsing(fn (?string $state): string => match ($state) {
+                                            'government' => 'حكومي',
+                                            'private' => 'قطاع خاص',
+                                            'military' => 'عسكري',
+                                            'retired' => 'متقاعد',
+                                            default => $state ?: 'غير محدد',
+                                        })
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('salary')
+                                        ->label('الراتب')
+                                        ->prefix('SAR')
+                                        ->placeholder('-')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('monthly_obligations')
+                                        ->label('الالتزامات الشهرية')
+                                        ->prefix('SAR')
+                                        ->placeholder('-')
+                                        ->disabled(),
+                                ]),
+                            ]),
 
-                        $record->update([
-                            'status' => 'rejected',
-                            'assigned_to' => null,
-                            'notes' => trim(($record->notes ?? '').' [تم تأكيد الرفض من الإدارة'.$noteText.']'),
-                        ]);
+                        Section::make('بيانات السيارة والطلب')
+                            ->icon('heroicon-o-truck')
+                            ->schema([
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('car_display')
+                                        ->label('السيارة')
+                                        ->formatStateUsing(fn (Booking $record): string => $record->car?->name ?? $record->car_type ?? 'غير محدد')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('car_type')
+                                        ->label('الموديل / الفئة')
+                                        ->placeholder('-')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('booking_type')
+                                        ->label('نوع الطلب')
+                                        ->formatStateUsing(fn (?string $state): string => Booking::BOOKING_TYPES_LABELS[$state] ?? $state ?? 'غير محدد')
+                                        ->disabled(),
+                                ]),
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('payment_method')
+                                        ->label('طريقة الدفع')
+                                        ->formatStateUsing(fn (?string $state): string => match ($state) {
+                                            'cash' => 'كاش 💵',
+                                            'bank', 'finance', 'installment' => 'تقسيط / بنك 💳',
+                                            default => $state ?: 'غير محدد',
+                                        })
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('total_price')
+                                        ->label('السعر الإجمالي')
+                                        ->prefix('SAR')
+                                        ->placeholder('-')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('down_payment')
+                                        ->label('الدفعة الأولى')
+                                        ->prefix('SAR')
+                                        ->placeholder('-')
+                                        ->disabled(),
+                                ]),
+                            ]),
 
-                        ActivityLogger::log(
-                            action: 'completed',
-                            subjectType: 'طلب حجز',
-                            subjectId: $record->id,
-                            subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
-                            description: "قام الإداري بتأكيد رفض وإغلاق الطلب رقم #{$record->id}"
-                        );
+                        Section::make('حالة المراجعة والملاحظات')
+                            ->icon('heroicon-o-clipboard-document-list')
+                            ->schema([
+                                Grid::make(2)->schema([
+                                    Forms\Components\TextInput::make('status_label')
+                                        ->label('الحالة الحالية')
+                                        ->formatStateUsing(fn (Booking $record): string => match ($record->status) {
+                                            'under_review' => 'قيد المراجعة الإدارية',
+                                            'closed' => 'مغلق',
+                                            'rejected' => 'مرفوض',
+                                            default => $record->status,
+                                        })
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('assigned_rep')
+                                        ->label('المندوب الذي طلب الإغلاق')
+                                        ->formatStateUsing(fn (Booking $record): string => $record->assignedTo?->name ?? 'غير مسند')
+                                        ->disabled(),
+                                ]),
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('سبب طلب الإغلاق / سجل الملاحظات')
+                                    ->rows(4)
+                                    ->disabled(),
+                            ]),
+                    ]),
 
-                        Notification::make()
-                            ->title('تم تأكيد رفض وإغلاق الطلب بنجاح')
-                            ->success()
-                            ->send();
-                    }),
+                Actions\ActionGroup::make([
+                    // 1. تأكيد الرفض / الإغلاق من الإدارة
+                    Actions\Action::make('confirm_rejection')
+                        ->label('تأكيد الرفض والإغلاق')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->modalHeading('تأكيد رفض وإغلاق الطلب')
+                        ->modalDescription('سيتم تأكيد رفض الطلب وإلغاء إسناده للمندوب ونقله للطلبات المرفوضة/الملغية.')
+                        ->form([
+                            Forms\Components\Textarea::make('admin_note')
+                                ->label('ملاحظات الإدارة الإضافية (اختياري)')
+                                ->placeholder('سبب اعتماد الإغلاق أو تعليق الإدارة...'),
+                        ])
+                        ->action(function (Booking $record, array $data): void {
+                            $noteText = ! empty($data['admin_note']) ? ' | ملاحظة الإدارة: '.$data['admin_note'] : '';
 
-                // 2. إعادة الطلب للمندوب لمواصلة المتابعة
-                Actions\Action::make('return_to_rep')
-                    ->label('إعادة للمندوب')
-                    ->icon('heroicon-o-arrow-uturn-left')
-                    ->color('warning')
-                    ->modalHeading('إعادة الطلب للمندوب لمواصلة المتابعة')
-                    ->modalDescription('سيتم إعادة حالة الطلب إلى (تم التواصل) لكي يستمر المندوب في متابعة العميل.')
-                    ->form([
-                        Forms\Components\Textarea::make('admin_instructions')
-                            ->label('توجيهات وملاحظات الإدارة للمندوب')
-                            ->placeholder('مثال: تواصل مع العميل مرة أخرى واعرض عليه حلول التمويل البديلة...')
-                            ->required(),
-                    ])
-                    ->action(function (Booking $record, array $data) {
-                        $instruction = $data['admin_instructions'];
+                            $record->update([
+                                'status' => 'rejected',
+                                'assigned_to' => null,
+                                'notes' => trim(($record->notes ?? '').' [تم تأكيد الرفض من الإدارة'.$noteText.']'),
+                            ]);
 
-                        $record->update([
-                            'status' => 'contacted',
-                            'notes' => trim(($record->notes ?? '').' [توجيه الإدارة للمندوب: '.$instruction.']'),
-                        ]);
+                            ActivityLogger::log(
+                                action: 'completed',
+                                subjectType: 'طلب حجز',
+                                subjectId: $record->id,
+                                subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
+                                description: "قام الإداري بتأكيد رفض وإغلاق الطلب رقم #{$record->id}"
+                            );
 
-                        if ($record->assignedTo) {
-                            $record->assignedTo->notify(new \App\Notifications\NewBookingNotification(
-                                $record,
-                                'إعادة طلب حجز للمتابعة',
-                                "تمت إعادة الطلب #{$record->id} للعميل {$record->client_name} لمواصلة المتابعة: {$instruction}"
-                            ));
-                        }
+                            Notification::make()
+                                ->title('تم تأكيد رفض وإغلاق الطلب بنجاح')
+                                ->success()
+                                ->send();
+                        }),
 
-                        ActivityLogger::log(
-                            action: 'updated',
-                            subjectType: 'طلب حجز',
-                            subjectId: $record->id,
-                            subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
-                            description: "أعادت الإدارة الطلب #{$record->id} للمندوب مع التوجيه: {$instruction}"
-                        );
+                    // 2. إعادة الطلب للمندوب لمواصلة المتابعة
+                    Actions\Action::make('return_to_rep')
+                        ->label('إعادة للمندوب')
+                        ->icon('heroicon-o-arrow-uturn-left')
+                        ->color('warning')
+                        ->modalHeading('إعادة الطلب للمندوب لمواصلة المتابعة')
+                        ->modalDescription('سيتم إعادة حالة الطلب إلى (تم التواصل) لكي يستمر المندوب في متابعة العميل.')
+                        ->form([
+                            Forms\Components\Textarea::make('admin_instructions')
+                                ->label('توجيهات وملاحظات الإدارة للمندوب')
+                                ->placeholder('مثال: تواصل مع العميل مرة أخرى واعرض عليه حلول التمويل البديلة...')
+                                ->required(),
+                        ])
+                        ->action(function (Booking $record, array $data): void {
+                            $instruction = $data['admin_instructions'];
 
-                        Notification::make()
-                            ->title('تمت إعادة الطلب للمندوب بنجاح')
-                            ->success()
-                            ->send();
-                    }),
+                            $record->update([
+                                'status' => 'contacted',
+                                'notes' => trim(($record->notes ?? '').' [توجيه الإدارة للمندوب: '.$instruction.']'),
+                            ]);
 
-                // 3. تحويل لمندوب آخر
-                Actions\Action::make('reassign_rep')
-                    ->label('تحويل لمندوب آخر')
-                    ->icon('heroicon-o-user-plus')
-                    ->color('info')
-                    ->form([
-                        Forms\Components\Select::make('new_rep_id')
-                            ->label('المندوب الجديد')
-                            ->options(fn () => Employee::query()->where('is_active', true)->pluck('name', 'id')->toArray())
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Forms\Components\Textarea::make('reassign_note')
-                            ->label('ملاحظة التحويل')
-                            ->placeholder('سبب تحويل الطلب لمندوب آخر...'),
-                    ])
-                    ->action(function (Booking $record, array $data) {
-                        $newRep = Employee::find($data['new_rep_id']);
-                        $note = ! empty($data['reassign_note']) ? ' | سبب التحويل: '.$data['reassign_note'] : '';
+                            if ($record->assignedTo) {
+                                $record->assignedTo->notify(new \App\Notifications\NewBookingNotification(
+                                    $record,
+                                    'إعادة طلب حجز للمتابعة',
+                                    "تمت إعادة الطلب #{$record->id} للعميل {$record->client_name} لمواصلة المتابعة: {$instruction}"
+                                ));
+                            }
 
-                        $record->update([
-                            'status' => 'new',
-                            'assigned_to' => $newRep?->id,
-                            'notes' => trim(($record->notes ?? '').' [تم تحويل الطلب من الإدارة إلى '.$newRep?->name.$note.']'),
-                        ]);
+                            ActivityLogger::log(
+                                action: 'updated',
+                                subjectType: 'طلب حجز',
+                                subjectId: $record->id,
+                                subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
+                                description: "أعادت الإدارة الطلب #{$record->id} للمندوب مع التوجيه: {$instruction}"
+                            );
 
-                        if ($newRep) {
-                            $newRep->notify(new \App\Notifications\NewBookingNotification(
-                                $record,
-                                'طلب محول جديد',
-                                "تم تحويل طلب العميل {$record->client_name} إليك للمتابعة"
-                            ));
-                        }
+                            Notification::make()
+                                ->title('تمت إعادة الطلب للمندوب بنجاح')
+                                ->success()
+                                ->send();
+                        }),
 
-                        ActivityLogger::log(
-                            action: 'updated',
-                            subjectType: 'طلب حجز',
-                            subjectId: $record->id,
-                            subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
-                            description: "قامت الإدارة بتحويل الطلب #{$record->id} إلى المندوب: {$newRep?->name}"
-                        );
+                    // 3. تحويل لمندوب آخر
+                    Actions\Action::make('reassign_rep')
+                        ->label('تحويل لمندوب آخر')
+                        ->icon('heroicon-o-user-plus')
+                        ->color('info')
+                        ->form([
+                            Forms\Components\Select::make('new_rep_id')
+                                ->label('المندوب الجديد')
+                                ->options(fn (): array => Employee::query()->where('is_active', true)->pluck('name', 'id')->toArray())
+                                ->searchable()
+                                ->preload()
+                                ->required(),
+                            Forms\Components\Textarea::make('reassign_note')
+                                ->label('ملاحظة التحويل')
+                                ->placeholder('سبب تحويل الطلب لمندوب آخر...'),
+                        ])
+                        ->action(function (Booking $record, array $data): void {
+                            $newRep = Employee::find($data['new_rep_id']);
+                            $note = ! empty($data['reassign_note']) ? ' | سبب التحويل: '.$data['reassign_note'] : '';
 
-                        Notification::make()
-                            ->title('تم تحويل الطلب بنجاح')
-                            ->success()
-                            ->send();
-                    }),
+                            $record->update([
+                                'status' => 'new',
+                                'assigned_to' => $newRep?->id,
+                                'notes' => trim(($record->notes ?? '').' [تم تحويل الطلب من الإدارة إلى '.$newRep?->name.$note.']'),
+                            ]);
 
-                Actions\ViewAction::make()
-                    ->label('عرض التفاصيل'),
+                            if ($newRep) {
+                                $newRep->notify(new \App\Notifications\NewBookingNotification(
+                                    $record,
+                                    'طلب محول جديد',
+                                    "تم تحويل طلب العميل {$record->client_name} إليك للمتابعة"
+                                ));
+                            }
+
+                            ActivityLogger::log(
+                                action: 'updated',
+                                subjectType: 'طلب حجز',
+                                subjectId: $record->id,
+                                subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
+                                description: "قامت الإدارة بتحويل الطلب #{$record->id} إلى المندوب: {$newRep?->name}"
+                            );
+
+                            Notification::make()
+                                ->title('تم تحويل الطلب بنجاح')
+                                ->success()
+                                ->send();
+                        }),
+                ])
+                    ->label('إجراءات الإدارة')
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->color('gray')
+                    ->button(),
             ])
             ->defaultSort('updated_at', 'desc');
     }

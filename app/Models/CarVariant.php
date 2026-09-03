@@ -34,6 +34,24 @@ class CarVariant extends Model
         return $this->belongsTo(Car::class);
     }
 
+    public function getImageAttribute(?string $value): ?string
+    {
+        if (blank($value) || str_contains($value, 'livewire-tmp')) {
+            return null;
+        }
+
+        return $value;
+    }
+
+    public function setImageAttribute(mixed $value): void
+    {
+        if (blank($value) || (is_string($value) && str_contains($value, 'livewire-tmp'))) {
+            $this->attributes['image'] = null;
+        } else {
+            $this->attributes['image'] = $value;
+        }
+    }
+
     public function getImageUrlAttribute(): ?string
     {
         return AsImageUrl::url($this->image);

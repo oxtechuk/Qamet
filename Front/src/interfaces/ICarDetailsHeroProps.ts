@@ -6,6 +6,16 @@ export interface ICarColor {
   images?: string[];
 }
 
+export interface ICarVariantItem {
+  id: number;
+  name: string;
+  image?: string | null;
+  cash_price?: number | null;
+  min_installment?: number | null;
+  min_down_payment?: number | null;
+  specs?: Array<{ key: string; value?: string }> | Record<string, string>;
+}
+
 export interface ICarDetailsHeroProps {
   title: string;
   description: string;
@@ -21,4 +31,5 @@ export interface ICarDetailsHeroProps {
   colors: ICarColor[];
   orderTo: string;
   financeTo: string;
+  variants?: ICarVariantItem[];
 }

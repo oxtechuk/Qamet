@@ -277,6 +277,7 @@ class CarResource extends Resource
                                             ->label(__('صورة هذا الفارياتن'))
                                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
                                             ->maxSize(10240)
+                                            ->fetchFileInformation(false)
                                             ->disk('public')
                                             ->directory('cars/variants')
                                             ->visibility('public')
@@ -388,9 +389,16 @@ class CarResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('thumbnail')->label(__('Thumbnail'))
-                    ->circular()
-                    ->defaultImageUrl(fn () => asset('images/placeholder-car.jpg')),
+                Tables\Columns\ImageColumn::make('main_image')
+                    ->label(__('Thumbnail'))
+                    ->state(fn (Car $record): ?string => $record->main_image)
+                    ->checkFileExistence(false)
+                    ->disk('public')
+                    ->circular(fn ($livewire): bool => ! ($livewire instanceof Pages\ListCars && ($livewire->viewMode ?? 'table') === 'grid'))
+                    ->imageHeight(fn ($livewire): ?string => ($livewire instanceof Pages\ListCars && ($livewire->viewMode ?? 'table') === 'grid') ? '160px' : null)
+                    ->imageWidth(fn ($livewire): ?string => ($livewire instanceof Pages\ListCars && ($livewire->viewMode ?? 'table') === 'grid') ? '100%' : null)
+                    ->extraImgAttributes(fn ($livewire): array => ($livewire instanceof Pages\ListCars && ($livewire->viewMode ?? 'table') === 'grid') ? ['style' => 'object-fit:cover; border-radius:0.75rem;'] : [])
+                    ->defaultImageUrl('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="%23cbd5e1"><path d="M3 9l2-4h14l2 4M3 9v7a2 2 0 002 2h14a2 2 0 002-2V9M3 9h18"/></svg>'),
 
                 Tables\Columns\TextColumn::make('name')->label(__('Name'))
                     ->searchable()
@@ -580,6 +588,18 @@ class CarResource extends Resource
                 Tables\Grouping\Group::make('brand.name'),
                 Tables\Grouping\Group::make('availability_status'),
             ])
+            ->contentGrid(function ($livewire): ?array {
+                if ($livewire instanceof Pages\ListCars && ($livewire->viewMode ?? 'table') === 'grid') {
+                    return [
+                        'sm' => 1,
+                        'md' => 2,
+                        'lg' => 3,
+                        'xl' => 4,
+                    ];
+                }
+
+                return null;
+            })
             ->defaultSort('created_at', 'desc');
     }
 

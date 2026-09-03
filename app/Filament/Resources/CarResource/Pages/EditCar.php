@@ -55,6 +55,15 @@ class EditCar extends EditRecord
             $data['interior_colors'] = $interiorColors;
         }
 
+        if (! empty($data['variants']) && is_array($data['variants'])) {
+            foreach ($data['variants'] as &$variant) {
+                if (isset($variant['image']) && is_string($variant['image']) && str_contains($variant['image'], 'livewire-tmp')) {
+                    $variant['image'] = null;
+                }
+            }
+            unset($variant);
+        }
+
         return $data;
     }
 

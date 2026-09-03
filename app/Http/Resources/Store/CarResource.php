@@ -72,6 +72,15 @@ class CarResource extends JsonResource
             ])),
             'related_cars' => $this->whenLoaded('relatedCars', fn () => CarMiniResource::collection($this->relatedCars),
             ),
+            'variants' => $this->whenLoaded('variants', fn () => $this->variants->map(fn ($variant) => [
+                'id' => $variant->id,
+                'name' => $variant->name,
+                'image' => $variant->image_url,
+                'cash_price' => $variant->cash_price,
+                'min_installment' => $variant->min_installment,
+                'min_down_payment' => $variant->min_down_payment,
+                'specs' => $variant->specs,
+            ])),
         ];
     }
 }

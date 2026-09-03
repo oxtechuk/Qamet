@@ -207,9 +207,18 @@ class Car extends Model
             ->all();
     }
 
+    public function getThumbnailAttribute(?string $value): ?string
+    {
+        if (blank($value) || str_contains((string) $value, 'livewire-tmp')) {
+            return null;
+        }
+
+        return $value;
+    }
+
     public function getMainImageAttribute(): ?string
     {
-        if ($this->thumbnail) {
+        if ($this->thumbnail && ! str_contains((string) $this->thumbnail, 'livewire-tmp')) {
             return AsImageUrl::url($this->thumbnail);
         }
 
