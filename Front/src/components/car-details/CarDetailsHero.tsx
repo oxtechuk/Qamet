@@ -420,9 +420,10 @@ function CarDetailsGallery({
             {/* Main image */}
             <div className="relative overflow-hidden rounded-[18px]">
                 <LazyImg
+                    key={currentImage}
                     src={currentImage}
                     alt={title}
-                    className="h-[360px] w-full object-cover md:h-[440px]"
+                    className="h-[360px] w-full object-cover md:h-[440px] transition-opacity duration-300"
                 />
 
                 {/* Color tint overlay when a color is selected but has no dedicated image */}

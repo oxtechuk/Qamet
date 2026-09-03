@@ -1,4 +1,4 @@
-import { type ImgHTMLAttributes, useState } from "react";
+import { type ImgHTMLAttributes, useState, useEffect } from "react";
 import { APP_IMAGES } from "../constants/app-images";
 
 export default function LazyImg({
@@ -10,6 +10,11 @@ export default function LazyImg({
 }: ImgHTMLAttributes<HTMLImageElement>) {
   const [imgSrc, setImgSrc] = useState<string | undefined>(src);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(src);
+    setHasError(false);
+  }, [src]);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     if (!hasError) {

@@ -94,10 +94,46 @@ export default function HomeHero({
     const [menuOpen, setMenuOpen] = useState(false);
     const [logoError, setLogoError] = useState(false);
     const [carFinderOpen, setCarFinderOpen] = useState(false);
-    const [isMuted, setIsMuted] = useState(true);
+    const [isMuted, setIsMuted] = useState(false);
 
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
+
+    const unmuteAll = useCallback(() => {
+        if (iframeRef.current?.contentWindow) {
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({
+                    event: "command",
+                    func: "unMute",
+                    args: [],
+                }),
+                "*"
+            );
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({
+                    event: "command",
+                    func: "setVolume",
+                    args: [100],
+                }),
+                "*"
+            );
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({
+                    event: "command",
+                    func: "playVideo",
+                    args: [],
+                }),
+                "*"
+            );
+        }
+
+        if (videoRef.current) {
+            videoRef.current.muted = false;
+            videoRef.current.volume = 1;
+            videoRef.current.play().catch(() => {});
+        }
+        setIsMuted(false);
+    }, []);
 
     const onIframeLoad = useCallback(() => {
         if (iframeRef.current?.contentWindow) {
@@ -117,7 +153,52 @@ export default function HomeHero({
                 }),
                 "*"
             );
+            // Automatically un-mute and play audio
+            unmuteAll();
         }
+    }, [unmuteAll]);
+
+    // Ensure audio un-mutes automatically on first user click or touch if browser restricted unmuted autoplay
+    useEffect(() => {
+        const handleInteraction = () => {
+            unmuteAll();
+        };
+
+        window.addEventListener("click", handleInteraction, { once: true });
+        window.addEventListener("touchstart", handleInteraction, { once: true });
+        window.addEventListener("scroll", handleInteraction, { once: true, passive: true });
+
+        return () => {
+            window.removeEventListener("click", handleInteraction);
+            window.removeEventListener("touchstart", handleInteraction);
+            window.removeEventListener("scroll", handleInteraction);
+        };
+    }, [unmuteAll]);
+
+    // Handle seamless looping without YouTube playlist UI
+    useEffect(() => {
+        const handleMessage = (e: MessageEvent) => {
+            try {
+                const data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
+                if (data?.event === "onStateChange" && data?.info === 0) {
+                    if (iframeRef.current?.contentWindow) {
+                        iframeRef.current.contentWindow.postMessage(
+                            JSON.stringify({ event: "command", func: "seekTo", args: [0, true] }),
+                            "*"
+                        );
+                        iframeRef.current.contentWindow.postMessage(
+                            JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+                            "*"
+                        );
+                    }
+                }
+            } catch {
+                // Ignore parsing errors
+            }
+        };
+
+        window.addEventListener("message", handleMessage);
+        return () => window.removeEventListener("message", handleMessage);
     }, []);
 
     const toggleMute = useCallback(() => {
@@ -236,24 +317,25 @@ export default function HomeHero({
 
             <section
                 dir={direction}
-                className="flex h-screen w-full flex-col overflow-hidden"
+                className="flex min-h-[580px] h-[88vh] max-h-[960px] w-full flex-col overflow-hidden"
             >
                 {/* Main framed hero — grows to fill remaining height above the brands strip */}
                 <div className="relative min-h-0 flex-1 overflow-hidden rounded-t-[16px] border-[5px] border-white bg-black mx-2 mt-2">
                     {/* Background slider / video */}
                     <div className="absolute inset-0">
                         {activeYoutubeId ? (
-                            <div className="absolute inset-0 overflow-hidden bg-black flex items-center justify-center pointer-events-none">
+                            <div className="absolute inset-0 overflow-hidden bg-black flex items-center justify-center">
                                 <iframe
                                     key={activeYoutubeId}
                                     ref={iframeRef}
                                     onLoad={onIframeLoad}
-                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=1&loop=1&playlist=${activeYoutubeId}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1&vq=hd1080&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1&vq=hd1080&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                                     title="YouTube Hero Video Background"
                                     frameBorder="0"
                                     allow="autoplay; encrypted-media"
-                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[110vw] min-w-[195vh] h-[62vw] min-h-[115%] object-cover pointer-events-none scale-[1.3] border-0"
+                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] min-w-[177.78vh] h-[56.25vw] min-h-full object-cover pointer-events-none border-0"
                                 />
+                                <div className="absolute inset-0 z-10 pointer-events-auto bg-transparent" />
                             </div>
                         ) : activeVideoUrl ? (
                             <video
@@ -440,7 +522,7 @@ export default function HomeHero({
                     ) : null}
 
                     {/* Search bar */}
-                    <div className="absolute inset-x-4 bottom-[18%] z-20 sm:inset-x-8 md:bottom-[19%]">
+                    <div className="absolute inset-x-4 bottom-[5%] z-20 sm:inset-x-8 md:bottom-[6%]">
                         <div
                             onClick={() => setCarFinderOpen(true)}
                             className={[
