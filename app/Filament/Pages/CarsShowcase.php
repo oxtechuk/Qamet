@@ -129,55 +129,55 @@ class CarsShowcase extends Page
     {
         $lines = [];
         $carTitle = str_contains($car->name, (string) $car->year) ? $car->name : "{$car->name} {$car->year}";
-        $lines[] = '🚗 '.$carTitle;
-        $lines[] = '';
+        $lines[] = $carTitle;
+        $lines[] = str_repeat('─', 24);
 
         if ($car->cash_price) {
-            $lines[] = '💰 سعر الكاش: '.number_format($car->cash_price).' ريال';
+            $lines[] = 'سعر الكاش: '.number_format($car->cash_price).' ريال';
         }
 
         if ($car->min_installment) {
-            $lines[] = '📅 أقل قسط شهري: '.number_format($car->min_installment).' ريال/شهر';
+            $lines[] = 'أقل قسط شهري: '.number_format($car->min_installment).' ريال/شهر';
         }
 
         if ($car->min_down_payment) {
-            $lines[] = '🏦 أقل دفعة أولى: '.number_format($car->min_down_payment).' ريال';
+            $lines[] = 'أقل دفعة أولى: '.number_format($car->min_down_payment).' ريال';
         }
 
         if ($car->specifications->isNotEmpty()) {
             $lines[] = '';
-            $lines[] = '📋 المواصفات:';
+            $lines[] = 'المواصفات:';
             foreach ($car->specifications as $spec) {
-                $lines[] = '• '.$spec->name.($spec->value ? ': '.$spec->value : '');
+                $lines[] = '- '.$spec->name.($spec->value ? ': '.$spec->value : '');
             }
         }
 
         if ($car->features_list->isNotEmpty()) {
             $lines[] = '';
-            $lines[] = '✨ المميزات:';
+            $lines[] = 'المميزات والتجهيزات:';
             foreach ($car->features_list as $feature) {
-                $lines[] = '• '.$feature->name;
+                $lines[] = '- '.$feature->name;
             }
         }
 
         if ($car->safety_features->isNotEmpty()) {
             $lines[] = '';
-            $lines[] = '🛡️ ميزات الأمان:';
+            $lines[] = 'أنظمة السلامة والأمان:';
             foreach ($car->safety_features as $sf) {
-                $lines[] = '• '.$sf->name;
+                $lines[] = '- '.$sf->name;
             }
         }
 
         if ($car->variants->isNotEmpty()) {
             $lines[] = '';
-            $lines[] = '🔧 الفروقات والإضافات المتاحة:';
+            $lines[] = 'الفروقات والفئات المتاحة:';
             foreach ($car->variants as $variant) {
-                $lines[] = '• '.$variant->name;
+                $lines[] = '- '.$variant->name;
                 if ($variant->cash_price) {
-                    $lines[] = '  - سعر الكاش: '.number_format($variant->cash_price).' ريال';
+                    $lines[] = '  سعر الكاش: '.number_format($variant->cash_price).' ريال';
                 }
                 if ($variant->min_installment) {
-                    $lines[] = '  - القسط: '.number_format($variant->min_installment).' ريال/شهر';
+                    $lines[] = '  القسط: '.number_format($variant->min_installment).' ريال/شهر';
                 }
             }
         }

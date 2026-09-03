@@ -17,6 +17,48 @@ class CreateCar extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        // 1. Sanitize thumbnail
+        if (! empty($data['thumbnail']) && (str_contains((string) $data['thumbnail'], 'livewire-tmp') || ! is_string($data['thumbnail']))) {
+            $data['thumbnail'] = null;
+        }
+
+        // 2. Sanitize general images
+        $data['exterior_images'] = $this->sanitizeImagePaths($data['exterior_images'] ?? []);
+        $data['interior_images'] = $this->sanitizeImagePaths($data['interior_images'] ?? []);
+
+        // 3. Sanitize exterior colors
+        $colors = $data['exterior_colors'] ?? $data['colors'] ?? null;
+        if (is_array($colors)) {
+            foreach ($colors as &$color) {
+                if (isset($color['images']) && is_array($color['images'])) {
+                    $color['images'] = $this->sanitizeImagePaths($color['images']);
+                }
+            }
+            unset($color);
+            $data['exterior_colors'] = $colors;
+            $data['colors'] = $colors;
+        }
+
+        // 4. Sanitize interior colors
+        if (! empty($data['interior_colors']) && is_array($data['interior_colors'])) {
+            foreach ($data['interior_colors'] as &$color) {
+                if (isset($color['images']) && is_array($color['images'])) {
+                    $color['images'] = $this->sanitizeImagePaths($color['images']);
+                }
+            }
+            unset($color);
+        }
+
+        // 5. Sanitize variants
+        if (! empty($data['variants']) && is_array($data['variants'])) {
+            foreach ($data['variants'] as &$variant) {
+                if (isset($variant['image']) && is_string($variant['image']) && str_contains($variant['image'], 'livewire-tmp')) {
+                    $variant['image'] = null;
+                }
+            }
+            unset($variant);
+        }
+
         $name = $data['name_en'] ?? '';
         $year = $data['year'] ?? (int) date('Y');
 
@@ -24,12 +66,6 @@ class CreateCar extends CreateRecord
         $slugAr = Car::generateUniqueSlug($data['name_ar'] ?? $name, $year, 'ar');
 
         $data['slug'] = ['en' => $slugEn, 'ar' => $slugAr];
-
-        if (! empty($data['exterior_colors'])) {
-            $data['colors'] = $data['exterior_colors'];
-        } elseif (! empty($data['colors'])) {
-            $data['exterior_colors'] = $data['colors'];
-        }
 
         return $data;
     }
@@ -42,20 +78,30 @@ class CreateCar extends CreateRecord
 
     private function syncCarImages(Car $car, mixed $paths, string $type): void
     {
-        $paths = is_array($paths) ? $paths : ($paths ? [$paths] : []);
+        $paths = $this->sanitizeImagePaths($paths);
 
         $car->images()->where('type', $type)->delete();
 
         foreach (array_values($paths) as $index => $path) {
-            if (! is_string($path) || empty($path)) {
-                continue;
-            }
-
             $car->images()->create([
                 'image_path' => $path,
                 'type' => $type,
                 'sort_order' => $index,
             ]);
         }
+    }
+
+    private function sanitizeImagePaths(mixed $paths): array
+    {
+        if (empty($paths) || ! is_array($paths)) {
+            return [];
+        }
+
+        return array_values(array_filter($paths, function ($path) {
+            return is_string($path)
+                && ! empty($path)
+                && ! str_contains($path, 'livewire-tmp')
+                && trim($path) !== 'livewire-tmp';
+        }));
     }
 }

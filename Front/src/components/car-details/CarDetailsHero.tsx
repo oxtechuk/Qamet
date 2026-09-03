@@ -223,12 +223,12 @@ export default function CarDetailsHero({
                             >
                                 <div className="text-start">
                                     <p className="text-[13px] text-[#6B7280]">
-                                        {t("carDetails.hero.installment")}
+                                        {t("carDetails.hero.installment", isRtl ? "القسط الشهري التقريبي" : "Approximate monthly installment")}
                                     </p>
                                     <p className="mt-0.5 text-[22px] font-bold text-[#07111F]">
                                         {formatPrice(displayMonthlyInstallment, "#07111F")}{" "}
                                         <span className="text-[14px] font-normal text-[#6B7280]">
-                                            / {t("carDetails.hero.month")}
+                                            / {t("carDetails.hero.month", isRtl ? "شهر" : "month")}
                                         </span>
                                     </p>
                                 </div>
@@ -236,7 +236,7 @@ export default function CarDetailsHero({
                                     to="/finance-calculator"
                                     className="flex h-10 items-center justify-center rounded-xl bg-[var(--brand-primary-color)]/10 px-4 text-sm font-semibold text-[var(--brand-primary-color)] transition hover:bg-[var(--brand-primary-color)]/20"
                                 >
-                                    {t("carDetails.hero.calcFinance") || (isRtl ? "حاسبة التمويل" : "Finance Calculator")}
+                                    {t("carDetails.hero.calcFinance", isRtl ? "حاسبة التمويل" : "Finance Calculator")}
                                 </Link>
                             </div>
 

@@ -173,54 +173,73 @@
 
     /* Modal Header */
     .cs-modal-header {
-        background: linear-gradient(135deg, #dfc674 0%, #caa946 100%);
-        padding: 1.1rem 1.4rem;
+        background: #0f172a;
+        padding: 1.25rem 1.75rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: #1f2937;
+        border-bottom: 1px solid rgba(223, 198, 116, 0.25);
     }
     .cs-modal-header h2 {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
         font-weight: 800;
-        color: #111827;
+        color: #ffffff;
         margin: 0;
         line-height: 1.3;
+        letter-spacing: -0.01em;
     }
     .cs-modal-header .sub {
-        font-size: .8rem;
-        color: rgba(17, 24, 39, 0.8);
-        margin-top: 2px;
-        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        margin-top: .35rem;
+    }
+    .cs-modal-badge {
+        font-size: .72rem;
+        font-weight: 700;
+        padding: .2rem .6rem;
+        border-radius: 999px;
+        background: rgba(223, 198, 116, 0.15);
+        color: #dfc674;
+        border: 1px solid rgba(223, 198, 116, 0.3);
+    }
+    .cs-modal-badge.muted {
+        background: rgba(255, 255, 255, 0.08);
+        color: #94a3b8;
+        border-color: rgba(255, 255, 255, 0.12);
     }
     .cs-modal-close {
-        width: 2.2rem;
-        height: 2.2rem;
+        width: 2.25rem;
+        height: 2.25rem;
         border-radius: 50%;
-        background: rgba(0, 0, 0, 0.12);
-        border: none;
-        color: #111827;
-        font-size: 1rem;
-        font-weight: 800;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #cbd5e1;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background .15s, transform .15s;
+        transition: all .18s ease;
     }
     .cs-modal-close:hover {
-        background: rgba(0, 0, 0, 0.25);
-        transform: scale(1.08);
+        background: rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        transform: scale(1.05);
     }
+    .cs-modal-close svg { width: 1.15rem; height: 1.15rem; }
 
     /* Modal Body */
     .cs-modal-body {
-        padding: 1.25rem 1.4rem;
+        padding: 1.5rem 1.75rem;
         overflow-y: auto;
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: 1.25rem;
+        background: #ffffff;
+    }
+    .dark .cs-modal-body {
+        background: #111827;
     }
 
     /* Top bar inside modal: Actions + Prices */
@@ -230,58 +249,78 @@
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid rgb(229 231 235);
+        padding: 1rem 1.25rem;
+        border-radius: .85rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
     }
-    .dark .cs-modal-topbar { border-bottom-color: rgb(55 65 81); }
+    .dark .cs-modal-topbar {
+        background: #1e293b;
+        border-color: #334155;
+    }
 
     /* Action buttons */
-    .cs-actions { display: flex; gap: .65rem; flex-wrap: wrap; }
+    .cs-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
     .cs-act-btn {
-        display: inline-flex; align-items: center; gap: .45rem;
-        padding: .55rem 1.1rem; border-radius: .65rem; font-size: .85rem; font-weight: 700;
-        cursor: pointer; border: 1.5px solid; transition: all .18s;
+        display: inline-flex; align-items: center; gap: .5rem;
+        padding: .6rem 1.15rem; border-radius: .65rem; font-size: .84rem; font-weight: 700;
+        cursor: pointer; transition: all .18s; border: none;
     }
-    .cs-act-btn svg { width: 1.05rem; height: 1.05rem; }
+    .cs-act-btn svg { width: 1.1rem; height: 1.1rem; }
     .cs-act-btn.dl {
-        border-color: #dfc674; color: #856a18; background: rgb(254 252 232);
-    }
-    .dark .cs-act-btn.dl {
-        color: #dfc674; background: rgba(223, 198, 116, 0.12); border-color: #dfc674;
+        background: linear-gradient(135deg, #dfc674 0%, #caa946 100%);
+        color: #0f172a;
+        box-shadow: 0 2px 8px rgba(223, 198, 116, 0.35);
     }
     .cs-act-btn.dl:hover {
-        background: #dfc674; color: #1f2937;
+        background: linear-gradient(135deg, #caa946 0%, #b89327 100%);
+        box-shadow: 0 4px 12px rgba(223, 198, 116, 0.45);
+        transform: translateY(-1px);
     }
     .cs-act-btn.cp {
-        border-color: rgb(99 102 241); color: rgb(79 70 229); background: rgb(238 242 255);
+        background: #ffffff;
+        color: #334155;
+        border: 1px solid #cbd5e1;
     }
     .dark .cs-act-btn.cp {
-        color: rgb(165 180 252); background: rgba(99, 102, 241, 0.12); border-color: rgb(99 102 241);
+        background: #0f172a;
+        color: #e2e8f0;
+        border-color: #475569;
     }
     .cs-act-btn.cp:hover {
-        background: rgb(99 102 241); color: #fff;
+        background: #f1f5f9;
+        border-color: #94a3b8;
+    }
+    .dark .cs-act-btn.cp:hover {
+        background: #1e293b;
     }
 
     /* Prices boxes */
     .cs-prices { display: flex; flex-wrap: wrap; gap: .6rem; }
     .cs-price-box {
-        background: rgb(254 252 232); border: 1px solid rgb(253 230 138);
-        border-radius: .65rem; padding: .45rem .85rem; text-align: center; min-width: 95px;
+        background: #ffffff; border: 1px solid #e2e8f0;
+        border-radius: .65rem; padding: .45rem .95rem; text-align: center; min-width: 100px;
     }
     .dark .cs-price-box {
-        background: rgba(223, 198, 116, 0.1); border-color: rgba(223, 198, 116, 0.25);
+        background: #0f172a; border-color: #334155;
     }
-    .cs-price-box .lbl { font-size: .68rem; color: rgb(107 114 128); margin-bottom: 2px; }
-    .cs-price-box .val { font-size: 1rem; font-weight: 800; color: #b89327; }
-    .dark .cs-price-box .val { color: #dfc674; }
+    .cs-price-box .lbl { font-size: .7rem; font-weight: 600; color: #64748b; margin-bottom: 2px; }
+    .cs-price-box .val { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+    .dark .cs-price-box .val { color: #f8fafc; }
+    .cs-price-box.highlight {
+        border-color: rgba(223, 198, 116, 0.4);
+        background: rgba(223, 198, 116, 0.08);
+    }
+    .cs-price-box.highlight .val { color: #b89327; }
+    .dark .cs-price-box.highlight .val { color: #dfc674; }
 
     /* Modal Main Content Grid */
     .cs-modal-grid {
         display: grid;
-        grid-template-columns: 360px 1fr;
-        gap: 1.25rem;
+        grid-template-columns: 370px 1fr;
+        gap: 1.5rem;
     }
-    @media (max-width: 780px) {
+    @media (max-width: 820px) {
         .cs-modal-grid { grid-template-columns: 1fr; }
     }
 
@@ -289,23 +328,32 @@
     .cs-modal-visuals {
         display: flex;
         flex-direction: column;
-        gap: .9rem;
+        gap: 1.1rem;
     }
     .cs-modal-main-img {
-        width: 100%; aspect-ratio: 4/3;
+        width: 100%; aspect-ratio: 16/11;
         border-radius: .85rem; object-fit: cover;
-        background: rgb(243 244 246);
-        border: 1px solid rgb(229 231 235);
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .dark .cs-modal-main-img {
-        background: rgb(17 24 39); border-color: rgb(55 65 81);
+        background: #1e293b; border-color: #334155;
     }
 
     /* Section Labels */
     .cs-sec-title {
-        font-size: .78rem; font-weight: 800; letter-spacing: .04em;
-        color: rgb(156 163 175); margin: .35rem 0 .4rem;
-        display: flex; align-items: center; gap: .35rem;
+        font-size: .8rem; font-weight: 800;
+        color: #475569; margin: .35rem 0 .5rem;
+        display: flex; align-items: center; gap: .45rem;
+        text-transform: uppercase;
+        letter-spacing: .02em;
+    }
+    .dark .cs-sec-title { color: #94a3b8; }
+    .cs-sec-title svg {
+        width: 1.05rem; height: 1.05rem;
+        color: #dfc674;
+        flex-shrink: 0;
     }
 
     /* Color Swatches list */
@@ -318,21 +366,22 @@
     .cs-color-chip {
         display: inline-flex;
         align-items: center;
-        gap: .35rem;
-        padding: .28rem .65rem;
+        gap: .4rem;
+        padding: .32rem .75rem;
         border-radius: 999px;
-        background: rgb(243 244 246);
-        border: 1px solid rgb(229 231 235);
-        font-size: .75rem;
-        font-weight: 600;
-        color: rgb(55 65 81);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        font-size: .76rem;
+        font-weight: 700;
+        color: #334155;
     }
     .dark .cs-color-chip {
-        background: rgb(17 24 39); border-color: rgb(55 65 81); color: rgb(229 231 235);
+        background: #1e293b; border-color: #334155; color: #e2e8f0;
     }
     .cs-color-dot {
         width: 12px; height: 12px; border-radius: 50%;
         border: 1px solid rgba(0,0,0,.15);
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
         flex-shrink: 0;
     }
 
@@ -340,75 +389,80 @@
     .cs-variant-item {
         display: flex;
         align-items: center;
-        gap: .7rem;
-        padding: .55rem .75rem;
-        border-radius: .65rem;
-        background: rgb(249 250 251);
-        border: 1px solid rgb(229 231 235);
-        margin-bottom: .45rem;
+        gap: .75rem;
+        padding: .65rem .85rem;
+        border-radius: .75rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        margin-bottom: .5rem;
     }
     .dark .cs-variant-item {
-        background: rgb(17 24 39); border-color: rgb(55 65 81);
+        background: #1e293b; border-color: #334155;
     }
     .cs-variant-img {
-        width: 64px; height: 48px; object-fit: cover;
-        border-radius: .4rem; flex-shrink: 0;
+        width: 60px; height: 45px; object-fit: cover;
+        border-radius: .45rem; flex-shrink: 0;
+        border: 1px solid #e2e8f0;
     }
+    .dark .cs-variant-img { border-color: #334155; }
     .cs-variant-noimg {
-        width: 64px; height: 48px; background: rgb(229 231 235);
-        border-radius: .4rem; flex-shrink: 0;
+        width: 60px; height: 45px; background: #e2e8f0;
+        border-radius: .45rem; flex-shrink: 0;
         display: flex; align-items: center; justify-content: center;
     }
-    .dark .cs-variant-noimg { background: rgb(55 65 81); }
-    .cs-variant-name { font-size: .82rem; font-weight: 700; color: rgb(17 24 39); }
-    .dark .cs-variant-name { color: rgb(243 244 246); }
-    .cs-variant-sub { font-size: .72rem; color: rgb(107 114 128); margin-top: 1px; }
+    .dark .cs-variant-noimg { background: #334155; }
+    .cs-variant-name { font-size: .84rem; font-weight: 800; color: #0f172a; }
+    .dark .cs-variant-name { color: #f8fafc; }
+    .cs-variant-sub { font-size: .74rem; color: #64748b; margin-top: 2px; }
 
     /* Right Column (Specifications, Features, Safety) */
     .cs-modal-details {
         display: flex;
         flex-direction: column;
-        gap: .85rem;
+        gap: 1rem;
     }
     .cs-specs-box {
-        background: rgb(249 250 251);
-        border: 1px solid rgb(229 231 235);
-        border-radius: .75rem;
-        padding: .85rem 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: .85rem;
+        padding: 1rem 1.15rem;
     }
     .dark .cs-specs-box {
-        background: rgba(17, 24, 39, 0.4); border-color: rgb(55 65 81);
+        background: #1e293b; border-color: #334155;
     }
 
     .cs-list {
         list-style: none; padding: 0; margin: 0;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: .4rem .8rem;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: .5rem .85rem;
     }
     .cs-list li {
-        font-size: .8rem; color: rgb(55 65 81);
-        display: flex; align-items: flex-start; gap: .4rem;
-        line-height: 1.35;
+        font-size: .82rem; color: #334155;
+        display: flex; align-items: center; gap: .5rem;
+        line-height: 1.4;
     }
-    .dark .cs-list li { color: rgb(209 213 219); }
-    .cs-list li::before {
-        content: ''; display: inline-block;
-        width: 6px; height: 6px; border-radius: 50%;
-        background: #dfc674; margin-top: .45em; flex-shrink: 0;
+    .dark .cs-list li { color: #cbd5e1; }
+    .cs-bullet-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: #dfc674; flex-shrink: 0;
     }
+    .cs-spec-val {
+        font-weight: 700; color: #0f172a;
+    }
+    .dark .cs-spec-val { color: #dfc674; }
 
     /* Toast */
     .cs-toast {
         position: fixed; bottom: 1.5rem; left: 50%;
         transform: translateX(-50%);
-        background: #111827; color: #fff;
+        background: #0f172a; color: #ffffff;
         font-weight: 700; font-size: .88rem;
-        padding: .6rem 1.4rem; border-radius: .75rem;
+        padding: .65rem 1.5rem; border-radius: .75rem;
         z-index: 100000; pointer-events: none;
         opacity: 0; transition: opacity .2s, transform .2s;
-        box-shadow: 0 10px 25px rgba(0,0,0,.3);
-        border: 1px solid #dfc674;
+        box-shadow: 0 10px 25px rgba(0,0,0,.35);
+        border: 1px solid rgba(223, 198, 116, 0.4);
     }
     .cs-toast.show { opacity: 1; transform: translateX(-50%) translateY(-5px); }
 </style>
@@ -545,11 +599,15 @@
                         <div>
                             <h2>{{ str_contains($sc->name, (string) $sc->year) ? $sc->name : "{$sc->name} {$sc->year}" }}</h2>
                             <div class="sub">
-                                {{ $sc->brand?->name }}@if($sc->category) · {{ $sc->category->name }}@endif
+                                <span class="cs-modal-badge">{{ $sc->brand?->name }}</span>
+                                @if($sc->year)<span class="cs-modal-badge muted">{{ $sc->year }}</span>@endif
+                                @if($sc->category)<span class="cs-modal-badge muted">{{ $sc->category->name }}</span>@endif
                             </div>
                         </div>
                         <button class="cs-modal-close" wire:click="selectCar({{ $sc->id }})" title="إغلاق (Esc)">
-                            ✕
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
                         </button>
                     </div>
 
@@ -570,7 +628,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 4v11"/>
                                     </svg>
                                     <span wire:loading.remove wire:target="downloadImages">تحميل كافة الصور (ZIP)</span>
-                                    <span wire:loading wire:target="downloadImages">جاري ضغط وتحضير الصور...</span>
+                                    <span wire:loading wire:target="downloadImages">جاري التحضير والضغط...</span>
                                 </button>
                                 <button class="cs-act-btn cp" wire:click="copySpecs">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -583,21 +641,21 @@
                             @if ($sc->cash_price || $sc->min_installment || $sc->min_down_payment)
                                 <div class="cs-prices">
                                     @if ($sc->cash_price)
-                                        <div class="cs-price-box">
+                                        <div class="cs-price-box highlight">
                                             <div class="lbl">سعر الكاش</div>
-                                            <div class="val">{{ number_format($sc->cash_price) }} <small style="font-size:.65rem">ريال</small></div>
+                                            <div class="val">{{ number_format($sc->cash_price) }} <small style="font-size:.7rem;font-weight:700">ريال</small></div>
                                         </div>
                                     @endif
                                     @if ($sc->min_installment)
                                         <div class="cs-price-box">
-                                            <div class="lbl">أقل قسط</div>
-                                            <div class="val">{{ number_format($sc->min_installment) }} <small style="font-size:.65rem">ريال/شهر</small></div>
+                                            <div class="lbl">أقل قسط شهري</div>
+                                            <div class="val">{{ number_format($sc->min_installment) }} <small style="font-size:.7rem;font-weight:700">ريال/شهر</small></div>
                                         </div>
                                     @endif
                                     @if ($sc->min_down_payment)
                                         <div class="cs-price-box">
-                                            <div class="lbl">أقل دفعة</div>
-                                            <div class="val">{{ number_format($sc->min_down_payment) }} <small style="font-size:.65rem">ريال</small></div>
+                                            <div class="lbl">أقل دفعة أولى</div>
+                                            <div class="val">{{ number_format($sc->min_down_payment) }} <small style="font-size:.7rem;font-weight:700">ريال</small></div>
                                         </div>
                                     @endif
                                 </div>
@@ -623,7 +681,12 @@
                                 @php $extColors = $sc->exterior_colors ?? $sc->colors ?? []; @endphp
                                 @if (!empty($extColors) && is_array($extColors))
                                     <div>
-                                        <div class="cs-sec-title">🎨 الألوان الخارجية المتاحة</div>
+                                        <div class="cs-sec-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 4 4 0 014-4c.734 0 1.423.2 2.012.552A7.001 7.001 0 0115 5a7 7 0 017 7 0 017 7 7 7 0 01-7 7c-.734 0-1.423-.2-2.012-.552A4.001 4.001 0 017 21z"/>
+                                            </svg>
+                                            الألوان الخارجية المتاحة
+                                        </div>
                                         <div class="cs-colors-row">
                                             @foreach ($extColors as $c)
                                                 <span class="cs-color-chip">
@@ -640,7 +703,12 @@
                                 {{-- Interior Colors --}}
                                 @if (!empty($sc->interior_colors) && is_array($sc->interior_colors))
                                     <div>
-                                        <div class="cs-sec-title">💺 الألوان الداخلية والفرش</div>
+                                        <div class="cs-sec-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                                            </svg>
+                                            ألوان المقصورة والفرش الداخلي
+                                        </div>
                                         <div class="cs-colors-row">
                                             @foreach ($sc->interior_colors as $c)
                                                 <span class="cs-color-chip">
@@ -657,7 +725,12 @@
                                 {{-- Variants (الفروقات والإضافات / الفئات) --}}
                                 @if ($sc->variants->isNotEmpty())
                                     <div>
-                                        <div class="cs-sec-title">🔧 الفروقات والإضافات الخاصة</div>
+                                        <div class="cs-sec-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                            </svg>
+                                            الفئات والموديلات الإضافية
+                                        </div>
                                         @foreach ($sc->variants as $v)
                                             <div class="cs-variant-item">
                                                 @if ($v->image_url)
@@ -695,11 +768,17 @@
                                 {{-- Specifications --}}
                                 @if ($sc->specifications->isNotEmpty())
                                     <div class="cs-specs-box">
-                                        <div class="cs-sec-title">📋 المواصفات الأساسية</div>
+                                        <div class="cs-sec-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                            </svg>
+                                            المواصفات الأساسية
+                                        </div>
                                         <ul class="cs-list">
                                             @foreach ($sc->specifications as $spec)
                                                 <li>
-                                                    <span>{{ $spec->name }}@if($spec->value): <strong style="color:#dfc674">{{ $spec->value }}</strong>@endif</span>
+                                                    <span class="cs-bullet-dot"></span>
+                                                    <span>{{ $spec->name }}@if($spec->value): <strong class="cs-spec-val">{{ $spec->value }}</strong>@endif</span>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -709,10 +788,18 @@
                                 {{-- Features --}}
                                 @if ($sc->features_list->isNotEmpty())
                                     <div class="cs-specs-box">
-                                        <div class="cs-sec-title">✨ المميزات والتجهيزات</div>
+                                        <div class="cs-sec-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                            </svg>
+                                            المميزات والتجهيزات
+                                        </div>
                                         <ul class="cs-list">
                                             @foreach ($sc->features_list as $f)
-                                                <li>{{ $f->name }}</li>
+                                                <li>
+                                                    <span class="cs-bullet-dot"></span>
+                                                    <span>{{ $f->name }}</span>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -721,10 +808,18 @@
                                 {{-- Safety Features --}}
                                 @if ($sc->safety_features->isNotEmpty())
                                     <div class="cs-specs-box">
-                                        <div class="cs-sec-title">🛡️ أنظمة السلامة والأمان</div>
+                                        <div class="cs-sec-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                            </svg>
+                                            أنظمة السلامة والأمان
+                                        </div>
                                         <ul class="cs-list">
                                             @foreach ($sc->safety_features as $sf)
-                                                <li>{{ $sf->name }}</li>
+                                                <li>
+                                                    <span class="cs-bullet-dot"></span>
+                                                    <span>{{ $sf->name }}</span>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
