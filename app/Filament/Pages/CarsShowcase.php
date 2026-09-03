@@ -13,7 +13,7 @@ class CarsShowcase extends Page
 {
     use \App\Traits\HasResourcePermission;
 
-    protected static string|array|null $permission = 'manage-cars';
+    protected static string|array|null $permission = 'view-cars-showcase';
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-squares-2x2';
 
@@ -65,6 +65,10 @@ class CarsShowcase extends Page
     public function selectCar(int $id): void
     {
         $this->selectedCarId = ($this->selectedCarId === $id) ? null : $id;
+
+        if ($this->selectedCarId) {
+            $this->dispatch('scroll-to-detail');
+        }
     }
 
     public function getCategories(): Collection

@@ -275,7 +275,8 @@ class CarResource extends Resource
 
                                         Forms\Components\FileUpload::make('image')
                                             ->label(__('صورة هذا الفارياتن'))
-                                            ->image()
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->maxSize(10240)
                                             ->disk('public')
                                             ->directory('cars/variants')
                                             ->visibility('public')

@@ -335,33 +335,32 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label(__('ID'))
                     ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('client_name')->label(__('Client Name'))
                     ->searchable()
-                    ->sortable(),
+                    ->width('60px'),
 
-                Tables\Columns\TextColumn::make('client_phone')->label(__('Client Phone'))
-                    ->searchable()
-                    ->copyable()
-                    ->icon('heroicon-m-phone'),
+                Tables\Columns\TextColumn::make('client_name')
+                    ->label(__('العميل'))
+                    ->description(fn (Booking $record): string => $record->client_phone)
+                    ->searchable(['client_name', 'client_phone'])
+                    ->sortable()
+                    ->weight('bold'),
 
-                Tables\Columns\TextColumn::make('car.name')
-                    ->label(__('Car'))
-                    ->searchable()
-                    ->limit(25),
-
-                Tables\Columns\TextColumn::make('car_type')
-                    ->label(__('الموديل / الفئة'))
-                    ->limit(25)
-                    ->placeholder('-'),
+                Tables\Columns\TextColumn::make('car_info')
+                    ->label(__('السيارة / الموديل'))
+                    ->getStateUsing(fn (Booking $record): string => implode(' ', array_filter([
+                        $record->car?->name,
+                        $record->car_type,
+                    ])) ?: '-')
+                    ->description(fn (Booking $record): ?string => $record->brand_name ?? null)
+                    ->limit(35)
+                    ->searchable(['car_type']),
 
                 Tables\Columns\TextColumn::make('payment_method')
-                    ->label(__('طريقة الدفع'))
+                    ->label(__('الدفع'))
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
                         'cash' => '💵 كاش',
-                        'bank', 'finance', 'installment' => '💳 تقسيط / تمويل',
+                        'bank', 'finance', 'installment' => '💳 تقسيط',
                         default => $state ?? '-',
                     })
                     ->color(fn (?string $state): string => match ($state) {
@@ -370,6 +369,34 @@ class BookingResource extends Resource
                         default => 'gray',
                     }),
 
+                Tables\Columns\TextColumn::make('assignedTo.name')
+                    ->label(__('المندوب'))
+                    ->placeholder('غير مسند')
+                    ->badge()
+                    ->color(fn ($record) => $record->assigned_to ? 'info' : 'gray')
+                    ->sortable(),
+
+                Tables\Columns\SelectColumn::make('status')
+                    ->label(__('الحالة'))
+                    ->options([
+                        'new' => __('New'),
+                        'contacted' => __('Contacted'),
+                        'interested' => __('Interested'),
+                        'negotiation' => __('Negotiation'),
+                        'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                        'sold' => __('Sold'),
+                        'rejected' => __('Rejected'),
+                        'cancelled' => __('Cancelled'),
+                    ])
+                    ->disabled(fn () => ! (Auth::guard('employee')->user()?->isAdmin()))
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('التاريخ'))
+                    ->since()
+                    ->sortable(),
+
+                // ---- Hidden by default ----
                 Tables\Columns\TextColumn::make('purchase_urgency')
                     ->label(__('توقيت الشراء'))
                     ->badge()
@@ -388,43 +415,18 @@ class BookingResource extends Resource
                         'month' => 'info',
                         default => 'gray',
                     })
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('total_price')
+                    ->label(__('Total Price'))
+                    ->money('SAR')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('salary')
                     ->label(__('الراتب'))
                     ->money('SAR')
                     ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('total_price')->label(__('Total Price'))
-                    ->money('SAR')
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('assignedTo.name')
-                    ->label(__('مندوب المبيعات'))
-                    ->placeholder('غير مسند')
-                    ->badge()
-                    ->color(fn ($record) => $record->assigned_to ? 'info' : 'gray')
-                    ->sortable(),
-
-                Tables\Columns\SelectColumn::make('status')
-                    ->label(__('Status'))
-                    ->options([
-                        'new' => __('New'),
-                        'contacted' => __('Contacted'),
-                        'interested' => __('Interested'),
-                        'negotiation' => __('Negotiation'),
-                        'under_review' => 'طلب إغلاق / مراجعة الإدارة',
-                        'sold' => __('Sold'),
-                        'rejected' => __('Rejected'),
-                        'cancelled' => __('Cancelled'),
-                    ])
-                    ->disabled(fn () => ! (Auth::guard('employee')->user()?->isAdmin()))
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('Date'))
-                    ->dateTime()
-                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('payment_method')

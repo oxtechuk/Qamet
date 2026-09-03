@@ -87,25 +87,30 @@ class ReviewBookingResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label(__('ID'))
-                    ->sortable(),
+                    ->sortable()
+                    ->width('60px'),
 
                 Tables\Columns\TextColumn::make('client_name')
-                    ->label(__('اسم العميل'))
+                    ->label(__('العميل'))
                     ->description(fn (Booking $record): string => $record->client_phone)
                     ->searchable(['client_name', 'client_phone'])
                     ->weight('bold'),
 
-                Tables\Columns\TextColumn::make('car.name')
-                    ->label(__('السيارة المطلوبة'))
-                    ->default(fn (Booking $record): string => $record->car_type ?: 'غير محدد')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('car_info')
+                    ->label(__('السيارة'))
+                    ->getStateUsing(fn (Booking $record): string => implode(' ', array_filter([
+                        $record->car?->name,
+                        $record->car_type,
+                    ])) ?: 'غير محدد')
+                    ->limit(30)
+                    ->searchable(['car_type']),
 
                 Tables\Columns\TextColumn::make('payment_method')
-                    ->label(__('طريقة الدفع'))
+                    ->label(__('الدفع'))
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
                         'cash' => 'كاش',
-                        'bank', 'finance', 'installment' => 'تقسيط / بنك',
+                        'bank', 'finance', 'installment' => 'تقسيط',
                         default => $state ?: '-',
                     })
                     ->color(fn (?string $state): string => match ($state) {
@@ -115,36 +120,25 @@ class ReviewBookingResource extends Resource
                     }),
 
                 Tables\Columns\TextColumn::make('assignedTo.name')
-                    ->label(__('المندوب الذي طلب الإغلاق'))
+                    ->label(__('المندوب'))
                     ->badge()
                     ->color('warning'),
 
                 Tables\Columns\TextColumn::make('notes')
-                    ->label(__('سبب الإغلاق / الملاحظات'))
-                    ->limit(60)
+                    ->label(__('الملاحظات'))
+                    ->limit(40)
                     ->tooltip(fn (Booking $record): ?string => $record->notes),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('تاريخ طلب المراجعة'))
-                    ->dateTime('Y-m-d h:i A')
+                    ->label(__('تاريخ المراجعة'))
                     ->since()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('status')
-                    ->label(__('الحالة'))
-                    ->badge()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'under_review' => 'قيد المراجعة',
-                        'closed' => 'مقفول',
-                        'rejected' => 'مرفوض',
-                        default => $state,
+                    ->description(fn (Booking $record): string => match ($record->status) {
+                        'under_review' => '🟡 قيد المراجعة',
+                        'closed' => '🔴 مقفول',
+                        'rejected' => '⚫ مرفوض',
+                        default => $record->status,
                     })
-                    ->color(fn (string $state): string => match ($state) {
-                        'under_review' => 'warning',
-                        'closed' => 'danger',
-                        'rejected' => 'gray',
-                        default => 'gray',
-                    }),
+                    ->sortable(),
             ])
             ->actions([
                 // 1. تأكيد الرفض / الإغلاق من الإدارة
