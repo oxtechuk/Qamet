@@ -129,7 +129,30 @@ class ReviewBookingResource extends Resource
                 Tables\Columns\TextColumn::make('notes')
                     ->label(__('الملاحظات'))
                     ->limit(40)
-                    ->tooltip(fn (Booking $record): ?string => $record->notes),
+                    ->placeholder('اضغط لإضافة ملاحظة')
+                    ->tooltip(fn (Booking $record): ?string => $record->notes)
+                    ->icon('heroicon-m-chat-bubble-bottom-center-text')
+                    ->action(
+                        Actions\Action::make('quick_edit_note_review')
+                            ->label('تعديل / إضافة ملاحظة للطلب')
+                            ->modalHeading(fn (Booking $record) => "ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                            ->modalIcon('heroicon-o-chat-bubble-bottom-center-text')
+                            ->modalWidth('lg')
+                            ->form([
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('ملاحظات وسجل الطلب')
+                                    ->placeholder('اكتب ملاحظتك هنا...')
+                                    ->rows(6)
+                                    ->default(fn (Booking $record) => $record->notes),
+                            ])
+                            ->action(function (Booking $record, array $data) {
+                                $record->update(['notes' => $data['notes']]);
+                                \Filament\Notifications\Notification::make()
+                                    ->title('تم حفظ الملاحظة بنجاح')
+                                    ->success()
+                                    ->send();
+                            })
+                    ),
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label(__('تاريخ المراجعة'))
@@ -253,7 +276,51 @@ class ReviewBookingResource extends Resource
                                     ->rows(4)
                                     ->disabled(),
                             ]),
+                    ])
+                    ->extraModalFooterActions([
+                        Actions\Action::make('edit_notes_from_view')
+                            ->label('تعديل / إضافة ملاحظات')
+                            ->icon('heroicon-o-pencil-square')
+                            ->color('warning')
+                            ->modalHeading(fn (Booking $record) => "تعديل ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                            ->modalWidth('lg')
+                            ->form([
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('ملاحظات وسجل الطلب')
+                                    ->placeholder('اكتب ملاحظتك هنا...')
+                                    ->rows(6)
+                                    ->default(fn (Booking $record) => $record->notes),
+                            ])
+                            ->action(function (Booking $record, array $data) {
+                                $record->update(['notes' => $data['notes']]);
+                                \Filament\Notifications\Notification::make()
+                                    ->title('تم تحديث الملاحظات بنجاح')
+                                    ->success()
+                                    ->send();
+                            }),
                     ]),
+
+                Actions\Action::make('order_notes')
+                    ->label('الملاحظات')
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->color('gray')
+                    ->modalHeading(fn (Booking $record) => "ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                    ->modalIcon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->modalWidth('lg')
+                    ->form([
+                        Forms\Components\Textarea::make('notes')
+                            ->label('ملاحظات وسجل الطلب')
+                            ->placeholder('اكتب ملاحظة جديدة أو عدل الملاحظات الحالية...')
+                            ->rows(6)
+                            ->default(fn (Booking $record) => $record->notes),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        $record->update(['notes' => $data['notes']]);
+                        \Filament\Notifications\Notification::make()
+                            ->title('تم حفظ الملاحظات بنجاح')
+                            ->success()
+                            ->send();
+                    }),
 
                 Actions\ActionGroup::make([
                     // 1. تأكيد الرفض / الإغلاق من الإدارة

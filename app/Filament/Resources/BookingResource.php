@@ -396,6 +396,35 @@ class BookingResource extends Resource
                     ->since()
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('notes')
+                    ->label('الملاحظات')
+                    ->placeholder('اضغط لإضافة ملاحظة')
+                    ->limit(25)
+                    ->tooltip(fn (Booking $record): ?string => $record->notes)
+                    ->icon('heroicon-m-chat-bubble-bottom-center-text')
+                    ->color(fn ($state) => $state ? 'gray' : 'primary')
+                    ->action(
+                        Actions\Action::make('quick_edit_note')
+                            ->label('تعديل / إضافة ملاحظة للطلب')
+                            ->modalHeading(fn (Booking $record) => "ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                            ->modalIcon('heroicon-o-chat-bubble-bottom-center-text')
+                            ->modalWidth('lg')
+                            ->form([
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('ملاحظات وسجل الطلب')
+                                    ->placeholder('اكتب ملاحظتك هنا...')
+                                    ->rows(6)
+                                    ->default(fn (Booking $record) => $record->notes),
+                            ])
+                            ->action(function (Booking $record, array $data) {
+                                $record->update(['notes' => $data['notes']]);
+                                \Filament\Notifications\Notification::make()
+                                    ->title('تم حفظ الملاحظة بنجاح')
+                                    ->success()
+                                    ->send();
+                            })
+                    ),
+
                 // ---- Hidden by default ----
                 Tables\Columns\TextColumn::make('purchase_urgency')
                     ->label(__('توقيت الشراء'))
@@ -536,7 +565,50 @@ class BookingResource extends Resource
                                         return new \Illuminate\Support\HtmlString($html);
                                     }),
                             ]),
+                    ])
+                    ->extraModalFooterActions([
+                        Actions\Action::make('edit_notes_from_view')
+                            ->label('تعديل / إضافة ملاحظات')
+                            ->icon('heroicon-o-pencil-square')
+                            ->color('warning')
+                            ->modalHeading(fn (Booking $record) => "تعديل ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                            ->modalWidth('lg')
+                            ->form([
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('ملاحظات وسجل الطلب')
+                                    ->placeholder('اكتب ملاحظتك هنا...')
+                                    ->rows(6)
+                                    ->default(fn (Booking $record) => $record->notes),
+                            ])
+                            ->action(function (Booking $record, array $data) {
+                                $record->update(['notes' => $data['notes']]);
+                                \Filament\Notifications\Notification::make()
+                                    ->title('تم تحديث الملاحظات بنجاح')
+                                    ->success()
+                                    ->send();
+                            }),
                     ]),
+                Actions\Action::make('order_notes')
+                    ->label('الملاحظات')
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->color('gray')
+                    ->modalHeading(fn (Booking $record) => "ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                    ->modalIcon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->modalWidth('lg')
+                    ->form([
+                        Forms\Components\Textarea::make('notes')
+                            ->label('ملاحظات وسجل الطلب')
+                            ->placeholder('اكتب ملاحظة جديدة أو عدل الملاحظات الحالية...')
+                            ->rows(6)
+                            ->default(fn (Booking $record) => $record->notes),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        $record->update(['notes' => $data['notes']]);
+                        \Filament\Notifications\Notification::make()
+                            ->title('تم حفظ الملاحظات بنجاح')
+                            ->success()
+                            ->send();
+                    }),
                 Actions\Action::make('assign_employee')
                     ->label(__('إسناد موظف'))
                     ->icon('heroicon-o-user-plus')
