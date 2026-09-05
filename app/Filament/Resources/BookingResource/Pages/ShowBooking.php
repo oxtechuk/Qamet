@@ -42,26 +42,117 @@ class ShowBooking extends ViewRecord
                 ->label(__('تغيير الحالة'))
                 ->icon('heroicon-o-arrow-path')
                 ->color('warning')
-                ->slideOver()
-                ->modalWidth('md')
+                ->modalHeading(fn (Booking $record) => "تغيير حالة الطلب #{$record->id} - {$record->client_name}")
+                ->modalIcon('heroicon-o-arrow-path')
+                ->modalWidth('lg')
                 ->form([
                     Forms\Components\Select::make('status')
-                        ->label(__('الحالة'))
-                        ->options([
-                            'new' => __('New'),
-                            'contacted' => __('Contacted'),
-                            'interested' => __('Interested'),
-                            'negotiation' => __('Negotiation'),
-                            'sold' => __('Sold'),
-                            'rejected' => __('Rejected'),
-                            'cancelled' => __('Cancelled'),
-                        ])
+                        ->label(__('الحالة الجديدة'))
+                        ->options(function () {
+                            $isAdmin = (bool) Auth::guard('employee')->user()?->isAdmin();
+                            if ($isAdmin) {
+                                return [
+                                    'new' => __('New'),
+                                    'contacted' => __('Contacted'),
+                                    'interested' => __('Interested'),
+                                    'negotiation' => __('Negotiation'),
+                                    'sold' => __('Sold'),
+                                    'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                                    'rejected' => __('Rejected'),
+                                    'cancelled' => __('Cancelled'),
+                                ];
+                            }
+
+                            return [
+                                'new' => __('New'),
+                                'contacted' => __('Contacted'),
+                                'interested' => __('Interested'),
+                                'negotiation' => __('Negotiation'),
+                                'sold' => __('Sold'),
+                                'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                            ];
+                        })
                         ->default(fn (Booking $record) => $record->status)
                         ->required(),
+                    Forms\Components\Textarea::make('note')
+                        ->label('الملاحظات / سبب تغيير الحالة')
+                        ->placeholder('اكتب تفاصيل التواصل أو سبب تغيير الحالة...')
+                        ->rows(4),
                 ])
                 ->action(function (Booking $record, array $data) {
-                    $record->update(['status' => $data['status']]);
-                    $this->refreshFormData(['status']);
+                    $oldStatus = $record->status;
+                    $newStatus = $data['status'];
+                    $noteText = trim($data['note'] ?? '');
+                    $user = Auth::guard('employee')->user();
+                    $repName = $user?->name ?: 'الموظف';
+
+                    $updateData = ['status' => $newStatus];
+
+                    if (! empty($noteText)) {
+                        $statusLabels = [
+                            'new' => 'جديد',
+                            'contacted' => 'تم التواصل',
+                            'interested' => 'مهتم',
+                            'negotiation' => 'تفاوض',
+                            'sold' => 'تم البيع',
+                            'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                            'rejected' => 'مرفوض',
+                            'cancelled' => 'ملغي',
+                        ];
+                        $oldLabel = $statusLabels[$oldStatus] ?? $oldStatus;
+                        $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+
+                        $noteEntry = "\n[".now()->format('Y-m-d H:i')." - تغيير الحالة من ({$oldLabel}) إلى ({$newLabel}) بواسطة ({$repName}): {$noteText}]";
+                        $updateData['notes'] = trim(($record->notes ?? '').$noteEntry);
+
+                        \App\Models\BookingNote::create([
+                            'booking_id' => $record->id,
+                            'employee_id' => $user?->id,
+                            'old_status' => $oldStatus,
+                            'new_status' => $newStatus,
+                            'note' => $noteText,
+                            'type' => 'status_change',
+                        ]);
+                    }
+
+                    $record->update($updateData);
+                    $this->refreshFormData(['status', 'notes']);
+
+                    \App\Services\ActivityLog\ActivityLogger::log(
+                        action: 'status_changed',
+                        subjectType: 'طلب حجز',
+                        subjectId: $record->id,
+                        subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
+                        description: "قام {$repName} بتغيير حالة الطلب إلى {$newStatus}".(! empty($noteText) ? " مع ملاحظة: {$noteText}" : '')
+                    );
+
+                    \Filament\Notifications\Notification::make()
+                        ->title('تم تحديث حالة الطلب والملاحظة بنجاح')
+                        ->success()
+                        ->send();
+                }),
+
+            Actions\Action::make('order_notes')
+                ->label('إضافة / تعديل الملاحظات')
+                ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                ->color('gray')
+                ->modalHeading(fn (Booking $record) => "ملاحظات الطلب #{$record->id} - {$record->client_name}")
+                ->modalIcon('heroicon-o-chat-bubble-bottom-center-text')
+                ->modalWidth('lg')
+                ->form([
+                    Forms\Components\Textarea::make('notes')
+                        ->label('ملاحظات وسجل الطلب')
+                        ->placeholder('اكتب ملاحظة جديدة أو عدل الملاحظات الحالية...')
+                        ->rows(6)
+                        ->default(fn (Booking $record) => $record->notes),
+                ])
+                ->action(function (Booking $record, array $data) {
+                    $record->update(['notes' => $data['notes']]);
+                    $this->refreshFormData(['notes']);
+                    \Filament\Notifications\Notification::make()
+                        ->title('تم حفظ الملاحظات بنجاح')
+                        ->success()
+                        ->send();
                 }),
 
             Actions\Action::make('create_task')
@@ -119,7 +210,8 @@ class ShowBooking extends ViewRecord
                     ]);
                 }),
 
-            Actions\EditAction::make(),
+            Actions\EditAction::make()
+                ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
             Actions\DeleteAction::make()
                 ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
         ];

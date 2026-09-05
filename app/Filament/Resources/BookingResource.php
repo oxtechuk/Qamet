@@ -50,6 +50,11 @@ class BookingResource extends Resource
         'manage-corporate-bookings',
     ];
 
+    public static function canEdit(Model $record): bool
+    {
+        return (bool) Auth::guard('employee')->user()?->isAdmin();
+    }
+
     public static function canDelete(Model $record): bool
     {
         return (bool) Auth::guard('employee')->user()?->isAdmin();
@@ -631,11 +636,12 @@ class BookingResource extends Resource
                     ->label(__('تغيير الحالة'))
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
-                    ->slideOver()
-                    ->modalWidth('md')
+                    ->modalHeading(fn (Booking $record) => "تغيير حالة الطلب #{$record->id} - {$record->client_name}")
+                    ->modalIcon('heroicon-o-arrow-path')
+                    ->modalWidth('lg')
                     ->form([
                         Forms\Components\Select::make('status')
-                            ->label(__('الحالة'))
+                            ->label(__('الحالة الجديدة'))
                             ->options(function () {
                                 $isAdmin = (bool) Auth::guard('employee')->user()?->isAdmin();
                                 if ($isAdmin) {
@@ -662,9 +668,61 @@ class BookingResource extends Resource
                             })
                             ->default(fn (Booking $record) => $record->status)
                             ->required(),
+                        Forms\Components\Textarea::make('note')
+                            ->label('الملاحظات / سبب تغيير الحالة')
+                            ->placeholder('اكتب تفاصيل التواصل أو سبب تغيير الحالة...')
+                            ->rows(4),
                     ])
                     ->action(function (Booking $record, array $data) {
-                        $record->update(['status' => $data['status']]);
+                        $oldStatus = $record->status;
+                        $newStatus = $data['status'];
+                        $noteText = trim($data['note'] ?? '');
+                        $user = Auth::guard('employee')->user();
+                        $repName = $user?->name ?: 'الموظف';
+
+                        $updateData = ['status' => $newStatus];
+
+                        if (! empty($noteText)) {
+                            $statusLabels = [
+                                'new' => 'جديد',
+                                'contacted' => 'تم التواصل',
+                                'interested' => 'مهتم',
+                                'negotiation' => 'تفاوض',
+                                'sold' => 'تم البيع',
+                                'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                                'rejected' => 'مرفوض',
+                                'cancelled' => 'ملغي',
+                            ];
+                            $oldLabel = $statusLabels[$oldStatus] ?? $oldStatus;
+                            $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+
+                            $noteEntry = "\n[".now()->format('Y-m-d H:i')." - تغيير الحالة من ({$oldLabel}) إلى ({$newLabel}) بواسطة ({$repName}): {$noteText}]";
+                            $updateData['notes'] = trim(($record->notes ?? '').$noteEntry);
+
+                            \App\Models\BookingNote::create([
+                                'booking_id' => $record->id,
+                                'employee_id' => $user?->id,
+                                'old_status' => $oldStatus,
+                                'new_status' => $newStatus,
+                                'note' => $noteText,
+                                'type' => 'status_change',
+                            ]);
+                        }
+
+                        $record->update($updateData);
+
+                        \App\Services\ActivityLog\ActivityLogger::log(
+                            action: 'status_changed',
+                            subjectType: 'طلب حجز',
+                            subjectId: $record->id,
+                            subjectTitle: "طلب حجز #{$record->id} - {$record->client_name}",
+                            description: "قام {$repName} بتغيير حالة الطلب إلى {$newStatus}".(! empty($noteText) ? " مع ملاحظة: {$noteText}" : '')
+                        );
+
+                        \Filament\Notifications\Notification::make()
+                            ->title('تم تحديث حالة الطلب والملاحظة بنجاح')
+                            ->success()
+                            ->send();
                     }),
                 Actions\Action::make('request_rejection')
                     ->label('طلب إغلاق / رفض')
@@ -776,7 +834,8 @@ class BookingResource extends Resource
                             'description' => $data['description'] ?? null,
                         ]);
                     }),
-                Actions\EditAction::make(),
+                Actions\EditAction::make()
+                    ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
                 Actions\DeleteAction::make()
                     ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
             ])
