@@ -16,6 +16,31 @@ class ListLeads extends ListRecords
             Actions\CreateAction::make()
                 ->slideOver()
                 ->modalWidth('2xl'),
+            Actions\Action::make('rebalance_all_leads')
+                ->label('إعادة التوزيع العادل للعملاء')
+                ->icon('heroicon-o-arrow-path-rounded-square')
+                ->color('warning')
+                ->visible(fn () => (bool) (\Illuminate\Support\Facades\Auth::guard('employee')->user()?->isAdmin() || \Illuminate\Support\Facades\Auth::guard('employee')->user()?->hasPermission('manage-leads')))
+                ->requiresConfirmation()
+                ->modalHeading('إعادة التوزيع العادل للعملاء المحتملين')
+                ->modalDescription('سيقوم النظام بتوزيع جميع العملاء غير المغلقين بالتساوي بين كافة مناديب المبيعات النشطين.')
+                ->action(function () {
+                    $leads = \App\Models\Lead::whereNotIn('status', ['lost', 'rejected', 'cancelled'])->get();
+                    $service = app(\App\Services\BookingAssignmentService::class);
+                    $result = $service->redistributeLeads($leads);
+
+                    $repsBreakdown = [];
+                    foreach ($result['reps_summary'] as $repName => $count) {
+                        $repsBreakdown[] = "• {$repName}: {$count} عميل";
+                    }
+
+                    \Filament\Notifications\Notification::make()
+                        ->title('تمت إعادة التوزيع العادل للعملاء بنجاح')
+                        ->body("تم توزيع {$result['assigned']} عميل بالتساوي:\n".implode("\n", $repsBreakdown))
+                        ->success()
+                        ->duration(8000)
+                        ->send();
+                }),
             Actions\Action::make('export_csv')
                 ->label(__('Export CSV'))
                 ->icon('heroicon-o-arrow-down-tray')

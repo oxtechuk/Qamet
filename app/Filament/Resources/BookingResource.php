@@ -843,6 +843,30 @@ class BookingResource extends Resource
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make()
                         ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin()),
+                    Actions\BulkAction::make('bulk_redistribute')
+                        ->label('إعادة التوزيع العادل للطلبات المحددة')
+                        ->icon('heroicon-o-scale')
+                        ->color('warning')
+                        ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin())
+                        ->requiresConfirmation()
+                        ->modalHeading('توزيع الطلبات المحددة بالتساوي')
+                        ->modalDescription('سيتم توزيع كافة الطلبات المحددة بالتساوي على المناديب النشطين والمؤهلين حسب تخصص كل طلب (كاش / تقسيط / شركات). هل تريد المتابعة؟')
+                        ->action(function ($records) {
+                            $service = app(\App\Services\BookingAssignmentService::class);
+                            $result = $service->redistributeBookings($records);
+
+                            $repsBreakdown = [];
+                            foreach ($result['reps_summary'] as $repName => $count) {
+                                $repsBreakdown[] = "• {$repName}: {$count} طلب";
+                            }
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('تمت إعادة التوزيع العادل للمحددة بنجاح')
+                                ->body("تم توزيع {$result['assigned']} طلب بالتساوي:\n".implode("\n", $repsBreakdown))
+                                ->success()
+                                ->duration(8000)
+                                ->send();
+                        }),
                     Actions\BulkAction::make('bulk_assign')
                         ->label(__('إسناد المحددة لموظف'))
                         ->icon('heroicon-o-user-plus')

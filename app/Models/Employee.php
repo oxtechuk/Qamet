@@ -42,7 +42,36 @@ class Employee extends Authenticatable implements FilamentUser
 
     public function isAdmin(): bool
     {
-        return $this->hasRole('admin', 'employee') || $this->role === 'admin';
+        $adminRoles = [
+            'admin',
+            'Admin',
+            'super_admin',
+            'Super Admin',
+            'super-admin',
+            'Super-Admin',
+            'manager',
+            'Manager',
+            'مدير',
+            'مدير عام',
+            'مدير النظام',
+            'ادمن',
+            'أدمن',
+        ];
+
+        $roleString = strtolower(trim((string) $this->role));
+        if (in_array($roleString, ['admin', 'super_admin', 'super-admin', 'manager', 'owner']) || in_array($this->role, $adminRoles)) {
+            return true;
+        }
+
+        try {
+            if ($this->hasAnyRole($adminRoles, 'employee') || $this->hasAnyRole($adminRoles)) {
+                return true;
+            }
+        } catch (\Throwable $e) {
+            // Guard against Spatie exceptions
+        }
+
+        return false;
     }
 
     public function hasPermission(string|array $permissions): bool
@@ -53,10 +82,10 @@ class Employee extends Authenticatable implements FilamentUser
 
         try {
             if (is_array($permissions)) {
-                return $this->hasAnyPermission($permissions, 'employee');
+                return $this->hasAnyPermission($permissions, 'employee') || $this->hasAnyPermission($permissions);
             }
 
-            return $this->hasPermissionTo($permissions, 'employee');
+            return $this->hasPermissionTo($permissions, 'employee') || $this->hasPermissionTo($permissions);
         } catch (\Throwable $e) {
             return false;
         }

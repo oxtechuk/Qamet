@@ -497,9 +497,9 @@ class Settings extends Page
                                             ->maxLength(500)
                                             ->helperText(__('Text displayed in the site footer')),
                                         Forms\Components\Toggle::make('auto_assign_bookings')
-                                            ->label(__('Auto-assign Bookings'))
+                                            ->label('التوزيع التلقائي العادل والمتساوي للطلبات')
                                             ->default(false)
-                                            ->helperText(__('Automatically distribute bookings to sales employees (Round-Robin)')),
+                                            ->helperText('توزيع الطلبات الواردة تلقائياً بالتساوي التام على المناديب المؤهلين وفقاً لتخصص كل مندوب (كاش / تقسيط) وموازنة أحمال العمل.'),
                                     ]),
                             ]),
                         Tab::make(__('Homepage Settings'))

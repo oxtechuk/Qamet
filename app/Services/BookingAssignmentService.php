@@ -8,52 +8,34 @@ use App\Models\Lead;
 use App\Models\Setting;
 use App\Notifications\NewBookingNotification;
 use App\Notifications\NewLeadNotification;
+use Illuminate\Support\Collection;
 
 class BookingAssignmentService
 {
     /**
-     * Automatically assigns a booking to a sales representative using Round-Robin.
+     * Automatically assigns a booking to a sales representative using Fair Workload Balancing (Least-Loaded).
      *
-     * @return void
+     * @return Employee|null
      */
-    /**
-     * Automatically assigns a booking to a sales representative using Round-Robin.
-     *
-     * @return void
-     */
-    public function autoAssign(Booking $booking)
+    public function autoAssign(Booking $booking): ?Employee
     {
         // 1. Check if auto assignment is enabled in settings
         $settings = Setting::all()->pluck('value', 'key');
-        $isEnabled = isset($settings['auto_assign_bookings']) && $settings['auto_assign_bookings'] == '1';
+        $isEnabled = isset($settings['auto_assign_bookings']) && (string) $settings['auto_assign_bookings'] === '1';
 
         if (! $isEnabled) {
-            return;
+            return null;
         }
 
-        // 2. Fetch active employees strictly based on required booking permissions
+        // 2. Fetch active employees strictly based on required booking permissions and specialization
         $salesReps = $this->getEligibleEmployeesForBooking($booking);
 
         if ($salesReps->isEmpty()) {
-            return;
+            return null;
         }
 
-        // 3. Find the last assigned representative across bookings for this specialization
-        $lastAssignedRepId = $this->getLastAssignedRepIdForPaymentMethod($booking->payment_method);
-
-        $assignedRep = null;
-
-        if ($lastAssignedRepId !== null) {
-            $lastIndex = $salesReps->search(fn ($rep) => $rep->id == $lastAssignedRepId);
-
-            if ($lastIndex !== false && $lastIndex < $salesReps->count() - 1) {
-                $assignedRep = $salesReps[$lastIndex + 1];
-            } else {
-                $assignedRep = $salesReps->first();
-            }
-        } else {
-            $assignedRep = $salesReps->first();
-        }
+        // 3. Find the least-loaded representative (fairest distribution)
+        $assignedRep = $this->findLeastLoadedRepForBooking($salesReps, $booking);
 
         // 4. Assign the booking to the selected representative
         if ($assignedRep) {
@@ -62,18 +44,74 @@ class BookingAssignmentService
             ]);
 
             // 5. Notify the assigned representative
-            $assignedRep->notify(new NewBookingNotification(
-                $booking,
-                __('طلب جديد'),
-                __('تم تعيين طلب جديد لك للعميل').' '.$booking->client_name
-            ));
+            try {
+                $assignedRep->notify(new NewBookingNotification(
+                    $booking,
+                    __('طلب جديد'),
+                    __('تم تعيين طلب جديد لك للعميل').' '.$booking->client_name
+                ));
+            } catch (\Throwable $e) {
+                // Ignore notification failure
+            }
+
+            return $assignedRep;
         }
+
+        return null;
+    }
+
+    /**
+     * Find the least-loaded representative from eligible reps for a specific booking.
+     */
+    public function findLeastLoadedRepForBooking(Collection $salesReps, Booking $booking, array $extraCounts = []): ?Employee
+    {
+        if ($salesReps->isEmpty()) {
+            return null;
+        }
+
+        $isCash = $booking->payment_method === 'cash';
+        $isCorporate = $booking->booking_type === 'corporate';
+        $repIds = $salesReps->pluck('id')->toArray();
+
+        // Count assigned active/open bookings per rep for this specialization
+        $query = Booking::query()
+            ->whereIn('assigned_to', $repIds)
+            ->whereNotIn('status', ['cancelled', 'rejected']);
+
+        if ($isCash) {
+            $query->where('payment_method', 'cash');
+        } elseif ($isCorporate) {
+            $query->where('booking_type', 'corporate');
+        } else {
+            $query->where('payment_method', '!=', 'cash')->where('booking_type', '!=', 'corporate');
+        }
+
+        $counts = $query->selectRaw('assigned_to, count(*) as total')
+            ->groupBy('assigned_to')
+            ->pluck('total', 'assigned_to')
+            ->toArray();
+
+        // Get latest assignment timestamp for tie-breaker (least recently assigned)
+        $lastAssigned = Booking::whereIn('assigned_to', $repIds)
+            ->selectRaw('assigned_to, max(created_at) as last_time')
+            ->groupBy('assigned_to')
+            ->pluck('last_time', 'assigned_to')
+            ->toArray();
+
+        // Sort reps by: 1. Total workload ascending, 2. Last assigned ascending (LRU), 3. ID ascending
+        return $salesReps->sortBy(function (Employee $rep) use ($counts, $extraCounts, $lastAssigned) {
+            $repId = $rep->id;
+            $workload = ($counts[$repId] ?? 0) + ($extraCounts[$repId] ?? 0);
+            $lastTime = isset($lastAssigned[$repId]) ? strtotime($lastAssigned[$repId]) : 0;
+
+            return sprintf('%08d_%012d_%06d', $workload, $lastTime, $repId);
+        })->first();
     }
 
     /**
      * Get active sales representatives eligible for a given booking.
      */
-    public function getEligibleEmployeesForBooking(Booking $booking)
+    public function getEligibleEmployeesForBooking(Booking $booking): Collection
     {
         $isCash = $booking->payment_method === 'cash';
         $isCorporate = $booking->booking_type === 'corporate';
@@ -126,81 +164,176 @@ class BookingAssignmentService
     }
 
     /**
-     * Finds the most recently assigned sales representative's ID for a given payment method.
+     * Redistributes a given collection of bookings fairly and evenly among eligible sales representatives.
+     *
+     * @param iterable<Booking> $bookings
+     * @return array{total: int, assigned: int, unassigned: int, reps_summary: array<string, int>}
      */
-    private function getLastAssignedRepIdForPaymentMethod(?string $paymentMethod): ?int
+    public function redistributeBookings(iterable $bookings): array
     {
-        $query = Booking::whereNotNull('assigned_to');
+        $total = 0;
+        $assigned = 0;
+        $unassigned = 0;
+        $repsSummary = [];
+        $extraCounts = [];
 
-        if ($paymentMethod === 'cash') {
-            $query->where('payment_method', 'cash');
-        } else {
-            $query->where('payment_method', '!=', 'cash');
+        foreach ($bookings as $booking) {
+            $total++;
+            $salesReps = $this->getEligibleEmployeesForBooking($booking);
+
+            if ($salesReps->isEmpty()) {
+                $unassigned++;
+                continue;
+            }
+
+            $selectedRep = $this->findLeastLoadedRepForBooking($salesReps, $booking, $extraCounts);
+
+            if ($selectedRep) {
+                $booking->update([
+                    'assigned_to' => $selectedRep->id,
+                ]);
+
+                $extraCounts[$selectedRep->id] = ($extraCounts[$selectedRep->id] ?? 0) + 1;
+                $repsSummary[$selectedRep->name] = ($repsSummary[$selectedRep->name] ?? 0) + 1;
+                $assigned++;
+            } else {
+                $unassigned++;
+            }
         }
 
-        $lastBooking = $query->latest('id')->first();
-
-        return $lastBooking ? (int) $lastBooking->assigned_to : $this->getLastAssignedRepId();
+        return [
+            'total' => $total,
+            'assigned' => $assigned,
+            'unassigned' => $unassigned,
+            'reps_summary' => $repsSummary,
+        ];
     }
 
     /**
-     * Automatically assigns a general lead to a sales representative using Round-Robin.
+     * Performs a global or filtered rebalance across bookings according to specified criteria.
      *
-     * @return void
+     * @param array{scope?: string, type?: string, date_from?: ?string, date_until?: ?string} $options
+     * @return array{total: int, assigned: int, unassigned: int, reps_summary: array<string, int>}
      */
-    public function autoAssignLead(Lead $lead)
+    public function rebalanceAll(array $options = []): array
     {
-        // 1. Check if auto assignment is enabled in settings
-        $settings = Setting::all()->pluck('value', 'key');
-        $isEnabled = isset($settings['auto_assign_bookings']) && $settings['auto_assign_bookings'] == '1';
+        $scope = $options['scope'] ?? 'open';
+        $type = $options['type'] ?? 'all';
+        $dateFrom = $options['date_from'] ?? null;
+        $dateUntil = $options['date_until'] ?? null;
 
-        if (! $isEnabled) {
-            return;
+        $query = Booking::query();
+
+        // Apply Scope
+        if ($scope === 'open') {
+            $query->whereNotIn('status', ['closed', 'completed', 'cancelled', 'rejected']);
+        } elseif ($scope === 'unassigned') {
+            $query->whereNull('assigned_to');
         }
 
-        // 2. Fetch active sales representatives with lead/booking permissions
+        // Apply Type Filter
+        if ($type === 'cash') {
+            $query->where('payment_method', 'cash');
+        } elseif ($type === 'finance') {
+            $query->where('payment_method', '!=', 'cash')->where('booking_type', '!=', 'corporate');
+        } elseif ($type === 'corporate') {
+            $query->where('booking_type', 'corporate');
+        }
+
+        // Apply Date Range
+        if (! empty($dateFrom)) {
+            $query->whereDate('created_at', '>=', $dateFrom);
+        }
+        if (! empty($dateUntil)) {
+            $query->whereDate('created_at', '<=', $dateUntil);
+        }
+
+        $bookings = $query->orderBy('created_at', 'asc')->get();
+
+        return $this->redistributeBookings($bookings);
+    }
+
+    /**
+     * Automatically assigns a general lead to a sales representative using Least-Loaded Fair Balancing.
+     *
+     * @return Employee|null
+     */
+    public function autoAssignLead(Lead $lead): ?Employee
+    {
+        $settings = Setting::all()->pluck('value', 'key');
+        $isEnabled = isset($settings['auto_assign_bookings']) && (string) $settings['auto_assign_bookings'] === '1';
+
+        if (! $isEnabled) {
+            return null;
+        }
+
         $salesReps = $this->getEligibleEmployeesForLead($lead);
 
         if ($salesReps->isEmpty()) {
-            return;
+            return null;
         }
 
-        // 3. Find the last assigned representative across both Booking and Lead models
-        $lastAssignedRepId = $this->getLastAssignedRepId();
+        $assignedRep = $this->findLeastLoadedRepForLead($salesReps);
 
-        $assignedRep = null;
-
-        if ($lastAssignedRepId !== null) {
-            $lastIndex = $salesReps->search(fn ($rep) => $rep->id == $lastAssignedRepId);
-
-            if ($lastIndex !== false && $lastIndex < $salesReps->count() - 1) {
-                $assignedRep = $salesReps[$lastIndex + 1];
-            } else {
-                $assignedRep = $salesReps->first();
-            }
-        } else {
-            $assignedRep = $salesReps->first();
-        }
-
-        // 4. Assign the lead to the selected representative
         if ($assignedRep) {
             $lead->update([
                 'assigned_to' => $assignedRep->id,
             ]);
 
-            // 5. Notify the assigned representative
-            $assignedRep->notify(new NewLeadNotification(
-                $lead,
-                __('عميل جديد'),
-                __('تم تعيين عميل جديد لك:').' '.$lead->client_name
-            ));
+            try {
+                $assignedRep->notify(new NewLeadNotification(
+                    $lead,
+                    __('عميل جديد'),
+                    __('تم تعيين عميل جديد لك:').' '.$lead->client_name
+                ));
+            } catch (\Throwable $e) {
+                // Ignore notification failure
+            }
+
+            return $assignedRep;
         }
+
+        return null;
+    }
+
+    /**
+     * Find least loaded rep for leads.
+     */
+    public function findLeastLoadedRepForLead(Collection $salesReps, array $extraCounts = []): ?Employee
+    {
+        if ($salesReps->isEmpty()) {
+            return null;
+        }
+
+        $repIds = $salesReps->pluck('id')->toArray();
+
+        $counts = Lead::query()
+            ->whereIn('assigned_to', $repIds)
+            ->whereNotIn('status', ['cancelled', 'lost', 'rejected'])
+            ->selectRaw('assigned_to, count(*) as total')
+            ->groupBy('assigned_to')
+            ->pluck('total', 'assigned_to')
+            ->toArray();
+
+        $lastAssigned = Lead::whereIn('assigned_to', $repIds)
+            ->selectRaw('assigned_to, max(created_at) as last_time')
+            ->groupBy('assigned_to')
+            ->pluck('last_time', 'assigned_to')
+            ->toArray();
+
+        return $salesReps->sortBy(function (Employee $rep) use ($counts, $extraCounts, $lastAssigned) {
+            $repId = $rep->id;
+            $workload = ($counts[$repId] ?? 0) + ($extraCounts[$repId] ?? 0);
+            $lastTime = isset($lastAssigned[$repId]) ? strtotime($lastAssigned[$repId]) : 0;
+
+            return sprintf('%08d_%012d_%06d', $workload, $lastTime, $repId);
+        })->first();
     }
 
     /**
      * Get active sales representatives eligible for leads.
      */
-    public function getEligibleEmployeesForLead(Lead $lead)
+    public function getEligibleEmployeesForLead(Lead $lead): Collection
     {
         return Employee::where('is_active', true)
             ->orderBy('id')
@@ -224,32 +357,46 @@ class BookingAssignmentService
     }
 
     /**
-     * Finds the most recently assigned sales representative's ID across both Booking and Lead models.
+     * Redistributes a given collection of leads fairly and evenly.
      */
-    private function getLastAssignedRepId(): ?int
+    public function redistributeLeads(iterable $leads): array
     {
-        $lastBooking = Booking::whereNotNull('assigned_to')
-            ->latest('id')
-            ->first();
+        $total = 0;
+        $assigned = 0;
+        $unassigned = 0;
+        $repsSummary = [];
+        $extraCounts = [];
 
-        $lastLead = Lead::whereNotNull('assigned_to')
-            ->latest('id')
-            ->first();
+        foreach ($leads as $lead) {
+            $total++;
+            $salesReps = $this->getEligibleEmployeesForLead($lead);
 
-        if ($lastBooking && $lastLead) {
-            return $lastBooking->created_at->gt($lastLead->created_at)
-                ? (int) $lastBooking->assigned_to
-                : (int) $lastLead->assigned_to;
+            if ($salesReps->isEmpty()) {
+                $unassigned++;
+                continue;
+            }
+
+            $selectedRep = $this->findLeastLoadedRepForLead($salesReps, $extraCounts);
+
+            if ($selectedRep) {
+                $lead->update([
+                    'assigned_to' => $selectedRep->id,
+                ]);
+
+                $extraCounts[$selectedRep->id] = ($extraCounts[$selectedRep->id] ?? 0) + 1;
+                $repsSummary[$selectedRep->name] = ($repsSummary[$selectedRep->name] ?? 0) + 1;
+                $assigned++;
+            } else {
+                $unassigned++;
+            }
         }
 
-        if ($lastBooking) {
-            return (int) $lastBooking->assigned_to;
-        }
-
-        if ($lastLead) {
-            return (int) $lastLead->assigned_to;
-        }
-
-        return null;
+        return [
+            'total' => $total,
+            'assigned' => $assigned,
+            'unassigned' => $unassigned,
+            'reps_summary' => $repsSummary,
+        ];
     }
 }
+

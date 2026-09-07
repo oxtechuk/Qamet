@@ -257,6 +257,30 @@ class LeadResource extends Resource
                                 'Content-Type' => 'text/csv; charset=UTF-8',
                             ]);
                         }),
+                    Actions\BulkAction::make('bulk_redistribute_leads')
+                        ->label('إعادة التوزيع العادل للعملاء المحددين')
+                        ->icon('heroicon-o-scale')
+                        ->color('warning')
+                        ->visible(fn () => (bool) (\Illuminate\Support\Facades\Auth::guard('employee')->user()?->isAdmin() || \Illuminate\Support\Facades\Auth::guard('employee')->user()?->hasPermission('manage-leads')))
+                        ->requiresConfirmation()
+                        ->modalHeading('توزيع العملاء المحددين بالتساوي')
+                        ->modalDescription('هل تريد إعادة توزيع العملاء المحددين بالتساوي على مناديب المبيعات النشطين؟')
+                        ->action(function ($records) {
+                            $service = app(\App\Services\BookingAssignmentService::class);
+                            $result = $service->redistributeLeads($records);
+
+                            $repsBreakdown = [];
+                            foreach ($result['reps_summary'] as $repName => $count) {
+                                $repsBreakdown[] = "• {$repName}: {$count} عميل";
+                            }
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('تمت إعادة التوزيع العادل بنجاح')
+                                ->body("تم توزيع {$result['assigned']} عميل بالتساوي:\n".implode("\n", $repsBreakdown))
+                                ->success()
+                                ->duration(8000)
+                                ->send();
+                        }),
                     Actions\DeleteBulkAction::make(),
                 ]),
             ])

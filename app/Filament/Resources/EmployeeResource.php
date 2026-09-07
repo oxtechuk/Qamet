@@ -142,18 +142,38 @@ class EmployeeResource extends Resource
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
                         'cash' => 'كاش فقط',
                         'finance' => 'تقسيط فقط',
-                        default => 'شامل',
+                        'corporate' => 'شركات',
+                        'none' => 'إداري (لا يستقبل طلبات)',
+                        default => 'شامل (كاش وتقسيط)',
                     })
                     ->color(fn (?string $state): string => match ($state) {
                         'cash' => 'success',
                         'finance' => 'info',
+                        'corporate' => 'warning',
+                        'none' => 'danger',
                         default => 'gray',
                     })
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('cash_bookings_count')
+                    ->label('طلبات الكاش')
+                    ->counts(['bookings as cash_bookings_count' => fn ($q) => $q->where('payment_method', 'cash')])
+                    ->badge()
+                    ->color('success')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('finance_bookings_count')
+                    ->label('طلبات التقسيط')
+                    ->counts(['bookings as finance_bookings_count' => fn ($q) => $q->where('payment_method', '!=', 'cash')])
+                    ->badge()
+                    ->color('info')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('bookings_count')
-                    ->label(__('Bookings'))
+                    ->label(__('إجمالي الطلبات'))
                     ->counts('bookings')
+                    ->badge()
+                    ->color('primary')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')->label(__('Active'))

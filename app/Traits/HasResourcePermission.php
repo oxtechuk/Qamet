@@ -7,15 +7,20 @@ use Illuminate\Support\Facades\Auth;
 
 trait HasResourcePermission
 {
+    protected static function getAuthenticatedUser()
+    {
+        return Auth::guard('employee')->user() ?? auth()->user();
+    }
+
     public static function canViewAny(): bool
     {
-        $user = Auth::guard('employee')->user();
+        $user = static::getAuthenticatedUser();
 
         if (! $user) {
             return false;
         }
 
-        if ($user->isAdmin()) {
+        if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
             return true;
         }
 
@@ -25,7 +30,16 @@ trait HasResourcePermission
             return true;
         }
 
-        return $user->hasPermission($permission);
+        if (method_exists($user, 'hasPermission')) {
+            return $user->hasPermission($permission);
+        }
+
+        return true;
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return static::canViewAny();
     }
 
     public static function canCreate(): bool
