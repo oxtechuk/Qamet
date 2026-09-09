@@ -120,17 +120,13 @@ class BookingAssignmentService
             ->orderBy('id')
             ->get()
             ->filter(function (Employee $employee) use ($isCash, $isCorporate) {
-                // 1. Exclude Admin, Manager, and Data Entry
-                if ($employee->isAdmin() || in_array($employee->role, ['admin', 'manager', 'data_entry'])) {
+                // 1. Check if employee is eligible to receive auto assignments
+                if (! $employee->canReceiveAutoAssignments()) {
                     return false;
                 }
 
-                if ($employee->hasAnyRole(['admin', 'Super Admin', 'manager', 'data_entry', 'Data Entry', 'مدير', 'مدخل بيانات'], 'employee')) {
-                    return false;
-                }
-
-                // 2. Must have sales_type set (not empty or none)
-                if (empty($employee->sales_type) || $employee->sales_type === 'none') {
+                // 2. Exclude roles that are specifically data entry / technical without sales intent
+                if ($employee->hasAnyRole(['data_entry', 'Data Entry', 'مدخل بيانات'], 'employee')) {
                     return false;
                 }
 
@@ -339,15 +335,11 @@ class BookingAssignmentService
             ->orderBy('id')
             ->get()
             ->filter(function (Employee $employee) {
-                if ($employee->isAdmin() || in_array($employee->role, ['admin', 'manager', 'data_entry'])) {
+                if (! $employee->canReceiveAutoAssignments()) {
                     return false;
                 }
 
-                if ($employee->hasAnyRole(['admin', 'Super Admin', 'manager', 'data_entry', 'Data Entry', 'مدير', 'مدخل بيانات'], 'employee')) {
-                    return false;
-                }
-
-                if (empty($employee->sales_type) || $employee->sales_type === 'none') {
+                if ($employee->hasAnyRole(['data_entry', 'Data Entry', 'مدخل بيانات'], 'employee')) {
                     return false;
                 }
 

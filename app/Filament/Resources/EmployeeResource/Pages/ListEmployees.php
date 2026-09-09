@@ -13,7 +13,11 @@ class ListEmployees extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->slideOver()->modalWidth('2xl'),
+            Actions\CreateAction::make()
+                ->slideOver()
+                ->modalWidth('4xl')
+                ->modalHeading('إضافة موظف جديد')
+                ->modalDescription('أدخل بيانات الموظف وحدد الدور والصلاحيات وتخصص المبيعات والتوزيع'),
         ];
     }
 }

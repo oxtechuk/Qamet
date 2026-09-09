@@ -21,12 +21,13 @@ class Employee extends Authenticatable implements FilamentUser
 
     protected $guard_name = 'employee';
 
-    protected $fillable = ['name', 'username', 'email', 'password', 'phone', 'role', 'sales_type', 'is_active', 'avatar'];
+    protected $fillable = ['name', 'username', 'email', 'password', 'phone', 'role', 'sales_type', 'receive_auto_assignments', 'is_active', 'avatar'];
 
     protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'receive_auto_assignments' => 'boolean',
         'password' => 'hashed',
     ];
 
@@ -91,13 +92,30 @@ class Employee extends Authenticatable implements FilamentUser
         }
     }
 
+    public function canReceiveAutoAssignments(): bool
+    {
+        if (! (bool) $this->is_active) {
+            return false;
+        }
+
+        if (array_key_exists('receive_auto_assignments', $this->attributes) && $this->receive_auto_assignments === false) {
+            return false;
+        }
+
+        if (empty($this->sales_type) || $this->sales_type === 'none') {
+            return false;
+        }
+
+        return true;
+    }
+
     public function isCashRep(): bool
     {
-        return ! $this->isAdmin() && in_array($this->sales_type, ['cash', 'all']);
+        return $this->canReceiveAutoAssignments() && in_array($this->sales_type, ['cash', 'all']);
     }
 
     public function isFinanceRep(): bool
     {
-        return ! $this->isAdmin() && in_array($this->sales_type, ['finance', 'all']);
+        return $this->canReceiveAutoAssignments() && in_array($this->sales_type, ['finance', 'all']);
     }
 }

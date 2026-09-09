@@ -80,39 +80,12 @@ class BookingResource extends Resource
         $canFinance = $user->hasPermission('manage-finance-bookings');
         $canCorporate = $user->hasPermission('manage-corporate-bookings');
 
-        // Full access to bookings
-        if ($canAll || ($canCash && $canFinance && $canCorporate)) {
-            if ($user->sales_type === 'cash') {
-                return $query->where(function (Builder $q) use ($user) {
-                    $q->where('assigned_to', $user->id)
-                        ->orWhere(function (Builder $cashQ) {
-                            $cashQ->where('payment_method', 'cash')->whereNull('assigned_to');
-                        });
-                });
-            }
-
-            if ($user->sales_type === 'finance') {
-                return $query->where(function (Builder $q) use ($user) {
-                    $q->where('assigned_to', $user->id)
-                        ->orWhere(function (Builder $finQ) {
-                            $finQ->where(function (Builder $mQ) {
-                                $mQ->whereIn('payment_method', ['bank', 'finance', 'installment'])
-                                    ->orWhereNull('payment_method');
-                            })->whereNull('assigned_to')
-                                ->orWhere(function (Builder $corpQ) {
-                                    $corpQ->where('booking_type', 'corporate')->whereNull('assigned_to');
-                                });
-                        });
-                });
-            }
-
-            return $query->where(function (Builder $q) use ($user) {
-                $q->where('assigned_to', $user->id)
-                    ->orWhereNull('assigned_to');
-            });
+        // Full access to view and manage all bookings (e.g. Sales Manager / General Manager)
+        if ($canAll) {
+            return $query;
         }
 
-        // Restricted access based specifically on assigned permissions
+        // Restricted access based on assigned bookings and specific category permissions
         return $query->where(function (Builder $q) use ($user, $canCash, $canFinance, $canCorporate) {
             $q->where('assigned_to', $user->id);
 
