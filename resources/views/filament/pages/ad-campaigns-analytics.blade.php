@@ -389,13 +389,15 @@ ALTER TABLE `leads` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`, AD
     <div class="ad-card relative group" style="border-top: 4px solid #EA4335;">
         <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2.5">
-                {{-- Official Google G Logo SVG --}}
-                <svg class="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"/>
-                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.15z"/>
-                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                </svg>
+                {{-- Official Google G Logo SVG with rigid badge --}}
+                <div style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(234, 67, 53, 0.08); flex-shrink: 0;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" style="width: 22px; height: 22px; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; display: block; flex-shrink: 0;">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                </div>
                 <span class="font-extrabold text-sm text-gray-900 dark:text-white">Google Ads</span>
             </div>
             <span class="ad-badge" style="background: rgba(234, 67, 53, 0.12); color: #EA4335;">
@@ -440,10 +442,12 @@ ALTER TABLE `leads` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`, AD
     <div class="ad-card relative group" style="border-top: 4px solid #1877F2;">
         <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2.5">
-                {{-- Official Meta Infinity Logo SVG --}}
-                <svg class="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="#1877F2">
-                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
-                </svg>
+                {{-- Official Meta Infinity Logo SVG with rigid badge --}}
+                <div style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(24, 119, 242, 0.08); flex-shrink: 0;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2" style="width: 22px; height: 22px; min-width: 22px; min-height: 22px; max-width: 22px; max-height: 22px; display: block; flex-shrink: 0;">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                </div>
                 <span class="font-extrabold text-sm text-gray-900 dark:text-white">Meta (FB / IG)</span>
             </div>
             <span class="ad-badge" style="background: rgba(24, 119, 242, 0.12); color: #1877F2;">
@@ -488,9 +492,9 @@ ALTER TABLE `leads` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`, AD
     <div class="ad-card relative group" style="border-top: 4px solid #EAB308;">
         <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2.5">
-                {{-- Official Snapchat Ghost Logo SVG --}}
-                <div class="w-6 h-6 rounded-md bg-yellow-400 flex items-center justify-center p-0.5 flex-shrink-0">
-                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                {{-- Official Snapchat Ghost Logo SVG with rigid badge --}}
+                <div style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #FFFC00; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; max-width: 20px; max-height: 20px; display: block; flex-shrink: 0;">
                         <path d="M12.003 2c-3.79 0-6.24 2.92-6.24 5.92 0 .84.21 2.05.69 2.87.16.27.18.42.06.66-.23.47-.84.87-1.46.99-.34.06-.51.27-.51.52 0 .5.68.86 1.48.97.23.03.37.15.42.34.22.78.89 1.49 1.94 1.76.21.05.3.18.23.37-.34.87-.71 1.72-1.07 2.58-.1.25-.01.47.25.55.77.24 1.58.4 2.4.49.25.03.38.16.4.4.07.72.33 1.08 1.81 1.08s1.74-.36 1.81-1.08c.02-.24.15-.37.4-.4.82-.09 1.63-.25 2.4-.49.26-.08.35-.3.25-.55-.36-.86-.73-1.71-1.07-2.58-.07-.19.02-.32.23-.37 1.05-.27 1.72-.98 1.94-1.76.05-.19.19-.31.42-.34.8-.11 1.48-.47 1.48-.97 0-.25-.17-.46-.51-.52-.62-.12-1.23-.52-1.46-.99-.12-.24-.1-.39.06-.66.48-.82.69-2.03.69-2.87 0-3-2.45-5.92-6.24-5.92z"/>
                     </svg>
                 </div>
@@ -538,9 +542,9 @@ ALTER TABLE `leads` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`, AD
     <div class="ad-card relative group" style="border-top: 4px solid #06B6D4;">
         <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2.5">
-                {{-- Official TikTok Logo SVG --}}
-                <div class="w-6 h-6 rounded-md bg-black dark:bg-gray-800 flex items-center justify-center p-0.5 flex-shrink-0">
-                    <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+                {{-- Official TikTok Logo SVG with rigid badge --}}
+                <div style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #000000; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; max-width: 20px; max-height: 20px; display: block; flex-shrink: 0;">
                         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.86 4.43c.36-.36.67-.77.93-1.22V10.8a8.28 8.28 0 0 0 4.8 1.52V8.87a4.86 4.86 0 0 1-3.77-2.18z"/>
                     </svg>
                 </div>
