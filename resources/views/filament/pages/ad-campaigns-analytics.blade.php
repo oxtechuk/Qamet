@@ -159,6 +159,28 @@
     $timeline = $this->getTimelineChartData();
 @endphp
 
+@if (! ($kpis['schema_ready'] ?? true))
+    <div class="p-4 mb-6 rounded-xl border border-amber-300 bg-amber-50 dark:bg-amber-950/40 dark:border-amber-700 text-amber-900 dark:text-amber-200 shadow-sm">
+        <div class="flex items-start gap-3">
+            <x-filament::icon icon="heroicon-o-exclamation-triangle" class="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div class="space-y-2 text-xs flex-1">
+                <h3 class="font-bold text-sm text-amber-800 dark:text-amber-100">تنبيه: قاعدة البيانات الحالية بحاجة لتشغيل أمر التحديث (Migration)</h3>
+                <p>قاعدة البيانات المتصلة لا تحتوي بعد على أعمدة التتبع الإعلاني (<code class="font-mono bg-amber-100 dark:bg-amber-900 px-1 py-0.5 rounded text-amber-950 dark:text-amber-100 font-bold">ad_platform</code>). لتفعيل الإحصائيات بالكامل، يرجى تنفيذ أحد الخيارين:</p>
+                <div class="space-y-1">
+                    <p class="font-semibold text-gray-800 dark:text-gray-200">الخيار 1 (عبر سطر الأوامر Terminal على السيرفر):</p>
+                    <pre class="bg-gray-900 text-emerald-400 p-2.5 rounded-lg text-[11px] font-mono select-all">php artisan migrate --force</pre>
+                </div>
+                <div class="space-y-1 pt-1">
+                    <p class="font-semibold text-gray-800 dark:text-gray-200">الخيار 2 (تنفيذ استعلام SQL مباشرة في phpMyAdmin أو استضافة السيرفر):</p>
+                    <pre class="bg-gray-900 text-slate-200 p-2.5 rounded-lg text-[11px] font-mono overflow-x-auto select-all">ALTER TABLE `bookings` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `source`, ADD COLUMN `utm_source` VARCHAR(255) NULL AFTER `ad_platform`, ADD COLUMN `utm_medium` VARCHAR(255) NULL AFTER `utm_source`, ADD COLUMN `utm_campaign` VARCHAR(255) NULL AFTER `utm_medium`, ADD COLUMN `utm_content` VARCHAR(255) NULL AFTER `utm_campaign`, ADD COLUMN `utm_term` VARCHAR(255) NULL AFTER `utm_content`, ADD COLUMN `click_id` VARCHAR(255) NULL AFTER `utm_term`, ADD COLUMN `referrer_url` TEXT NULL AFTER `click_id`, ADD INDEX `bookings_ad_platform_index` (`ad_platform`), ADD INDEX `bookings_attribution_perf_idx` (`ad_platform`, `status`, `created_at`);
+
+ALTER TABLE `leads` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`, ADD COLUMN `utm_source` VARCHAR(255) NULL AFTER `ad_platform`, ADD COLUMN `utm_medium` VARCHAR(255) NULL AFTER `utm_source`, ADD COLUMN `utm_campaign` VARCHAR(255) NULL AFTER `utm_medium`, ADD COLUMN `utm_content` VARCHAR(255) NULL AFTER `utm_campaign`, ADD COLUMN `utm_term` VARCHAR(255) NULL AFTER `utm_content`, ADD COLUMN `click_id` VARCHAR(255) NULL AFTER `utm_term`, ADD COLUMN `referrer_url` TEXT NULL AFTER `click_id`, ADD INDEX `leads_ad_platform_index` (`ad_platform`), ADD INDEX `leads_attribution_perf_idx` (`ad_platform`, `status`, `created_at`);</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 {{-- ==================== 1. FILTER BAR ==================== --}}
 <div class="ad-section mb-5">
     <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">

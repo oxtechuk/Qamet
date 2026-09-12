@@ -8,9 +8,19 @@ use App\Models\Booking;
 use App\Models\Lead;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 final class AdAttributionService
 {
+    public function isAttributionSchemaReady(): bool
+    {
+        try {
+            return Schema::hasColumn('leads', 'ad_platform') && Schema::hasColumn('bookings', 'ad_platform');
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
     public const SUPPORTED_PLATFORMS = [
         'google' => [
             'key' => 'google',
@@ -62,6 +72,22 @@ final class AdAttributionService
      */
     public function getOverviewKpis(array $filters = []): array
     {
+        if (! $this->isAttributionSchemaReady()) {
+            return [
+                'schema_ready' => false,
+                'total_ad_leads' => 0,
+                'total_ad_bookings' => 0,
+                'sold_ad_bookings' => 0,
+                'total_ad_revenue' => 0.0,
+                'avg_deal_size' => 0.0,
+                'conversion_rate' => 0,
+                'top_platform_name' => 'في انتظار تحديث قاعدة البيانات',
+                'top_platform_key' => null,
+                'organic_sold' => 0,
+                'organic_revenue' => 0.0,
+            ];
+        }
+
         $paidPlatforms = ['google', 'meta', 'snapchat', 'tiktok'];
 
         $bookingQuery = Booking::query();
@@ -105,6 +131,7 @@ final class AdAttributionService
             : 'لا توجد بيانات كافية';
 
         return [
+            'schema_ready' => true,
             'total_ad_leads' => $totalAdLeads,
             'total_ad_bookings' => $totalAdBookings,
             'sold_ad_bookings' => $soldAdBookings,
@@ -127,6 +154,30 @@ final class AdAttributionService
     public function getPlatformBreakdown(array $filters = []): array
     {
         $breakdown = [];
+
+        if (! $this->isAttributionSchemaReady()) {
+            foreach (self::SUPPORTED_PLATFORMS as $key => $meta) {
+                $breakdown[$key] = [
+                    'key' => $key,
+                    'name' => $meta['name'],
+                    'name_ar' => $meta['name_ar'],
+                    'color' => $meta['color'],
+                    'bg_light' => $meta['bg_light'],
+                    'border' => $meta['border'],
+                    'text' => $meta['text'],
+                    'icon' => $meta['icon'],
+                    'total_leads' => 0,
+                    'total_bookings' => 0,
+                    'sold_bookings' => 0,
+                    'negotiation_bookings' => 0,
+                    'total_revenue' => 0.0,
+                    'avg_deal_size' => 0.0,
+                    'conversion_rate' => 0,
+                ];
+            }
+
+            return $breakdown;
+        }
 
         foreach (self::SUPPORTED_PLATFORMS as $key => $meta) {
             $bQuery = Booking::query()->where('ad_platform', $key);
@@ -174,6 +225,10 @@ final class AdAttributionService
      */
     public function getCampaignBreakdown(array $filters = [], int $limit = 30): array
     {
+        if (! $this->isAttributionSchemaReady()) {
+            return [];
+        }
+
         $query = Booking::query()
             ->select(
                 'ad_platform',
@@ -223,6 +278,13 @@ final class AdAttributionService
      */
     public function getTimelineChartData(array $filters = []): array
     {
+        if (! $this->isAttributionSchemaReady()) {
+            return [
+                'labels' => [],
+                'datasets' => [],
+            ];
+        }
+
         $from = ! empty($filters['date_from']) ? Carbon::parse($filters['date_from']) : now()->subDays(14)->startOfDay();
         $to = ! empty($filters['date_to']) ? Carbon::parse($filters['date_to']) : now()->endOfDay();
 
@@ -287,6 +349,10 @@ final class AdAttributionService
      */
     public function getTopCarsFromAds(array $filters = [], int $limit = 6): array
     {
+        if (! $this->isAttributionSchemaReady()) {
+            return [];
+        }
+
         $query = Booking::query()
             ->select('car_id', 'ad_platform', DB::raw('COUNT(*) as total_orders'), DB::raw("SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as sold_orders"))
             ->whereNotNull('car_id')
