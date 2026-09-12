@@ -40,6 +40,8 @@ class AdCampaignsAnalytics extends Page
 
     public string $activeTab = 'overview';
 
+    public ?string $activeQuickFilter = 'month';
+
     /**
      * @var array{date_from: string|null, date_to: string|null, platform: string|null}
      */
@@ -57,6 +59,8 @@ class AdCampaignsAnalytics extends Page
 
     public function setQuickFilter(string $period): void
     {
+        $this->activeQuickFilter = $period;
+
         match ($period) {
             'today' => [
                 $this->filters['date_from'] = now()->toDateString(),
@@ -150,5 +154,80 @@ class AdCampaignsAnalytics extends Page
     public function getTopCars(): array
     {
         return app(AdAttributionService::class)->getTopCarsFromAds($this->filters);
+    }
+
+    public function applyDatabaseMigration(): void
+    {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+
+            if (! app(AdAttributionService::class)->isAttributionSchemaReady()) {
+                $this->runDirectSchemaStatements();
+            }
+
+            \Filament\Notifications\Notification::make()
+                ->title('تم تحديث قاعدة البيانات بنجاح!')
+                ->body('تمت إضافة أعمدة التتبع الإعلاني بنجاح وتفعيل إحصائيات المنصات بالكامل.')
+                ->success()
+                ->send();
+        } catch (\Throwable $e) {
+            try {
+                $this->runDirectSchemaStatements();
+                \Filament\Notifications\Notification::make()
+                    ->title('تم تحديث قاعدة البيانات بنجاح!')
+                    ->body('تمت إضافة أعمدة التتبع الإعلاني بنجاح عبر الترقية المباشرة.')
+                    ->success()
+                    ->send();
+            } catch (\Throwable $err) {
+                \Filament\Notifications\Notification::make()
+                    ->title('تعذر التحديث التلقائي')
+                    ->body('يرجى تنفيذ أمر SQL يدوياً: '.$err->getMessage())
+                    ->danger()
+                    ->send();
+            }
+        }
+
+        $this->dispatch('$refresh');
+    }
+
+    private function runDirectSchemaStatements(): void
+    {
+        $schema = \Illuminate\Support\Facades\Schema::connection(config('database.default'));
+
+        if (! $schema->hasColumn('bookings', 'ad_platform')) {
+            \Illuminate\Support\Facades\DB::statement('ALTER TABLE `bookings` 
+                ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `source`,
+                ADD COLUMN `utm_source` VARCHAR(255) NULL AFTER `ad_platform`,
+                ADD COLUMN `utm_medium` VARCHAR(255) NULL AFTER `utm_source`,
+                ADD COLUMN `utm_campaign` VARCHAR(255) NULL AFTER `utm_medium`,
+                ADD COLUMN `utm_content` VARCHAR(255) NULL AFTER `utm_campaign`,
+                ADD COLUMN `utm_term` VARCHAR(255) NULL AFTER `utm_content`,
+                ADD COLUMN `click_id` VARCHAR(255) NULL AFTER `utm_term`,
+                ADD COLUMN `referrer_url` TEXT NULL AFTER `click_id`');
+
+            try {
+                \Illuminate\Support\Facades\DB::statement('ALTER TABLE `bookings` ADD INDEX `bookings_ad_platform_index` (`ad_platform`)');
+                \Illuminate\Support\Facades\DB::statement('ALTER TABLE `bookings` ADD INDEX `bookings_attribution_perf_idx` (`ad_platform`, `status`, `created_at`)');
+            } catch (\Throwable) {
+            }
+        }
+
+        if (! $schema->hasColumn('leads', 'ad_platform')) {
+            \Illuminate\Support\Facades\DB::statement('ALTER TABLE `leads` 
+                ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`,
+                ADD COLUMN `utm_source` VARCHAR(255) NULL AFTER `ad_platform`,
+                ADD COLUMN `utm_medium` VARCHAR(255) NULL AFTER `utm_source`,
+                ADD COLUMN `utm_campaign` VARCHAR(255) NULL AFTER `utm_medium`,
+                ADD COLUMN `utm_content` VARCHAR(255) NULL AFTER `utm_campaign`,
+                ADD COLUMN `utm_term` VARCHAR(255) NULL AFTER `utm_content`,
+                ADD COLUMN `click_id` VARCHAR(255) NULL AFTER `utm_term`,
+                ADD COLUMN `referrer_url` TEXT NULL AFTER `click_id`');
+
+            try {
+                \Illuminate\Support\Facades\DB::statement('ALTER TABLE `leads` ADD INDEX `leads_ad_platform_index` (`ad_platform`)');
+                \Illuminate\Support\Facades\DB::statement('ALTER TABLE `leads` ADD INDEX `leads_attribution_perf_idx` (`ad_platform`, `status`, `created_at`)');
+            } catch (\Throwable) {
+            }
+        }
     }
 }
