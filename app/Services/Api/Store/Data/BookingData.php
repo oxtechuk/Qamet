@@ -35,7 +35,44 @@ final class BookingData
         public readonly ?string $preferred_contact_time = null,
         public readonly ?int $car_count = 1,
         public readonly ?string $notes = null,
+        public readonly ?string $ad_platform = null,
+        public readonly ?string $utm_source = null,
+        public readonly ?string $utm_medium = null,
+        public readonly ?string $utm_campaign = null,
+        public readonly ?string $utm_content = null,
+        public readonly ?string $utm_term = null,
+        public readonly ?string $click_id = null,
+        public readonly ?string $referrer_url = null,
     ) {}
+
+    public static function detectPlatform(?string $platform, ?string $utmSource, ?string $clickId, ?string $referrer = null): ?string
+    {
+        if (! empty($platform)) {
+            return strtolower(trim($platform));
+        }
+
+        $source = strtolower(trim($utmSource ?? ''));
+        $click = strtolower(trim($clickId ?? ''));
+        $ref = strtolower(trim($referrer ?? ''));
+
+        if (str_contains($source, 'google') || str_contains($source, 'adwords') || str_contains($source, 'youtube') || str_starts_with($click, 'gclid') || str_contains($ref, 'google.')) {
+            return 'google';
+        }
+
+        if (str_contains($source, 'meta') || str_contains($source, 'facebook') || str_contains($source, 'instagram') || str_contains($source, 'ig') || str_contains($source, 'fb') || str_starts_with($click, 'fbclid') || str_contains($ref, 'facebook.com') || str_contains($ref, 'instagram.com')) {
+            return 'meta';
+        }
+
+        if (str_contains($source, 'snap') || str_starts_with($click, 'sccid') || str_contains($ref, 'snapchat.com')) {
+            return 'snapchat';
+        }
+
+        if (str_contains($source, 'tiktok') || str_contains($source, 'tik_tok') || str_starts_with($click, 'ttclid') || str_contains($ref, 'tiktok.com')) {
+            return 'tiktok';
+        }
+
+        return ! empty($source) ? $source : null;
+    }
 
     public static function fromRequest(array $validated, ?float $cashPrice = null): self
     {
@@ -58,6 +95,13 @@ final class BookingData
             $monthlyInstallment = (int) round($monthly);
             $totalPrice = (int) round($monthly * $totalMonths + (float) $downPayment);
         }
+
+        $adPlatform = self::detectPlatform(
+            $validated['ad_platform'] ?? null,
+            $validated['utm_source'] ?? null,
+            $validated['click_id'] ?? null,
+            $validated['referrer_url'] ?? request()->header('referer')
+        );
 
         return new self(
             car_id: ! empty($validated['car_id']) ? (int) $validated['car_id'] : null,
@@ -86,6 +130,14 @@ final class BookingData
             preferred_contact_time: $validated['preferred_contact_time'] ?? null,
             car_count: isset($validated['car_count']) ? (int) $validated['car_count'] : 1,
             notes: $validated['notes'] ?? null,
+            ad_platform: $adPlatform,
+            utm_source: $validated['utm_source'] ?? null,
+            utm_medium: $validated['utm_medium'] ?? null,
+            utm_campaign: $validated['utm_campaign'] ?? null,
+            utm_content: $validated['utm_content'] ?? null,
+            utm_term: $validated['utm_term'] ?? null,
+            click_id: $validated['click_id'] ?? null,
+            referrer_url: $validated['referrer_url'] ?? request()->header('referer'),
         );
     }
 
@@ -120,6 +172,14 @@ final class BookingData
             'preferred_contact_time' => $this->preferred_contact_time,
             'car_count' => $this->car_count ?? 1,
             'notes' => $this->notes,
+            'ad_platform' => $this->ad_platform,
+            'utm_source' => $this->utm_source,
+            'utm_medium' => $this->utm_medium,
+            'utm_campaign' => $this->utm_campaign,
+            'utm_content' => $this->utm_content,
+            'utm_term' => $this->utm_term,
+            'click_id' => $this->click_id,
+            'referrer_url' => $this->referrer_url,
         ];
     }
 }

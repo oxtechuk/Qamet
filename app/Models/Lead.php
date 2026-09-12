@@ -23,7 +23,33 @@ class Lead extends Model
         'status_details',
         'car_id',
         'assigned_to',
+        'ad_platform',
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_content',
+        'utm_term',
+        'click_id',
+        'referrer_url',
     ];
+
+    public const AD_PLATFORMS = [
+        'google' => ['label' => 'Google Ads', 'color' => '#EA4335'],
+        'meta' => ['label' => 'Meta (FB / IG)', 'color' => '#1877F2'],
+        'snapchat' => ['label' => 'Snapchat', 'color' => '#FFFC00'],
+        'tiktok' => ['label' => 'TikTok', 'color' => '#000000'],
+        'direct' => ['label' => 'Direct / Organic', 'color' => '#64748B'],
+    ];
+
+    public function scopeFromPlatform($query, string $platform)
+    {
+        return $query->where('ad_platform', $platform);
+    }
+
+    public function scopePaidAds($query)
+    {
+        return $query->whereIn('ad_platform', ['google', 'meta', 'snapchat', 'tiktok']);
+    }
 
     protected function casts(): array
     {

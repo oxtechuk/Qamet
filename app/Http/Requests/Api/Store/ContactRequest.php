@@ -20,6 +20,14 @@ class ContactRequest extends FormRequest
             'subject' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:100'],
             'message' => ['nullable', 'string', 'max:2000'],
+            'ad_platform' => ['nullable', 'string', 'max:50'],
+            'utm_source' => ['nullable', 'string', 'max:255'],
+            'utm_medium' => ['nullable', 'string', 'max:255'],
+            'utm_campaign' => ['nullable', 'string', 'max:255'],
+            'utm_content' => ['nullable', 'string', 'max:255'],
+            'utm_term' => ['nullable', 'string', 'max:255'],
+            'click_id' => ['nullable', 'string', 'max:255'],
+            'referrer_url' => ['nullable', 'string', 'max:2000'],
         ];
     }
 }

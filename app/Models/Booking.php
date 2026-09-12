@@ -18,7 +18,18 @@ class Booking extends Model
         'purchase_urgency', 'preferred_contact_date', 'preferred_contact_time', 'down_payment', 'duration_years',
         'interest_rate', 'monthly_installment', 'total_price', 'notes', 'status',
         'source', 'last_contacted_at', 'booking_type', 'location',
+        'ad_platform', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'click_id', 'referrer_url',
     ];
+
+    public function scopeFromPlatform($query, string $platform)
+    {
+        return $query->where('ad_platform', $platform);
+    }
+
+    public function scopePaidAds($query)
+    {
+        return $query->whereIn('ad_platform', ['google', 'meta', 'snapchat', 'tiktok']);
+    }
 
     protected $casts = [
         'last_contacted_at' => 'datetime',
@@ -71,6 +82,14 @@ class Booking extends Model
                     'car_id' => $booking->car_id,
                     'assigned_to' => $booking->assigned_to,
                     'status_details' => $booking->notes ?? 'طلب حجز تلقائي من المتجر',
+                    'ad_platform' => $booking->ad_platform,
+                    'utm_source' => $booking->utm_source,
+                    'utm_medium' => $booking->utm_medium,
+                    'utm_campaign' => $booking->utm_campaign,
+                    'utm_content' => $booking->utm_content,
+                    'utm_term' => $booking->utm_term,
+                    'click_id' => $booking->click_id,
+                    'referrer_url' => $booking->referrer_url,
                 ]);
             } else {
                 $updateData = [];
@@ -79,6 +98,16 @@ class Booking extends Model
                 }
                 if (empty($existingLead->assigned_to)) {
                     $updateData['assigned_to'] = $booking->assigned_to;
+                }
+                if (empty($existingLead->ad_platform) && ! empty($booking->ad_platform)) {
+                    $updateData['ad_platform'] = $booking->ad_platform;
+                    $updateData['utm_source'] = $booking->utm_source;
+                    $updateData['utm_medium'] = $booking->utm_medium;
+                    $updateData['utm_campaign'] = $booking->utm_campaign;
+                    $updateData['utm_content'] = $booking->utm_content;
+                    $updateData['utm_term'] = $booking->utm_term;
+                    $updateData['click_id'] = $booking->click_id;
+                    $updateData['referrer_url'] = $booking->referrer_url;
                 }
                 if (! empty($updateData)) {
                     $existingLead->update($updateData);

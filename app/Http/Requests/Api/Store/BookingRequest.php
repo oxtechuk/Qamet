@@ -36,6 +36,14 @@ final class BookingRequest extends ApiBaseRequest
             'preferred_contact_time' => ['nullable', 'string', 'max:50'],
             'car_count' => ['nullable', 'integer', 'min:1', 'max:1000'],
             'location' => ['nullable', 'string', 'max:500'],
+            'ad_platform' => ['nullable', 'string', 'max:50'],
+            'utm_source' => ['nullable', 'string', 'max:255'],
+            'utm_medium' => ['nullable', 'string', 'max:255'],
+            'utm_campaign' => ['nullable', 'string', 'max:255'],
+            'utm_content' => ['nullable', 'string', 'max:255'],
+            'utm_term' => ['nullable', 'string', 'max:255'],
+            'click_id' => ['nullable', 'string', 'max:255'],
+            'referrer_url' => ['nullable', 'string', 'max:2000'],
         ];
     }
 
