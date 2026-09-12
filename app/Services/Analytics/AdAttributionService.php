@@ -21,6 +21,208 @@ final class AdAttributionService
         }
     }
 
+    public function detectPlatformFromText(?string ...$texts): ?string
+    {
+        foreach ($texts as $text) {
+            if (empty($text)) {
+                continue;
+            }
+            $t = mb_strtolower(trim($text));
+
+            // Google Ads / Analytics
+            if (
+                str_contains($t, 'google') ||
+                str_contains($t, 'جوجل') ||
+                str_contains($t, 'قوقل') ||
+                str_contains($t, 'adwords') ||
+                str_contains($t, 'gclid') ||
+                str_contains($t, 'googleads')
+            ) {
+                return 'google';
+            }
+
+            // Meta (Facebook & Instagram)
+            if (
+                str_contains($t, 'meta') ||
+                str_contains($t, 'facebook') ||
+                str_contains($t, 'فيسبوك') ||
+                str_contains($t, 'فيس بوك') ||
+                str_contains($t, 'فيس') ||
+                str_contains($t, 'instagram') ||
+                str_contains($t, 'انستقرام') ||
+                str_contains($t, 'انستغرام') ||
+                str_contains($t, 'انستجرام') ||
+                str_contains($t, 'fbclid') ||
+                str_contains($t, 'igshid') ||
+                preg_match('/\b(fb|ig)\b/i', $t)
+            ) {
+                return 'meta';
+            }
+
+            // Snapchat
+            if (
+                str_contains($t, 'snapchat') ||
+                str_contains($t, 'سناب') ||
+                str_contains($t, 'سنابشات') ||
+                str_contains($t, 'سناب شات') ||
+                str_contains($t, 'sccid') ||
+                str_contains($t, 'snap')
+            ) {
+                return 'snapchat';
+            }
+
+            // TikTok
+            if (
+                str_contains($t, 'tiktok') ||
+                str_contains($t, 'تيك توك') ||
+                str_contains($t, 'تيكتوك') ||
+                str_contains($t, 'تيك') ||
+                str_contains($t, 'ttclid')
+            ) {
+                return 'tiktok';
+            }
+        }
+
+        return null;
+    }
+
+    public function extractUtmParam(string $param, ?string ...$texts): ?string
+    {
+        foreach ($texts as $text) {
+            if (empty($text)) {
+                continue;
+            }
+            if (preg_match('/[?&]' . preg_quote($param, '/') . '=([^&\s#]+)/i', $text, $matches)) {
+                return urldecode($matches[1]);
+            }
+            if (preg_match('/' . preg_quote($param, '/') . '[:\s=]+([^\r\n,;&]+)/i', $text, $matches)) {
+                $val = trim($matches[1]);
+                if (! empty($val)) {
+                    return $val;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public function extractClickId(?string ...$texts): ?string
+    {
+        foreach ($texts as $text) {
+            if (empty($text)) {
+                continue;
+            }
+            foreach (['gclid', 'fbclid', 'ttclid', 'sccid'] as $param) {
+                if (preg_match('/[?&]' . $param . '=([^&\s#]+)/i', $text, $matches)) {
+                    return urldecode($matches[1]);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Scan existing past bookings and leads from the last month and attribute them retroactively
+     *
+     * @return array{bookings_updated: int, leads_updated: int}
+     */
+    public function retroactivelyScanAndAttributePastRecords(): array
+    {
+        if (! $this->isAttributionSchemaReady()) {
+            return ['bookings_updated' => 0, 'leads_updated' => 0];
+        }
+
+        $updatedBookings = 0;
+        $updatedLeads = 0;
+
+        // 1. Scan Leads without ad_platform
+        $leads = Lead::where(function ($q) {
+            $q->whereNull('ad_platform')->orWhere('ad_platform', '');
+        })->with('contactSource')->get();
+
+        foreach ($leads as $l) {
+            $platform = $this->detectPlatformFromText(
+                $l->contactSource?->name,
+                $l->status_details,
+                $l->subject,
+                $l->utm_source,
+                $l->referrer_url
+            );
+
+            if ($platform) {
+                $campaign = $l->utm_campaign ?: $this->extractUtmParam('utm_campaign', $l->status_details, $l->referrer_url);
+                $source = $l->utm_source ?: ($this->extractUtmParam('utm_source', $l->status_details, $l->referrer_url) ?: $l->contactSource?->name);
+                $medium = $l->utm_medium ?: $this->extractUtmParam('utm_medium', $l->status_details, $l->referrer_url);
+                $clickId = $l->click_id ?: $this->extractClickId($l->status_details, $l->referrer_url);
+
+                $l->update([
+                    'ad_platform' => $platform,
+                    'utm_source' => $source,
+                    'utm_campaign' => $campaign,
+                    'utm_medium' => $medium,
+                    'click_id' => $clickId ?: $l->click_id,
+                ]);
+                $updatedLeads++;
+            }
+        }
+
+        // Build a phone lookup map from attributed leads to cross-attribute bookings
+        $attributedLeadPhones = Lead::whereNotNull('ad_platform')
+            ->where('ad_platform', '!=', '')
+            ->whereNotNull('client_phone')
+            ->pluck('ad_platform', 'client_phone')
+            ->all();
+
+        // 2. Scan Bookings without ad_platform
+        $bookings = Booking::where(function ($q) {
+            $q->whereNull('ad_platform')->orWhere('ad_platform', '');
+        })->get();
+
+        foreach ($bookings as $b) {
+            $platform = $this->detectPlatformFromText(
+                $b->source,
+                $b->notes,
+                $b->utm_source,
+                $b->click_id,
+                $b->referrer_url
+            );
+
+            // Cross-match with Lead phone if not found directly
+            if (! $platform && ! empty($b->client_phone)) {
+                $cleanPhone = preg_replace('/[^0-9]/', '', (string) $b->client_phone);
+                foreach ($attributedLeadPhones as $leadPhone => $leadPlatform) {
+                    $cleanLeadPhone = preg_replace('/[^0-9]/', '', (string) $leadPhone);
+                    if ($cleanPhone === $cleanLeadPhone || (! empty($cleanPhone) && strlen($cleanPhone) >= 9 && str_ends_with($cleanPhone, substr($cleanLeadPhone, -9)))) {
+                        $platform = $leadPlatform;
+                        break;
+                    }
+                }
+            }
+
+            if ($platform) {
+                $campaign = $b->utm_campaign ?: $this->extractUtmParam('utm_campaign', $b->notes, $b->source, $b->referrer_url);
+                $source = $b->utm_source ?: ($this->extractUtmParam('utm_source', $b->notes, $b->source, $b->referrer_url) ?: $b->source);
+                $medium = $b->utm_medium ?: $this->extractUtmParam('utm_medium', $b->notes, $b->source, $b->referrer_url);
+                $clickId = $b->click_id ?: $this->extractClickId($b->notes, $b->source, $b->referrer_url);
+
+                $b->update([
+                    'ad_platform' => $platform,
+                    'utm_source' => $source,
+                    'utm_campaign' => $campaign,
+                    'utm_medium' => $medium,
+                    'click_id' => $clickId ?: $b->click_id,
+                ]);
+                $updatedBookings++;
+            }
+        }
+
+        return [
+            'bookings_updated' => $updatedBookings,
+            'leads_updated' => $updatedLeads,
+        ];
+    }
+
     public const SUPPORTED_PLATFORMS = [
         'google' => [
             'key' => 'google',

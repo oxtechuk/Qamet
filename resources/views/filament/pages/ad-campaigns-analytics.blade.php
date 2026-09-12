@@ -225,17 +225,31 @@ ALTER TABLE `leads` ADD COLUMN `ad_platform` VARCHAR(50) NULL AFTER `status`, AD
 <div class="ad-section mb-6">
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">
         <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-primary-50 dark:bg-primary-950/40 text-primary-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-primary-50 dark:bg-primary-950/40 text-primary-600 flex items-center justify-center flex-shrink-0">
                 <x-filament::icon icon="heroicon-m-funnel" class="h-4 w-4" />
             </div>
             <div>
-                <h2 class="text-sm font-bold text-gray-900 dark:text-white">نطاق الفحص والتحليل</h2>
+                <h2 class="text-sm font-bold text-gray-900 dark:text-white">نطاق الفحص والتحليل الإعلاني</h2>
                 <p class="text-[11px] text-gray-400">تصفية نتائج الإعلانات والمبيعات بحسب التواريخ والمنصة</p>
             </div>
         </div>
 
-        {{-- Quick Date Presets with Active State Highlight --}}
-        <div class="flex flex-wrap items-center gap-1.5">
+        {{-- Action: Retroactive Client Scan + Quick Date Presets --}}
+        <div class="flex flex-wrap items-center gap-2">
+            <button
+                type="button"
+                wire:click="scanPastClients"
+                wire:loading.attr="disabled"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs rounded-lg shadow-sm transition-all duration-150 cursor-pointer disabled:opacity-50"
+                title="فحص واستيراد الروابط والعملاء القدامى من الشهر الماضي وربطهم بحملات الإعلانات"
+            >
+                <x-filament::loading-indicator wire:loading wire:target="scanPastClients" class="w-3.5 h-3.5 text-white" />
+                <x-filament::icon icon="heroicon-m-arrow-path" wire:loading.remove wire:target="scanPastClients" class="w-3.5 h-3.5 text-white" />
+                <span>فحص وربط بيانات الشهر الماضي</span>
+            </button>
+
+            <span class="text-gray-300 dark:text-gray-700">|</span>
+
             <button type="button" wire:click="setQuickFilter('today')" class="ad-quick-btn {{ $activeQuickFilter === 'today' ? 'active' : '' }}">اليوم</button>
             <button type="button" wire:click="setQuickFilter('yesterday')" class="ad-quick-btn {{ $activeQuickFilter === 'yesterday' ? 'active' : '' }}">أمس</button>
             <button type="button" wire:click="setQuickFilter('last7')" class="ad-quick-btn {{ $activeQuickFilter === 'last7' ? 'active' : '' }}">آخر 7 أيام</button>

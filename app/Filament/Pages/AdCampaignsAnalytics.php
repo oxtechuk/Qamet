@@ -156,35 +156,77 @@ class AdCampaignsAnalytics extends Page
         return app(AdAttributionService::class)->getTopCarsFromAds($this->filters);
     }
 
+    public function scanPastClients(): void
+    {
+        if (! app(AdAttributionService::class)->isAttributionSchemaReady()) {
+            $this->applyDatabaseMigration();
+        }
+
+        $result = app(AdAttributionService::class)->retroactivelyScanAndAttributePastRecords();
+
+        $bookingsCount = $result['bookings_updated'] ?? 0;
+        $leadsCount = $result['leads_updated'] ?? 0;
+        $total = $bookingsCount + $leadsCount;
+
+        if ($total > 0) {
+            \Filament\Notifications\Notification::make()
+                ->title('تم فحص وربط بيانات العملاء القديمة بنجاح!')
+                ->body("تم العثور على وإسناد {$total} سجلاً لمنصات الإعلانات (Google, Meta, Snapchat, TikTok) — تم تحديث {$bookingsCount} حجز و {$leadsCount} عميل محتمل من الشهر الماضي.")
+                ->success()
+                ->duration(8000)
+                ->send();
+        } else {
+            \Filament\Notifications\Notification::make()
+                ->title('اكتمل فحص السجلات السابقة')
+                ->body('تم فحص كافة حجوزات وعملاء الشهر الماضي؛ لم يتم العثور على سجلات جديدة بحاجة لإسناد إعلاني، أو تم إسنادها بالفعل.')
+                ->info()
+                ->duration(6000)
+                ->send();
+        }
+
+        $this->dispatch('$refresh');
+    }
+
     public function applyDatabaseMigration(): void
     {
+        $migrated = false;
+
         try {
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
 
             if (! app(AdAttributionService::class)->isAttributionSchemaReady()) {
                 $this->runDirectSchemaStatements();
             }
-
-            \Filament\Notifications\Notification::make()
-                ->title('تم تحديث قاعدة البيانات بنجاح!')
-                ->body('تمت إضافة أعمدة التتبع الإعلاني بنجاح وتفعيل إحصائيات المنصات بالكامل.')
-                ->success()
-                ->send();
+            $migrated = true;
         } catch (\Throwable $e) {
             try {
                 $this->runDirectSchemaStatements();
-                \Filament\Notifications\Notification::make()
-                    ->title('تم تحديث قاعدة البيانات بنجاح!')
-                    ->body('تمت إضافة أعمدة التتبع الإعلاني بنجاح عبر الترقية المباشرة.')
-                    ->success()
-                    ->send();
+                $migrated = true;
             } catch (\Throwable $err) {
                 \Filament\Notifications\Notification::make()
                     ->title('تعذر التحديث التلقائي')
-                    ->body('يرجى تنفيذ أمر SQL يدوياً: '.$err->getMessage())
+                    ->body('يرجى تنفيذ استعلام SQL الموضح بالأسفل في استضافة السيرفر أو phpMyAdmin: '.$err->getMessage())
                     ->danger()
                     ->send();
             }
+        }
+
+        if ($migrated) {
+            // Automatically scan and link past clients
+            $scanResult = app(AdAttributionService::class)->retroactivelyScanAndAttributePastRecords();
+            $totalScanned = ($scanResult['bookings_updated'] ?? 0) + ($scanResult['leads_updated'] ?? 0);
+
+            $body = 'تمت إضافة أعمدة التتبع الإعلاني بنجاح وتفعيل إحصائيات المنصات بالكامل.';
+            if ($totalScanned > 0) {
+                $body .= " كما تم فحص وربط {$totalScanned} سجلاً قديماً من إعلانات الشهر الماضي تلقائياً!";
+            }
+
+            \Filament\Notifications\Notification::make()
+                ->title('تم تحديث قاعدة البيانات بنجاح!')
+                ->body($body)
+                ->success()
+                ->duration(8000)
+                ->send();
         }
 
         $this->dispatch('$refresh');
