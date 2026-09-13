@@ -326,6 +326,8 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('client_name')
                     ->label(__('العميل'))
                     ->description(fn (Booking $record): string => $record->client_phone)
+                    ->limit(18)
+                    ->tooltip(fn (Booking $record): string => "{$record->client_name} - {$record->client_phone}")
                     ->searchable(['client_name', 'client_phone'])
                     ->sortable()
                     ->weight('bold'),
@@ -337,7 +339,12 @@ class BookingResource extends Resource
                         $record->car_type,
                     ])) ?: '-')
                     ->description(fn (Booking $record): ?string => $record->brand_name ?? null)
-                    ->limit(35)
+                    ->limit(20)
+                    ->tooltip(fn (Booking $record): string => implode(' ', array_filter([
+                        $record->car?->name,
+                        $record->car_type,
+                        $record->brand_name ? "({$record->brand_name})" : null,
+                    ])) ?: '-')
                     ->searchable(['car_type']),
 
                 Tables\Columns\TextColumn::make('payment_method')
@@ -355,12 +362,12 @@ class BookingResource extends Resource
                     }),
 
                 Tables\Columns\TextColumn::make('ad_platform')
-                    ->label('مصدر الطلب / الحملة')
+                    ->label('المصدر')
                     ->badge()
                     ->icon(fn (Booking $record): string => $record->ad_platform_icon)
                     ->color(fn (Booking $record): string => $record->ad_platform_color)
                     ->formatStateUsing(fn (Booking $record): string => $record->ad_platform_label)
-                    ->description(fn (Booking $record): ?string => $record->utm_campaign ? "حملة: {$record->utm_campaign}" : null)
+                    ->description(fn (Booking $record): ?string => $record->utm_campaign ? \Illuminate\Support\Str::limit($record->utm_campaign, 15, '...') : null)
                     ->tooltip(function (Booking $record): ?string {
                         $parts = [];
                         if ($record->ad_platform) {
@@ -379,7 +386,7 @@ class BookingResource extends Resource
                             $parts[] = "الإعلان: {$record->utm_content}";
                         }
 
-                        return ! empty($parts) ? implode(' | ', $parts) : null;
+                        return ! empty($parts) ? implode(' | ', $parts) : ($record->ad_platform_label ?: null);
                     })
                     ->sortable()
                     ->searchable(['ad_platform', 'utm_campaign', 'utm_source']),
@@ -388,6 +395,8 @@ class BookingResource extends Resource
                     ->label(__('المندوب'))
                     ->placeholder('غير مسند')
                     ->badge()
+                    ->limit(12)
+                    ->tooltip(fn (Booking $record): ?string => $record->assignedTo?->name)
                     ->color(fn ($record) => $record->assigned_to ? 'info' : 'gray')
                     ->sortable(),
 
@@ -414,7 +423,7 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('notes')
                     ->label('الملاحظات')
                     ->placeholder('اضغط لإضافة ملاحظة')
-                    ->limit(25)
+                    ->limit(15)
                     ->tooltip(fn (Booking $record): ?string => $record->notes)
                     ->icon('heroicon-m-chat-bubble-bottom-center-text')
                     ->color(fn ($state) => $state ? 'gray' : 'primary')

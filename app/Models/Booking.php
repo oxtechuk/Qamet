@@ -36,10 +36,10 @@ class Booking extends Model
         'facebook' => ['label' => 'فيسبوك', 'color' => 'info', 'icon' => 'heroicon-m-globe-alt'],
         'instagram' => ['label' => 'إنستغرام', 'color' => 'danger', 'icon' => 'heroicon-m-photo'],
         'tiktok' => ['label' => 'تيك توك', 'color' => 'gray', 'icon' => 'heroicon-m-video-camera'],
-        'google' => ['label' => 'إعلانات جوجل', 'color' => 'success', 'icon' => 'heroicon-m-magnifying-glass'],
-        'meta' => ['label' => 'ميتا (فيسبوك/إنستغرام)', 'color' => 'info', 'icon' => 'heroicon-m-globe-alt'],
-        'twitter' => ['label' => 'منصة X / تويتر', 'color' => 'gray', 'icon' => 'heroicon-m-hashtag'],
-        'direct' => ['label' => 'مباشر / المتجر', 'color' => 'gray', 'icon' => 'heroicon-m-cursor-arrow-rays'],
+        'google' => ['label' => 'جوجل', 'color' => 'success', 'icon' => 'heroicon-m-magnifying-glass'],
+        'meta' => ['label' => 'ميتا', 'color' => 'info', 'icon' => 'heroicon-m-globe-alt'],
+        'twitter' => ['label' => 'تويتر / X', 'color' => 'gray', 'icon' => 'heroicon-m-hashtag'],
+        'direct' => ['label' => 'مباشر', 'color' => 'gray', 'icon' => 'heroicon-m-cursor-arrow-rays'],
     ];
 
     protected $casts = [
@@ -170,7 +170,7 @@ class Booking extends Model
     public function getAdPlatformLabelAttribute(): string
     {
         if (empty($this->ad_platform)) {
-            return 'مباشر / الموقع';
+            return 'مباشر';
         }
 
         return self::AD_PLATFORMS[$this->ad_platform]['label'] ?? $this->ad_platform;

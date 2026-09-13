@@ -103,10 +103,10 @@ final class AdAttributionService
             if (empty($text)) {
                 continue;
             }
-            if (preg_match('/[?&]' . preg_quote($param, '/') . '=([^&\s#]+)/i', $text, $matches)) {
+            if (preg_match('/[?&]'.preg_quote($param, '/').'=([^&\s#]+)/i', $text, $matches)) {
                 return urldecode($matches[1]);
             }
-            if (preg_match('/' . preg_quote($param, '/') . '[:\s=]+([^\r\n,;&]+)/i', $text, $matches)) {
+            if (preg_match('/'.preg_quote($param, '/').'[:\s=]+([^\r\n,;&]+)/i', $text, $matches)) {
                 $val = trim($matches[1]);
                 if (! empty($val)) {
                     return $val;
@@ -124,7 +124,7 @@ final class AdAttributionService
                 continue;
             }
             foreach (['gclid', 'fbclid', 'ttclid', 'sccid'] as $param) {
-                if (preg_match('/[?&]' . $param . '=([^&\s#]+)/i', $text, $matches)) {
+                if (preg_match('/[?&]'.$param.'=([^&\s#]+)/i', $text, $matches)) {
                     return urldecode($matches[1]);
                 }
             }
