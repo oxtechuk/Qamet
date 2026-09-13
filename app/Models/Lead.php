@@ -34,10 +34,12 @@ class Lead extends Model
     ];
 
     public const AD_PLATFORMS = [
+        'snapchat' => ['label' => 'Snapchat', 'color' => '#FFFC00'],
+        'facebook' => ['label' => 'Facebook', 'color' => '#1877F2'],
+        'instagram' => ['label' => 'Instagram', 'color' => '#E1306C'],
+        'tiktok' => ['label' => 'TikTok', 'color' => '#000000'],
         'google' => ['label' => 'Google Ads', 'color' => '#EA4335'],
         'meta' => ['label' => 'Meta (FB / IG)', 'color' => '#1877F2'],
-        'snapchat' => ['label' => 'Snapchat', 'color' => '#FFFC00'],
-        'tiktok' => ['label' => 'TikTok', 'color' => '#000000'],
         'direct' => ['label' => 'Direct / Organic', 'color' => '#64748B'],
     ];
 
@@ -48,7 +50,7 @@ class Lead extends Model
 
     public function scopePaidAds($query)
     {
-        return $query->whereIn('ad_platform', ['google', 'meta', 'snapchat', 'tiktok']);
+        return $query->whereIn('ad_platform', ['google', 'meta', 'facebook', 'instagram', 'snapchat', 'tiktok']);
     }
 
     protected function casts(): array

@@ -299,6 +299,13 @@ class BookingResource extends Resource
                                         'other' => __('Other'),
                                     ])
                                     ->searchable(),
+                                Forms\Components\Select::make('ad_platform')->label('منصة الإعلان')
+                                    ->options(collect(Booking::AD_PLATFORMS)->mapWithKeys(fn ($item, $key) => [$key => $item['label']]))
+                                    ->searchable()
+                                    ->placeholder('تحديد منصة الإعلان'),
+                                Forms\Components\TextInput::make('utm_campaign')->label('اسم الحملة الإعلانية')
+                                    ->placeholder('مثال: ramadan_offer_2026')
+                                    ->maxLength(255),
                                 Forms\Components\Textarea::make('notes')->label(__('Notes'))
                                     ->rows(4),
                             ]),
@@ -346,6 +353,36 @@ class BookingResource extends Resource
                         'bank', 'finance', 'installment' => 'info',
                         default => 'gray',
                     }),
+
+                Tables\Columns\TextColumn::make('ad_platform')
+                    ->label('مصدر الطلب / الحملة')
+                    ->badge()
+                    ->icon(fn (Booking $record): string => $record->ad_platform_icon)
+                    ->color(fn (Booking $record): string => $record->ad_platform_color)
+                    ->formatStateUsing(fn (Booking $record): string => $record->ad_platform_label)
+                    ->description(fn (Booking $record): ?string => $record->utm_campaign ? "حملة: {$record->utm_campaign}" : null)
+                    ->tooltip(function (Booking $record): ?string {
+                        $parts = [];
+                        if ($record->ad_platform) {
+                            $parts[] = "المنصة: {$record->ad_platform_label}";
+                        }
+                        if ($record->utm_campaign) {
+                            $parts[] = "الحملة: {$record->utm_campaign}";
+                        }
+                        if ($record->utm_source) {
+                            $parts[] = "المصدر: {$record->utm_source}";
+                        }
+                        if ($record->utm_medium) {
+                            $parts[] = "الوسيط: {$record->utm_medium}";
+                        }
+                        if ($record->utm_content) {
+                            $parts[] = "الإعلان: {$record->utm_content}";
+                        }
+
+                        return ! empty($parts) ? implode(' | ', $parts) : null;
+                    })
+                    ->sortable()
+                    ->searchable(['ad_platform', 'utm_campaign', 'utm_source']),
 
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->label(__('المندوب'))
@@ -436,6 +473,46 @@ class BookingResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('ad_platform')
+                    ->label('منصة الإعلان / المصدر')
+                    ->options([
+                        'snapchat' => 'سناب شات (Snapchat)',
+                        'facebook' => 'فيسبوك (Facebook)',
+                        'instagram' => 'إنستغرام (Instagram)',
+                        'tiktok' => 'تيك توك (TikTok)',
+                        'google' => 'إعلانات جوجل (Google Ads)',
+                        'meta' => 'ميتا (Meta)',
+                        'direct' => 'مباشر / الموقع (بدون إعلان)',
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if (empty($data['value'])) {
+                            return $query;
+                        }
+                        if ($data['value'] === 'direct') {
+                            return $query->where(function (Builder $q) {
+                                $q->whereNull('ad_platform')
+                                    ->orWhere('ad_platform', '')
+                                    ->orWhere('ad_platform', 'direct');
+                            });
+                        }
+
+                        return $query->where('ad_platform', $data['value']);
+                    }),
+
+                Tables\Filters\Filter::make('utm_campaign')
+                    ->label('اسم الحملة الإعلانية')
+                    ->form([
+                        Forms\Components\TextInput::make('campaign_name')
+                            ->label('اسم الحملة (Campaign)')
+                            ->placeholder('مثال: ramadan, offer...'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->when(
+                            ! empty($data['campaign_name']),
+                            fn ($q) => $q->where('utm_campaign', 'like', "%{$data['campaign_name']}%")
+                        );
+                    }),
+
                 Tables\Filters\SelectFilter::make('payment_method')
                     ->label(__('طريقة الدفع'))
                     ->options([
@@ -506,6 +583,47 @@ class BookingResource extends Resource
                                     Forms\Components\TextInput::make('assignedTo.name')->label(__('Assigned To'))->disabled(),
                                 ]),
                                 Forms\Components\Textarea::make('notes')->label(__('Notes'))->disabled(),
+                            ]),
+                        Section::make('مصدر الطلب وتفاصيل الحملة التسويقية')
+                            ->icon('heroicon-o-megaphone')
+                            ->schema([
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('ad_platform_label')
+                                        ->label('منصة الإعلان')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('utm_campaign')
+                                        ->label('اسم الحملة الإعلانية (Campaign)')
+                                        ->placeholder('غير محدد')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('utm_source')
+                                        ->label('مصدر الحركة (Source)')
+                                        ->placeholder('غير محدد')
+                                        ->disabled(),
+                                ]),
+                                Grid::make(3)->schema([
+                                    Forms\Components\TextInput::make('utm_medium')
+                                        ->label('الوسيط الإعلاني (Medium)')
+                                        ->placeholder('غير محدد')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('utm_content')
+                                        ->label('محتوى الإعلان (Content)')
+                                        ->placeholder('غير محدد')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('utm_term')
+                                        ->label('الكلمة المفتاحية (Term)')
+                                        ->placeholder('غير محدد')
+                                        ->disabled(),
+                                ]),
+                                Grid::make(2)->schema([
+                                    Forms\Components\TextInput::make('click_id')
+                                        ->label('معرف النقر (Click ID)')
+                                        ->placeholder('غير متوفر')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('referrer_url')
+                                        ->label('رابط الإحالة (Referrer URL)')
+                                        ->placeholder('غير متوفر')
+                                        ->disabled(),
+                                ]),
                             ]),
                         Section::make(__('Linked Follow-up Tasks'))
                             ->icon('heroicon-o-clipboard-document-check')

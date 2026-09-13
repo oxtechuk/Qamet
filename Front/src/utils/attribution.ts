@@ -39,15 +39,24 @@ export function inferAdPlatform(
   }
 
   if (
-    source.includes("meta") ||
-    source.includes("facebook") ||
     source.includes("instagram") ||
-    source === "fb" ||
     source === "ig" ||
-    click.startsWith("fbclid") ||
-    ref.includes("facebook.com") ||
+    source.includes("insta") ||
     ref.includes("instagram.com")
   ) {
+    return "instagram";
+  }
+
+  if (
+    source.includes("facebook") ||
+    source === "fb" ||
+    click.startsWith("fbclid") ||
+    ref.includes("facebook.com")
+  ) {
+    return "facebook";
+  }
+
+  if (source.includes("meta")) {
     return "meta";
   }
 

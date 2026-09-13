@@ -59,7 +59,15 @@ final class BookingData
             return 'google';
         }
 
-        if (str_contains($source, 'meta') || str_contains($source, 'facebook') || str_contains($source, 'instagram') || str_contains($source, 'ig') || str_contains($source, 'fb') || str_starts_with($click, 'fbclid') || str_contains($ref, 'facebook.com') || str_contains($ref, 'instagram.com')) {
+        if (str_contains($source, 'instagram') || $source === 'ig' || str_contains($source, 'insta') || str_contains($ref, 'instagram.com')) {
+            return 'instagram';
+        }
+
+        if (str_contains($source, 'facebook') || $source === 'fb' || str_starts_with($click, 'fbclid') || str_contains($ref, 'facebook.com')) {
+            return 'facebook';
+        }
+
+        if (str_contains($source, 'meta')) {
             return 'meta';
         }
 
@@ -69,6 +77,10 @@ final class BookingData
 
         if (str_contains($source, 'tiktok') || str_contains($source, 'tik_tok') || str_starts_with($click, 'ttclid') || str_contains($ref, 'tiktok.com')) {
             return 'tiktok';
+        }
+
+        if (str_contains($source, 'twitter') || str_contains($source, 'x.com') || str_contains($ref, 't.co') || str_contains($ref, 'twitter.com')) {
+            return 'twitter';
         }
 
         return ! empty($source) ? $source : null;

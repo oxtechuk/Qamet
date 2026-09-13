@@ -20,10 +20,11 @@ class AdAttributionTest extends TestCase
         $this->assertEquals('google', BookingData::detectPlatform(null, 'google', null));
         $this->assertEquals('google', BookingData::detectPlatform(null, 'cpc', 'gclid_xyz123'));
 
-        // Meta detection
-        $this->assertEquals('meta', BookingData::detectPlatform(null, 'facebook', null));
-        $this->assertEquals('meta', BookingData::detectPlatform(null, 'instagram', null));
-        $this->assertEquals('meta', BookingData::detectPlatform(null, 'paid_social', 'fbclid_abc'));
+        // Facebook / Instagram / Meta detection
+        $this->assertEquals('facebook', BookingData::detectPlatform(null, 'facebook', null));
+        $this->assertEquals('instagram', BookingData::detectPlatform(null, 'instagram', null));
+        $this->assertEquals('facebook', BookingData::detectPlatform(null, 'paid_social', 'fbclid_abc'));
+        $this->assertEquals('meta', BookingData::detectPlatform(null, 'meta', null));
 
         // Snapchat detection
         $this->assertEquals('snapchat', BookingData::detectPlatform(null, 'snapchat', null));

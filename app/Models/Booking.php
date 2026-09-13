@@ -28,8 +28,19 @@ class Booking extends Model
 
     public function scopePaidAds($query)
     {
-        return $query->whereIn('ad_platform', ['google', 'meta', 'snapchat', 'tiktok']);
+        return $query->whereIn('ad_platform', ['google', 'meta', 'facebook', 'instagram', 'snapchat', 'tiktok']);
     }
+
+    const AD_PLATFORMS = [
+        'snapchat' => ['label' => 'سناب شات', 'color' => 'warning', 'icon' => 'heroicon-m-camera'],
+        'facebook' => ['label' => 'فيسبوك', 'color' => 'info', 'icon' => 'heroicon-m-globe-alt'],
+        'instagram' => ['label' => 'إنستغرام', 'color' => 'danger', 'icon' => 'heroicon-m-photo'],
+        'tiktok' => ['label' => 'تيك توك', 'color' => 'gray', 'icon' => 'heroicon-m-video-camera'],
+        'google' => ['label' => 'إعلانات جوجل', 'color' => 'success', 'icon' => 'heroicon-m-magnifying-glass'],
+        'meta' => ['label' => 'ميتا (فيسبوك/إنستغرام)', 'color' => 'info', 'icon' => 'heroicon-m-globe-alt'],
+        'twitter' => ['label' => 'منصة X / تويتر', 'color' => 'gray', 'icon' => 'heroicon-m-hashtag'],
+        'direct' => ['label' => 'مباشر / المتجر', 'color' => 'gray', 'icon' => 'heroicon-m-cursor-arrow-rays'],
+    ];
 
     protected $casts = [
         'last_contacted_at' => 'datetime',
@@ -154,6 +165,33 @@ class Booking extends Model
     public function getStatusColorAttribute(): string
     {
         return self::STATUSES[$this->status]['color'] ?? 'secondary';
+    }
+
+    public function getAdPlatformLabelAttribute(): string
+    {
+        if (empty($this->ad_platform)) {
+            return 'مباشر / الموقع';
+        }
+
+        return self::AD_PLATFORMS[$this->ad_platform]['label'] ?? $this->ad_platform;
+    }
+
+    public function getAdPlatformColorAttribute(): string
+    {
+        if (empty($this->ad_platform)) {
+            return 'gray';
+        }
+
+        return self::AD_PLATFORMS[$this->ad_platform]['color'] ?? 'primary';
+    }
+
+    public function getAdPlatformIconAttribute(): string
+    {
+        if (empty($this->ad_platform)) {
+            return 'heroicon-m-globe-alt';
+        }
+
+        return self::AD_PLATFORMS[$this->ad_platform]['icon'] ?? 'heroicon-m-megaphone';
     }
 
     public function scopeNew($query)

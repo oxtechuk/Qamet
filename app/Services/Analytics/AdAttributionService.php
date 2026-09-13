@@ -41,21 +41,32 @@ final class AdAttributionService
                 return 'google';
             }
 
-            // Meta (Facebook & Instagram)
+            // Instagram
             if (
-                str_contains($t, 'meta') ||
-                str_contains($t, 'facebook') ||
-                str_contains($t, 'فيسبوك') ||
-                str_contains($t, 'فيس بوك') ||
-                str_contains($t, 'فيس') ||
                 str_contains($t, 'instagram') ||
                 str_contains($t, 'انستقرام') ||
                 str_contains($t, 'انستغرام') ||
                 str_contains($t, 'انستجرام') ||
-                str_contains($t, 'fbclid') ||
                 str_contains($t, 'igshid') ||
-                preg_match('/\b(fb|ig)\b/i', $t)
+                preg_match('/\b(ig|insta)\b/i', $t)
             ) {
+                return 'instagram';
+            }
+
+            // Facebook
+            if (
+                str_contains($t, 'facebook') ||
+                str_contains($t, 'فيسبوك') ||
+                str_contains($t, 'فيس بوك') ||
+                str_contains($t, 'فيس') ||
+                str_contains($t, 'fbclid') ||
+                preg_match('/\bfb\b/i', $t)
+            ) {
+                return 'facebook';
+            }
+
+            // Meta general
+            if (str_contains($t, 'meta')) {
                 return 'meta';
             }
 
@@ -244,6 +255,26 @@ final class AdAttributionService
             'text' => 'text-blue-700 dark:text-blue-300',
             'icon' => 'meta',
         ],
+        'facebook' => [
+            'key' => 'facebook',
+            'name' => 'Facebook Ads',
+            'name_ar' => 'إعلانات فيسبوك (Facebook)',
+            'color' => '#1877F2',
+            'bg_light' => 'bg-blue-50 dark:bg-blue-950/30',
+            'border' => 'border-blue-200 dark:border-blue-800',
+            'text' => 'text-blue-700 dark:text-blue-300',
+            'icon' => 'meta',
+        ],
+        'instagram' => [
+            'key' => 'instagram',
+            'name' => 'Instagram Ads',
+            'name_ar' => 'إعلانات إنستغرام (Instagram)',
+            'color' => '#E1306C',
+            'bg_light' => 'bg-pink-50 dark:bg-pink-950/30',
+            'border' => 'border-pink-200 dark:border-pink-800',
+            'text' => 'text-pink-700 dark:text-pink-300',
+            'icon' => 'meta',
+        ],
         'snapchat' => [
             'key' => 'snapchat',
             'name' => 'Snapchat Ads',
@@ -290,7 +321,7 @@ final class AdAttributionService
             ];
         }
 
-        $paidPlatforms = ['google', 'meta', 'snapchat', 'tiktok'];
+        $paidPlatforms = ['google', 'meta', 'facebook', 'instagram', 'snapchat', 'tiktok'];
 
         $bookingQuery = Booking::query();
         $leadsQuery = Lead::query();
