@@ -99,41 +99,7 @@ export default function HomeHero({
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    const unmuteAll = useCallback(() => {
-        if (iframeRef.current?.contentWindow) {
-            iframeRef.current.contentWindow.postMessage(
-                JSON.stringify({
-                    event: "command",
-                    func: "unMute",
-                    args: [],
-                }),
-                "*"
-            );
-            iframeRef.current.contentWindow.postMessage(
-                JSON.stringify({
-                    event: "command",
-                    func: "setVolume",
-                    args: [100],
-                }),
-                "*"
-            );
-            iframeRef.current.contentWindow.postMessage(
-                JSON.stringify({
-                    event: "command",
-                    func: "playVideo",
-                    args: [],
-                }),
-                "*"
-            );
-        }
 
-        if (videoRef.current) {
-            videoRef.current.muted = false;
-            videoRef.current.volume = 1;
-            videoRef.current.play().catch(() => {});
-        }
-        setIsMuted(false);
-    }, []);
 
     const onIframeLoad = useCallback(() => {
         if (iframeRef.current?.contentWindow) {
