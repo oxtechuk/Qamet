@@ -94,7 +94,7 @@ export default function HomeHero({
     const [menuOpen, setMenuOpen] = useState(false);
     const [logoError, setLogoError] = useState(false);
     const [carFinderOpen, setCarFinderOpen] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
 
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -153,27 +153,16 @@ export default function HomeHero({
                 }),
                 "*"
             );
-            // Automatically un-mute and play audio
-            unmuteAll();
+            iframeRef.current.contentWindow.postMessage(
+                JSON.stringify({
+                    event: "command",
+                    func: "playVideo",
+                    args: [],
+                }),
+                "*"
+            );
         }
-    }, [unmuteAll]);
-
-    // Ensure audio un-mutes automatically on first user click or touch if browser restricted unmuted autoplay
-    useEffect(() => {
-        const handleInteraction = () => {
-            unmuteAll();
-        };
-
-        window.addEventListener("click", handleInteraction, { once: true });
-        window.addEventListener("touchstart", handleInteraction, { once: true });
-        window.addEventListener("scroll", handleInteraction, { once: true, passive: true });
-
-        return () => {
-            window.removeEventListener("click", handleInteraction);
-            window.removeEventListener("touchstart", handleInteraction);
-            window.removeEventListener("scroll", handleInteraction);
-        };
-    }, [unmuteAll]);
+    }, []);
 
     // Handle seamless looping without YouTube playlist UI
     useEffect(() => {
@@ -223,6 +212,14 @@ export default function HomeHero({
                         }),
                         "*"
                     );
+                    iframeRef.current.contentWindow.postMessage(
+                        JSON.stringify({
+                            event: "command",
+                            func: "playVideo",
+                            args: [],
+                        }),
+                        "*"
+                    );
                 }
             }
 
@@ -230,6 +227,7 @@ export default function HomeHero({
                 videoRef.current.muted = nextMuted;
                 if (!nextMuted) {
                     videoRef.current.volume = 1;
+                    videoRef.current.play().catch(() => {});
                 }
             }
 
@@ -329,10 +327,10 @@ export default function HomeHero({
                                     key={activeYoutubeId}
                                     ref={iframeRef}
                                     onLoad={onIframeLoad}
-                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=0&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1&vq=hd1080&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                                    src={`https://www.youtube.com/embed/${activeYoutubeId}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&enablejsapi=1&loop=1&playlist=${activeYoutubeId}&vq=hd1080&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                                     title="YouTube Hero Video Background"
                                     frameBorder="0"
-                                    allow="autoplay; encrypted-media"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] min-w-[177.78vh] h-[56.25vw] min-h-full object-cover pointer-events-none border-0"
                                 />
                                 <div className="absolute inset-0 z-10 pointer-events-auto bg-transparent" />
@@ -390,18 +388,18 @@ export default function HomeHero({
                                         "text-[12px] font-bold text-[var(--brand-primary-color)]",
                                         "shadow-[0_8px_24px_rgba(0,0,0,0.14)]",
                                         "transition duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer",
-                                        "order-1",
+                                        "order-1 z-30",
                                     ].join(" ")}
                                 >
                                     {isMuted ? (
                                         <>
                                             <VolumeX size={18} className="text-red-500" />
-                                            <span className="hidden sm:inline">{t("hero.unmute", { defaultValue: "تشغيل الصوت" })}</span>
+                                            <span className="inline text-[11px] sm:text-[12px]">{t("hero.unmute", { defaultValue: "تشغيل الصوت" })}</span>
                                         </>
                                     ) : (
                                         <>
                                             <Volume2 size={18} className="text-emerald-600 animate-pulse" />
-                                            <span className="hidden sm:inline">{t("hero.mute", { defaultValue: "كتم الصوت" })}</span>
+                                            <span className="inline text-[11px] sm:text-[12px]">{t("hero.mute", { defaultValue: "كتم الصوت" })}</span>
                                         </>
                                     )}
                                 </button>
