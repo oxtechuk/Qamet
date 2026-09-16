@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookingResource\Pages;
+use App\Filament\Resources\BookingResource\RelationManagers;
 use App\Models\Booking;
 use Filament\Actions;
 use Filament\Forms;
@@ -306,8 +307,11 @@ class BookingResource extends Resource
                                 Forms\Components\TextInput::make('utm_campaign')->label('اسم الحملة الإعلانية')
                                     ->placeholder('مثال: ramadan_offer_2026')
                                     ->maxLength(255),
-                                Forms\Components\Textarea::make('notes')->label(__('Notes'))
-                                    ->rows(4),
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('ملاحظات العميل (الواردة مع الطلب)')
+                                    ->placeholder('لا توجد ملاحظات مدخلة من العميل')
+                                    ->helperText('الملاحظات والطلبات الخاصة التي كتبها العميل أثناء إرسال الطلب من الموقع.')
+                                    ->rows(3),
                             ]),
                     ]),
             ]);
@@ -780,36 +784,30 @@ class BookingResource extends Resource
                         $user = Auth::guard('employee')->user();
                         $repName = $user?->name ?: 'الموظف';
 
-                        $updateData = ['status' => $newStatus];
+                        $statusLabels = [
+                            'new' => 'جديد',
+                            'contacted' => 'تم التواصل',
+                            'interested' => 'مهتم',
+                            'negotiation' => 'تفاوض',
+                            'sold' => 'تم البيع',
+                            'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                            'rejected' => 'مرفوض',
+                            'cancelled' => 'ملغي',
+                        ];
+                        $oldLabel = $statusLabels[$oldStatus] ?? $oldStatus;
+                        $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+                        $noteContent = ! empty($noteText) ? $noteText : "تغيير الحالة من ({$oldLabel}) إلى ({$newLabel})";
 
-                        if (! empty($noteText)) {
-                            $statusLabels = [
-                                'new' => 'جديد',
-                                'contacted' => 'تم التواصل',
-                                'interested' => 'مهتم',
-                                'negotiation' => 'تفاوض',
-                                'sold' => 'تم البيع',
-                                'under_review' => 'طلب إغلاق / مراجعة الإدارة',
-                                'rejected' => 'مرفوض',
-                                'cancelled' => 'ملغي',
-                            ];
-                            $oldLabel = $statusLabels[$oldStatus] ?? $oldStatus;
-                            $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+                        \App\Models\BookingNote::create([
+                            'booking_id' => $record->id,
+                            'employee_id' => $user?->id,
+                            'old_status' => $oldStatus,
+                            'new_status' => $newStatus,
+                            'note' => $noteContent,
+                            'type' => 'status_change',
+                        ]);
 
-                            $noteEntry = "\n[".now()->format('Y-m-d H:i')." - تغيير الحالة من ({$oldLabel}) إلى ({$newLabel}) بواسطة ({$repName}): {$noteText}]";
-                            $updateData['notes'] = trim(($record->notes ?? '').$noteEntry);
-
-                            \App\Models\BookingNote::create([
-                                'booking_id' => $record->id,
-                                'employee_id' => $user?->id,
-                                'old_status' => $oldStatus,
-                                'new_status' => $newStatus,
-                                'note' => $noteText,
-                                'type' => 'status_change',
-                            ]);
-                        }
-
-                        $record->update($updateData);
+                        $record->update(['status' => $newStatus]);
 
                         \App\Services\ActivityLog\ActivityLogger::log(
                             action: 'status_changed',
@@ -820,7 +818,43 @@ class BookingResource extends Resource
                         );
 
                         \Filament\Notifications\Notification::make()
-                            ->title('تم تحديث حالة الطلب والملاحظة بنجاح')
+                            ->title('تم تحديث حالة الطلب وتسجيل الملاحظة بنجاح')
+                            ->success()
+                            ->send();
+                    }),
+                Actions\Action::make('add_sales_note')
+                    ->label('إضافة ملاحظة')
+                    ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                    ->color('info')
+                    ->modalHeading(fn (Booking $record) => "إضافة ملاحظة / متابعة للطلب #{$record->id} - {$record->client_name}")
+                    ->modalIcon('heroicon-o-chat-bubble-left-ellipsis')
+                    ->modalWidth('md')
+                    ->form([
+                        Forms\Components\Select::make('type')
+                            ->label('نوع المتابعة')
+                            ->options([
+                                'note' => '📝 ملاحظة عامة',
+                                'call' => '📞 اتصال هاتفي',
+                                'status_change' => '🔄 تحديث حالة',
+                            ])
+                            ->default('note')
+                            ->required(),
+                        Forms\Components\Textarea::make('note')
+                            ->label('نص الملاحظة / تفاصيل التواصل')
+                            ->placeholder('اكتب تفاصيل التواصل مع العميل أو ملخص المكالمة أو ملاحظاتك...')
+                            ->required()
+                            ->rows(4),
+                    ])
+                    ->action(function (Booking $record, array $data) {
+                        \App\Models\BookingNote::create([
+                            'booking_id' => $record->id,
+                            'employee_id' => Auth::guard('employee')->id(),
+                            'type' => $data['type'] ?? 'note',
+                            'note' => $data['note'],
+                        ]);
+
+                        \Filament\Notifications\Notification::make()
+                            ->title('تمت إضافة ملاحظة المبيعات بنجاح')
                             ->success()
                             ->send();
                     }),
@@ -860,11 +894,17 @@ class BookingResource extends Resource
                         $user = Auth::guard('employee')->user();
                         $repName = $user?->name ?: 'المندوب';
 
-                        $noteEntry = "\n[طلب إغلاق/رفض من {$repName} - السبب: {$reasonLabel} | التفاصيل: {$data['details']}]";
-
                         $record->update([
                             'status' => 'under_review',
-                            'notes' => trim(($record->notes ?? '').$noteEntry),
+                        ]);
+
+                        \App\Models\BookingNote::create([
+                            'booking_id' => $record->id,
+                            'employee_id' => $user?->id,
+                            'old_status' => $record->status,
+                            'new_status' => 'under_review',
+                            'note' => "طلب إغلاق/رفض من {$repName} - السبب: {$reasonLabel}".(! empty($data['details']) ? " | التفاصيل: {$data['details']}" : ''),
+                            'type' => 'status_change',
                         ]);
 
                         \App\Services\ActivityLog\ActivityLogger::log(
@@ -1012,7 +1052,9 @@ class BookingResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationManagers\NotesListRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

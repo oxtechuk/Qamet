@@ -88,35 +88,31 @@ class ShowBooking extends ViewRecord
 
                     $updateData = ['status' => $newStatus];
 
-                    if (! empty($noteText)) {
-                        $statusLabels = [
-                            'new' => 'جديد',
-                            'contacted' => 'تم التواصل',
-                            'interested' => 'مهتم',
-                            'negotiation' => 'تفاوض',
-                            'sold' => 'تم البيع',
-                            'under_review' => 'طلب إغلاق / مراجعة الإدارة',
-                            'rejected' => 'مرفوض',
-                            'cancelled' => 'ملغي',
-                        ];
-                        $oldLabel = $statusLabels[$oldStatus] ?? $oldStatus;
-                        $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+                    $statusLabels = [
+                        'new' => 'جديد',
+                        'contacted' => 'تم التواصل',
+                        'interested' => 'مهتم',
+                        'negotiation' => 'تفاوض',
+                        'sold' => 'تم البيع',
+                        'under_review' => 'طلب إغلاق / مراجعة الإدارة',
+                        'rejected' => 'مرفوض',
+                        'cancelled' => 'ملغي',
+                    ];
+                    $oldLabel = $statusLabels[$oldStatus] ?? $oldStatus;
+                    $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+                    $noteContent = ! empty($noteText) ? $noteText : "تغيير الحالة من ({$oldLabel}) إلى ({$newLabel})";
 
-                        $noteEntry = "\n[".now()->format('Y-m-d H:i')." - تغيير الحالة من ({$oldLabel}) إلى ({$newLabel}) بواسطة ({$repName}): {$noteText}]";
-                        $updateData['notes'] = trim(($record->notes ?? '').$noteEntry);
-
-                        \App\Models\BookingNote::create([
-                            'booking_id' => $record->id,
-                            'employee_id' => $user?->id,
-                            'old_status' => $oldStatus,
-                            'new_status' => $newStatus,
-                            'note' => $noteText,
-                            'type' => 'status_change',
-                        ]);
-                    }
+                    \App\Models\BookingNote::create([
+                        'booking_id' => $record->id,
+                        'employee_id' => $user?->id,
+                        'old_status' => $oldStatus,
+                        'new_status' => $newStatus,
+                        'note' => $noteContent,
+                        'type' => 'status_change',
+                    ]);
 
                     $record->update($updateData);
-                    $this->refreshFormData(['status', 'notes']);
+                    $this->refreshFormData(['status']);
 
                     \App\Services\ActivityLog\ActivityLogger::log(
                         action: 'status_changed',
@@ -127,30 +123,69 @@ class ShowBooking extends ViewRecord
                     );
 
                     \Filament\Notifications\Notification::make()
-                        ->title('تم تحديث حالة الطلب والملاحظة بنجاح')
+                        ->title('تم تحديث حالة الطلب وتسجيل الملاحظة بنجاح')
                         ->success()
                         ->send();
                 }),
 
-            Actions\Action::make('order_notes')
-                ->label('إضافة / تعديل الملاحظات')
-                ->icon('heroicon-o-chat-bubble-bottom-center-text')
+            Actions\Action::make('add_sales_note')
+                ->label('إضافة ملاحظة مبيعات')
+                ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                ->color('success')
+                ->modalHeading(fn (Booking $record) => "إضافة ملاحظة / متابعة للطلب #{$record->id} - {$record->client_name}")
+                ->modalIcon('heroicon-o-chat-bubble-left-ellipsis')
+                ->modalWidth('lg')
+                ->form([
+                    Forms\Components\Select::make('type')
+                        ->label('نوع المتابعة')
+                        ->options([
+                            'note' => '📝 ملاحظة عامة',
+                            'call' => '📞 اتصال هاتفي',
+                            'status_change' => '🔄 تحديث حالة',
+                        ])
+                        ->default('note')
+                        ->required(),
+                    Forms\Components\Textarea::make('note')
+                        ->label('نص الملاحظة / تفاصيل المتابعة')
+                        ->placeholder('اكتب تفاصيل التواصل مع العميل أو ملخص المكالمة أو ملاحظاتك...')
+                        ->required()
+                        ->rows(4),
+                ])
+                ->action(function (Booking $record, array $data) {
+                    \App\Models\BookingNote::create([
+                        'booking_id' => $record->id,
+                        'employee_id' => Auth::guard('employee')->id(),
+                        'type' => $data['type'] ?? 'note',
+                        'note' => $data['note'],
+                    ]);
+
+                    \Filament\Notifications\Notification::make()
+                        ->title('تمت إضافة ملاحظة المبيعات بنجاح')
+                        ->success()
+                        ->send();
+                }),
+
+            Actions\Action::make('edit_client_note')
+                ->label('تعديل ملاحظات العميل')
+                ->icon('heroicon-o-pencil-square')
                 ->color('gray')
-                ->modalHeading(fn (Booking $record) => "ملاحظات الطلب #{$record->id} - {$record->client_name}")
-                ->modalIcon('heroicon-o-chat-bubble-bottom-center-text')
+                ->visible(fn () => (bool) Auth::guard('employee')->user()?->isAdmin())
+                ->modalHeading(fn (Booking $record) => "ملاحظات العميل للطلب #{$record->id} - {$record->client_name}")
+                ->modalDescription('هذا الحقل مخصص للملاحظات التي كتبها العميل أثناء إرسال الطلب من الموقع الإلكتروني.')
+                ->modalIcon('heroicon-o-user')
                 ->modalWidth('lg')
                 ->form([
                     Forms\Components\Textarea::make('notes')
-                        ->label('ملاحظات وسجل الطلب')
-                        ->placeholder('اكتب ملاحظة جديدة أو عدل الملاحظات الحالية...')
-                        ->rows(6)
+                        ->label('ملاحظات العميل (الواردة مع الطلب)')
+                        ->placeholder('اكتب أو عدل ملاحظات العميل...')
+                        ->rows(5)
                         ->default(fn (Booking $record) => $record->notes),
                 ])
                 ->action(function (Booking $record, array $data) {
                     $record->update(['notes' => $data['notes']]);
                     $this->refreshFormData(['notes']);
                     \Filament\Notifications\Notification::make()
-                        ->title('تم حفظ الملاحظات بنجاح')
+                        ->title('تم حفظ ملاحظات العميل بنجاح')
                         ->success()
                         ->send();
                 }),
